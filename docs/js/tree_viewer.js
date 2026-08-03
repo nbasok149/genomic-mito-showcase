@@ -96,6 +96,12 @@ window.TreeViewer = {
       svg.selectAll('.tree-link').classed('dimmed', false).classed('family-active', false);
       svg.selectAll('.sample-label-text').style('display', 'none');
       svg.selectAll('.family-label-text').style('display', 'block');
+      if (this.svgG && this.zoomBehavior) {
+        svg.transition().duration(750).call(
+          this.zoomBehavior.transform,
+          d3.zoomIdentity
+        );
+      }
       this.updateFamilyDataPanel(null);
       return;
     }
@@ -111,8 +117,11 @@ window.TreeViewer = {
       d3.select(this).classed('dimmed', !isMatch);
       if (isMatch) {
         matchedNodes.push(d);
+        // Hide family label text so it never overlaps with sample label text
+        d3.select(this).select('.family-label-text').style('display', 'none');
         d3.select(this).select('.sample-label-text').style('display', 'block');
       } else {
+        d3.select(this).select('.family-label-text').style('display', 'block');
         d3.select(this).select('.sample-label-text').style('display', 'none');
       }
     });
@@ -124,17 +133,18 @@ window.TreeViewer = {
       d3.select(this).classed('dimmed', !isMatch).classed('family-active', isMatch);
     });
 
-    // Zoom to matched family cluster
+    // Zoom to matched family cluster cleanly without distorting or crowding labels
     if (matchedNodes.length > 0 && this.svgG && this.zoomBehavior) {
       const avgX = d3.mean(matchedNodes, d => d.y);
       const avgY = d3.mean(matchedNodes, d => d.x);
       
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
       const height = 650;
+      const scale = 1.45;
 
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
-        d3.zoomIdentity.translate(width / 2 - avgX * 1.5, height / 2 - avgY * 1.5).scale(1.8)
+        d3.zoomIdentity.translate(width / 2 - avgX * scale, height / 2 - avgY * scale).scale(scale)
       );
     }
 
@@ -146,6 +156,10 @@ window.TreeViewer = {
     const svg = d3.select('#treeContainer svg');
     if (!svg.node() || !term) {
       svg.selectAll('.tree-node circle').style('r', d => d.children ? 3.5 : 5.5).style('stroke', '#f97316');
+      svg.selectAll('.tree-node').each(function() {
+        d3.select(this).select('.family-label-text').style('display', 'block');
+        d3.select(this).select('.sample-label-text').style('display', 'none');
+      });
       return;
     }
 
@@ -159,7 +173,11 @@ window.TreeViewer = {
         .style('stroke-width', isMatch ? '3px' : '2px');
         
       if (isMatch) {
+        d3.select(this).select('.family-label-text').style('display', 'none');
         d3.select(this).select('.sample-label-text').style('display', 'block');
+      } else {
+        d3.select(this).select('.family-label-text').style('display', 'block');
+        d3.select(this).select('.sample-label-text').style('display', 'none');
       }
     });
   },
@@ -273,7 +291,11 @@ window.TreeViewer = {
 
     } else {
       // Rectangular Phylogram / Cladogram
-      const treeLayout = d3.tree().size([height - margin.top - margin.bottom, width - margin.left - margin.right - 140]);
+      const leafCount = root.leaves().length;
+      const layoutHeight = Math.max(height - margin.top - margin.bottom, leafCount * 20);
+      const treeLayout = d3.tree()
+        .size([layoutHeight, width - margin.left - margin.right - 160])
+        .separation((a, b) => (a.parent === b.parent ? 1.3 : 2.0));
       treeLayout(root);
 
       g.selectAll('.tree-link')
