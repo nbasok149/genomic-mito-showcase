@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genomic Mito Showcase | Mitochondrial DNA Pipeline & Web Visualizer</title>
+  
+  <!-- Tailwind CSS & D3.js CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  
+  <!-- Font & Custom Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- Header & Navigation Bar -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      
+      <!-- Brand & Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-mono font-bold text-slate-950 text-xl shadow-lg shadow-cyan-500/20">
+          mt
+        </div>
+        <div>
+          <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Genomic Mito Showcase
+          </h1>
+          <p class="text-xs text-slate-400">Human mtDNA Variant & Phylogenetics Engine</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex space-x-1">
+        <button data-tab="overview" id="tab-overview" class="nav-tab active px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
+          Overview
+        </button>
+        <button data-tab="variants" id="tab-variants" class="nav-tab px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
+          Variant Table
+        </button>
+        <button data-tab="heatmap" id="tab-heatmap" class="nav-tab px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
+          Distance Heatmap
+        </button>
+        <button data-tab="tree" id="tab-tree" class="nav-tab px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
+          Phylogenetic Tree
+        </button>
+        <button data-tab="locus" id="tab-locus" class="nav-tab px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
+          Locus & Docs
+        </button>
+      </nav>
+
+      <!-- Action Button -->
+      <div>
+        <button id="openComparatorBtn" class="px-3.5 py-1.5 text-xs font-semibold rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 hover:brightness-110 shadow-md shadow-cyan-500/20 transition-all">
+          Compare Samples
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Quick Metrics Bar -->
+  <section class="bg-slate-900/60 border-b border-slate-800 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        
+        <!-- Card 1: Total Samples -->
+        <div class="glass-panel p-4 flex items-center space-x-4">
+          <div class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          </div>
+          <div>
+            <div class="text-xs font-medium text-slate-400">Sequenced Cohort</div>
+            <div id="metricSamples" class="text-2xl font-extrabold text-slate-100 font-mono">43</div>
+            <div class="text-[11px] text-slate-500">Mitochondrial Samples</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Reference Genome -->
+        <div class="glass-panel p-4 flex items-center space-x-4">
+          <div class="p-3 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          </div>
+          <div>
+            <div class="text-xs font-medium text-slate-400">Reference Genome</div>
+            <div id="metricGenome" class="text-2xl font-extrabold text-slate-100 font-mono">16,569 bp</div>
+            <div class="text-[11px] text-slate-500">rCRS (NC_012920.1)</div>
+          </div>
+        </div>
+
+        <!-- Card 3: Total Variants -->
+        <div class="glass-panel p-4 flex items-center space-x-4">
+          <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <div>
+            <div class="text-xs font-medium text-slate-400">Verified Variants</div>
+            <div id="metricVariants" class="text-2xl font-extrabold text-slate-100 font-mono">1,420</div>
+            <div class="text-[11px] text-slate-500">High VAF & Heteroplasmy</div>
+          </div>
+        </div>
+
+        <!-- Card 4: Distance Stats -->
+        <div class="glass-panel p-4 flex items-center space-x-4">
+          <div class="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          </div>
+          <div>
+            <div class="text-xs font-medium text-slate-400">Max Divergence</div>
+            <div id="metricMaxDist" class="text-2xl font-extrabold text-slate-100 font-mono">50.52</div>
+            <div class="text-[11px] text-slate-500">Manhattan VAF Distance</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Main View Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Tab 1: Overview Dashboard -->
+    <div id="content-overview" class="tab-content space-y-8">
+      
+      <!-- Welcome Banner -->
+      <div class="glass-panel p-6 rounded-xl border border-cyan-500/20 relative overflow-hidden">
+        <div class="absolute right-0 top-0 translate-x-12 -translate-y-12 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <h2 class="text-2xl font-extrabold text-slate-100 mb-2">High-Throughput Mitochondrial Genomic Showcase</h2>
+        <p class="text-slate-300 max-w-3xl leading-relaxed text-sm">
+          Welcome to the interactive showcase for mitochondrial DNA (mtDNA) variant calling, gap alignment standardization, pairwise distance matrix calculation, and phylogenetic reconstruction derived from 43 sequencing read alignment datasets (`.bp` / `.blast`) mapped against the revised Cambridge Reference Sequence (rCRS, 16,569 bp).
+        </p>
+        
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button onclick="document.getElementById('tab-variants').click()" class="px-4 py-2 text-xs font-semibold rounded-md bg-cyan-500 text-slate-950 hover:bg-cyan-400 transition-colors">
+            Explore Variant Search Table
+          </button>
+          <button onclick="document.getElementById('tab-heatmap').click()" class="px-4 py-2 text-xs font-semibold rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-colors">
+            View Distance Matrix Heatmap
+          </button>
+          <button onclick="document.getElementById('tab-tree').click()" class="px-4 py-2 text-xs font-semibold rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 transition-colors">
+            Interactive Phylogeny
+          </button>
+        </div>
+      </div>
+
+      <!-- Pipeline Architecture & Filter Rules -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Pipeline Architecture Card -->
+        <div class="glass-panel p-6">
+          <h3 class="text-lg font-bold text-slate-100 mb-4 flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+            <span>Genomic Pipeline Architecture</span>
+          </h3>
+          <div class="space-y-3 text-xs text-slate-300">
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <span class="font-bold text-cyan-400">1. Gap Alignment Standardization:</span> Standardizes gap positioning towards lower coordinates (`align_gaps_to_lower_coordinate`), accounting for strand bias on forward (+) and reverse (-) reads.
+            </div>
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <span class="font-bold text-blue-400">2. Variant Quality Control:</span> Enforces minimum read depth, strand bias ratio thresholding (< 0.80), homopolymer run detection, and edge bias filtering.
+            </div>
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <span class="font-bold text-purple-400">3. Pairwise VAF Distance:</span> Calculates pairwise Manhattan distances \(d(S_i, S_j) = \sum |VAF_{i,p} - VAF_{j,p}|\) across all 43 sample variant profiles.
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Rules Summary Card -->
+        <div class="glass-panel p-6">
+          <h3 class="text-lg font-bold text-slate-100 mb-4 flex items-center space-x-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Active QC Rules (`filter.yaml`)</span>
+          </h3>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <div class="text-slate-400">High VAF Threshold</div>
+              <div class="text-base font-bold text-emerald-400 font-mono">10.0%</div>
+            </div>
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <div class="text-slate-400">Strand Bias Ratio</div>
+              <div class="text-base font-bold text-cyan-400 font-mono">0.80</div>
+            </div>
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <div class="text-slate-400">Min Alt Read Depth</div>
+              <div class="text-base font-bold text-blue-400 font-mono">3 reads</div>
+            </div>
+            <div class="p-3 rounded bg-slate-900/60 border border-slate-800">
+              <div class="text-slate-400">Homopolymer Run</div>
+              <div class="text-base font-bold text-purple-400 font-mono">&ge; 5 bp</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Tab 2: Interactive Variant Search Table -->
+    <div id="content-variants" class="tab-content hidden space-y-6">
+      
+      <!-- Filter Control Bar -->
+      <div class="glass-panel p-4 rounded-lg space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          
+          <!-- Search Input -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Search Locus / Gene / Sample</label>
+            <input type="text" id="searchInput" placeholder="e.g. 73, MT-ND1, IS_F_VYS, A>G..." class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-cyan-500">
+          </div>
+
+          <!-- Sample Filter Dropdown -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Filter by Sample</label>
+            <select id="tableSampleFilter" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-cyan-500">
+              <option value="">All 43 Samples</option>
+            </select>
+          </div>
+
+          <!-- VAF Slider -->
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+              <span>Min VAF Filter</span>
+              <span id="vafValDisplay" class="text-cyan-400 font-mono font-bold">10%</span>
+            </div>
+            <input type="range" id="vafSlider" min="0.0" max="1.0" step="0.05" value="0.10" class="w-full">
+          </div>
+
+          <!-- Depth Filter -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Min Sequencing Depth</label>
+            <input type="number" id="depthFilter" placeholder="e.g. 30" min="0" value="0" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-cyan-500">
+          </div>
+
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between pt-2 border-t border-slate-800 gap-3 text-xs">
+          
+          <div class="flex items-center space-x-4">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="checkbox" id="passOnlyCheck" checked class="rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-0">
+              <span class="text-slate-300">PASS Status Only</span>
+            </label>
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="checkbox" id="homopolymerCheck" class="rounded border-slate-700 bg-slate-900 text-purple-500 focus:ring-0">
+              <span class="text-slate-300">Homopolymer Poly-N Only</span>
+            </label>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <span id="filteredCountDisplay" class="text-slate-400 font-mono">Showing 0 variants</span>
+            <button id="exportCsvBtn" class="px-3 py-1 text-xs font-semibold rounded bg-slate-800 text-cyan-400 border border-cyan-500/30 hover:bg-slate-700 transition-colors">
+              Export CSV
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Variants Table -->
+      <div class="glass-panel overflow-x-auto rounded-lg">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-900/90 text-slate-300 text-xs font-semibold border-b border-slate-800 uppercase tracking-wider">
+              <th class="py-3 px-4">Sample</th>
+              <th class="py-3 px-4">Position</th>
+              <th class="py-3 px-4">Ref</th>
+              <th class="py-3 px-4">Alt</th>
+              <th class="py-3 px-4">VAF %</th>
+              <th class="py-3 px-4">Depth</th>
+              <th class="py-3 px-4">Mitochondrial Locus</th>
+              <th class="py-3 px-4">Flag</th>
+              <th class="py-3 px-4">QC Status</th>
+            </tr>
+          </thead>
+          <tbody id="variantsTableBody" class="divide-y divide-slate-800">
+            <!-- Rows rendered by variants_table.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-between items-center text-xs text-slate-400">
+        <button id="prevPageBtn" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">Previous</button>
+        <span id="pageInfo" class="font-mono">Page 1 of 1</span>
+        <button id="nextPageBtn" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">Next</button>
+      </div>
+
+    </div>
+
+    <!-- Tab 3: Distance Matrix Heatmap -->
+    <div id="content-heatmap" class="tab-content hidden space-y-6">
+      <div class="glass-panel p-6 space-y-4">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-100">43x43 Pairwise Distance Matrix Heatmap</h2>
+            <p class="text-xs text-slate-400">Pairwise VAF Manhattan distance color-coded matrix across all sequenced samples.</p>
+          </div>
+
+          <div class="flex items-center space-x-3 text-xs">
+            <label class="text-slate-400 font-semibold">Sort Order:</label>
+            <select id="heatmapSortSelect" class="px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-slate-200 focus:outline-none focus:border-cyan-500">
+              <option value="hierarchical">Hierarchical Cluster Order</option>
+              <option value="alphabetical">Alphabetical Order</option>
+              <option value="meandist">Mean Distance Rank</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="heatmapContainer" class="w-full overflow-x-auto flex justify-center py-4">
+          <!-- Rendered by heatmap.js -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tab 4: Interactive Phylogenetic Tree -->
+    <div id="content-tree" class="tab-content hidden space-y-6">
+      <div class="glass-panel p-6 space-y-4">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-100">Interactive Phylogenetic Tree</h2>
+            <p class="text-xs text-slate-400">UPGMA hierarchical cluster tree derived from the pairwise Manhattan VAF distance matrix.</p>
+          </div>
+
+          <div class="flex items-center space-x-3 text-xs">
+            <label class="text-slate-400 font-semibold">Tree Layout:</label>
+            <select id="treeLayoutSelect" class="px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-slate-200 focus:outline-none focus:border-cyan-500">
+              <option value="phylogram">Rectangular Phylogram</option>
+              <option value="radial">Radial Tree Layout</option>
+              <option value="cladogram">Cladogram</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="treeContainer" class="w-full rounded-lg overflow-hidden border border-slate-800">
+          <!-- Rendered by tree_viewer.js -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tab 5: Locus Inspector & Documentation -->
+    <div id="content-locus" class="tab-content hidden space-y-6">
+      
+      <!-- Interactive Locus Inspector Card -->
+      <div class="glass-panel p-6 space-y-4">
+        <h2 class="text-xl font-bold text-slate-100 flex items-center space-x-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+          <span>Interactive Locus Inspector (simulating `pos_check.py`)</span>
+        </h2>
+        <p class="text-xs text-slate-300">Enter any mitochondrial coordinate (1 - 16,569 bp) to view reference sequence context, gap alignment shift behavior, and VAF distributions across samples.</p>
+
+        <!-- Search Bar & Presets -->
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <input type="number" id="locusPosInput" min="1" max="16569" value="73" class="px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-slate-100 w-36 font-mono focus:outline-none focus:border-cyan-500">
+          <button id="inspectPosBtn" class="px-4 py-1.5 text-xs font-semibold rounded bg-cyan-500 text-slate-950 hover:bg-cyan-400 transition-colors">
+            Inspect Locus
+          </button>
+          
+          <div class="flex items-center space-x-2 text-xs text-slate-400 pl-4 border-l border-slate-800">
+            <span>Presets:</span>
+            <button data-pos="73" class="preset-locus px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 font-mono">m.73</button>
+            <button data-pos="263" class="preset-locus px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 font-mono">m.263</button>
+            <button data-pos="309" class="preset-locus px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 font-mono">m.309</button>
+            <button data-pos="514" class="preset-locus px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 font-mono">m.514</button>
+            <button data-pos="16519" class="preset-locus px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 font-mono">m.16519</button>
+          </div>
+        </div>
+
+        <!-- Inspection Result Panels -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+          
+          <!-- Panel 1: Sequence Context -->
+          <div class="p-4 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="flex justify-between items-center text-xs">
+              <span id="displayLocusPos" class="font-bold text-cyan-400 text-sm font-mono">Position m.73</span>
+              <span id="displayLocusGene" class="px-2 py-0.5 rounded bg-blue-900/50 text-blue-300 border border-blue-700">D-loop / Control Region</span>
+            </div>
+            
+            <div class="p-3 rounded bg-slate-950 border border-slate-800 text-center font-mono overflow-x-auto">
+              <div class="text-[10px] text-slate-500 mb-1">Flanking Reference Sequence Context (-20bp ... +20bp)</div>
+              <div id="displaySeqWindow" class="py-2">
+                <!-- Sequence output -->
+              </div>
+            </div>
+
+            <div id="gapShiftDemo">
+              <!-- Gap shift graphic -->
+            </div>
+          </div>
+
+          <!-- Panel 2: Sample VAF Distribution -->
+          <div class="p-4 rounded-lg bg-slate-900/80 border border-slate-800 space-y-3">
+            <div class="text-xs font-bold text-slate-200">Sample Heteroplasmy VAF Distribution at Locus</div>
+            <div id="locusVafDistribution" class="max-h-56 overflow-y-auto space-y-2 pr-1">
+              <!-- VAF list output -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Pipeline Documentation & Equations -->
+      <div class="glass-panel p-6 space-y-4">
+        <h2 class="text-xl font-bold text-slate-100">Pipeline Methodology & Algorithmic Equations</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded bg-slate-900/80 border border-slate-800 space-y-2">
+            <h4 class="font-bold text-cyan-400 text-sm">1. Gap Shift Standardizer</h4>
+            <p class="text-slate-300 leading-relaxed">
+              Alignments near homopolymer tracks or indels often introduce arbitrary gap placement. <code class="text-cyan-300 font-mono">align_gaps_to_lower_coordinate</code> shifts gaps deterministically towards lower coordinates (5' for + strand, 3' for - strand).
+            </p>
+          </div>
+
+          <div class="p-4 rounded bg-slate-900/80 border border-slate-800 space-y-2">
+            <h4 class="font-bold text-emerald-400 text-sm">2. Manhattan VAF Distance</h4>
+            <p class="text-slate-300 leading-relaxed">
+              Pairwise distance between two samples \(S_i\) and \(S_j\) is defined as the absolute VAF difference sum across all mutated loci:
+              <br>
+              <code class="text-emerald-300 font-mono block mt-1">d(S_i, S_j) = &sum; |VAF_{i,p} - VAF_{j,p}|</code>
+            </p>
+          </div>
+
+          <div class="p-4 rounded bg-slate-900/80 border border-slate-800 space-y-2">
+            <h4 class="font-bold text-purple-400 text-sm">3. Quality Control Filter Rules</h4>
+            <p class="text-slate-300 leading-relaxed">
+              Strand bias ratio filter tags variants with <code class="text-purple-300 font-mono">&gt; 0.80</code> read bias on one strand. Clonal amplification filter flags identical reads exceeding 20% total depth.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 bg-slate-900 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p>Genomic Mito Showcase &bull; Human Mitochondrial Reference Genome rCRS (NC_012920.1)</p>
+      <p class="mt-1 text-slate-600">Zero-dependency static application built for GitHub Pages deployment.</p>
+    </div>
+  </footer>
+
+  <!-- Sample Pair Comparator Modal -->
+  <div id="comparatorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="glass-panel w-full max-w-2xl p-6 rounded-xl border border-slate-700 shadow-2xl space-y-4">
+      
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-bold text-slate-100">Sample Pair Variant Comparator</h3>
+        <button id="closeComparatorBtn" class="text-slate-400 hover:text-slate-100 text-xl font-bold">&times;</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Sample 1</label>
+          <select id="compareSample1Select" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-cyan-500">
+            <!-- Sample 1 options -->
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Sample 2</label>
+          <select id="compareSample2Select" class="w-full px-3 py-1.5 text-xs rounded bg-slate-900 border border-slate-700 text-slate-100 focus:outline-none focus:border-cyan-500">
+            <!-- Sample 2 options -->
+          </select>
+        </div>
+      </div>
+
+      <div class="text-center pt-2">
+        <button id="runCompareBtn" class="px-6 py-2 text-xs font-semibold rounded bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 hover:brightness-110 shadow-md shadow-cyan-500/20">
+          Run Variant Differential Comparison
+        </button>
+      </div>
+
+      <div id="comparatorResults" class="pt-2">
+        <!-- Results rendered by app.js -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/variants_table.js"></script>
+  <script src="js/heatmap.js"></script>
+  <script src="js/tree_viewer.js"></script>
+  <script src="js/locus_inspector.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
