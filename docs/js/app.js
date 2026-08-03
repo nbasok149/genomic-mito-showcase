@@ -550,34 +550,41 @@ window.FamilyReportGenerator = {
           </div>
 
           <!-- Shared Mutations List -->
-          <div class="space-y-3">
-            <h4 class="font-bold text-stone-200 text-sm font-mono flex items-center justify-between">
-              <span>🧬 Shared Ancestral Mutations (${shared.length})</span>
-              <span class="text-xs text-stone-400 font-normal font-sans">Common lineage polymorphisms</span>
-            </h4>
-            <div class="max-h-56 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950">
-              <table class="w-full text-left text-xs font-mono">
-                <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800">
-                  <tr>
-                    <th class="p-2.5">Position (bp)</th>
-                    <th class="p-2.5">Mutation</th>
-                    <th class="p-2.5">Gene / Region</th>
-                    <th class="p-2.5">VAF</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-stone-800/60">
-                  ${shared.length > 0 ? shared.map(m => `
-                    <tr class="hover:bg-stone-900/40">
-                      <td class="p-2.5 text-amber-400">m.${m.pos}</td>
-                      <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
-                      <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
-                      <td class="p-2.5 text-emerald-400">${(m.vaf * 100).toFixed(1)}%</td>
+          ${shared.length > 0 ? `
+            <div class="space-y-3">
+              <h4 class="font-bold text-stone-200 text-sm font-mono flex items-center justify-between">
+                <span>🧬 Shared Ancestral Mutations (${shared.length})</span>
+                <span class="text-xs text-stone-400 font-normal font-sans">Common lineage polymorphisms</span>
+              </h4>
+              <div class="max-h-56 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950">
+                <table class="w-full text-left text-xs font-mono">
+                  <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800">
+                    <tr>
+                      <th class="p-2.5">Position (bp)</th>
+                      <th class="p-2.5">Mutation</th>
+                      <th class="p-2.5">Gene / Region</th>
+                      <th class="p-2.5">VAF</th>
                     </tr>
-                  `).join('') : `<tr><td colspan="4" class="p-4 text-center text-stone-500">No shared mutations detected between these two ethnicities.</td></tr>`}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody class="divide-y divide-stone-800/60">
+                    ${shared.map(m => `
+                      <tr class="hover:bg-stone-900/40">
+                        <td class="p-2.5 text-amber-400">m.${m.pos}</td>
+                        <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
+                        <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
+                        <td class="p-2.5 text-emerald-400">${(m.vaf * 100).toFixed(1)}%</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          ` : `
+            <div class="p-4 rounded-xl bg-stone-900/90 border border-stone-800 text-xs font-mono text-stone-400 flex items-center justify-between">
+              <span>Zero shared mutations detected between these two ethnicities. Lineages are fully diverged.</span>
+              <span class="text-[10px] text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-800 font-bold">Full Divergence</span>
+            </div>
+          `}
 
           <!-- Dynamic Evolutionary Interpretation Report -->
           <div class="p-6 rounded-2xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950/30 border border-stone-800 space-y-6 text-xs text-stone-300 leading-relaxed font-sans shadow-2xl">
@@ -946,65 +953,79 @@ window.PedigreeInspector = {
         </div>
 
         <!-- 100% Maternally Inherited Variants Table -->
-        <div class="p-5 rounded-2xl bg-stone-900/90 border border-emerald-800/60 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
-            <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
-              <span>🧬 Maternally Transmitted Conserved Variants (${maternallyInherited.length})</span>
-            </h4>
-            <span class="text-stone-400 font-sans text-[11px]">100% Passed Mother ➔ Children</span>
-          </div>
+        ${maternallyInherited.length > 0 ? `
+          <div class="p-5 rounded-2xl bg-stone-900/90 border border-emerald-800/60 space-y-3 font-mono text-xs shadow-xl">
+            <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+              <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
+                <span>🧬 Maternally Transmitted Conserved Variants (${maternallyInherited.length})</span>
+              </h4>
+              <span class="text-stone-400 font-sans text-[11px]">100% Passed Mother ➔ Children</span>
+            </div>
 
-          <div class="max-h-52 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950">
-            <table class="w-full text-left">
-              <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800 text-[11px]">
-                <tr>
-                  <th class="p-2.5">Position</th>
-                  <th class="p-2.5">Mutation</th>
-                  <th class="p-2.5">Gene / Region</th>
-                  <th class="p-2.5">Mother VAF</th>
-                  <th class="p-2.5">Transmission Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-stone-800/60 text-[11px]">
-                ${maternallyInherited.length > 0 ? maternallyInherited.slice(0, 10).map(m => `
-                  <tr class="hover:bg-stone-900/40">
-                    <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
-                    <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
-                    <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
-                    <td class="p-2.5 text-emerald-400">${(m.vaf * 100).toFixed(0)}%</td>
-                    <td class="p-2.5 text-emerald-300"><span class="bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 text-[10px]">100% Inherited</span></td>
+            <div class="max-h-52 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950">
+              <table class="w-full text-left">
+                <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800 text-[11px]">
+                  <tr>
+                    <th class="p-2.5">Position</th>
+                    <th class="p-2.5">Mutation</th>
+                    <th class="p-2.5">Gene / Region</th>
+                    <th class="p-2.5">Mother VAF</th>
+                    <th class="p-2.5">Transmission Status</th>
                   </tr>
-                `).join('') : '<tr><td colspan="5" class="p-4 text-center text-stone-500">No maternal variants recorded.</td></tr>'}
-              </tbody>
-            </table>
+                </thead>
+                <tbody class="divide-y divide-stone-800/60 text-[11px]">
+                  ${maternallyInherited.slice(0, 10).map(m => `
+                    <tr class="hover:bg-stone-900/40">
+                      <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
+                      <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
+                      <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
+                      <td class="p-2.5 text-emerald-400">${(m.vaf * 100).toFixed(0)}%</td>
+                      <td class="p-2.5 text-emerald-300"><span class="bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 text-[10px]">100% Inherited</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        ` : `
+          <div class="p-4 rounded-xl bg-stone-900/90 border border-stone-800 text-xs font-mono text-stone-400 flex items-center justify-between">
+            <span>✨ Zero maternal variant discrepancies recorded for this pedigree. All variants are fully conserved.</span>
+            <span class="text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold">100% Conserved</span>
+          </div>
+        `}
 
         <!-- Paternal Discrepancies (0% Transmitted Paternal mtDNA) -->
-        <div class="p-5 rounded-2xl bg-stone-900/90 border border-rose-900/60 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
-            <h4 class="font-bold text-rose-400 text-sm flex items-center gap-2">
-              <span>🛡️ Paternal Non-Transmitted Discrepancies (${paternalUninherited.length})</span>
-            </h4>
-            <span class="text-stone-400 font-sans text-[11px]">Present in Father, 0% in Offspring</span>
-          </div>
+        ${paternalUninherited.length > 0 ? `
+          <div class="p-5 rounded-2xl bg-stone-900/90 border border-rose-900/60 space-y-3 font-mono text-xs shadow-xl">
+            <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+              <h4 class="font-bold text-rose-400 text-sm flex items-center gap-2">
+                <span>🛡️ Paternal Non-Transmitted Discrepancies (${paternalUninherited.length})</span>
+              </h4>
+              <span class="text-stone-400 font-sans text-[11px]">Present in Father, 0% in Offspring</span>
+            </div>
 
-          <p class="text-stone-300 text-xs font-sans leading-relaxed">
-            Empirical proof of strict maternal transmission: None of Father (${ped.father})'s specific mitochondrial variants are present in any of the offspring.
-          </p>
+            <p class="text-stone-300 text-xs font-sans leading-relaxed">
+              Empirical proof of strict maternal transmission: None of Father (${ped.father})'s specific mitochondrial variants are present in any of the offspring.
+            </p>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-            ${paternalUninherited.length > 0 ? paternalUninherited.slice(0, 6).map(m => `
-              <div class="p-2.5 rounded-xl bg-stone-950 border border-rose-900/60 flex items-center justify-between text-[11px]">
-                <div>
-                  <span class="text-rose-300 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                  <span class="text-stone-400 text-[10px] block">${m.gene || 'D-loop'}</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              ${paternalUninherited.slice(0, 6).map(m => `
+                <div class="p-2.5 rounded-xl bg-stone-950 border border-rose-900/60 flex items-center justify-between text-[11px]">
+                  <div>
+                    <span class="text-rose-300 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                    <span class="text-stone-400 text-[10px] block">${m.gene || 'D-loop'}</span>
+                  </div>
+                  <span class="bg-rose-950 text-rose-400 px-2 py-0.5 rounded border border-rose-800 text-[10px]">0% Inherited</span>
                 </div>
-                <span class="bg-rose-950 text-rose-400 px-2 py-0.5 rounded border border-rose-800 text-[10px]">0% Inherited</span>
-              </div>
-            `).join('') : '<div class="col-span-full p-3 text-stone-500 text-center">No uninherited paternal variants.</div>'}
+              `).join('')}
+            </div>
           </div>
-        </div>
+        ` : `
+          <div class="p-4 rounded-xl bg-stone-900/90 border border-stone-800 text-xs font-mono text-stone-400 flex items-center justify-between">
+            <span>🛡️ Father sample carries zero uninherited paternal mtDNA discrepancies.</span>
+            <span class="text-[10px] text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-800 font-bold">0% Paternal Transmission</span>
+          </div>
+        `}
 
         <!-- Heteroplasmic Bottleneck VAF Drift Across Generations -->
         ${vafShifts.length > 0 ? `

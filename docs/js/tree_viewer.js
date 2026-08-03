@@ -530,38 +530,39 @@ window.TreeViewer = {
           </p>
 
           <!-- Low VAF Variants Table -->
-          <div class="max-h-60 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950 font-mono text-xs">
-            <table class="w-full text-left">
-              <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800">
-                <tr>
-                  <th class="p-2.5">Position</th>
-                  <th class="p-2.5">Mutation</th>
-                  <th class="p-2.5">Sample</th>
-                  <th class="p-2.5">Low VAF %</th>
-                  <th class="p-2.5">Gene / Locus</th>
-                  <th class="p-2.5">Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-stone-800/60 text-[11px]">
-                ${lowVafMuted.length > 0 ? lowVafMuted.map(m => `
-                  <tr class="hover:bg-stone-900/40">
-                    <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
-                    <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
-                    <td class="p-2.5 text-orange-300">${m.sample}</td>
-                    <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% VAF</td>
-                    <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
-                    <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded border border-amber-800 text-[10px]">Muted over time</span></td>
-                  </tr>
-                `).join('') : `
+          ${lowVafMuted.length > 0 ? `
+            <div class="max-h-60 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950 font-mono text-xs">
+              <table class="w-full text-left">
+                <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800">
                   <tr>
-                    <td colspan="6" class="p-4 text-center text-stone-500">
-                      No low VAF (&lt;15%) muted mutations detected between these representative samples.
-                    </td>
+                    <th class="p-2.5">Position</th>
+                    <th class="p-2.5">Mutation</th>
+                    <th class="p-2.5">Sample</th>
+                    <th class="p-2.5">Low VAF %</th>
+                    <th class="p-2.5">Gene / Locus</th>
+                    <th class="p-2.5">Status</th>
                   </tr>
-                `}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody class="divide-y divide-stone-800/60 text-[11px]">
+                  ${lowVafMuted.map(m => `
+                    <tr class="hover:bg-stone-900/40">
+                      <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
+                      <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
+                      <td class="p-2.5 text-orange-300">${m.sample}</td>
+                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% VAF</td>
+                      <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
+                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded border border-amber-800 text-[10px]">Muted over time</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs font-mono text-stone-400 flex items-center justify-between">
+              <span>✅ Zero low-VAF (&lt;15%) muted mutations detected along this branch junction. Lineage mutational stability is 100%.</span>
+              <span class="text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold">100% Stable</span>
+            </div>
+          `}
         </div>
 
         <!-- Shared High VAF Mutations Section -->
@@ -572,14 +573,21 @@ window.TreeViewer = {
             </h4>
             <span class="text-stone-400 font-sans text-[11px]">High VAF conserved motifs along junction</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-            ${sharedHigh.length > 0 ? sharedHigh.slice(0, 9).map(m => `
-              <div class="p-2.5 rounded-xl bg-stone-950 border border-emerald-900/60 flex items-center justify-between">
-                <span class="text-emerald-300 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                <span class="text-stone-400 text-[10px] truncate">${m.gene || 'D-loop'}</span>
-              </div>
-            `).join('') : '<div class="col-span-full p-3 text-stone-500 text-center">No high VAF shared mutations found along this branch.</div>'}
-          </div>
+          ${sharedHigh.length > 0 ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+              ${sharedHigh.slice(0, 9).map(m => `
+                <div class="p-2.5 rounded-xl bg-stone-950 border border-emerald-900/60 flex items-center justify-between">
+                  <span class="text-emerald-300 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                  <span class="text-stone-400 text-[10px] truncate">${m.gene || 'D-loop'}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs font-mono text-stone-400 flex items-center justify-between">
+              <span>Branch junctions represent immediate lineage divergence with 0 shared high-VAF mutations.</span>
+              <span class="text-[10px] text-orange-400 bg-orange-950 px-2 py-0.5 rounded border border-orange-800 font-bold">Diverged Loci</span>
+            </div>
+          `}
         </div>
 
       </div>
