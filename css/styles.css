@@ -59,16 +59,20 @@ body {
 }
 
 .tree-link.dimmed {
-    stroke-opacity: 0.12 !important;
-    stroke: #44403c !important;
-    stroke-width: 1px !important;
+    stroke-opacity: 0.38 !important;
+    stroke: #57534e !important;
+    stroke-width: 1.8px !important;
 }
 
 .tree-link.family-active {
     stroke: #f97316 !important;
     stroke-width: 4.5px !important;
     stroke-opacity: 1 !important;
-    filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.85));
+    filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.9));
+}
+
+.tree-node {
+    transition: opacity 0.3s ease;
 }
 
 .tree-node circle {
@@ -83,11 +87,27 @@ body {
     r: 10px !important;
     fill: #34d399 !important;
     stroke: #ffffff !important;
-    filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.95));
+    filter: drop-shadow(0 0 14px rgba(52, 211, 153, 0.95));
 }
 
 .tree-node.dimmed {
-    opacity: 0.15;
+    opacity: 0.45;
+    transition: opacity 0.25s ease;
+}
+
+.tree-node.dimmed:hover {
+    opacity: 1 !important;
+    filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.6));
+}
+
+.tree-node.dimmed circle {
+    stroke: #78716c !important;
+    stroke-width: 2px !important;
+}
+
+.tree-node.dimmed text {
+    fill: #a8a29e !important;
+    font-weight: 500 !important;
 }
 
 .tree-node text {
