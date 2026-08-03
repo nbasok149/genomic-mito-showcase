@@ -1,0 +1,29 @@
+# Path to the absolute reference genome for static base assignment
+reference_fasta: "data/reference/mtdna.fa"
+
+# Requires a strict minimum number of alternate reads to validate single nucleotide variants and filter out background noise.
+min_alt_depth: 3
+
+# Demands a higher minimum read count specifically for insertions and deletions to compensate for platform-specific sequencing artifacts.
+min_indel_depth: 10
+
+# ONLY exhibit positions with VAF strictly greater than this value across all outputs
+high_vaf_threshold: 10
+
+# If 80% of a specific variant's reads come from only one strand, tag as FAIL_BIAS
+strand_bias_ratio: 0.8
+
+# Edge bias threshold - first and last 5% of reads are tagged from each alignment
+edge_bias_pct: 0.05
+
+# Homopolymer run length threshold
+homopolymer_length: 5
+
+# Filters out positions that weren't sequenced enough (threshold = max_depth / 6)
+depth_threshold_denominator: 6
+
+# Minimum read depth required on both strands to evaluate bias
+min_depth_strand_bias: 3
+
+# FAIL_CLONAL_AMP if # of perfectly identical reads (same bounds + same internal mutations) exceed 20% (depth / denominator)
+clonal_amp_denominator: 5

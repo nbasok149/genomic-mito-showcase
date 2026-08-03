@@ -1,0 +1,2 @@
+# Genomic Mito Showcase Dependencies
+pyyaml>=6.0

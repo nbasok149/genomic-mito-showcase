@@ -1,0 +1,209 @@
+{
+  "reference_id": "rCRS (NC_012920.1)",
+  "length": 16569,
+  "features": [
+    {
+      "gene": "Control Region (D-loop)",
+      "start": 16024,
+      "end": 16569,
+      "type": "non-coding",
+      "color": "#ef4444"
+    },
+    {
+      "gene": "Control Region (D-loop)",
+      "start": 1,
+      "end": 576,
+      "type": "non-coding",
+      "color": "#ef4444"
+    },
+    {
+      "gene": "MT-TF (tRNA-Phe)",
+      "start": 577,
+      "end": 647,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-RNR1 (12S rRNA)",
+      "start": 648,
+      "end": 1601,
+      "type": "rRNA",
+      "color": "#f59e0b"
+    },
+    {
+      "gene": "MT-TV (tRNA-Val)",
+      "start": 1602,
+      "end": 1670,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-RNR2 (16S rRNA)",
+      "start": 1671,
+      "end": 3229,
+      "type": "rRNA",
+      "color": "#f59e0b"
+    },
+    {
+      "gene": "MT-TL1 (tRNA-Leu1)",
+      "start": 3230,
+      "end": 3304,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-ND1",
+      "start": 3307,
+      "end": 4262,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "tRNA Cluster (I-Q-M)",
+      "start": 4263,
+      "end": 4469,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-ND2",
+      "start": 4470,
+      "end": 5511,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "tRNA Cluster (W-A-N-C-Y)",
+      "start": 5512,
+      "end": 5903,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-CO1",
+      "start": 5904,
+      "end": 7445,
+      "type": "CDS",
+      "color": "#3b82f6"
+    },
+    {
+      "gene": "tRNA Cluster (S1-D)",
+      "start": 7446,
+      "end": 7585,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-CO2",
+      "start": 7586,
+      "end": 8269,
+      "type": "CDS",
+      "color": "#3b82f6"
+    },
+    {
+      "gene": "MT-TK (tRNA-Lys)",
+      "start": 8295,
+      "end": 8364,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-ATP8",
+      "start": 8366,
+      "end": 8572,
+      "type": "CDS",
+      "color": "#8b5cf6"
+    },
+    {
+      "gene": "MT-ATP6",
+      "start": 8527,
+      "end": 9207,
+      "type": "CDS",
+      "color": "#8b5cf6"
+    },
+    {
+      "gene": "MT-CO3",
+      "start": 9207,
+      "end": 9990,
+      "type": "CDS",
+      "color": "#3b82f6"
+    },
+    {
+      "gene": "MT-TG (tRNA-Gly)",
+      "start": 9991,
+      "end": 10058,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-ND3",
+      "start": 10059,
+      "end": 10404,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "MT-TR (tRNA-Arg)",
+      "start": 10405,
+      "end": 10469,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-ND4L",
+      "start": 10470,
+      "end": 10766,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "MT-ND4",
+      "start": 10760,
+      "end": 12137,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "tRNA Cluster (H-S2-L2)",
+      "start": 12138,
+      "end": 12336,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-ND5",
+      "start": 12337,
+      "end": 14148,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "MT-ND6",
+      "start": 14149,
+      "end": 14673,
+      "type": "CDS",
+      "color": "#10b981"
+    },
+    {
+      "gene": "MT-TE (tRNA-Glu)",
+      "start": 14674,
+      "end": 14742,
+      "type": "tRNA",
+      "color": "#f97316"
+    },
+    {
+      "gene": "MT-CYB",
+      "start": 14747,
+      "end": 15887,
+      "type": "CDS",
+      "color": "#ec4899"
+    },
+    {
+      "gene": "tRNA Cluster (T-P)",
+      "start": 15888,
+      "end": 16023,
+      "type": "tRNA",
+      "color": "#f97316"
+    }
+  ]
+}
