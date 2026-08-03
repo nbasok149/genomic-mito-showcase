@@ -1,0 +1,137 @@
+/* Custom Styling for Genomic Web Showcase - Earthy Tones & Warm Slate Aesthetic (Option B) */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-dark: #12100e;
+    --panel-bg: rgba(28, 25, 23, 0.85);
+    --panel-border: rgba(217, 119, 6, 0.2);
+    --terracotta: #ea580c;
+    --terracotta-glow: #f97316;
+    --sage: #10b981;
+    --sage-glow: #34d399;
+    --amber: #f59e0b;
+    --stone-text: #f5f5f4;
+    --stone-muted: #a8a29e;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--stone-text);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(234, 88, 12, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Warm Earthy Glassmorphism Panels */
+.earth-panel {
+    background: var(--panel-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), 0 0 25px 0 rgba(234, 88, 12, 0.05);
+    border-radius: 1.25rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.earth-panel:hover {
+    border-color: rgba(249, 115, 22, 0.4);
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), 0 0 30px 0 rgba(249, 115, 22, 0.12);
+}
+
+.gradient-earth-text {
+    background: linear-gradient(135deg, #fdba74 0%, #f97316 40%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* High-Visibility Warm Terracotta Tree Styling */
+.tree-link {
+    fill: none;
+    stroke: #f97316 !important;
+    stroke-width: 2.8px !important;
+    stroke-opacity: 0.9 !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tree-link.dimmed {
+    stroke-opacity: 0.12 !important;
+    stroke: #44403c !important;
+    stroke-width: 1px !important;
+}
+
+.tree-link.family-active {
+    stroke: #f97316 !important;
+    stroke-width: 4.5px !important;
+    stroke-opacity: 1 !important;
+    filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.85));
+}
+
+.tree-node circle {
+    stroke: #f97316 !important;
+    stroke-width: 2.5px !important;
+    fill: #10b981 !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.tree-node circle:hover {
+    r: 10px !important;
+    fill: #34d399 !important;
+    stroke: #ffffff !important;
+    filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.95));
+}
+
+.tree-node.dimmed {
+    opacity: 0.15;
+}
+
+.tree-node text {
+    fill: #f5f5f4 !important;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+}
+
+/* Nav Tabs Styling */
+.nav-tab {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 0.75rem;
+}
+
+.nav-tab.active {
+    background-color: rgba(234, 88, 12, 0.18);
+    color: #fb923c;
+    border-color: rgba(249, 115, 22, 0.5);
+    box-shadow: 0 0 18px rgba(249, 115, 22, 0.22);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #12100e;
+}
+::-webkit-scrollbar-thumb {
+    background: #292524;
+    border-radius: 4px;
+    border: 1px solid rgba(249, 115, 22, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+}
+
+/* Heatmap Tooltip */
+#heatmap-tooltip {
+    position: absolute;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+}
