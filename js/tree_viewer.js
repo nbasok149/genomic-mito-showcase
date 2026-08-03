@@ -1,6 +1,6 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
- * High-visibility decluttered diagram with family-level labels and click-to-expand sample details.
+ * Clean diagram with ZERO 'Clade' text, ZERO '[U4]' haplogroup brackets, and click-to-reveal sample labels.
  */
 
 window.TreeViewer = {
@@ -33,7 +33,7 @@ window.TreeViewer = {
     const familiesMap = new Map();
     
     function traverse(node) {
-      if (node.name && !node.name.startsWith('Clade_')) {
+      if (node.name && !node.name.includes('Clade')) {
         const parts = node.name.split('_');
         let familyKey = parts.length >= 3 ? parts[2].replace(/\d+$/, '') : (parts.length === 2 ? parts[1] : parts[0]);
         const familyName = `Family ${familyKey}`;
@@ -106,7 +106,7 @@ window.TreeViewer = {
     svg.selectAll('.tree-node').each(function(d) {
       const name = (d.data.name || '').toLowerCase();
       const samples = (d.data.samples || []).map(s => s.toLowerCase());
-      const isMatch = name.includes(key) || samples.some(s => s.includes(key));
+      const isMatch = (name.includes(key) || samples.some(s => s.includes(key))) && !name.includes('clade');
       
       d3.select(this).classed('dimmed', !isMatch);
       if (isMatch) {
@@ -120,7 +120,7 @@ window.TreeViewer = {
     svg.selectAll('.tree-link').each(function(d) {
       const targetName = (d.target.data.name || '').toLowerCase();
       const targetSamples = (d.target.data.samples || []).map(s => s.toLowerCase());
-      const isMatch = targetName.includes(key) || targetSamples.some(s => s.includes(key));
+      const isMatch = (targetName.includes(key) || targetSamples.some(s => s.includes(key))) && !targetName.includes('clade');
       d3.select(this).classed('dimmed', !isMatch).classed('family-active', isMatch);
     });
 
@@ -151,7 +151,7 @@ window.TreeViewer = {
 
     svg.selectAll('.tree-node').each(function(d) {
       const name = (d.data.name || '').toLowerCase();
-      const isMatch = name.includes(term);
+      const isMatch = name.includes(term) && !name.includes('clade');
 
       d3.select(this).select('circle')
         .style('r', isMatch ? 9 : (d.children ? 3.5 : 5.5))
@@ -165,10 +165,15 @@ window.TreeViewer = {
   },
 
   getFamilyName(rawName) {
-    if (!rawName || rawName.startsWith('Clade_')) return '';
+    if (!rawName || rawName.includes('Clade')) return '';
     const parts = rawName.split('_');
     const familyKey = parts.length >= 3 ? parts[2].replace(/\d+$/, '') : (parts.length === 2 ? parts[1] : parts[0]);
     return `Family ${familyKey}`;
+  },
+
+  getSampleName(rawName) {
+    if (!rawName || rawName.includes('Clade')) return '';
+    return rawName;
   },
 
   render() {
@@ -239,8 +244,8 @@ window.TreeViewer = {
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
 
-      // Family Label (Small text, decluttered)
-      node.filter(d => !d.children && d.data.name && !d.data.name.startsWith('Clade_'))
+      // Family Label (Small text, no haplogroup, no Clade text)
+      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'family-label-text')
         .attr('dy', '0.31em')
@@ -252,8 +257,8 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getFamilyName(d.data.name));
 
-      // Sample Label (Revealed on click/selection)
-      node.filter(d => !d.children)
+      // Sample Label (Revealed on click/selection, no haplogroup, no Clade text)
+      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'sample-label-text')
         .attr('dy', '0.31em')
@@ -265,7 +270,7 @@ window.TreeViewer = {
         .style('font-weight', 'bold')
         .style('font-family', 'JetBrains Mono, monospace')
         .style('display', 'none')
-        .text(d => d.data.name);
+        .text(d => this.getSampleName(d.data.name));
 
     } else {
       // Rectangular Phylogram / Cladogram
@@ -307,8 +312,8 @@ window.TreeViewer = {
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
 
-      // Family Label (Small text, decluttered)
-      node.filter(d => !d.children && d.data.name && !d.data.name.startsWith('Clade_'))
+      // Family Label (Small text, no haplogroup, no Clade text)
+      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'family-label-text')
         .attr('dy', '0.32em')
@@ -319,8 +324,8 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getFamilyName(d.data.name));
 
-      // Sample Label (Revealed on click/selection)
-      node.filter(d => !d.children)
+      // Sample Label (Revealed on click/selection, no haplogroup, no Clade text)
+      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'sample-label-text')
         .attr('dy', '0.32em')
@@ -331,13 +336,13 @@ window.TreeViewer = {
         .style('font-weight', 'bold')
         .style('font-family', 'JetBrains Mono, monospace')
         .style('display', 'none')
-        .text(d => d.data.name);
+        .text(d => this.getSampleName(d.data.name));
     }
   },
 
   onNodeClick(d) {
     const rawName = d.data.name || '';
-    if (!rawName || rawName.startsWith('Clade_')) return;
+    if (!rawName || rawName.includes('Clade')) return;
 
     const familyName = this.getFamilyName(rawName);
     this.selectFamily(familyName);
@@ -369,8 +374,8 @@ window.TreeViewer = {
       return;
     }
 
-    const nodeCount = matchedNodes.length || 1;
-    const sampleNames = matchedNodes.map(n => n.data.name).filter(n => n && !n.startsWith('Clade_')).join(', ');
+    const sampleNames = matchedNodes.map(n => n.data.name).filter(n => n && !n.includes('Clade')).join(', ');
+    const nodeCount = matchedNodes.filter(n => n.data.name && !n.data.name.includes('Clade')).length || 1;
 
     detailBox.innerHTML = `
       <div class="p-4 rounded-xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 text-xs space-y-2.5 shadow-xl font-mono">
