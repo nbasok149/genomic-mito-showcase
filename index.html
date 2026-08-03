@@ -134,13 +134,9 @@
       <div class="earth-panel p-6 relative overflow-hidden bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold mb-3">
-              <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-              <span>Passcode Protected • Family Lineage View</span>
-            </div>
             <h2 class="text-2xl font-extrabold text-stone-100 mb-1">Mitochondrial Family Demographic & Lineage Explorer</h2>
             <p class="text-stone-300 text-sm max-w-2xl leading-relaxed">
-              Visualize maternal lineage relationships across your family cohort. Click any branch or node on the warm high-contrast phylogenetic tree to inspect lineage details and haplogroups.
+              Visualize maternal lineage relationships across your family cohort. Click any branch or node on the tree diagram to inspect lineage details.
             </p>
           </div>
           <div class="p-3.5 rounded-xl bg-stone-900/90 border border-stone-800 text-xs text-stone-300 space-y-1.5 min-w-[250px] font-mono">
@@ -187,25 +183,25 @@
           </div>
         </div>
 
-        <!-- Family Groupings Filter Bar -->
-        <div class="flex flex-wrap items-center gap-2 pt-1 pb-2">
-          <span class="text-xs font-bold text-stone-400 uppercase tracking-wider mr-2 font-mono">Family Groupings:</span>
-          <div id="familyGroupButtonsContainer" class="flex flex-wrap items-center gap-2">
-            <!-- Dynamic Family Buttons Rendered by TreeViewer -->
-          </div>
-        </div>
-
-        <!-- Tree Canvas Container -->
+        <!-- Tree Canvas Container (ABOVE Family Groupings) -->
         <div class="relative">
           <div id="treeContainer" class="w-full overflow-hidden border border-stone-800/80 rounded-2xl min-h-[580px] bg-stone-950 flex items-center justify-center">
             <div class="text-stone-500 text-xs animate-pulse font-mono">Initializing Lineage Tree Visualizer...</div>
           </div>
         </div>
 
+        <!-- Family Groupings Filter Bar (BELOW Tree Diagram) -->
+        <div class="flex flex-wrap items-center gap-2 pt-2 pb-1">
+          <span class="text-xs font-bold text-stone-400 uppercase tracking-wider mr-2 font-mono">Family Groupings:</span>
+          <div id="familyGroupButtonsContainer" class="flex flex-wrap items-center gap-2">
+            <!-- Dynamic Family Buttons Rendered by TreeViewer -->
+          </div>
+        </div>
+
         <!-- Selected Lineage Detail Card -->
         <div id="familyLineageCard" class="pt-2">
-          <div class="p-4 rounded-xl bg-stone-900/80 border border-stone-800 text-xs text-stone-300">
-            🌿 <strong>Tip for Families:</strong> Click any node on the tree above or type a sample ID into the search bar to highlight your maternal lineage.
+          <div class="p-4 rounded-xl bg-stone-900/80 border border-stone-800 text-xs text-stone-300 font-mono">
+            🌿 Click any family button or node on the diagram to zoom in and reveal individual sample names.
           </div>
         </div>
       </div>
@@ -220,7 +216,7 @@
               <span class="w-2 h-2 rounded-full bg-orange-500"></span>
               <span>Demographic Group Divisions</span>
             </h4>
-            <span class="text-[10px] px-2.5 py-0.5 rounded-md bg-orange-950 text-orange-300 border border-orange-800 font-mono">4 Main Clades</span>
+            <span class="text-[10px] px-2.5 py-0.5 rounded-md bg-orange-950 text-orange-300 border border-orange-800 font-mono">4 Main Groups</span>
           </div>
           <div class="space-y-2 text-xs font-mono">
             <div class="p-2.5 rounded-lg bg-stone-900/80 border border-stone-800 flex items-center justify-between">
