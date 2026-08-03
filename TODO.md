@@ -25,6 +25,11 @@
   - **Category**: Short-Term
   - **Status**: Completed (Implemented by Jarvis)
 
+- [x] **[ST-005]** Declutter Diagram & Reveal Sample Names on Family Selection
+  - **Details**: Removed all clade mentions, removed [U4] haplogroup brackets, placed tree diagram above family groupings, set default labels to family names only, and reveal individual sample names upon family selection.
+  - **Category**: Short-Term
+  - **Status**: Completed (Implemented by Jarvis)
+
 ## Long-Term Backlog (Future Roadmap)
 - [ ] **[LT-001]** Redesign the entire backend database architecture with real-time distributed consensus replication across AWS and GCP regions.
   - **Details**: Redesign the entire backend database architecture with real-time distributed consensus replication across AWS and GCP regions.
