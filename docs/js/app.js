@@ -87,7 +87,8 @@ window.DiagnosticMarkersExplorer = {
     'CL': { name: 'Family CL (Colombia / Chile)', markers: [114, 8545, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers carry paternal nuclear DNA only and pass 0% mitochondrial DNA or familial diagnostic markers to offspring.' },
     'AA': { name: 'Family AA (African)', markers: [183, 5581, 9128, 11338], mother: 'AA_F_TON (Mother)', dadNote: 'Sub-Saharan African maternal root line transmitted maternally.' },
     'TB': { name: 'Family TB (Tibet)', markers: [8784, 12950, 16048], mother: 'TB_F_BHA (Mother)', dadNote: 'Tibetan maternal lineage transmitted strictly through mother.' },
-    'CA': { name: 'Family CA (Caucasian)', markers: [73, 146, 263], mother: 'CA_M_GER', dadNote: 'CA_M_GER (Father) does not pass down maternal mtDNA.' }
+    'CA': { name: 'Family CA (Caucasian)', markers: [73, 146, 263], mother: 'CA_M_GER', dadNote: 'CA_M_GER (Father) does not pass down maternal mtDNA.' },
+    'IW': { name: 'Family IW (India West)', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'IW_F_ANJM (Mother)', dadNote: 'IW_M_ANJF (Father) does NOT carry any of these familial diagnostic markers because mitochondrial DNA is passed down strictly through the mother (IW_F_ANJM). A child does not inherit paternal mtDNA or mutations from their father.' }
   },
 
   init() {
