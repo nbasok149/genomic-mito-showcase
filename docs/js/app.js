@@ -32,7 +32,7 @@ window.App = {
         // Trigger re-render of dynamic visualizers if needed
         if (target === 'heatmap' && window.DistanceHeatmap) {
           window.DistanceHeatmap.render();
-        } else if (target === 'tree' && window.TreeViewer) {
+        } else if ((target === 'tree' || target === 'family') && window.TreeViewer) {
           window.TreeViewer.render();
         }
       });

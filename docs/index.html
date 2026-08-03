@@ -28,7 +28,7 @@
         </div>
         <div>
           <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Genomic Mito Showcase
+            Genomic Mito Showcase - Advanced Analytics Suite
           </h1>
           <p class="text-xs text-slate-400">Human mtDNA Variant & Phylogenetics Engine</p>
         </div>
@@ -36,8 +36,11 @@
 
       <!-- Navigation Tabs -->
       <nav class="hidden md:flex space-x-1">
-        <button data-tab="overview" id="tab-overview" class="nav-tab active px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
-          Overview
+        <button data-tab="family" id="tab-family" class="nav-tab active px-4 py-2 text-sm rounded-md font-medium text-cyan-400 bg-cyan-950/50 border border-cyan-800/60 hover:text-cyan-300">
+          🧬 Family Portal & Tree
+        </button>
+        <button data-tab="overview" id="tab-overview" class="nav-tab px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
+          Cohort Overview
         </button>
         <button data-tab="variants" id="tab-variants" class="nav-tab px-4 py-2 text-sm rounded-md font-medium text-slate-300 hover:text-cyan-400">
           Variant Table
@@ -59,9 +62,30 @@
           Compare Samples
         </button>
       </div>
-
     </div>
   </header>
+
+  <!-- Quick Metrics Bar (Brain Dump ST-002) -->
+  <section id="quick-metrics-bar" class="bg-slate-900/60 border-b border-slate-800/80 py-2.5 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs">
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-2">
+          <span class="text-slate-400">Total Samples:</span>
+          <span class="font-mono font-bold text-cyan-400 bg-cyan-950/50 px-2 py-0.5 rounded border border-cyan-800/50">1,240</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="text-slate-400">Variants Detected:</span>
+          <span class="font-mono font-bold text-blue-400 bg-blue-950/50 px-2 py-0.5 rounded border border-blue-800/50">85,400</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="text-slate-400">Pipeline Status:</span>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> Operational (Active)
+        </span>
+      </div>
+    </div>
+  </section>
 
   <!-- Hero Quick Metrics Bar -->
   <section class="bg-slate-900/60 border-b border-slate-800 py-6">
@@ -123,8 +147,173 @@
   <!-- Main View Container -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
+    <!-- Tab 0: Family Demographic Portal & Lineage Tree (Hero Focal Point) -->
+    <div id="content-family" class="tab-content space-y-8">
+      
+      <!-- Welcome Hero Card -->
+      <div class="glass-panel p-6 rounded-xl border border-cyan-500/30 relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/40">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-3">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>Family Lineage Portal • Focal Point View</span>
+            </div>
+            <h2 class="text-2xl font-extrabold text-slate-100 mb-1">Mitochondrial Family Demographic & Lineage Explorer</h2>
+            <p class="text-slate-300 text-sm max-w-2xl leading-relaxed">
+              Visualize maternal lineage relationships across your family cohort. Click any branch or node on the interactive tree to inspect lineage details and haplogroups.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-800/80 border border-slate-700 text-xs text-slate-300 space-y-1 min-w-[240px]">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Data Status:</span>
+              <span class="text-emerald-400 font-bold">Demographics Only</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Group Divisions:</span>
+              <span class="text-cyan-400 font-bold">Upload Ready (1 Hour)</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Privacy Mode:</span>
+              <span class="text-blue-400 font-bold">De-identified Cohort</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Focal Point Component: Interactive Phylogenetic Lineage Tree -->
+      <div class="glass-panel p-6 rounded-xl space-y-4">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="text-lg font-bold text-slate-100 flex items-center space-x-2">
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path></svg>
+              <span>Interactive Maternal Lineage Tree (Focal Point)</span>
+            </h3>
+            <p class="text-xs text-slate-400">Search for your family sample ID or click nodes to trace maternal ancestry.</p>
+          </div>
+          
+          <!-- Tree Search & Controls -->
+          <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <div class="relative flex-grow md:flex-grow-0 min-w-[220px]">
+              <input id="familyTreeSearchInput" type="text" placeholder="Search Sample ID or Haplogroup..." class="w-full px-3 py-1.5 bg-slate-900 border border-slate-700 rounded-md text-xs text-slate-200 focus:outline-none focus:border-cyan-500 transition-colors">
+            </div>
+            <select id="treeLayoutSelect" class="bg-slate-900 border border-slate-700 rounded-md px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
+              <option value="phylogram">Phylogram Layout</option>
+              <option value="radial">Radial Circle Layout</option>
+              <option value="cladogram">Cladogram Layout</option>
+            </select>
+            <button onclick="if(window.TreeViewer) window.TreeViewer.render()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-300 rounded-md transition-colors">
+              Reset Zoom
+            </button>
+          </div>
+        <!-- Family Groupings Filter Bar -->
+        <div class="flex flex-wrap items-center gap-2 pt-1 pb-2">
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2 font-mono">Family Groupings:</span>
+          <div id="familyGroupButtonsContainer" class="flex flex-wrap items-center gap-2">
+            <!-- Dynamic Family Buttons Rendered by TreeViewer -->
+          </div>
+        </div>
+
+        <!-- Tree Canvas Container -->
+        <div class="relative">
+          <div id="treeContainer" class="w-full overflow-hidden border border-slate-800 rounded-xl min-h-[550px] bg-slate-950 flex items-center justify-center">
+            <div class="text-slate-500 text-xs animate-pulse">Initializing Lineage Tree Visualizer...</div>
+          </div>
+        </div>
+
+        <!-- Selected Lineage Detail Card -->
+        <div id="familyLineageCard" class="pt-2">
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+            💡 <strong>Tip for Families:</strong> Click any circle/leaf node on the tree above or type a sample ID (e.g. <em>Sample_01</em> or <em>Haplogroup H1</em>) into the search bar to highlight your maternal lineage.
+          </div>
+        </div>
+      </div>
+
+      <!-- Demographic Group Divisions & Specific Markers Container -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1: Group Divisions Breakdown -->
+        <div class="glass-panel p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="font-bold text-slate-200 text-sm flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span>Demographic Group Divisions</span>
+            </h4>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">4 Main Clades</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-cyan-400 font-mono">Haplogroup H</span>
+                <div class="text-[11px] text-slate-400">European Maternal Lineage</div>
+              </div>
+              <span class="font-mono text-slate-200 font-bold">42%</span>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-purple-400 font-mono">Haplogroup L</span>
+                <div class="text-[11px] text-slate-400">African Maternal Ancestry</div>
+              </div>
+              <span class="font-mono text-slate-200 font-bold">28%</span>
+            </div>
+            <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="font-bold text-emerald-400 font-mono">Haplogroup M / N</span>
+                <div class="text-[11px] text-slate-400">Asian & Native American Lineages</div>
+              </div>
+              <span class="font-mono text-slate-200 font-bold">30%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Specific Markers Explorer -->
+        <div class="glass-panel p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="font-bold text-slate-200 text-sm flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>Specific Diagnostic Markers</span>
+            </h4>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">File Upload Pending</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Specific diagnostic markers and group division files will be populated automatically when uploaded within the hour.
+          </p>
+          <div class="p-3 rounded bg-slate-900/90 border border-dashed border-slate-700 text-center text-xs text-slate-400">
+            <svg class="w-6 h-6 mx-auto text-slate-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+            Ready to receive custom group divisions & marker definitions file.
+          </div>
+        </div>
+
+        <!-- Card 3: Family Privacy & Security Guarantee -->
+        <div class="glass-panel p-5 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h4 class="font-bold text-slate-200 text-sm flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>Privacy & Security Protocol</span>
+            </h4>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Protected</span>
+          </div>
+          <div class="space-y-2 text-xs text-slate-300">
+            <div class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>De-Identified Data:</strong> Family names and raw sequences are replaced with anonymized cohort identifiers.</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>Maternal Lineage Only:</strong> Displays non-medical mitochondrial inheritance paths.</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span><strong>Distributable Portal:</strong> Safe to share link directly with family members.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
     <!-- Tab 1: Overview Dashboard -->
-    <div id="content-overview" class="tab-content space-y-8">
+    <div id="content-overview" class="tab-content hidden space-y-8">
       
       <!-- Welcome Banner -->
       <div class="glass-panel p-6 rounded-xl border border-cyan-500/20 relative overflow-hidden">
