@@ -1,0 +1,9 @@
+# Python & Node Temp Files
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+
+# Temporary Local Backups
+data_backup/
+brain_dump_raw.txt

@@ -254,31 +254,49 @@ def export_all():
                         except (ValueError, IndexError):
                             continue
 
-    common_polymorphisms = [
-        (73, "A", "G"), (263, "A", "G"), (309, "C", "CT"), (750, "A", "G"),
-        (1438, "A", "G"), (2706, "A", "G"), (4769, "A", "G"), (7028, "C", "T"),
-        (8860, "A", "G"), (11719, "G", "A"), (14766, "C", "T"), (15326, "A", "G"),
-        (16519, "T", "C"), (310, "T", "C"), (514, "C", "CA"), (3092, "T", "C"),
-        (4216, "T", "C"), (4917, "A", "G"), (8697, "G", "A"), (10400, "C", "T"),
-        (10873, "T", "C"), (12308, "A", "G"), (12705, "C", "T"), (13708, "G", "A"),
-        (16069, "C", "T"), (16126, "T", "C"), (16223, "C", "T"), (16311, "T", "C"),
-        (146, "T", "C"), (152, "T", "C"), (182, "C", "T"), (185, "G", "A"),
-        (189, "A", "G"), (195, "T", "C"), (198, "C", "T"), (200, "A", "G"),
-        (207, "G", "A"), (247, "G", "A"), (499, "G", "A"), (524, "A", "AC")
+    # Pan-Human Universal Root Variants (shared across all human mtDNA relative to rCRS)
+    universal_root_vars = [
+        (263, "A", "G"), (750, "A", "G"), (1438, "A", "G"), (2706, "A", "G"),
+        (4769, "A", "G"), (7028, "C", "T"), (8860, "A", "G"), (15326, "A", "G"),
+        (16519, "T", "C")
     ]
-    
-    random.seed(42)
+
+    # Population / Ethnicity Haplogroup Defining Variants
+    population_haplo_vars = {
+        "UK": [(650, "C", "T"), (8395, "A", "G"), (10885, "T", "C"), (11566, "A", "G"), (14467, "A", "G"), (16356, "T", "C"), (16192, "C", "T"), (12308, "A", "G"), (12372, "G", "A")],
+        "MX": [(499, "G", "A"), (4823, "C", "T"), (6297, "T", "C"), (8047, "A", "G"), (9039, "T", "C"), (13590, "G", "A"), (16183, "A", "C"), (16189, "T", "C"), (16217, "T", "C")],
+        "IN": [(593, "T", "C"), (5075, "A", "G"), (6020, "C", "T"), (10400, "C", "T"), (12792, "C", "T"), (14783, "T", "C"), (15043, "G", "A"), (15692, "A", "G"), (15859, "G", "A")],
+        "IS": [(5186, "A", "G"), (9094, "C", "T"), (9614, "T", "C"), (12793, "T", "C"), (13194, "A", "G"), (13656, "C", "T"), (15930, "G", "A")],
+        "IW": [(5508, "G", "A"), (8594, "C", "T"), (10084, "T", "C"), (10754, "A", "G"), (11293, "C", "T"), (13635, "G", "A"), (13971, "A", "G"), (14990, "G", "A"), (15385, "T", "C")],
+        "HK": [(5821, "G", "A"), (6338, "T", "C"), (6455, "C", "T"), (8602, "T", "C"), (9540, "T", "C"), (14821, "A", "G"), (16223, "C", "T")],
+        "KR": [(63, "C", "T"), (1709, "T", "C"), (2882, "T", "C"), (3010, "G", "A"), (8414, "C", "T"), (9817, "T", "C"), (13544, "A", "G"), (14668, "C", "T"), (15565, "T", "C"), (15669, "C", "T"), (16362, "T", "C")],
+        "PK": [(511, "C", "T"), (3594, "C", "T"), (7269, "G", "A"), (7805, "C", "T"), (13680, "C", "T"), (15479, "T", "C")],
+        "CL": [(114, "C", "T"), (3552, "T", "C"), (8545, "C", "T"), (9545, "A", "G"), (11914, "G", "A"), (13263, "A", "G"), (15323, "G", "A"), (16298, "T", "C"), (16327, "C", "T")],
+        "AA": [(183, "A", "G"), (2758, "A", "G"), (5581, "A", "G"), (7175, "T", "C"), (9128, "A", "G"), (11338, "C", "T"), (13803, "A", "G"), (14308, "T", "C"), (15784, "T", "C"), (16278, "C", "T")],
+        "TB": [(3394, "T", "C"), (4491, "G", "A"), (8784, "C", "T"), (12950, "A", "G"), (14305, "G", "A"), (15535, "C", "T"), (16048, "C", "T"), (16319, "G", "A")],
+        "CA": [(73, "A", "G"), (146, "T", "C"), (4769, "A", "G")],
+        "SA": [(709, "A", "G"), (1888, "G", "A"), (4216, "T", "C"), (8697, "G", "A"), (10463, "T", "C"), (11251, "A", "G"), (13368, "G", "A"), (14905, "G", "A"), (15452, "C", "A"), (15607, "A", "G"), (16126, "T", "C"), (16294, "C", "T")],
+        "NA": [(64, "T", "C"), (152, "T", "C"), (235, "A", "G"), (663, "A", "G"), (1736, "A", "G"), (4248, "T", "C"), (4824, "A", "G"), (8027, "G", "A"), (8794, "C", "T"), (12007, "G", "A"), (16111, "C", "T"), (16290, "C", "T"), (16319, "G", "A")]
+    }
+
     for sample in samples:
-        n_vars = random.randint(30, 38)
-        selected_polys = random.sample(common_polymorphisms, min(n_vars, len(common_polymorphisms)))
-        for pos, ref_b, alt_b in selected_polys:
+        prefix = sample.split('_')[0]
+        sample_target_vars = list(universal_root_vars)
+        if prefix in population_haplo_vars:
+            sample_target_vars.extend(population_haplo_vars[prefix])
+        
+        # Add 1-2 private sample-specific mutations
+        sample_hash = sum(ord(c) for c in sample)
+        priv_pos = 16000 + (sample_hash % 500)
+        sample_target_vars.append((priv_pos, "T", "C"))
+
+        for pos, ref_b, alt_b in sample_target_vars:
             vkey = (sample, pos, ref_b, alt_b)
             if vkey not in seen_keys:
                 seen_keys.add(vkey)
-                vaf = round(random.uniform(0.12, 0.99), 3)
-                depth = random.randint(30, 250)
-                bias = round(random.uniform(0.01, 0.28), 3)
-                status = "PASS" if bias < 0.8 else "FAIL_BIAS"
+                vaf = round(random.uniform(0.75, 0.99), 3)
+                depth = random.randint(40, 250)
+                bias = round(random.uniform(0.01, 0.20), 3)
                 variants.append({
                     "id": f"VAR_{var_id_counter:04d}",
                     "sample": sample,
@@ -290,7 +308,7 @@ def export_all():
                     "strand_bias": bias,
                     "homopolymer": pos in [309, 310, 514, 16184, 16189],
                     "gene": annotate_pos(pos),
-                    "status": status
+                    "status": "PASS"
                 })
                 var_id_counter += 1
 
@@ -299,7 +317,7 @@ def export_all():
             "total_samples": len(samples) if samples else 43,
             "total_variants": len(variants),
             "reference_genome": "rCRS (NC_012920.1)",
-            "generated_at": "2026-08-02T23:15:00Z"
+            "generated_at": "2026-08-03T18:40:00Z"
         },
         "variants": variants
     }
@@ -310,3 +328,4 @@ def export_all():
 
 if __name__ == "__main__":
     export_all()
+
