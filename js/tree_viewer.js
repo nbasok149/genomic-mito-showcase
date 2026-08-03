@@ -1,7 +1,7 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
  * Clean diagram with ZERO 'Clade' text, ZERO '[U4]' haplogroup brackets, click-to-reveal sample labels,
- * and automatic Family Comparative Report trigger on family click.
+ * and father sample click trigger for maternal transmission notes.
  */
 
 window.TreeViewer = {
@@ -36,7 +36,7 @@ window.TreeViewer = {
     function traverse(node) {
       if (node.name && !node.name.includes('Clade')) {
         const parts = node.name.split('_');
-        let familyKey = parts[0]; // Cohort prefix e.g. MX, HK, UK, IN, IS, AA
+        let familyKey = parts[0];
         const familyName = `Family ${familyKey}`;
         
         if (!familiesMap.has(familyName)) {
@@ -81,10 +81,9 @@ window.TreeViewer = {
     this.render();
     this.highlightFamilyCluster(familyName);
 
-    if (familyName !== 'all' && window.FamilyReportGenerator) {
+    if (familyName !== 'all' && window.DiagnosticMarkersExplorer) {
       const code = familyName.replace('Family ', '').trim();
-      const defaultOther = code === 'MX' ? 'HK' : 'MX';
-      window.FamilyReportGenerator.openReportModal(code, defaultOther);
+      window.DiagnosticMarkersExplorer.displayFamily(code, null);
     }
   },
 
@@ -347,6 +346,10 @@ window.TreeViewer = {
     const code = rawName.split('_')[0];
     const familyName = `Family ${code}`;
     this.selectFamily(familyName);
+
+    if (window.DiagnosticMarkersExplorer) {
+      window.DiagnosticMarkersExplorer.displayFamily(code, rawName);
+    }
   },
 
   updateFamilyDataPanel(familyName, matchedNodes = []) {

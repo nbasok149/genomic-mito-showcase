@@ -77,17 +77,17 @@ window.FamilyAccessGate = {
 
 window.DiagnosticMarkersExplorer = {
   FAMILY_MARKERS: {
-    'MX': { name: 'Family MX (Mexico)', markers: [6297, 8047, 9039], mother: 'MX_F_CRY (Mother)', dadNote: 'MX_M_CRYF (Dad) does NOT carry any of these familial diagnostic markers because mitochondrial DNA is passed down strictly through the mother (MX_F_CRY). A child does not inherit paternal mtDNA or mutations from their father.' },
-    'HK': { name: 'Family HK (Hong Kong)', markers: [5821, 6338, 8602, 14821], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Dad) carries non-transmitted paternal mtDNA line; children inherit 100% of maternal markers from HK_F_JAN.' },
-    'UK': { name: 'Family UK (Ukraine)', markers: [650, 8395, 10885, 11566, 14467], mother: 'UK_F_NIKA (Mother)', dadNote: 'UK_M_NIK (Dad) does not transmit familial mtDNA markers to children.' },
-    'IN_RIS': { name: 'Family IN_RIS (India)', markers: [593, 5075, 6020, 12792, 15692, 15859], mother: 'IN_F_RISM (Mother)', dadNote: 'IN_M_RISF (Dad) does NOT carry any of these familial diagnostic markers because mtDNA is strictly passed down maternally from mother (IN_F_RISM) to children.' },
+    'MX': { name: 'Family MX (Mexico)', markers: [6297, 8047, 9039], mother: 'MX_F_CRY (Mother)', dadNote: 'MX_M_CRYF (Father) does NOT carry any of these familial diagnostic markers because mitochondrial DNA is passed down strictly through the mother (MX_F_CRY). A child does not inherit paternal mtDNA or mutations from their father.' },
+    'HK': { name: 'Family HK (Hong Kong)', markers: [5821, 6338, 8602, 14821], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Father) carries non-transmitted paternal mtDNA line; children inherit 100% of maternal markers from HK_F_JAN.' },
+    'UK': { name: 'Family UK (Ukraine)', markers: [650, 8395, 10885, 11566, 14467], mother: 'UK_F_NIKA (Mother)', dadNote: 'UK_M_NIK / UK_M_NIKS1 (Fathers) do not transmit familial mtDNA markers to children.' },
+    'IN_RIS': { name: 'Family IN_RIS (India)', markers: [593, 5075, 6020, 12792, 15692, 15859], mother: 'IN_F_RISM (Mother)', dadNote: 'IN_M_RISF (Father) does NOT carry any of these familial diagnostic markers because mtDNA is strictly passed down maternally from mother (IN_F_RISM) to children.' },
     'IS_VYS': { name: 'Family IS_VYS (India South / VYS)', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'IS_F_VYSM (Mother)', dadNote: 'IS_M_RAV / IS_M_SEL (Fathers) carry unrelated paternal lines and do not pass down VYS familial markers.' },
-    'PK': { name: 'Family PK (Pakistan)', markers: [511, 7805, 15479], mother: 'PK_F_WAS (Mother)', dadNote: 'PK_M_WASH (Dad) does not transmit familial markers to children.' },
+    'PK': { name: 'Family PK (Pakistan)', markers: [511, 7805, 15479], mother: 'PK_F_WAS (Mother)', dadNote: 'PK_M_WASH / PK_M_WASC1 (Fathers) do not transmit familial markers to children.' },
     'KR': { name: 'Family KR (Korea)', markers: [63, 1709, 2882, 9817, 13544, 15565, 15669], mother: 'KR_F_MOO (Mother)', dadNote: 'Fathers carry 0% transmitted mitochondrial DNA.' },
     'CL': { name: 'Family CL (Colombia / Chile)', markers: [114, 8545, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers carry paternal nuclear DNA only and pass 0% mitochondrial DNA or familial diagnostic markers to offspring.' },
     'AA': { name: 'Family AA (African)', markers: [183, 5581, 9128, 11338], mother: 'AA_F_TON (Mother)', dadNote: 'Sub-Saharan African maternal root line transmitted maternally.' },
     'TB': { name: 'Family TB (Tibet)', markers: [8784, 12950, 16048], mother: 'TB_F_BHA (Mother)', dadNote: 'Tibetan maternal lineage transmitted strictly through mother.' },
-    'CA': { name: 'Family CA (Caucasian)', markers: [73, 146, 263], mother: 'CA_M_GER', dadNote: 'Caucasian maternal line.' }
+    'CA': { name: 'Family CA (Caucasian)', markers: [73, 146, 263], mother: 'CA_M_GER', dadNote: 'CA_M_GER (Father) does not pass down maternal mtDNA.' }
   },
 
   init() {
@@ -106,29 +106,37 @@ window.DiagnosticMarkersExplorer = {
     this.displayFamily('MX');
   },
 
-  displayFamily(key) {
+  displayFamily(key, clickedSampleName = null) {
     const data = this.FAMILY_MARKERS[key] || this.FAMILY_MARKERS['MX'];
     const container = document.getElementById('diagnosticMarkersCardContainer');
     if (!container) return;
+
+    const isFather = clickedSampleName ? (clickedSampleName.includes('_M_') || clickedSampleName.includes('_M') || clickedSampleName.endsWith('F')) : false;
+
+    let fatherHtml = '';
+    if (isFather) {
+      fatherHtml = `
+        <div class="p-3.5 rounded-xl bg-orange-950/40 border border-orange-800/80 space-y-1.5 font-sans mt-3">
+          <div class="text-orange-400 font-bold text-xs font-mono">🧬 Father Sample Note (${clickedSampleName}):</div>
+          <p class="text-stone-300 leading-relaxed text-[11.5px]">
+            ${data.dadNote}
+          </p>
+        </div>
+      `;
+    }
 
     container.innerHTML = `
       <div class="space-y-3 font-mono text-xs">
         <div class="p-3.5 rounded-xl bg-amber-950/40 border border-amber-800/80">
           <div class="text-amber-300 font-bold mb-1.5 flex items-center justify-between">
             <span>Familial Diagnostic Position Markers:</span>
-            <span class="text-[10px] text-stone-400 font-sans font-normal">Cross-database filtered (&le; 2 matches in OGC, Norwegian, Swedish)</span>
+            <span class="text-[10px] text-stone-400 font-sans font-normal">Filtered (&le; 2 matches in OGC, Norwegian, Swedish)</span>
           </div>
           <div class="text-stone-100 font-extrabold text-sm tracking-wide">
             ${data.markers.map(m => `<span class="bg-amber-900/70 text-amber-200 px-2.5 py-1 rounded-lg border border-amber-700/80 mr-1.5 inline-block mb-1 shadow-sm">m.${m}</span>`).join('')}
           </div>
         </div>
-
-        <div class="p-3.5 rounded-xl bg-stone-900 border border-stone-800 space-y-1.5 font-sans">
-          <div class="text-orange-400 font-bold text-xs font-mono">🧬 Maternal Transmission Rule:</div>
-          <p class="text-stone-300 leading-relaxed text-[11.5px]">
-            ${data.dadNote}
-          </p>
-        </div>
+        ${fatherHtml}
       </div>
     `;
   }
