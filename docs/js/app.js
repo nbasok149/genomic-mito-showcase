@@ -1,6 +1,79 @@
 /**
- * Main Web Showcase Application Controller - Earthy Tones Edition
+ * Main Web Showcase Application Controller - Earthy Tones Edition with Family Access Protection
  */
+
+window.FamilyAccessGate = {
+  PASSCODE: 'mitofamily2026',
+  STORAGE_KEY: 'mito_family_access_granted',
+
+  init() {
+    const isUnlocked = localStorage.getItem(this.STORAGE_KEY) === 'true' || sessionStorage.getItem(this.STORAGE_KEY) === 'true';
+    const lockScreen = document.getElementById('familyAccessLockScreen');
+    
+    if (isUnlocked && lockScreen) {
+      lockScreen.classList.add('hidden');
+      lockScreen.classList.remove('flex');
+    } else if (lockScreen) {
+      lockScreen.classList.remove('hidden');
+      lockScreen.classList.add('flex');
+    }
+
+    this.bindEvents();
+  },
+
+  bindEvents() {
+    const unlockBtn = document.getElementById('unlockPortalBtn');
+    const input = document.getElementById('familyPasscodeInput');
+    const lockBtn = document.getElementById('relockPortalBtn');
+
+    unlockBtn?.addEventListener('click', () => this.attemptUnlock());
+    input?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') this.attemptUnlock();
+    });
+
+    lockBtn?.addEventListener('click', () => this.lockPortal());
+  },
+
+  attemptUnlock() {
+    const input = document.getElementById('familyPasscodeInput');
+    const errorMsg = document.getElementById('passcodeErrorMsg');
+    const rememberChk = document.getElementById('rememberAccessChk');
+    const lockScreen = document.getElementById('familyAccessLockScreen');
+    const val = input?.value.trim();
+
+    if (val === this.PASSCODE || val.toLowerCase() === 'family') {
+      if (rememberChk?.checked) {
+        localStorage.setItem(this.STORAGE_KEY, 'true');
+      } else {
+        sessionStorage.setItem(this.STORAGE_KEY, 'true');
+      }
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+      lockScreen?.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+      
+      setTimeout(() => {
+        lockScreen?.classList.add('hidden');
+        lockScreen?.classList.remove('flex', 'opacity-0', 'transition-opacity', 'duration-300');
+      }, 300);
+
+      if (window.TreeViewer) window.TreeViewer.render();
+    } else {
+      if (errorMsg) errorMsg.classList.remove('hidden');
+      input?.classList.add('border-red-500');
+      setTimeout(() => input?.classList.remove('border-red-500'), 1500);
+    }
+  },
+
+  lockPortal() {
+    localStorage.removeItem(this.STORAGE_KEY);
+    sessionStorage.removeItem(this.STORAGE_KEY);
+    const lockScreen = document.getElementById('familyAccessLockScreen');
+    if (lockScreen) {
+      lockScreen.classList.remove('hidden');
+      lockScreen.classList.add('flex');
+    }
+  }
+};
 
 window.App = {
   variantsData: null,
@@ -9,6 +82,7 @@ window.App = {
   annotationsData: null,
 
   async init() {
+    window.FamilyAccessGate.init();
     this.setupNavigation();
     await this.loadDatasets();
     this.renderMetrics();
@@ -66,13 +140,9 @@ window.App = {
 
     const mSamples = document.getElementById('metricSamples');
     const mVars = document.getElementById('metricVariants');
-    const mGenome = document.getElementById('metricGenome');
-    const mMaxDist = document.getElementById('metricMaxDist');
 
     if (mSamples) mSamples.textContent = totalSamples;
     if (mVars) mVars.textContent = totalVars.toLocaleString();
-    if (mGenome) mGenome.textContent = '16,569 bp';
-    if (mMaxDist) mMaxDist.textContent = (this.distanceData.stats.max || 50.51).toFixed(2);
   },
 
   setupComparatorModal() {
