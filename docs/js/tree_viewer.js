@@ -1,7 +1,7 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
  * Clean diagram with ZERO 'Clade' text, ZERO '[U4]' haplogroup brackets, click-to-reveal sample labels,
- * and multi-ethnicity comparative selection (1 to 3 groups with simultaneous line lighting).
+ * click-to-deselect sample toggle, and internal branch node circle junction inspector for muted low-VAF mutations.
  */
 
 window.TreeViewer = {
@@ -82,13 +82,19 @@ window.TreeViewer = {
     this.renderFamilyGroupButtons();
     this.render();
     this.highlightFamilyCluster();
+
+    const modal = document.getElementById('familyReportModal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
   },
 
   toggleEthnicitySelection(code) {
     const cleanCode = code.replace('Ethnicity ', '').replace('Family ', '').trim();
     
     if (this.selectedEthnicities.includes(cleanCode)) {
-      // Toggle off
+      // Toggle off / deselect on second click!
       this.selectedEthnicities = this.selectedEthnicities.filter(c => c !== cleanCode);
     } else {
       // Toggle on: max 3 selections
@@ -109,6 +115,12 @@ window.TreeViewer = {
         this.selectedEthnicities[1],
         this.selectedEthnicities[2] || null
       );
+    } else if (this.selectedEthnicities.length === 0) {
+      const modal = document.getElementById('familyReportModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
     }
 
     if (this.selectedEthnicities.length > 0 && window.DiagnosticMarkersExplorer) {
@@ -189,7 +201,7 @@ window.TreeViewer = {
     const term = query.trim().toLowerCase();
     const svg = d3.select('#treeContainer svg');
     if (!svg.node() || !term) {
-      svg.selectAll('.tree-node circle').style('r', d => d.children ? 3.5 : 5.5).style('stroke', '#f97316');
+      svg.selectAll('.tree-node circle').style('r', d => d.children ? 6 : 5.5).style('stroke', d => d.children ? '#d97706' : '#f97316');
       svg.selectAll('.tree-node').each(function() {
         d3.select(this).select('.family-label-text').style('display', 'block');
         d3.select(this).select('.sample-label-text').style('display', 'none');
@@ -202,8 +214,8 @@ window.TreeViewer = {
       const isMatch = name.includes(term) && !name.includes('clade');
 
       d3.select(this).select('circle')
-        .style('r', isMatch ? 9 : (d.children ? 3.5 : 5.5))
-        .style('stroke', isMatch ? '#ffffff' : '#f97316')
+        .style('r', isMatch ? 9 : (d.children ? 6 : 5.5))
+        .style('stroke', isMatch ? '#ffffff' : (d.children ? '#d97706' : '#f97316'))
         .style('stroke-width', isMatch ? '3px' : '2px');
         
       if (isMatch) {
@@ -288,9 +300,9 @@ window.TreeViewer = {
         .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`);
 
       node.append('circle')
-        .attr('r', d => d.children ? 3.5 : 5.5)
-        .style('fill', d => d.children ? '#10b981' : '#34d399')
-        .style('stroke', '#f97316')
+        .attr('r', d => d.children ? 6 : 5.5)
+        .style('fill', d => d.children ? '#f59e0b' : '#34d399')
+        .style('stroke', d => d.children ? '#d97706' : '#f97316')
         .style('stroke-width', '2px')
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
@@ -360,9 +372,9 @@ window.TreeViewer = {
         .attr('transform', d => `translate(${d.y},${d.x})`);
 
       node.append('circle')
-        .attr('r', d => d.children ? 3.5 : 5.5)
-        .style('fill', d => d.children ? '#10b981' : '#34d399')
-        .style('stroke', '#f97316')
+        .attr('r', d => d.children ? 6 : 5.5)
+        .style('fill', d => d.children ? '#f59e0b' : '#34d399')
+        .style('stroke', d => d.children ? '#d97706' : '#f97316')
         .style('stroke-width', '2px')
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
@@ -396,6 +408,12 @@ window.TreeViewer = {
   },
 
   onNodeClick(d) {
+    // If it's an internal branch junction node (circle between samples with children)
+    if (d.children) {
+      this.onInternalNodeClick(d);
+      return;
+    }
+
     const rawName = d.data.name || '';
     if (!rawName || rawName.includes('Clade')) return;
 
@@ -407,6 +425,175 @@ window.TreeViewer = {
     }
   },
 
+  onInternalNodeClick(d) {
+    const modal = document.getElementById('junctionInspectorModal');
+    const titleEl = document.getElementById('junctionModalTitle');
+    const bodyEl = document.getElementById('junctionModalBody');
+    const closeBtn = document.getElementById('closeJunctionModalBtn');
+
+    if (!modal || !bodyEl || !window.App.variantsData) return;
+
+    // Get all descendant leaf sample names
+    const leaves = d.leaves().map(leaf => leaf.data.name).filter(Boolean);
+    if (leaves.length < 1) return;
+
+    let sampleA = leaves[0];
+    let sampleB = leaves.length > 1 ? leaves[1] : leaves[0];
+    
+    if (d.children && d.children.length >= 2) {
+      const branch1 = d.children[0].leaves().map(l => l.data.name).filter(Boolean);
+      const branch2 = d.children[1].leaves().map(l => l.data.name).filter(Boolean);
+      if (branch1.length > 0) sampleA = branch1[0];
+      if (branch2.length > 0) sampleB = branch2[0];
+    }
+
+    const nodeName = d.data.name || 'Junction Node';
+
+    // Get variants for sampleA and sampleB
+    const varsA = window.App.variantsData.variants.filter(v => v.sample === sampleA);
+    const varsB = window.App.variantsData.variants.filter(v => v.sample === sampleB);
+
+    const mapA = new Map(varsA.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
+    const mapB = new Map(varsB.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
+
+    const sharedHigh = [];
+    const lowVafMuted = [];
+
+    // Find low VAF variants (< 15% VAF) indicative of muted mutations over time
+    varsA.forEach(vA => {
+      if (vA.vaf > 0 && vA.vaf < 0.15) {
+        lowVafMuted.push(vA);
+      }
+    });
+
+    varsB.forEach(vB => {
+      if (vB.vaf > 0 && vB.vaf < 0.15) {
+        if (!lowVafMuted.some(m => m.pos === vB.pos && m.ref === vB.ref && m.alt === vB.alt && m.sample === vB.sample)) {
+          lowVafMuted.push(vB);
+        }
+      }
+    });
+
+    // Find conserved high VAF shared variants between sampleA and sampleB
+    mapA.forEach((vA, key) => {
+      if (mapB.has(key)) {
+        const vB = mapB.get(key);
+        if (vA.vaf >= 0.15 && vB.vaf >= 0.15) {
+          sharedHigh.push(vA);
+        }
+      }
+    });
+
+    if (titleEl) {
+      titleEl.innerHTML = `
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+        <span>Ancestral Branch Junction Inspector — ${sampleA} & ${sampleB}</span>
+      `;
+    }
+
+    bodyEl.innerHTML = `
+      <div class="space-y-6 font-sans">
+        
+        <!-- Header Banner -->
+        <div class="p-5 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-3 font-mono">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3">
+            <div>
+              <div class="text-xs text-orange-400 font-bold uppercase tracking-wider">Internal Branch Node: ${nodeName}</div>
+              <div class="text-lg font-extrabold text-stone-100">${sampleA} <span class="text-stone-500">↔</span> ${sampleB}</div>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-amber-400 font-bold">
+              ${leaves.length} Descendant Lineages
+            </div>
+          </div>
+          <div class="text-xs text-stone-300 font-sans leading-relaxed">
+            <strong class="text-stone-200">Descendant Lineages Under Junction:</strong>
+            <span class="text-orange-400 font-mono text-[11px] block pt-1">${leaves.join(', ')}</span>
+          </div>
+        </div>
+
+        <!-- Low VAF / Muted Mutations Highlight Section -->
+        <div class="p-5 rounded-2xl bg-stone-900/90 border border-amber-800/60 space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-3">
+            <div>
+              <h4 class="font-bold text-amber-400 font-mono text-sm flex items-center gap-2">
+                <span>📉 Low VAF / Muted Mutations Analysis</span>
+              </h4>
+              <p class="text-stone-400 text-[11px] mt-0.5">Indicative of mutations muted or decaying over time via maternal bottleneck drift</p>
+            </div>
+            <span class="px-3 py-1 rounded-lg bg-amber-950 text-amber-300 border border-amber-800/80 font-mono text-xs font-bold">
+              ${lowVafMuted.length} Muted Heteroplasmies Detected
+            </span>
+          </div>
+
+          <p class="text-stone-300 text-xs leading-relaxed">
+            Variants present at low allele frequencies (<strong>VAF &lt; 15%</strong>) in these lineage branches represent <strong>muted or decaying mutations</strong>. Over generations, mitochondrial bottleneck drift and purifying selection reduce heteroplasmy, causing certain mutations to fade over time.
+          </p>
+
+          <!-- Low VAF Variants Table -->
+          <div class="max-h-60 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950 font-mono text-xs">
+            <table class="w-full text-left">
+              <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800">
+                <tr>
+                  <th class="p-2.5">Position</th>
+                  <th class="p-2.5">Mutation</th>
+                  <th class="p-2.5">Sample</th>
+                  <th class="p-2.5">Low VAF %</th>
+                  <th class="p-2.5">Gene / Locus</th>
+                  <th class="p-2.5">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-800/60 text-[11px]">
+                ${lowVafMuted.length > 0 ? lowVafMuted.map(m => `
+                  <tr class="hover:bg-stone-900/40">
+                    <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
+                    <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
+                    <td class="p-2.5 text-orange-300">${m.sample}</td>
+                    <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% VAF</td>
+                    <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
+                    <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded border border-amber-800 text-[10px]">Muted over time</span></td>
+                  </tr>
+                `).join('') : `
+                  <tr>
+                    <td colspan="6" class="p-4 text-center text-stone-500">
+                      No low VAF (&lt;15%) muted mutations detected between these representative samples.
+                    </td>
+                  </tr>
+                `}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Shared High VAF Mutations Section -->
+        <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
+          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+            <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
+              <span>🧬 Conserved Ancestral Mutations (${sharedHigh.length})</span>
+            </h4>
+            <span class="text-stone-400 font-sans text-[11px]">High VAF conserved motifs along junction</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+            ${sharedHigh.length > 0 ? sharedHigh.slice(0, 9).map(m => `
+              <div class="p-2.5 rounded-xl bg-stone-950 border border-emerald-900/60 flex items-center justify-between">
+                <span class="text-emerald-300 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                <span class="text-stone-400 text-[10px] truncate">${m.gene || 'D-loop'}</span>
+              </div>
+            `).join('') : '<div class="col-span-full p-3 text-stone-500 text-center">No high VAF shared mutations found along this branch.</div>'}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    closeBtn.onclick = () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  },
+
   updateFamilyDataPanel(selectedCodes = [], matchedNodes = []) {
     const detailBox = document.getElementById('familyLineageCard');
     if (!detailBox) return;
@@ -414,7 +601,7 @@ window.TreeViewer = {
     if (!selectedCodes || selectedCodes.length === 0) {
       detailBox.innerHTML = `
         <div class="p-3.5 rounded-xl bg-stone-900/90 border border-stone-800 text-xs text-stone-300 flex items-center justify-between font-mono">
-          <span>🌿 Click 1 to 3 ethnicity buttons or sample lines on the diagram to highlight comparative lineages.</span>
+          <span>🌿 Click 1 to 3 ethnicity buttons or sample lines on the diagram to highlight comparative lineages. Click an amber junction circle to inspect muted low-VAF variants.</span>
           <span class="text-[11px] text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/60">All Ethnicities View</span>
         </div>
       `;
