@@ -1,13 +1,13 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
  * Clean diagram with ZERO 'Clade' text, ZERO '[U4]' haplogroup brackets, click-to-reveal sample labels,
- * and father sample click trigger for maternal transmission notes.
+ * and multi-ethnicity comparative selection (1 to 3 groups with simultaneous line lighting).
  */
 
 window.TreeViewer = {
   treeData: null,
   activeLayout: 'phylogram', // phylogram, radial, cladogram
-  selectedFamily: 'all',
+  selectedEthnicities: [], // Array of up to 3 selected ethnicity codes e.g. ['UK', 'MX', 'HK']
   zoomBehavior: null,
   svgG: null,
 
@@ -31,25 +31,25 @@ window.TreeViewer = {
 
   extractFamilyGroupings() {
     if (!this.treeData) return [];
-    const familiesMap = new Map();
+    const groupingsMap = new Map();
     
     function traverse(node) {
       if (node.name && !node.name.includes('Clade')) {
         const parts = node.name.split('_');
-        let familyKey = parts[0];
-        const familyName = `Family ${familyKey}`;
+        let key = parts[0];
+        const ethName = `Ethnicity ${key}`;
         
-        if (!familiesMap.has(familyName)) {
-          familiesMap.set(familyName, { name: familyName, key: familyKey, samples: [] });
+        if (!groupingsMap.has(ethName)) {
+          groupingsMap.set(ethName, { name: ethName, key: key, samples: [] });
         }
-        familiesMap.get(familyName).samples.push(node.name);
+        groupingsMap.get(ethName).samples.push(node.name);
       }
       if (node.children) {
         node.children.forEach(traverse);
       }
     }
     traverse(this.treeData);
-    return Array.from(familiesMap.values());
+    return Array.from(groupingsMap.values());
   },
 
   renderFamilyGroupButtons() {
@@ -57,17 +57,19 @@ window.TreeViewer = {
     if (!container) return;
 
     const groupings = this.extractFamilyGroupings();
+    const isAll = this.selectedEthnicities.length === 0;
+
     let html = `
-      <button onclick="window.TreeViewer.selectFamily('all')" class="family-btn px-3 py-1 text-xs font-semibold rounded-md ${this.selectedFamily === 'all' ? 'bg-amber-600 text-stone-950 shadow-md shadow-amber-600/30' : 'bg-stone-900 text-stone-300 hover:bg-stone-800 border border-stone-800'} transition-all">
-        All Families (${groupings.length})
+      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3 py-1 text-xs font-semibold rounded-md ${isAll ? 'bg-amber-600 text-stone-950 shadow-md shadow-amber-600/30' : 'bg-stone-900 text-stone-300 hover:bg-stone-800 border border-stone-800'} transition-all">
+        All Ethnicities (${groupings.length})
       </button>
     `;
 
     groupings.forEach(g => {
-      const active = this.selectedFamily === g.name;
+      const active = this.selectedEthnicities.includes(g.key);
       html += `
-        <button onclick="window.TreeViewer.selectFamily('${g.name}')" class="family-btn px-3 py-1 text-xs font-semibold rounded-md ${active ? 'bg-orange-600 text-stone-950 shadow-md shadow-orange-600/30' : 'bg-stone-900 border border-stone-800 text-stone-300 hover:border-amber-500'} transition-all">
-          ${g.name} (${g.samples.length})
+        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3 py-1 text-xs font-semibold rounded-md ${active ? 'bg-orange-600 text-stone-950 shadow-md shadow-orange-600/30 font-bold border border-orange-400' : 'bg-stone-900 border border-stone-800 text-stone-300 hover:border-amber-500'} transition-all">
+          ${g.key} (${g.samples.length}) ${active ? '✓' : ''}
         </button>
       `;
     });
@@ -75,23 +77,52 @@ window.TreeViewer = {
     container.innerHTML = html;
   },
 
-  selectFamily(familyName) {
-    this.selectedFamily = familyName;
+  clearEthnicitySelection() {
+    this.selectedEthnicities = [];
     this.renderFamilyGroupButtons();
     this.render();
-    this.highlightFamilyCluster(familyName);
+    this.highlightFamilyCluster();
+  },
 
-    if (familyName !== 'all' && window.DiagnosticMarkersExplorer) {
-      const code = familyName.replace('Family ', '').trim();
-      window.DiagnosticMarkersExplorer.displayFamily(code, null);
+  toggleEthnicitySelection(code) {
+    const cleanCode = code.replace('Ethnicity ', '').replace('Family ', '').trim();
+    
+    if (this.selectedEthnicities.includes(cleanCode)) {
+      // Toggle off
+      this.selectedEthnicities = this.selectedEthnicities.filter(c => c !== cleanCode);
+    } else {
+      // Toggle on: max 3 selections
+      if (this.selectedEthnicities.length >= 3) {
+        this.selectedEthnicities = [cleanCode];
+      } else {
+        this.selectedEthnicities.push(cleanCode);
+      }
+    }
+
+    this.renderFamilyGroupButtons();
+    this.highlightFamilyCluster();
+
+    // Automatically trigger comparative report popup if 2 or 3 ethnicities are selected!
+    if (this.selectedEthnicities.length >= 2 && window.FamilyReportGenerator) {
+      window.FamilyReportGenerator.openReportModal(
+        this.selectedEthnicities[0],
+        this.selectedEthnicities[1],
+        this.selectedEthnicities[2] || null
+      );
+    }
+
+    if (this.selectedEthnicities.length > 0 && window.DiagnosticMarkersExplorer) {
+      window.DiagnosticMarkersExplorer.displayFamily(this.selectedEthnicities[0], null);
     }
   },
 
-  highlightFamilyCluster(familyName) {
+  highlightFamilyCluster() {
     const svg = d3.select('#treeContainer svg');
     if (!svg.node()) return;
 
-    if (familyName === 'all') {
+    const selectedCodes = this.selectedEthnicities;
+
+    if (!selectedCodes || selectedCodes.length === 0) {
       svg.selectAll('.tree-node').classed('dimmed', false);
       svg.selectAll('.tree-link').classed('dimmed', false).classed('family-active', false);
       svg.selectAll('.sample-label-text').style('display', 'none');
@@ -106,13 +137,14 @@ window.TreeViewer = {
       return;
     }
 
-    const key = familyName.replace('Family ', '').toLowerCase();
+    const lowerKeys = selectedCodes.map(c => c.toLowerCase());
     let matchedNodes = [];
 
     svg.selectAll('.tree-node').each(function(d) {
       const name = (d.data.name || '').toLowerCase();
       const samples = (d.data.samples || []).map(s => s.toLowerCase());
-      const isMatch = (name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
+      
+      const isMatch = lowerKeys.some(key => name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
       
       d3.select(this).classed('dimmed', !isMatch);
       if (isMatch) {
@@ -129,18 +161,20 @@ window.TreeViewer = {
     svg.selectAll('.tree-link').each(function(d) {
       const targetName = (d.target.data.name || '').toLowerCase();
       const targetSamples = (d.target.data.samples || []).map(s => s.toLowerCase());
-      const isMatch = (targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_'))) && !targetName.includes('clade');
+      
+      const isMatch = lowerKeys.some(key => targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_'))) && !targetName.includes('clade');
+      
       d3.select(this).classed('dimmed', !isMatch).classed('family-active', isMatch);
     });
 
-    // Zoom to matched family cluster cleanly without distorting or crowding labels
+    // Zoom to encompass ALL matched nodes cleanly across selected 1-3 ethnicities
     if (matchedNodes.length > 0 && this.svgG && this.zoomBehavior) {
       const avgX = d3.mean(matchedNodes, d => d.y);
       const avgY = d3.mean(matchedNodes, d => d.x);
       
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
       const height = 650;
-      const scale = 1.45;
+      const scale = selectedCodes.length > 1 ? 1.15 : 1.45;
 
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
@@ -148,7 +182,7 @@ window.TreeViewer = {
       );
     }
 
-    this.updateFamilyDataPanel(familyName, matchedNodes);
+    this.updateFamilyDataPanel(selectedCodes, matchedNodes);
   },
 
   searchAndHighlight(query) {
@@ -185,7 +219,7 @@ window.TreeViewer = {
   getFamilyName(rawName) {
     if (!rawName || rawName.includes('Clade')) return '';
     const parts = rawName.split('_');
-    return `Family ${parts[0]}`;
+    return `Ethnicity ${parts[0]}`;
   },
 
   getSampleName(rawName) {
@@ -261,7 +295,7 @@ window.TreeViewer = {
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
 
-      // Family Label (Small text, no haplogroup, no Clade text)
+      // Family/Ethnicity Label
       node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'family-label-text')
@@ -274,7 +308,7 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getFamilyName(d.data.name));
 
-      // Sample Label (Revealed on click/selection)
+      // Sample Label
       node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'sample-label-text')
@@ -333,7 +367,7 @@ window.TreeViewer = {
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
 
-      // Family Label (Small text, no haplogroup, no Clade text)
+      // Ethnicity Label
       node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'family-label-text')
@@ -345,7 +379,7 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getFamilyName(d.data.name));
 
-      // Sample Label (Revealed on click/selection)
+      // Sample Label
       node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'sample-label-text')
@@ -366,48 +400,55 @@ window.TreeViewer = {
     if (!rawName || rawName.includes('Clade')) return;
 
     const code = rawName.split('_')[0];
-    const familyName = `Family ${code}`;
-    this.selectFamily(familyName);
+    this.toggleEthnicitySelection(code);
 
     if (window.DiagnosticMarkersExplorer) {
       window.DiagnosticMarkersExplorer.displayFamily(code, rawName);
     }
   },
 
-  updateFamilyDataPanel(familyName, matchedNodes = []) {
+  updateFamilyDataPanel(selectedCodes = [], matchedNodes = []) {
     const detailBox = document.getElementById('familyLineageCard');
     if (!detailBox) return;
 
-    if (!familyName || familyName === 'all') {
+    if (!selectedCodes || selectedCodes.length === 0) {
       detailBox.innerHTML = `
         <div class="p-3.5 rounded-xl bg-stone-900/90 border border-stone-800 text-xs text-stone-300 flex items-center justify-between font-mono">
-          <span>🌿 Click any family button or node on the diagram to inspect comparative family reports.</span>
-          <span class="text-[11px] text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/60">All Families View</span>
+          <span>🌿 Click 1 to 3 ethnicity buttons or sample lines on the diagram to highlight comparative lineages.</span>
+          <span class="text-[11px] text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/60">All Ethnicities View</span>
         </div>
       `;
       return;
     }
 
     const sampleNames = matchedNodes.map(n => n.data.name).filter(n => n && !n.includes('Clade')).join(', ');
-    const nodeCount = matchedNodes.filter(n => n.data.name && !n.data.name.includes('Clade')).length || 1;
-    const code = familyName.replace('Family ', '').trim();
-    const defaultOther = code === 'MX' ? 'HK' : 'MX';
+    const code1 = selectedCodes[0] || 'MX';
+    const code2 = selectedCodes[1] || (code1 === 'MX' ? 'HK' : 'MX');
+    const code3 = selectedCodes[2] || '';
+
+    const badges = selectedCodes.map(c => `<span class="bg-orange-950 text-orange-300 px-2 py-0.5 rounded border border-orange-800 font-bold">Ethnicity ${c}</span>`).join(' ');
 
     detailBox.innerHTML = `
       <div class="p-4 rounded-xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 text-xs space-y-3 shadow-xl font-mono">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div class="flex items-center space-x-2">
             <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
-            <span class="font-extrabold text-orange-300 text-sm">${familyName} Data Breakdown</span>
+            <span class="font-extrabold text-orange-300 text-sm">Selected (${selectedCodes.length}/3):</span>
+            <div class="flex items-center space-x-1">${badges}</div>
           </div>
-          <button onclick="window.FamilyReportGenerator.openReportModal('${code}', '${defaultOther}')" class="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-stone-950 font-bold transition-all shadow-md shadow-orange-600/30">
-            📊 View Full Pairwise Report
-          </button>
+          <div class="flex items-center space-x-2">
+            <button onclick="window.TreeViewer.clearEthnicitySelection()" class="px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 font-bold text-xs">
+              Clear Selection
+            </button>
+            <button onclick="window.FamilyReportGenerator.openReportModal('${code1}', '${code2}', ${code3 ? `'${code3}'` : 'null'})" class="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-stone-950 font-bold transition-all shadow-md shadow-orange-600/30">
+              📊 View Full Comparative Report (${selectedCodes.length})
+            </button>
+          </div>
         </div>
         
         <div class="pt-1 border-t border-stone-800">
-          <span class="text-stone-400">Revealed Samples:</span>
-          <span class="text-orange-400 font-bold ml-1">${sampleNames || 'Family Samples'}</span>
+          <span class="text-stone-400">Highlighted Lineage Samples:</span>
+          <span class="text-orange-400 font-bold ml-1">${sampleNames || 'Selected Samples'}</span>
         </div>
       </div>
     `;
