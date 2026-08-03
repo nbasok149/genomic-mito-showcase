@@ -1,6 +1,7 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
- * Clean diagram with ZERO 'Clade' text, ZERO '[U4]' haplogroup brackets, and click-to-reveal sample labels.
+ * Clean diagram with ZERO 'Clade' text, ZERO '[U4]' haplogroup brackets, click-to-reveal sample labels,
+ * and automatic Family Comparative Report trigger on family click.
  */
 
 window.TreeViewer = {
@@ -35,11 +36,11 @@ window.TreeViewer = {
     function traverse(node) {
       if (node.name && !node.name.includes('Clade')) {
         const parts = node.name.split('_');
-        let familyKey = parts.length >= 3 ? parts[2].replace(/\d+$/, '') : (parts.length === 2 ? parts[1] : parts[0]);
+        let familyKey = parts[0]; // Cohort prefix e.g. MX, HK, UK, IN, IS, AA
         const familyName = `Family ${familyKey}`;
         
         if (!familiesMap.has(familyName)) {
-          familiesMap.set(familyName, { name: familyName, key: familyKey.toLowerCase(), samples: [] });
+          familiesMap.set(familyName, { name: familyName, key: familyKey, samples: [] });
         }
         familiesMap.get(familyName).samples.push(node.name);
       }
@@ -71,12 +72,6 @@ window.TreeViewer = {
       `;
     });
 
-    html += `
-      <span class="text-xs text-emerald-400 font-mono bg-emerald-950/40 px-2.5 py-1 rounded-md border border-emerald-800/40">
-        + Custom Grouping File Upload (1 Hour)
-      </span>
-    `;
-
     container.innerHTML = html;
   },
 
@@ -85,6 +80,12 @@ window.TreeViewer = {
     this.renderFamilyGroupButtons();
     this.render();
     this.highlightFamilyCluster(familyName);
+
+    if (familyName !== 'all' && window.FamilyReportGenerator) {
+      const code = familyName.replace('Family ', '').trim();
+      const defaultOther = code === 'MX' ? 'HK' : 'MX';
+      window.FamilyReportGenerator.openReportModal(code, defaultOther);
+    }
   },
 
   highlightFamilyCluster(familyName) {
@@ -106,7 +107,7 @@ window.TreeViewer = {
     svg.selectAll('.tree-node').each(function(d) {
       const name = (d.data.name || '').toLowerCase();
       const samples = (d.data.samples || []).map(s => s.toLowerCase());
-      const isMatch = (name.includes(key) || samples.some(s => s.includes(key))) && !name.includes('clade');
+      const isMatch = (name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
       
       d3.select(this).classed('dimmed', !isMatch);
       if (isMatch) {
@@ -120,7 +121,7 @@ window.TreeViewer = {
     svg.selectAll('.tree-link').each(function(d) {
       const targetName = (d.target.data.name || '').toLowerCase();
       const targetSamples = (d.target.data.samples || []).map(s => s.toLowerCase());
-      const isMatch = (targetName.includes(key) || targetSamples.some(s => s.includes(key))) && !targetName.includes('clade');
+      const isMatch = (targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_'))) && !targetName.includes('clade');
       d3.select(this).classed('dimmed', !isMatch).classed('family-active', isMatch);
     });
 
@@ -167,8 +168,7 @@ window.TreeViewer = {
   getFamilyName(rawName) {
     if (!rawName || rawName.includes('Clade')) return '';
     const parts = rawName.split('_');
-    const familyKey = parts.length >= 3 ? parts[2].replace(/\d+$/, '') : (parts.length === 2 ? parts[1] : parts[0]);
-    return `Family ${familyKey}`;
+    return `Family ${parts[0]}`;
   },
 
   getSampleName(rawName) {
@@ -257,7 +257,7 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getFamilyName(d.data.name));
 
-      // Sample Label (Revealed on click/selection, no haplogroup, no Clade text)
+      // Sample Label (Revealed on click/selection)
       node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'sample-label-text')
@@ -324,7 +324,7 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getFamilyName(d.data.name));
 
-      // Sample Label (Revealed on click/selection, no haplogroup, no Clade text)
+      // Sample Label (Revealed on click/selection)
       node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
         .append('text')
         .attr('class', 'sample-label-text')
@@ -344,20 +344,9 @@ window.TreeViewer = {
     const rawName = d.data.name || '';
     if (!rawName || rawName.includes('Clade')) return;
 
-    const familyName = this.getFamilyName(rawName);
+    const code = rawName.split('_')[0];
+    const familyName = `Family ${code}`;
     this.selectFamily(familyName);
-
-    if (!d.children && window.App && window.App.variantsData) {
-      const sampleList = window.App.distanceData?.samples || [];
-      if (sampleList.length >= 2) {
-        const otherSample = sampleList.find(s => s !== rawName) || sampleList[0];
-        document.getElementById('compareSample1Select').value = rawName;
-        document.getElementById('compareSample2Select').value = otherSample;
-        window.App.runSampleComparison();
-        document.getElementById('comparatorModal')?.classList.remove('hidden');
-        document.getElementById('comparatorModal')?.classList.add('flex');
-      }
-    }
   },
 
   updateFamilyDataPanel(familyName, matchedNodes = []) {
@@ -367,7 +356,7 @@ window.TreeViewer = {
     if (!familyName || familyName === 'all') {
       detailBox.innerHTML = `
         <div class="p-3.5 rounded-xl bg-stone-900/90 border border-stone-800 text-xs text-stone-300 flex items-center justify-between font-mono">
-          <span>🌿 Click any family button or node on the diagram to zoom in and reveal individual sample names.</span>
+          <span>🌿 Click any family button or node on the diagram to inspect comparative family reports.</span>
           <span class="text-[11px] text-amber-400 bg-amber-950/60 px-2.5 py-1 rounded-md border border-amber-800/60">All Families View</span>
         </div>
       `;
@@ -376,15 +365,19 @@ window.TreeViewer = {
 
     const sampleNames = matchedNodes.map(n => n.data.name).filter(n => n && !n.includes('Clade')).join(', ');
     const nodeCount = matchedNodes.filter(n => n.data.name && !n.data.name.includes('Clade')).length || 1;
+    const code = familyName.replace('Family ', '').trim();
+    const defaultOther = code === 'MX' ? 'HK' : 'MX';
 
     detailBox.innerHTML = `
-      <div class="p-4 rounded-xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 text-xs space-y-2.5 shadow-xl font-mono">
+      <div class="p-4 rounded-xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 text-xs space-y-3 shadow-xl font-mono">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
             <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
             <span class="font-extrabold text-orange-300 text-sm">${familyName} Data Breakdown</span>
           </div>
-          <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-700 font-bold">${nodeCount} Members</span>
+          <button onclick="window.FamilyReportGenerator.openReportModal('${code}', '${defaultOther}')" class="px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-stone-950 font-bold transition-all shadow-md shadow-orange-600/30">
+            📊 View Full Pairwise Report
+          </button>
         </div>
         
         <div class="pt-1 border-t border-stone-800">
