@@ -1,5 +1,5 @@
 /**
- * Main Web Showcase Application Controller - Earthy Tones Edition with Family Access & Pairwise Family Report Generator
+ * Main Web Showcase Application Controller - Earthy Tones Edition with Family Access & Specific Diagnostic Markers
  */
 
 window.FamilyAccessGate = {
@@ -72,6 +72,61 @@ window.FamilyAccessGate = {
       lockScreen.classList.remove('hidden');
       lockScreen.classList.add('flex');
     }
+  }
+};
+
+window.DiagnosticMarkersExplorer = {
+  FAMILY_MARKERS: {
+    'IN_RIS': { name: 'Family IN_RIS (India)', markers: [593, 5075, 6020, 12792, 15692, 15859], mother: 'IN_F_RISM (Mother)', dadNote: 'IN_M_RISF (Dad) does NOT carry any of these familial diagnostic markers because mitochondrial DNA is passed down strictly through the mother (IN_F_RISM). A child does not inherit paternal mtDNA or mutations from their father.' },
+    'ALJ': { name: 'Family ALJ (Chile)', markers: [114, 8545, 15535], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers carry paternal nuclear DNA only and pass 0% mitochondrial DNA or familial diagnostic markers to offspring.' },
+    'MX': { name: 'Family MX (Mexico)', markers: [73, 146, 182, 185, 195, 198, 200, 207], mother: 'MX_F_CRY (Mother)', dadNote: 'MX_M_CRYF (Dad) does not pass mtDNA diagnostic markers to children.' },
+    'HK': { name: 'Family HK (Hong Kong)', markers: [146, 152, 182, 185, 189, 195, 198, 200], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Dad) carries non-transmitted paternal mtDNA line.' },
+    'UK': { name: 'Family UK (Ukraine)', markers: [73, 146, 152, 182, 185, 189, 195, 198], mother: 'UK_F_NIKA (Mother)', dadNote: 'UK_M_NIK (Dad) does not transmit mtDNA markers to children.' },
+    'AA': { name: 'Family AA (African)', markers: [73, 146, 152, 182, 185, 189, 195, 198], mother: 'AA_F_TON (Mother)', dadNote: 'Sub-Saharan African maternal root line.' },
+    'IS': { name: 'Family IS (Israel)', markers: [73, 146, 152, 185, 189, 198, 200, 207], mother: 'IS_F_VYSM (Mother)', dadNote: 'Fathers do not transmit familial mtDNA markers.' },
+    'PK': { name: 'Family PK (Pakistan)', markers: [73, 182, 185, 189, 195, 198, 200, 207], mother: 'PK_F_WAS (Mother)', dadNote: 'Fathers do not pass down mtDNA markers.' },
+    'KR': { name: 'Family KR (Korea)', markers: [63, 73, 146, 152, 182, 185, 189, 195], mother: 'KR_F_MOO (Mother)', dadNote: 'Fathers do not pass down mtDNA markers.' },
+    'CL': { name: 'Family CL (Chile)', markers: [73, 146, 152, 182, 185, 189, 195, 198], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers do not pass down mtDNA markers.' }
+  },
+
+  init() {
+    this.render();
+  },
+
+  render() {
+    const select = document.getElementById('diagnosticFamilySelect');
+    const container = document.getElementById('diagnosticMarkersCardContainer');
+    if (!select || !container) return;
+
+    const keys = Object.keys(this.FAMILY_MARKERS);
+    select.innerHTML = keys.map(k => `<option value="${k}">${this.FAMILY_MARKERS[k].name}</option>`).join('');
+
+    select.onchange = () => this.displayFamily(select.value);
+    this.displayFamily('IN_RIS');
+  },
+
+  displayFamily(key) {
+    const data = this.FAMILY_MARKERS[key] || this.FAMILY_MARKERS['IN_RIS'];
+    const container = document.getElementById('diagnosticMarkersCardContainer');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="space-y-3 font-mono text-xs">
+        <div class="p-3 rounded-lg bg-amber-950/40 border border-amber-800/80">
+          <div class="text-amber-300 font-bold mb-1">Familial Diagnostic Position Markers:</div>
+          <div class="text-stone-100 font-extrabold text-sm tracking-wide">
+            ${data.markers.map(m => `<span class="bg-amber-900/60 text-amber-200 px-2 py-0.5 rounded border border-amber-700/60 mr-1.5 inline-block mb-1">m.${m}</span>`).join('')}
+          </div>
+        </div>
+
+        <div class="p-3 rounded-lg bg-stone-900 border border-stone-800 space-y-1.5 font-sans">
+          <div class="text-orange-400 font-bold text-xs font-mono">🧬 Maternal Transmission Rule:</div>
+          <p class="text-stone-300 leading-relaxed text-[11.5px]">
+            ${data.dadNote}
+          </p>
+        </div>
+      </div>
+    `;
   }
 };
 
@@ -299,6 +354,7 @@ window.App = {
     await this.loadDatasets();
     this.renderMetrics();
     this.setupReportModal();
+    window.DiagnosticMarkersExplorer.init();
   },
 
   setupNavigation() {
