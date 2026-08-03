@@ -206,6 +206,77 @@ window.FamilyReportGenerator = {
     select2.onchange = () => this.renderReport(select1.value, select2.value);
   },
 
+  getEvolutionaryDivergenceInfo(info1, info2, avgDist, shared, unique1, unique2) {
+    const distNum = parseFloat(avgDist);
+    
+    // Macro-group classifications
+    const macroGroups = {
+      'Americas': ['MX', 'CL', 'NA'],
+      'EastAsia': ['HK', 'KR', 'TB'],
+      'SouthAsia': ['IN', 'IW', 'PK', 'SA'],
+      'WestEurasia': ['UK', 'IS', 'CA']
+    };
+
+    let sharedMacro = false;
+    let macroCategory = '';
+    for (const [cat, group] of Object.entries(macroGroups)) {
+      if (group.includes(info1.code) && group.includes(info2.code)) {
+        sharedMacro = true;
+        macroCategory = cat;
+        break;
+      }
+    }
+
+    const isClose = distNum < 14.0 || sharedMacro || shared.length >= 4;
+
+    let divergenceEpoch = '';
+    let divergenceReason = '';
+
+    if (isClose) {
+      if (macroCategory === 'Americas') {
+        divergenceEpoch = '~15,000 – 20,000 YBP (Beringian Coastal Expansion)';
+        divergenceReason = `Both ${info1.name} and ${info2.name} belong to indigenous Paleo-Indian founder lineages. They share ancient Beringian roots from ancestral Paleolithic Siberian populations who crossed the Beringia land bridge during the Last Glacial Maximum, giving rise to founding American haplogroups (A2, B2, C1, D4h3a).`;
+      } else if (macroCategory === 'SouthAsia') {
+        divergenceEpoch = '~50,000 – 60,000 YBP (Early Out-of-Africa Coastal Corridor)';
+        divergenceReason = `Both ${info1.name} and ${info2.name} derive from the early "Southern Coastal Route" Out-of-Africa migration wave into the Indian subcontinent. Their shared basal haplogroup roots (Macro-haplogroups M & R) reflect deep indigenous South Asian population continuity.`;
+      } else if (macroCategory === 'EastAsia') {
+        divergenceEpoch = '~30,000 – 40,000 YBP (East Asian Macro-Haplogroup M/N Split)';
+        divergenceReason = `Both ${info1.name} and ${info2.name} stem from post-glacial East Asian paleolithic ancestral populations that expanded across Southern China, Hong Kong, Korea, Tibet, and the Japanese Archipelago following the Last Glacial Maximum.`;
+      } else if (macroCategory === 'WestEurasia') {
+        divergenceEpoch = '~25,000 – 35,000 YBP (West Eurasian Pre-LGM Refugia)';
+        divergenceReason = `Both ${info1.name} and ${info2.name} share West Eurasian maternal roots (Macro-haplogroup N sub-lineages like H, U, J, T). Their closeness stems from post-glacial recolonization of Europe and Neolithic agricultural expansion from the Near East.`;
+      } else {
+        divergenceEpoch = '~25,000 – 35,000 YBP (Shared Intermediate Eurasian Migration Corridor)';
+        divergenceReason = `The two populations share intermediate Eurasian ancestral lineages and a substantial set of conserved mitochondrial motifs, reflecting historical gene flow and shared regional founder pools.`;
+      }
+    } else {
+      // Distantly Diverged
+      if (info1.code === 'AA' || info2.code === 'AA') {
+        divergenceEpoch = '~70,000 – 90,000 YBP (Basal Out-of-Africa Divergence)';
+        divergenceReason = `Sub-Saharan African Haplogroup L2 represents the ancestral core of anatomically modern humans. The non-African cohort diverged during the primary Out-of-Africa migration event ~70,000 YBP, when L3 sub-branches left Africa while L2 remained in Africa, undergoing independent maternal evolution over tens of thousands of years.`;
+      } else if ((['MX', 'CL', 'NA', 'HK', 'KR', 'TB'].includes(info1.code) && ['UK', 'CA', 'IS'].includes(info2.code)) ||
+                 (['UK', 'CA', 'IS'].includes(info1.code) && ['MX', 'CL', 'NA', 'HK', 'KR', 'TB'].includes(info2.code))) {
+        divergenceEpoch = '~45,000 – 55,000 YBP (East vs West Eurasian Bifurcation)';
+        divergenceReason = `Early Eurasian population split following the Out-of-Africa dispersal. Ancestral Eurasian populations bifurcated into Western Eurasian lines (giving rise to Haplogroups H, U, J, T) and Eastern Eurasian / Beringian lines (giving rise to Haplogroups A, B, C, D, M, M7, M9).`;
+      } else if ((['MX', 'CL', 'NA'].includes(info1.code) && ['IN', 'IW', 'PK'].includes(info2.code)) ||
+                 (['IN', 'IW', 'PK'].includes(info1.code) && ['MX', 'CL', 'NA'].includes(info2.code))) {
+        divergenceEpoch = '~50,000 – 60,000 YBP (South Asian vs Beringian/Paleo-Indian Branching)';
+        divergenceReason = `Early Upper Paleolithic split where South Asian lineages (Macro-haplogroup M/R) settled permanently in the Indian subcontinent, whereas ancestral Beringian/Native American lines migrated north through Siberia before crossing into the Americas.`;
+      } else {
+        divergenceEpoch = '~40,000 – 60,000 YBP (Deep Inter-Continental Divergence)';
+        divergenceReason = `Ancient Upper Paleolithic population divergence driven by long-term geographic isolation, independent climatic adaptation, and zero maternal gene flow across distinct continental refugia.`;
+      }
+    }
+
+    return {
+      isClose,
+      divergenceEpoch,
+      divergenceReason,
+      statusLabel: isClose ? 'CLOSELY RELATED POPULATIONS' : 'DISTANTLY DIVERGED POPULATIONS',
+      statusClass: isClose ? 'text-emerald-400 bg-emerald-950/80 border-emerald-700/80' : 'text-rose-400 bg-rose-950/80 border-rose-700/80'
+    };
+  },
+
   renderReport(f1Key, f2Key) {
     const reportContainer = document.getElementById('familyReportBody');
     if (!reportContainer || !window.App.variantsData) return;
@@ -262,6 +333,9 @@ window.FamilyReportGenerator = {
         unique2.push(v2);
       }
     });
+
+    // Compute Evolutionary Divergence Info
+    const divInfo = this.getEvolutionaryDivergenceInfo(info1, info2, avgDist, shared, unique1, unique2);
 
     reportContainer.innerHTML = `
       <div class="space-y-6">
@@ -340,14 +414,140 @@ window.FamilyReportGenerator = {
         </div>
 
         <!-- Dynamic Evolutionary Interpretation Report -->
-        <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-2 text-xs text-stone-300 leading-relaxed font-sans">
-          <h4 class="font-bold text-amber-400 font-mono text-sm">📜 Biological & Evolutionary Context Report</h4>
-          <p>
-            The genetic distance of <strong>${avgDist}</strong> between <strong>${info1.name}</strong> (${info1.region}) and <strong>${info2.name}</strong> (${info2.region}) reflects their maternal evolutionary split. Mitochondrial DNA is inherited strictly maternally without recombination, preserving ancient migration signatures over thousands of generations.
-          </p>
-          <p class="text-stone-400">
-            Shared variants such as <code class="text-amber-300 font-mono">${shared.slice(0, 3).map(m => `m.${m.pos}${m.ref}>${m.alt}`).join(', ') || 'root motifs'}</code> indicate shared deep ancestral roots prior to population divergence.
-          </p>
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950/30 border border-stone-800 space-y-6 text-xs text-stone-300 leading-relaxed font-sans shadow-2xl">
+          
+          <!-- Header Banner & Decision Badge -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-4">
+            <div>
+              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
+                <span>📜 Biological & Evolutionary Context Report</span>
+              </h4>
+              <p class="text-stone-400 text-[11px] mt-0.5">Comprehensive Population History, Divergence Analysis & Mutation Fingerprints</p>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl border text-xs font-mono font-extrabold shadow-md ${divInfo.statusClass}">
+              ${divInfo.isClose ? '🟢 Decision: CLOSELY RELATED' : '🔴 Decision: DISTANTLY DIVERGED'}
+            </div>
+          </div>
+
+          <!-- Side-by-Side Population Histories -->
+          <div class="space-y-3">
+            <h5 class="font-bold text-stone-200 text-xs font-mono uppercase tracking-wider flex items-center gap-2 text-orange-400">
+              <span>🏛️ Deep Population History & Lineage Breakdown</span>
+            </h5>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2">
+                <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+                  <span class="font-bold text-orange-300 font-mono text-xs">${info1.name}</span>
+                  <span class="text-[10px] font-mono text-orange-400 bg-orange-950/70 px-2 py-0.5 rounded border border-orange-800/80">${info1.haplo}</span>
+                </div>
+                <div class="text-stone-300 text-[11.5px] leading-relaxed">
+                  <strong class="text-stone-200">Region:</strong> ${info1.region}<br/>
+                  <p class="text-stone-400 mt-1">${info1.history}</p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2">
+                <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+                  <span class="font-bold text-amber-300 font-mono text-xs">${info2.name}</span>
+                  <span class="text-[10px] font-mono text-amber-400 bg-amber-950/70 px-2 py-0.5 rounded border border-amber-800/80">${info2.haplo}</span>
+                </div>
+                <div class="text-stone-300 text-[11.5px] leading-relaxed">
+                  <strong class="text-stone-200">Region:</strong> ${info2.region}<br/>
+                  <p class="text-stone-400 mt-1">${info2.history}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Evolutionary Closeness & Divergence Analysis -->
+          <div class="space-y-4 pt-2 border-t border-stone-800">
+            <div class="p-4 rounded-xl ${divInfo.isClose ? 'bg-emerald-950/40 border border-emerald-800/70' : 'bg-rose-950/40 border border-rose-800/70'} space-y-2">
+              <div class="flex items-center justify-between font-mono">
+                <span class="font-bold text-xs ${divInfo.isClose ? 'text-emerald-300' : 'text-rose-300'} uppercase tracking-wide flex items-center gap-1.5">
+                  ${divInfo.isClose ? '🌿 Genetic Proximity Rationale (Why They Are Close)' : '💥 Lineage Divergence Rationale (Where They Diverged)'}
+                </span>
+                <span class="text-[11px] text-stone-400">Genetic Distance Score: <strong class="text-amber-400">${avgDist}</strong></span>
+              </div>
+              <p class="text-stone-200 text-[11.5px] leading-relaxed">
+                <strong>Phylogenetic Analysis:</strong> ${divInfo.divergenceReason}
+              </p>
+              <p class="text-stone-400 text-[11px] font-mono pt-1">
+                <strong>Estimated Evolutionary Divergence Epoch:</strong> <span class="text-amber-300 font-bold">${divInfo.divergenceEpoch}</span>
+              </p>
+            </div>
+
+            ${divInfo.isClose ? `
+              <!-- IF CLOSE: Shared Ancestral Anchor Mutations -->
+              <div class="space-y-3">
+                <h6 class="font-bold text-emerald-400 font-mono text-xs flex items-center justify-between">
+                  <span>🧬 Shared Ancestral Anchor Mutations (${shared.length} Conserved Motifs)</span>
+                  <span class="text-[10px] text-stone-400 font-sans">Common mutations proving shared maternal ancestry</span>
+                </h6>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                  ${shared.length > 0 ? shared.slice(0, 9).map(m => `
+                    <div class="p-2.5 rounded-xl bg-stone-950 border border-emerald-900/60 font-mono text-[11px] space-y-1">
+                      <div class="flex items-center justify-between text-emerald-300 font-bold">
+                        <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                        <span class="text-[10px] text-emerald-400 bg-emerald-950 px-1.5 py-0.2 rounded">${(m.vaf * 100).toFixed(0)}% VAF</span>
+                      </div>
+                      <div class="text-stone-400 text-[10px] truncate">${m.gene || 'Control Region (D-loop)'}</div>
+                    </div>
+                  `).join('') : '<div class="col-span-full p-4 text-stone-500 text-center font-mono bg-stone-950 rounded-xl">No shared mutations detected between these two families.</div>'}
+                </div>
+                ${shared.length > 9 ? `<p class="text-[10.5px] text-stone-500 font-mono text-right">+ ${shared.length - 9} more shared variants listed in table above.</p>` : ''}
+              </div>
+            ` : `
+              <!-- IF NOT CLOSE: Key Lineage-Defining Divergence Mutations -->
+              <div class="space-y-3">
+                <h6 class="font-bold text-rose-400 font-mono text-xs flex items-center justify-between">
+                  <span>🧬 Key Lineage-Defining Divergence Mutations (Diagnostic Markers)</span>
+                  <span class="text-[10px] text-stone-400 font-sans">Specific mutations marking where the lineages split</span>
+                </h6>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  
+                  <!-- Unique to Population 1 -->
+                  <div class="space-y-2 p-4 rounded-xl bg-stone-950 border border-orange-900/60">
+                    <div class="font-mono font-bold text-orange-300 text-xs flex justify-between border-b border-stone-800 pb-2">
+                      <span>Divergence Mutations Unique to ${info1.code} (${unique1.length})</span>
+                      <span class="text-[10px] text-orange-400/80">Pop 1 Specific</span>
+                    </div>
+                    <div class="space-y-2 max-h-48 overflow-y-auto pr-1 pt-1">
+                      ${unique1.length > 0 ? unique1.slice(0, 6).map(m => `
+                        <div class="p-2 rounded-lg bg-stone-900/90 border border-stone-800 flex items-center justify-between text-[11px] font-mono">
+                          <div>
+                            <span class="text-orange-400 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                            <span class="text-stone-400 text-[10px] block">${m.gene || 'Control Region (D-loop)'}</span>
+                          </div>
+                          <span class="text-[10px] text-amber-400 font-bold bg-stone-950 px-2 py-0.5 rounded border border-stone-800">${(m.vaf * 100).toFixed(0)}% VAF</span>
+                        </div>
+                      `).join('') : '<div class="text-stone-500 text-[10px] p-2 text-center">No unique variants recorded.</div>'}
+                    </div>
+                  </div>
+
+                  <!-- Unique to Population 2 -->
+                  <div class="space-y-2 p-4 rounded-xl bg-stone-950 border border-amber-900/60">
+                    <div class="font-mono font-bold text-amber-300 text-xs flex justify-between border-b border-stone-800 pb-2">
+                      <span>Divergence Mutations Unique to ${info2.code} (${unique2.length})</span>
+                      <span class="text-[10px] text-amber-400/80">Pop 2 Specific</span>
+                    </div>
+                    <div class="space-y-2 max-h-48 overflow-y-auto pr-1 pt-1">
+                      ${unique2.length > 0 ? unique2.slice(0, 6).map(m => `
+                        <div class="p-2 rounded-lg bg-stone-900/90 border border-stone-800 flex items-center justify-between text-[11px] font-mono">
+                          <div>
+                            <span class="text-amber-400 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                            <span class="text-stone-400 text-[10px] block">${m.gene || 'Control Region (D-loop)'}</span>
+                          </div>
+                          <span class="text-[10px] text-amber-400 font-bold bg-stone-950 px-2 py-0.5 rounded border border-stone-800">${(m.vaf * 100).toFixed(0)}% VAF</span>
+                        </div>
+                      `).join('') : '<div class="text-stone-500 text-[10px] p-2 text-center">No unique variants recorded.</div>'}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            `}
+
+          </div>
         </div>
 
       </div>
