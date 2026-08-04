@@ -1,0 +1,33 @@
+{
+  "markers": [
+    { "code": "AA", "name": "African (AA)", "region": "Sub-Saharan Africa", "coords": [8.6753, 9.0820], "haplo": "L2", "ybp": "150,000–200,000 YBP", "samples": 4 },
+    { "code": "SA", "name": "South America (SA)", "region": "South America / Ancient Gate", "coords": [45.0792, 23.8859], "haplo": "N1/T2", "ybp": "60,000 YBP", "samples": 3 },
+    { "code": "IN", "name": "India (IN)", "region": "South Asia", "coords": [78.9629, 20.5937], "haplo": "M/R", "ybp": "50,000–60,000 YBP", "samples": 4 },
+    { "code": "IW", "name": "India West (IW)", "region": "Western South Asia", "coords": [73.1812, 22.3072], "haplo": "M/R", "ybp": "45,000 YBP", "samples": 3 },
+    { "code": "IS", "name": "India South (IS)", "region": "Southern South Asia", "coords": [80.2707, 13.0827], "haplo": "M/R (VYS)", "ybp": "45,000 YBP", "samples": 3 },
+    { "code": "PK", "name": "Pakistan (PK)", "region": "Indus Valley", "coords": [69.3451, 30.3753], "haplo": "M/U", "ybp": "40,000 YBP", "samples": 4 },
+    { "code": "HK", "name": "Hong Kong (HK)", "region": "East Asia", "coords": [114.1694, 22.3193], "haplo": "M7", "ybp": "40,000 YBP", "samples": 3 },
+    { "code": "KR", "name": "Korea (KR)", "region": "Northeast Asia", "coords": [127.7669, 35.9078], "haplo": "D4", "ybp": "30,000 YBP", "samples": 3 },
+    { "code": "TB", "name": "Tibet (TB)", "region": "Himalayan Plateau", "coords": [88.0924, 31.6927], "haplo": "M9", "ybp": "30,000 YBP", "samples": 3 },
+    { "code": "UK", "name": "Ukraine (UK)", "region: ": "Eastern Europe", "coords": [31.1656, 48.3794], "haplo": "U4/H", "ybp": "40,000 YBP", "samples": 4 },
+    { "code": "CA", "name": "Canada (CA)", "region": "North America", "coords": [-106.3468, 56.1304], "haplo": "H2", "ybp": "15,000 YBP", "samples": 2 },
+    { "code": "NA", "name": "Native North America (NA)", "region": "North America", "coords": [-149.4937, 64.2008], "haplo": "A2", "ybp": "20,000 YBP", "samples": 2 },
+    { "code": "MX", "name": "Mexico (MX)", "region": "Mesoamerica", "coords": [-102.5528, 23.6345], "haplo": "B2", "ybp": "16,000 YBP", "samples": 3 },
+    { "code": "CL", "name": "Colombia (CL)", "region": "South America", "coords": [-74.2973, 4.5709], "haplo": "C1", "ybp": "14,000 YBP", "samples": 2 }
+  ],
+  "routes": [
+    { "from": "AA", "to": "SA", "label": "Out-of-Africa Gateway (~60k YBP)" },
+    { "from": "SA", "to": "IN", "label": "Southern Coastal Migration (~55k YBP)" },
+    { "from": "IN", "to": "IW", "label": "Indus / West India Clade (~45k YBP)" },
+    { "from": "IN", "to": "IS", "label": "South Indian Clade (~45k YBP)" },
+    { "from": "IN", "to": "PK", "label": "Indus Valley Route (~40k YBP)" },
+    { "from": "SA", "to": "UK", "label": "European Mesolithic Expansion (~40k YBP)" },
+    { "from": "UK", "to": "CA", "label": "Trans-Atlantic Expansion (~15k YBP)" },
+    { "from": "IN", "to": "HK", "label": "East Asian Coastal Route (~40k YBP)" },
+    { "from": "HK", "to": "KR", "label": "Northeast Asian Expansion (~30k YBP)" },
+    { "from": "IN", "to": "TB", "label": "Himalayan High-Altitude Route (~30k YBP)" },
+    { "from": "KR", "to": "NA", "label": "Beringian Crossing (~20k YBP)" },
+    { "from": "NA", "to": "MX", "label": "Mesoamerican Corridor (~16k YBP)" },
+    { "from": "MX", "to": "CL", "label": "South American Coastal Dispersal (~14k YBP)" }
+  ]
+}

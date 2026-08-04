@@ -136,6 +136,11 @@ window.TreeViewer = {
     if (this.selectedEthnicities.length > 0 && window.DiagnosticMarkersExplorer) {
       window.DiagnosticMarkersExplorer.displayFamily(this.selectedEthnicities[0], null);
     }
+
+    if (this.selectedEthnicities.length > 0 && window.GlobeViewer && window.GlobeViewer.migrationData) {
+      const marker = window.GlobeViewer.migrationData.markers.find(m => m.code === this.selectedEthnicities[0]);
+      if (marker) window.GlobeViewer.rotateTo(marker.coords);
+    }
   },
 
   highlightFamilyCluster() {
@@ -147,8 +152,7 @@ window.TreeViewer = {
     if (!selectedCodes || selectedCodes.length === 0) {
       svg.selectAll('.tree-node').classed('dimmed', false);
       svg.selectAll('.tree-link').classed('dimmed', false).classed('family-active', false);
-      svg.selectAll('.sample-label-text').style('display', 'none');
-      svg.selectAll('.family-label-text').style('display', 'block');
+      svg.selectAll('.family-overlays g').style('opacity', 1);
       if (this.svgG && this.zoomBehavior) {
         svg.transition().duration(750).call(
           this.zoomBehavior.transform,
@@ -169,14 +173,14 @@ window.TreeViewer = {
       const isMatch = lowerKeys.some(key => name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
       
       d3.select(this).classed('dimmed', !isMatch);
-      if (isMatch) {
-        matchedNodes.push(d);
-        d3.select(this).select('.family-label-text').style('display', 'none');
-        d3.select(this).select('.sample-label-text').style('display', 'block');
-      } else {
-        d3.select(this).select('.family-label-text').style('display', 'block');
-        d3.select(this).select('.sample-label-text').style('display', 'none');
-      }
+      if (isMatch) matchedNodes.push(d);
+    });
+
+    svg.selectAll('.family-overlays g').each(function() {
+      const classAttr = d3.select(this).attr('class') || '';
+      const code = classAttr.replace('family-overlay-', '').toLowerCase();
+      const isMatch = lowerKeys.includes(code);
+      d3.select(this).style('opacity', isMatch ? 1 : 0.15);
     });
 
     svg.selectAll('.tree-link').each(function(d) {
@@ -209,11 +213,7 @@ window.TreeViewer = {
     const term = query.trim().toLowerCase();
     const svg = d3.select('#treeContainer svg');
     if (!svg.node() || !term) {
-      svg.selectAll('.tree-node circle').style('r', d => d.children ? 6 : 5.5).style('stroke', d => d.children ? '#d97706' : '#f97316');
-      svg.selectAll('.tree-node').each(function() {
-        d3.select(this).select('.family-label-text').style('display', 'block');
-        d3.select(this).select('.sample-label-text').style('display', 'none');
-      });
+      svg.selectAll('.tree-node circle').style('r', d => d.children ? 6.5 : 6);
       return;
     }
 
@@ -222,18 +222,33 @@ window.TreeViewer = {
       const isMatch = name.includes(term) && !name.includes('clade');
 
       d3.select(this).select('circle')
-        .style('r', isMatch ? 9 : (d.children ? 6 : 5.5))
-        .style('stroke', isMatch ? '#ffffff' : (d.children ? '#d97706' : '#f97316'))
+        .style('r', isMatch ? 10 : (d.children ? 6.5 : 6))
+        .style('stroke', isMatch ? '#ffffff' : (d.children ? '#d97706' : window.TreeViewer.getNodeColor(d.data.name)))
         .style('stroke-width', isMatch ? '3px' : '2px');
-        
-      if (isMatch) {
-        d3.select(this).select('.family-label-text').style('display', 'none');
-        d3.select(this).select('.sample-label-text').style('display', 'block');
-      } else {
-        d3.select(this).select('.family-label-text').style('display', 'block');
-        d3.select(this).select('.sample-label-text').style('display', 'none');
-      }
     });
+  },
+
+  ETHNICITY_COLORS: {
+    'UK': '#6366f1', // Indigo (Ukraine)
+    'KR': '#ec4899', // Pink (Korea)
+    'MX': '#10b981', // Emerald (Mexico)
+    'IN': '#f59e0b', // Amber (India)
+    'IW': '#d97706', // Dark Amber (India West)
+    'IS': '#b45309', // Deep Amber (India South)
+    'HK': '#06b6d4', // Cyan (Hong Kong)
+    'PK': '#8b5cf6', // Purple (Pakistan)
+    'CL': '#3b82f6', // Blue (Colombia)
+    'AA': '#ef4444', // Red (African)
+    'TB': '#14b8a6', // Teal (Tibet)
+    'CA': '#a855f7', // Purple-Light (Canada)
+    'SA': '#84cc16', // Lime (South America)
+    'NA': '#eab308'  // Yellow (Native N.Am)
+  },
+
+  getNodeColor(rawName) {
+    if (!rawName || rawName.includes('Clade')) return '#d97706';
+    const code = rawName.split('_')[0];
+    return this.ETHNICITY_COLORS[code] || '#f59e0b';
   },
 
   getFamilyName(rawName) {
@@ -248,11 +263,11 @@ window.TreeViewer = {
       'IS': 'India South (IS)',
       'HK': 'Hong Kong (HK)',
       'PK': 'Pakistan (PK)',
-      'CL': 'Chile (CL)',
-      'AA': 'African Ancestry (AA)',
+      'CL': 'Colombia (CL)',
+      'AA': 'African (AA)',
       'TB': 'Tibet (TB)',
       'CA': 'Canada (CA)',
-      'SA': 'South Asia / Arabia (SA)',
+      'SA': 'South America (SA)',
       'NA': 'Native North America (NA)'
     };
     return regionMap[parts[0]] || parts[0];
@@ -299,6 +314,42 @@ window.TreeViewer = {
 
       const radialG = g.append('g').attr('transform', `translate(${width / 2},${height / 2})`);
 
+      // Radial Family Overlays Group
+      const overlayGroup = radialG.append('g').attr('class', 'family-overlays');
+      const familyMap = new Map();
+      root.leaves().forEach(d => {
+        if (d.data.name && !d.data.name.includes('Clade')) {
+          const code = d.data.name.split('_')[0];
+          if (!familyMap.has(code)) familyMap.set(code, []);
+          familyMap.get(code).push(d);
+        }
+      });
+
+      familyMap.forEach((leaves, code) => {
+        const color = this.ETHNICITY_COLORS[code] || '#ea580c';
+        const angles = leaves.map(d => (d.x * Math.PI) / 180);
+        const minAngle = d3.min(angles) - 0.08;
+        const maxAngle = d3.max(angles) + 0.08;
+        const maxRadius = d3.max(leaves, d => d.y) + 30;
+        const minRadius = d3.min(leaves, d => d.y) - 25;
+
+        const arcGenerator = d3.arc()
+          .innerRadius(Math.max(10, minRadius))
+          .outerRadius(maxRadius)
+          .startAngle(minAngle)
+          .endAngle(maxAngle)
+          .cornerRadius(8);
+
+        overlayGroup.append('path')
+          .attr('class', `family-overlay-${code}`)
+          .attr('d', arcGenerator())
+          .attr('fill', color)
+          .attr('fill-opacity', 0.16)
+          .attr('stroke', color)
+          .attr('stroke-width', 1.8)
+          .attr('stroke-opacity', 0.5);
+      });
+
       radialG.selectAll('.tree-link')
         .data(root.links())
         .enter()
@@ -322,38 +373,11 @@ window.TreeViewer = {
 
       node.append('circle')
         .attr('r', d => d.children ? 6.5 : 6)
-        .style('fill', d => d.children ? '#f59e0b' : '#34d399')
-        .style('stroke', d => d.children ? '#d97706' : '#f97316')
+        .style('fill', d => d.children ? '#f59e0b' : this.getNodeColor(d.data.name))
+        .style('stroke', d => d.children ? '#d97706' : this.getNodeColor(d.data.name))
         .style('stroke-width', '2px')
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
-
-      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
-        .append('text')
-        .attr('class', 'family-label-text')
-        .attr('dy', '0.31em')
-        .attr('x', d => d.x < 180 ? 10 : -10)
-        .attr('text-anchor', d => d.x < 180 ? 'start' : 'end')
-        .attr('transform', d => d.x >= 180 ? 'rotate(180)' : null)
-        .style('fill', '#f5f5f4')
-        .style('font-size', '12px')
-        .style('font-weight', 'bold')
-        .style('font-family', 'JetBrains Mono, monospace')
-        .text(d => this.getFamilyName(d.data.name));
-
-      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
-        .append('text')
-        .attr('class', 'sample-label-text')
-        .attr('dy', '0.31em')
-        .attr('x', d => d.x < 180 ? 10 : -10)
-        .attr('text-anchor', d => d.x < 180 ? 'start' : 'end')
-        .attr('transform', d => d.x >= 180 ? 'rotate(180)' : null)
-        .style('fill', '#fb923c')
-        .style('font-size', '13px')
-        .style('font-weight', '800')
-        .style('font-family', 'JetBrains Mono, monospace')
-        .style('display', 'none')
-        .text(d => this.getSampleName(d.data.name));
 
     } else {
       const leafCount = root.leaves().length;
@@ -362,6 +386,55 @@ window.TreeViewer = {
         .size([layoutHeight, width - margin.left - margin.right - 180])
         .separation((a, b) => (a.parent === b.parent ? 1.4 : 2.2));
       treeLayout(root);
+
+      // Phylogram / Cladogram Family Overlay Regions
+      const overlayGroup = g.append('g').attr('class', 'family-overlays');
+      const familyMap = new Map();
+      root.leaves().forEach(d => {
+        if (d.data.name && !d.data.name.includes('Clade')) {
+          const code = d.data.name.split('_')[0];
+          if (!familyMap.has(code)) familyMap.set(code, []);
+          familyMap.get(code).push(d);
+        }
+      });
+
+      familyMap.forEach((leaves, code) => {
+        const color = this.ETHNICITY_COLORS[code] || '#ea580c';
+        const minY = d3.min(leaves, d => d.x);
+        const maxY = d3.max(leaves, d => d.x);
+        const minX = d3.min(leaves, d => d.y);
+        const maxX = d3.max(leaves, d => d.y);
+
+        const padY = 14;
+        const padXLeft = 20;
+        const padXRight = 140;
+
+        const overlayG = overlayGroup.append('g').attr('class', `family-overlay-${code}`);
+
+        overlayG.append('rect')
+          .attr('x', minX - padXLeft)
+          .attr('y', minY - padY)
+          .attr('width', (maxX - minX) + padXLeft + padXRight)
+          .attr('height', Math.max(28, (maxY - minY) + padY * 2))
+          .attr('rx', 12)
+          .attr('fill', color)
+          .attr('fill-opacity', 0.16)
+          .attr('stroke', color)
+          .attr('stroke-width', 1.8)
+          .attr('stroke-opacity', 0.5);
+
+        // Add Family Title Badge on the Overlay
+        const famName = this.getFamilyName(code);
+        overlayG.append('text')
+          .attr('x', maxX + 18)
+          .attr('y', (minY + maxY) / 2)
+          .attr('dy', '0.35em')
+          .attr('fill', color)
+          .style('font-size', '12px')
+          .style('font-weight', '800')
+          .style('font-family', 'JetBrains Mono, monospace')
+          .text(famName);
+      });
 
       g.selectAll('.tree-link')
         .data(root.links())
@@ -391,36 +464,11 @@ window.TreeViewer = {
 
       node.append('circle')
         .attr('r', d => d.children ? 6.5 : 6)
-        .style('fill', d => d.children ? '#f59e0b' : '#34d399')
-        .style('stroke', d => d.children ? '#d97706' : '#f97316')
+        .style('fill', d => d.children ? '#f59e0b' : this.getNodeColor(d.data.name))
+        .style('stroke', d => d.children ? '#d97706' : this.getNodeColor(d.data.name))
         .style('stroke-width', '2px')
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
-
-      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
-        .append('text')
-        .attr('class', 'family-label-text')
-        .attr('dy', '0.32em')
-        .attr('x', d => d.children ? -10 : 10)
-        .style('text-anchor', d => d.children ? 'end' : 'start')
-        .style('fill', '#f5f5f4')
-        .style('font-size', '12px')
-        .style('font-weight', 'bold')
-        .style('font-family', 'JetBrains Mono, monospace')
-        .text(d => this.getFamilyName(d.data.name));
-
-      node.filter(d => !d.children && d.data.name && !d.data.name.includes('Clade'))
-        .append('text')
-        .attr('class', 'sample-label-text')
-        .attr('dy', '0.32em')
-        .attr('x', d => d.children ? -10 : 10)
-        .style('text-anchor', d => d.children ? 'end' : 'start')
-        .style('fill', '#fb923c')
-        .style('font-size', '13px')
-        .style('font-weight', '800')
-        .style('font-family', 'JetBrains Mono, monospace')
-        .style('display', 'none')
-        .text(d => this.getSampleName(d.data.name));
     }
   },
 
