@@ -20,19 +20,25 @@ It implements:
 
 ```mermaid
 flowchart TD
-    FA[mtdna.fa (rCRS Reference)] --> Core[core/callers.py & aligner.py]
-    RAW[Sequencing Alignments / Summaries] --> Core
-    CFG[config/filter.yaml Rules] --> Core
-    Core --> DM[core/distance.py]
-    DM --> MAT[data/processed/distance_matrix.csv]
+    FA["mtdna.fa (rCRS Reference)"] --> Core["core/callers.py & aligner.py"]
+    RAW["Sequencing Alignments / Summaries"] --> Core
+    CFG["config/filter.yaml Rules"] --> Core
+    Core --> DM["core/distance.py (Ancestry-Conditioned GRM)"]
+    DM --> MAT["data/processed/distance_matrix.csv"]
     
-    MAT & RAW & FA --> ETL[scripts/export_web_data.py]
-    ETL --> J1[docs/data/variants_dataset.json]
-    ETL --> J2[docs/data/distance_matrix.json]
-    ETL --> J3[docs/data/phylo_tree.json]
-    ETL --> J4[docs/data/genome_annotations.json]
+    MAT --> ETL["scripts/export_web_data.py"]
+    RAW --> ETL
+    FA --> ETL
     
-    J1 & J2 & J3 & J4 --> WEB[GitHub Pages Web Showcase: docs/index.html]
+    ETL --> J1["docs/data/variants_dataset.json"]
+    ETL --> J2["docs/data/distance_matrix.json"]
+    ETL --> J3["docs/data/phylo_tree.json"]
+    ETL --> J4["docs/data/genome_annotations.json"]
+    
+    J1 --> WEB["Vercel & GitHub Pages Web Showcase: docs/index.html"]
+    J2 --> WEB
+    J3 --> WEB
+    J4 --> WEB
 ```
 
 ---
