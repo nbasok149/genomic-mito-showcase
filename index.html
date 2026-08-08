@@ -189,6 +189,77 @@
         </div>
       </div>
 
+      <!-- Core Weighting Mechanism & Ancestry-Conditioned Distance Metric -->
+      <div class="earth-panel p-6 bg-gradient-to-b from-stone-900 via-stone-900 to-amber-950/30 border border-amber-500/50 shadow-2xl space-y-4 font-mono">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-3">
+          <div>
+            <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span>Core Weighting Mechanism • mtDNA Distance Metric</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-stone-100">Ancestry-Conditioned Rare Mutation Weighting &amp; GRM Kinship Estimator</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-orange-950/70 border border-orange-700 text-orange-300 font-bold text-xs">
+              λ = 0.50 Conditioning
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-amber-950/70 border border-amber-700 text-amber-300 font-bold text-xs">
+              Monomorphic Sites Dropped
+            </span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
+          <div class="p-4 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2">
+            <div class="text-amber-400 font-mono font-bold text-xs flex items-center justify-between">
+              <span>1. GRM Similarity Score K(i, j)</span>
+              <span class="text-[10px] text-stone-400">Rare-Variant Weighting</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-stone-900 border border-amber-800/40 text-amber-200 font-mono text-[11px] overflow-x-auto">
+              K(i, j) = (1 / V) * &sum; [ (VAF_{i,v} - p_v)(VAF_{j,v} - p_v) ] / [ p_v * (1 - p_v) ]
+            </div>
+            <p class="text-stone-300 text-[11.5px] leading-relaxed">
+              Acts as a Genetic Relationship Matrix (GRM) estimator giving substantially higher weight to rare, unique mutations ($p_v \ll 1$) to reveal true biological kinship rather than noise.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-stone-950/90 border border-stone-800 space-y-2">
+            <div class="text-orange-400 font-mono font-bold text-xs flex items-center justify-between">
+              <span>2. Haplogroup Conditioning &amp; Family Averaging</span>
+              <span class="text-[10px] text-stone-400">Lineage Correction</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-stone-900 border border-orange-800/40 text-orange-200 font-mono text-[11px] overflow-x-auto">
+              p&#770;_v^{(g)} = &lambda; * p_v^{(g)} + (1 - &lambda;) * global_p_v
+            </div>
+            <p class="text-stone-300 text-[11.5px] leading-relaxed">
+              Prevents lineage-specific haplogroup defining variants from masquerading as close recent kinship. Families are averaged and counted <strong>exactly once</strong> when calculating $p_v$ to prevent sample skew.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans pt-1">
+          <div class="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 flex items-start gap-3">
+            <div class="text-lg">📏</div>
+            <div>
+              <strong class="text-stone-100 font-mono text-xs block">Distance Conversion D(i, j) = max(K) - K(i, j)</strong>
+              <span class="text-stone-400 text-[11px] leading-relaxed">
+                Flips the relationship similarity score into an exact pairwise distance matrix for deterministic UPGMA phylogenetic tree clustering.
+              </span>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 flex items-start gap-3">
+            <div class="text-lg">🛡️</div>
+            <div>
+              <strong class="text-stone-100 font-mono text-xs block">Monomorphic Site Elimination</strong>
+              <span class="text-stone-400 text-[11px] leading-relaxed">
+                Automatically drops uninformative sites where $p_v \le 0$ or $p_v \ge 1$, eliminating singularities and preventing denominator explosion.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Guided Entry Point Card: Find Your Family -->
       <div class="earth-panel p-5 bg-gradient-to-r from-orange-950/40 via-stone-900 to-amber-950/30 border border-orange-500/50 shadow-xl space-y-3 font-mono">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
