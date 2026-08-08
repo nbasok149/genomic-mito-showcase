@@ -111,8 +111,8 @@ def export_all(lambda_param=0.5):
         "IS_F_VYS", "IS_F_VYS2", "IS_F_VYSC1", "IS_F_VYSM", "IS_M_PRIC1", "IS_M_RAV", "IS_M_SEL",
         "IW_F_ANJ", "IW_F_ANJM", "IW_F_ANJS1", "IW_M_ANJF", "KR_F_MOO", "KR_F_MOOC1",
         "MX_F_CRY", "MX_F_CRYS1", "MX_M_CRYF", "PK_F_WAS", "PK_M_WASC1", "PK_M_WASC2", "PK_M_WASH",
-        "SA_F_PRI", "SA_M_CTL", "TB_F_BHA", "UK_F_NIKA", "UK_F_NIKG", "UK_F_NIKM", "UK_M_NIK",
-        "UK_M_NIKS1", "UK_M_NIKS2"
+        "TB_F_BHA", "UK_F_NIKA", "UK_F_NIKG", "UK_F_NIKM", "UK_M_NIK",
+        "UK_M_NIKS1", "UK_M_NIKS2", "NA_F_R3_2_LP5206_mrg"
     ]
     
     for s in default_cohort:

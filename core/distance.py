@@ -328,9 +328,9 @@ def build_weighted_upgma_tree(samples, dist_matrix, haplogroup_map=None):
         return {}
 
     default_haplogroups = {
-        "IS": "H1", "CL": "HV0", "KR": "MOOC", "HK": "M7",
-        "IN": "U5", "IW": "J1", "MX": "B2", "PK": "L3",
-        "SA": "T2", "TB": "K1", "UK": "U4", "AA": "A2", "CA": "H2", "NA": "A2"
+        "IS": "M/R (IS)", "CL": "C1", "KR": "D4", "HK": "M7",
+        "IN": "M/R (IN)", "IW": "M/R (IW)", "MX": "B2", "PK": "M/U (PK)",
+        "TB": "M9", "UK": "U4/H", "AA": "L2", "CA": "H2", "NA": "A2"
     }
     if haplogroup_map:
         default_haplogroups.update(haplogroup_map)

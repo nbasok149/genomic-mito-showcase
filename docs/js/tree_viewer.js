@@ -248,19 +248,18 @@ window.TreeViewer = {
   },
 
   ETHNICITY_COLORS: {
+    'IN': '#f59e0b', // Amber (India - Deepali & Rishi)
+    'IS': '#b45309', // Deep Amber (India South - Vys, Rav, Sel)
+    'IW': '#d97706', // Dark Amber (India West - Raj & Anjali)
+    'PK': '#8b5cf6', // Purple (Pakistan - Wasim)
     'UK': '#6366f1', // Indigo (Ukraine)
     'KR': '#ec4899', // Pink (Korea)
     'MX': '#10b981', // Emerald (Mexico)
-    'IN': '#f59e0b', // Amber (India)
-    'IW': '#d97706', // Dark Amber (India West)
-    'IS': '#b45309', // Deep Amber (India South)
     'HK': '#06b6d4', // Cyan (Hong Kong)
-    'PK': '#8b5cf6', // Purple (Pakistan)
     'CL': '#3b82f6', // Blue (Colombia)
     'AA': '#ef4444', // Red (African)
     'TB': '#14b8a6', // Teal (Tibet)
     'CA': '#a855f7', // Purple-Light (Canada)
-    'SA': '#84cc16', // Lime (South America)
     'NA': '#eab308'  // Yellow (Native N.Am)
   },
 
@@ -274,20 +273,19 @@ window.TreeViewer = {
     if (!rawName || rawName.includes('Clade')) return '';
     const parts = rawName.split('_');
     const regionMap = {
-      'UK': 'Ukraine (UK)',
-      'KR': 'Korea (KR)',
-      'MX': 'Mexico (MX)',
-      'IN': 'India (IN)',
-      'IW': 'India West (IW)',
-      'IS': 'India South (IS)',
-      'HK': 'Hong Kong (HK)',
-      'PK': 'Pakistan (PK)',
-      'CL': 'Colombia (CL)',
-      'AA': 'African (AA)',
-      'TB': 'Tibet (TB)',
-      'CA': 'Canada (CA)',
-      'SA': 'South America (SA)',
-      'NA': 'Native North America (NA)'
+      'IN': 'India (IN - Deepali/Rishi)',
+      'IS': 'India South (IS - Vys/Rav/Sel)',
+      'IW': 'India West (IW - Raj/Anj)',
+      'PK': 'Pakistan (PK - Wasim)',
+      'UK': 'Ukraine (UK - Nika)',
+      'KR': 'Korea (KR - Moo)',
+      'MX': 'Mexico (MX - Cry)',
+      'HK': 'Hong Kong (HK - Jan)',
+      'CL': 'Colombia (CL - Alj)',
+      'AA': 'African (AA - Ton)',
+      'TB': 'Tibet (TB - Bha)',
+      'CA': 'Canada (CA - Ger)',
+      'NA': 'Native North America (NA - R3)'
     };
     return regionMap[parts[0]] || parts[0];
   },

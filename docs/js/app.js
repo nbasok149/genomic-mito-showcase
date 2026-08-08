@@ -205,18 +205,19 @@ window.FamilyAccessGate = {
 
 window.DiagnosticMarkersExplorer = {
   FAMILY_MARKERS: {
-    'MX': { name: 'Mexico (MX)', markers: [6297, 8047, 9039, 499, 4823, 13590], mother: 'MX_F_CRY (Mother)', dadNote: 'MX_M_CRYF (Father) carries paternal nuclear DNA only; children inherit 100% of maternal mtDNA from MX_F_CRY.' },
-    'HK': { name: 'Hong Kong (HK)', markers: [5821, 6338, 8602, 14821, 6455, 9540], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Father) carries non-transmitted paternal line; children inherit 100% of maternal markers from HK_F_JAN.' },
+    'IN': { name: 'India (IN - Deepali & Rishi)', markers: [593, 5075, 6020, 10400, 12792, 14783, 15043, 15692, 15859], mother: 'IN_F_RISM (Rishi Mother) & IN_F_DPL (Deepali Mother)', dadNote: 'IN_M_RISF & IN_M_DPLH (Fathers) do NOT transmit mtDNA markers to children; offspring inherit 100% maternal mitochondrial DNA.' },
+    'IS': { name: 'India South (IS - Vys, Rav & Sel)', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'IS_F_VYSM (Vys Mother)', dadNote: 'IS_M_RAV (Father Rav) & IS_M_SEL (Father Sel) carry non-transmitted paternal lines; children inherit 100% maternal mtDNA from IS_F_VYSM.' },
+    'IW': { name: 'India West (IW - Raj & Anjali)', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'IW_F_ANJM (Anjali Mother)', dadNote: 'IW_M_ANJF (Raj / Father) does NOT carry maternal diagnostic markers; 100% maternal transmission passed to offspring IW_F_ANJS1.' },
+    'PK': { name: 'Pakistan (PK - Wasim)', markers: [511, 3594, 7269, 7805, 13680, 15479], mother: 'PK_F_WAS (Wasim Mother)', dadNote: 'PK_M_WASH (Father) does not transmit familial markers to children; offspring PK_M_WASC1 & PK_M_WASC2 inherit strictly from PK_F_WAS.' },
+    'MX': { name: 'Mexico (MX)', markers: [499, 4823, 6297, 8047, 9039, 13590], mother: 'MX_F_CRY (Mother)', dadNote: 'MX_M_CRYF (Father) carries paternal nuclear DNA only; children inherit 100% of maternal mtDNA from MX_F_CRY.' },
+    'HK': { name: 'Hong Kong (HK)', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Father) carries non-transmitted paternal line; children inherit 100% of maternal markers from HK_F_JAN.' },
     'UK': { name: 'Ukraine (UK)', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'UK_F_NIKM (Mother)', aunt: 'UK_F_NIKA (Aunt)', grandmother: 'UK_F_NIKG (Grandmother)', dadNote: 'No father sample collected for Ukraine cohort; maternal inheritance verified through UK_F_NIKG ➔ UK_F_NIKM ➔ offspring.' },
-    'IN': { name: 'India (IN)', markers: [593, 5075, 6020, 10400, 12792, 14783, 15043, 15692, 15859], mother: 'IN_F_RISM (Mother)', dadNote: 'IN_M_RISF (Father) does NOT transmit mtDNA markers to children.' },
-    'IS': { name: 'India South (IS / VYS)', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'IS_F_VYSM (Mother)', dadNote: 'IS_M_RAV (Father) carries unrelated paternal line.' },
-    'PK': { name: 'Pakistan (PK)', markers: [511, 3594, 7269, 7805, 13680, 15479], mother: 'PK_F_WAS (Mother)', dadNote: 'PK_M_WASH (Father) does not transmit familial markers to children.' },
-    'KR': { name: 'Korea (KR)', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'KR_F_MOO (Mother)', dadNote: 'No father sample collected; maternal lineage strictly passed from KR_F_MOO.' },
-    'CL': { name: 'Colombia (CL)', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers pass 0% mitochondrial DNA or familial diagnostic markers to offspring.' },
-    'AA': { name: 'African (AA)', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], mother: 'AA_F_TON (Mother)', dadNote: 'Sub-Saharan African maternal root line transmitted maternally.' },
+    'KR': { name: 'Korea (KR)', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'KR_F_MOO (Mother)', dadNote: 'No father sample collected; maternal lineage strictly passed from KR_F_MOO to KR_F_MOOC1.' },
+    'CL': { name: 'Colombia (CL)', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers pass 0% mitochondrial DNA or familial diagnostic markers to offspring; passed from CL_F_ALJ to CL_F_ALJC1.' },
+    'AA': { name: 'African (AA)', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], mother: 'AA_F_TON (Mother)', dadNote: 'Sub-Saharan African maternal root line transmitted strictly maternally.' },
     'TB': { name: 'Tibet (TB)', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], mother: 'TB_F_BHA (Mother)', dadNote: 'Tibetan maternal lineage transmitted strictly through mother.' },
-    'CA': { name: 'Canada (CA)', markers: [73, 146, 4769], mother: 'CA_M_GER', dadNote: 'Maternal mtDNA passed strictly down female lineage.' },
-    'IW': { name: 'India West (IW)', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'IW_F_ANJM (Mother)', dadNote: 'IW_M_ANJF (Father) does NOT carry maternal diagnostic markers.' }
+    'CA': { name: 'Canada (CA)', markers: [73, 146, 263, 4769], mother: 'CA_M_GER', dadNote: 'Maternal mtDNA passed strictly down female lineage.' },
+    'NA': { name: 'Native North America (NA)', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], mother: 'NA_F_R3_2_LP5206_mrg (Mother)', dadNote: 'Indigenous North American maternal founder line passed across generations.' }
   },
 
   init() {
@@ -232,11 +233,11 @@ window.DiagnosticMarkersExplorer = {
     select.innerHTML = keys.map(k => `<option value="${k}">${this.FAMILY_MARKERS[k].name}</option>`).join('');
 
     select.onchange = () => this.displayFamily(select.value);
-    this.displayFamily('UK');
+    this.displayFamily('IN');
   },
 
   displayFamily(key, clickedSampleName = null) {
-    const data = this.FAMILY_MARKERS[key] || this.FAMILY_MARKERS['UK'];
+    const data = this.FAMILY_MARKERS[key] || this.FAMILY_MARKERS['IN'];
     const container = document.getElementById('diagnosticMarkersCardContainer');
     if (!container) return;
 
@@ -271,20 +272,19 @@ window.DiagnosticMarkersExplorer = {
 
 window.FamilyReportGenerator = {
   REGION_MAP: {
-    'MX': { code: 'MX', name: 'Mexico (MX)', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient East Asian ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
-    'HK': { code: 'HK', name: 'Hong Kong (HK)', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China, Hong Kong, and the Japanese Archipelago.' },
-    'UK': { code: 'UK', name: 'Ukraine (UK)', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic Hunter-Gatherers and Neolithic European agricultural expansion.' },
-    'AA': { code: 'AA', name: 'African (AA)', region: 'Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
-    'IN': { code: 'IN', name: 'India (IN)', region: 'South Asia', haplo: 'Haplogroup M / R', history: 'Ancient South Asian maternal lineage derived from the early Southern Coastal out-of-Africa migration wave ~60,000 YBP.' },
-    'IW': { code: 'IW', name: 'India West (IW)', region: 'Western South Asia', haplo: 'Haplogroup M / R', history: 'Western South Asian regional sub-clade sharing ancient Southern Coastal out-of-Africa founding roots.' },
-    'IS': { code: 'IS', name: 'India South (IS)', region: 'Southern South Asia', haplo: 'Haplogroup M / R (VYS)', history: 'Southern Indian maternal lineage derived from ancient South Asian indigenous Out-of-Africa coastal settlement.' },
-    'SA': { code: 'SA', name: 'South America (SA)', region: 'South America', haplo: 'Haplogroup N1 / T2', history: 'South American maternal lineage bridging regional population groups across South America.' },
-    'PK': { code: 'PK', name: 'Pakistan (PK)', region: 'Indus Valley', haplo: 'Haplogroup M / U', history: 'Indus Valley regional maternal lineage sharing deep historical trade and migration connections across Central/South Asia.' },
-    'KR': { code: 'KR', name: 'Korea (KR)', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
-    'TB': { code: 'TB', name: 'Tibet (TB)', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
-    'CL': { code: 'CL', name: 'Colombia (CL)', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
-    'CA': { code: 'CA', name: 'Canada (CA)', region: 'North America', haplo: 'Haplogroup H / U', history: 'North American / European lineage.' },
-    'NA': { code: 'NA', name: 'Native North America (NA)', region: 'North America', haplo: 'Haplogroup A2', history: 'Indigenous North American maternal lineage (Haplogroup A2) sharing ancient Beringian founder roots.' }
+    'IN': { code: 'IN', name: 'India (IN - Deepali & Rishi)', region: 'Central/North South Asia', haplo: 'Haplogroup M / R (IN)', history: 'Ancient South Asian maternal lineage derived from the early Southern Coastal out-of-Africa migration wave ~60,000 YBP.' },
+    'IS': { code: 'IS', name: 'India South (IS - Vys, Rav & Sel)', region: 'Southern South Asia', haplo: 'Haplogroup M / R (IS / VYS)', history: 'Southern Indian maternal lineage derived from ancient South Asian indigenous Out-of-Africa coastal settlement.' },
+    'IW': { code: 'IW', name: 'India West (IW - Raj & Anjali)', region: 'Western South Asia', haplo: 'Haplogroup M / R (IW)', history: 'Western South Asian regional sub-clade sharing ancient Southern Coastal out-of-Africa founding roots.' },
+    'PK': { code: 'PK', name: 'Pakistan (PK - Wasim)', region: 'Indus Valley', haplo: 'Haplogroup M / U (PK)', history: 'Indus Valley regional maternal lineage sharing deep historical trade and migration connections across Central/South Asia.' },
+    'UK': { code: 'UK', name: 'Ukraine (UK - Nika)', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic Hunter-Gatherers and Neolithic European agricultural expansion.' },
+    'MX': { code: 'MX', name: 'Mexico (MX - Cry)', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient East Asian ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
+    'HK': { code: 'HK', name: 'Hong Kong (HK - Jan)', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China, Hong Kong, and the Japanese Archipelago.' },
+    'KR': { code: 'KR', name: 'Korea (KR - Moo)', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
+    'CL': { code: 'CL', name: 'Colombia (CL - Alj)', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
+    'AA': { code: 'AA', name: 'African (AA - Ton)', region: 'Sub-Saharan Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
+    'TB': { code: 'TB', name: 'Tibet (TB - Bha)', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
+    'CA': { code: 'CA', name: 'Canada (CA - Ger)', region: 'North America', haplo: 'Haplogroup H2', history: 'North American / European lineage (Haplogroup H2).' },
+    'NA': { code: 'NA', name: 'Native North America (NA - R3)', region: 'North America', haplo: 'Haplogroup A2', history: 'Indigenous North American maternal lineage (Haplogroup A2) sharing ancient Beringian founder roots.' }
   },
 
   getAllFamilies() {
@@ -955,19 +955,51 @@ window.FamilyReportGenerator = {
 
 window.PedigreeInspector = {
   FAMILY_PEDIGREES: {
+    'IN': {
+      code: 'IN',
+      name: 'India (IN - Deepali & Rishi)',
+      haplo: 'Haplogroup M / R (IN)',
+      mother: 'IN_F_RISM',
+      father: 'IN_M_RISF',
+      children: ['IN_M_RIS', 'IN_M_RISS1', 'IN_F_RISG', 'IN_F_DPL', 'IN_M_DPLH']
+    },
+    'IS': {
+      code: 'IS',
+      name: 'India South (IS - Vys, Rav & Sel)',
+      haplo: 'Haplogroup M / R (IS / VYS)',
+      mother: 'IS_F_VYSM',
+      father: 'IS_M_RAV',
+      children: ['IS_M_SEL', 'IS_F_VYS', 'IS_F_VYS2', 'IS_F_VYSC1', 'IS_M_PRIC1']
+    },
+    'IW': {
+      code: 'IW',
+      name: 'India West (IW - Raj & Anjali)',
+      haplo: 'Haplogroup M / R (IW)',
+      mother: 'IW_F_ANJM',
+      father: 'IW_M_ANJF',
+      children: ['IW_F_ANJS1', 'IW_F_ANJ']
+    },
+    'PK': {
+      code: 'PK',
+      name: 'Pakistan (PK - Wasim Family)',
+      haplo: 'Haplogroup M / U (PK)',
+      mother: 'PK_F_WAS',
+      father: 'PK_M_WASH',
+      children: ['PK_M_WASC1', 'PK_M_WASC2']
+    },
     'UK': {
       code: 'UK',
-      name: 'Ukraine (UK)',
+      name: 'Ukraine (UK - Nika Family)',
       haplo: 'Haplogroup U4 / H',
       grandmother: 'UK_F_NIKG',
       mother: 'UK_F_NIKM',
       aunt: 'UK_F_NIKA',
-      father: null, // No father sample collected
-      children: ['UK_M_NIKS1', 'UK_M_NIKS2']
+      father: null,
+      children: ['UK_M_NIKS1', 'UK_M_NIKS2', 'UK_M_NIK']
     },
     'MX': {
       code: 'MX',
-      name: 'Mexico (MX)',
+      name: 'Mexico (MX - Cry Family)',
       haplo: 'Haplogroup B2',
       mother: 'MX_F_CRY',
       father: 'MX_M_CRYF',
@@ -975,39 +1007,15 @@ window.PedigreeInspector = {
     },
     'HK': {
       code: 'HK',
-      name: 'Hong Kong (HK)',
+      name: 'Hong Kong (HK - Jan Family)',
       haplo: 'Haplogroup M7',
       mother: 'HK_F_JAN',
       father: 'HK_M_WLL',
       children: ['HK_F_JANM']
     },
-    'IS': {
-      code: 'IS',
-      name: 'India South (IS)',
-      haplo: 'Haplogroup M / R (VYS)',
-      mother: 'IS_F_VYSM',
-      father: 'IS_M_RAV',
-      children: ['IS_M_SEL']
-    },
-    'PK': {
-      code: 'PK',
-      name: 'Pakistan (PK)',
-      haplo: 'Haplogroup M / U',
-      mother: 'PK_F_WAS',
-      father: 'PK_M_WASH',
-      children: ['PK_M_WASC1', 'PK_M_WASC2']
-    },
-    'IW': {
-      code: 'IW',
-      name: 'India West (IW)',
-      haplo: 'Haplogroup M / R',
-      mother: 'IW_F_ANJM',
-      father: 'IW_M_ANJF',
-      children: ['IW_F_ANJS1']
-    },
     'KR': {
       code: 'KR',
-      name: 'Korea (KR)',
+      name: 'Korea (KR - Moo Family)',
       haplo: 'Haplogroup D4',
       mother: 'KR_F_MOO',
       father: null,
@@ -1015,7 +1023,7 @@ window.PedigreeInspector = {
     },
     'CL': {
       code: 'CL',
-      name: 'Colombia (CL)',
+      name: 'Colombia (CL - Alj Family)',
       haplo: 'Haplogroup C1',
       mother: 'CL_F_ALJ',
       father: null,
