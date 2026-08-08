@@ -1,20 +1,19 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
- * Fully privacy-protected with de-identified sample roles (Mother, Father, Child 1, Aunt, etc.),
- * 3-Tier Zooming, reordered & condensed conserved ancestral mutations chart,
- * single unified cohort mutation summary card (no duplicate boxes, no 'loudest metric'),
- * and internal branch node junction inspector.
+ * Strict Privacy: Individual samples display only role (Mother, Father, Child 1, Aunt, etc.),
+ * ethnicity visible solely on overlays, zero label collisions,
+ * shorter well-proportioned container, bottom translucent zoom controls,
+ * interactive Conserved Ancestral Mutation buttons that launch a global cladogram highlighting all carrying samples.
  */
 
 window.TreeViewer = {
   treeData: null,
   activeLayout: 'phylogram', // phylogram, radial, cladogram
-  selectedEthnicities: [], // Array of selected cohort codes e.g. ['IN', 'IS', 'IW']
+  selectedEthnicities: [],
   zoomBehavior: null,
   svgG: null,
-  zoomTier: 3, // 1 = Family Clade (Zoomed In), 2 = Macro Branch Section, 3 = Global Cladogram (Full Tree)
+  zoomTier: 3, // 1 = Family Clade, 2 = Macro Branch Section, 3 = Global Tree
 
-  // 3 Internal Macro-Branch Sections for natural 3-tier zooming without showing artificial borders
   macroSections: {
     'AA': 1, 'UK': 1, 'CA': 1,
     'IN': 2, 'IS': 2, 'IW': 2, 'PK': 2,
@@ -38,7 +37,6 @@ window.TreeViewer = {
       this.searchAndHighlight(e.target.value);
     });
 
-    // Wire up Floating Cladogram Zoom Controls
     document.getElementById('btnTreeZoomIn')?.addEventListener('click', () => {
       this.zoomIn();
     });
@@ -51,8 +49,8 @@ window.TreeViewer = {
       this.zoomToGlobal();
     });
 
-    // Close modals when clicking backdrop
-    ['familyReportModal', 'junctionInspectorModal', 'pedigreeModal'].forEach(id => {
+    // Close modals when clicking backdrop or close buttons
+    ['familyReportModal', 'junctionInspectorModal', 'pedigreeModal', 'mutationCladogramModal'].forEach(id => {
       const modal = document.getElementById(id);
       if (modal) {
         modal.addEventListener('click', (e) => {
@@ -63,9 +61,17 @@ window.TreeViewer = {
         });
       }
     });
+
+    document.getElementById('closeMutationModalBtn')?.addEventListener('click', () => {
+      const modal = document.getElementById('mutationCladogramModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
   },
 
-  // Role mapper for strict privacy protection (Never display real names)
+  // Role mapper for strict privacy protection (Never display real names, no redundant repeats)
   getSampleRole(sampleName) {
     if (!sampleName) return 'Lineage Member';
     const s = String(sampleName).toUpperCase();
@@ -74,25 +80,23 @@ window.TreeViewer = {
     if (s.includes('ANJM') || s.includes('VYSM') || s.includes('NIKM') || s.includes('WAS') || s.includes('DPL') || s.includes('RISM') || s.includes('MOO') || s.includes('CRY') || s.includes('JAN') || s.includes('ALJ') || s.includes('TON') || s.includes('BHA')) {
       if (s.endsWith('M') || s.includes('_F_')) return 'Mother';
     }
-    if (s.includes('ANJF') || s.includes('RISF') || s.includes('RAV') || s.includes('SEL') || s.includes('WASH') || s.includes('DPLH') || s.includes('GER')) {
+    if (s.includes('ANJF') || s.includes('RISF') || s.includes('RAV') || s.includes('SEL') || s.includes('WASH') || s.includes('DPLH') || s.includes('GER') || s.includes('_M_') || s.includes('PATERNAL')) {
       return 'Father';
     }
     if (s.includes('S1') || s.includes('C1') || s.includes('PRIC1') || s.includes('MOOC1') || s.includes('CRYS1') || s.includes('ALJC1') || s.includes('ANJS1') || s.includes('VYSC1') || s.includes('WASC1') || s.includes('RISS1')) {
-      return 'Sibling 1 (Child 1)';
+      return 'Child 1';
     }
     if (s.includes('S2') || s.includes('C2') || s.includes('WASC2') || s.includes('VYS2')) {
-      return 'Sibling 2 (Child 2)';
+      return 'Child 2';
     }
     if (s.includes('R3')) return 'Lineage Member';
-    return s.includes('_F_') ? 'Maternal Member' : 'Paternal Member';
+    return s.includes('_F_') ? 'Mother' : 'Father';
   },
 
+  // De-identified label for leaf nodes (No ethnicity prefix, only role)
   getDeidentifiedLabel(sampleName) {
     if (!sampleName || sampleName.includes('Clade')) return '';
-    const parts = sampleName.split('_');
-    const code = parts[0];
-    const role = this.getSampleRole(sampleName);
-    return `${code} (${role})`;
+    return this.getSampleRole(sampleName);
   },
 
   extractFamilyGroupings() {
@@ -219,7 +223,6 @@ window.TreeViewer = {
     }
   },
 
-  // 3-Tier Stepped Zooming
   zoomIn() {
     if (this.zoomTier === 3) {
       const currentCode = this.selectedEthnicities[0] || 'IN';
@@ -272,7 +275,7 @@ window.TreeViewer = {
     });
 
     const width = document.getElementById('treeContainer')?.clientWidth || 900;
-    const height = 650;
+    const height = 470;
     const scale = 1.35;
 
     if (matchedNodes.length > 0) {
@@ -351,7 +354,7 @@ window.TreeViewer = {
       const avgY = d3.mean(matchedNodes, d => d.x);
       
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
-      const height = 650;
+      const height = 470;
       const scale = selectedCodes.length > 1 ? 1.4 : 1.95;
 
       svg.transition().duration(750).call(
@@ -383,19 +386,19 @@ window.TreeViewer = {
   },
 
   ETHNICITY_COLORS: {
-    'IN': '#f59e0b', // Amber (India)
-    'IS': '#b45309', // Deep Amber (India South)
-    'IW': '#d97706', // Dark Amber (India West)
-    'PK': '#8b5cf6', // Purple (Pakistan)
-    'UK': '#6366f1', // Indigo (Ukraine)
-    'KR': '#ec4899', // Pink (Korea)
-    'MX': '#10b981', // Emerald (Mexico)
-    'HK': '#06b6d4', // Cyan (Hong Kong)
-    'CL': '#3b82f6', // Blue (Colombia)
-    'AA': '#ef4444', // Red (African)
-    'TB': '#14b8a6', // Teal (Tibet)
-    'CA': '#a855f7', // Purple-Light (Canada)
-    'NA': '#eab308'  // Yellow (Native N.Am)
+    'IN': '#f59e0b',
+    'IS': '#b45309',
+    'IW': '#d97706',
+    'PK': '#8b5cf6',
+    'UK': '#6366f1',
+    'KR': '#ec4899',
+    'MX': '#10b981',
+    'HK': '#06b6d4',
+    'CL': '#3b82f6',
+    'AA': '#ef4444',
+    'TB': '#14b8a6',
+    'CA': '#a855f7',
+    'NA': '#eab308'
   },
 
   getNodeColor(rawName) {
@@ -425,14 +428,100 @@ window.TreeViewer = {
     return regionMap[parts[0]] || parts[0];
   },
 
+  // Interactive Conserved Mutation Cladogram Pop-Up
+  inspectMutationCladogram(pos, ref, alt, gene = '') {
+    const modal = document.getElementById('mutationCladogramModal');
+    const titleEl = document.getElementById('mutationModalTitle');
+    const bodyEl = document.getElementById('mutationModalBody');
+    if (!modal || !bodyEl || !window.App.variantsData) return;
+
+    const allVariants = window.App.variantsData.variants;
+    const targetPos = parseInt(pos, 10);
+    const carriers = allVariants.filter(v => v.pos === targetPos);
+    const carrierSamples = Array.from(new Set(carriers.map(v => v.sample)));
+
+    // Highlight on main tree as well
+    const svg = d3.select('#treeContainer svg');
+    if (svg.node()) {
+      svg.selectAll('.tree-node circle')
+        .style('stroke', d => {
+          if (!d.children && carrierSamples.includes(d.data.name)) return '#10b981';
+          return d.children ? '#d97706' : window.TreeViewer.getNodeColor(d.data.name);
+        })
+        .style('stroke-width', d => (!d.children && carrierSamples.includes(d.data.name)) ? '4px' : '2px')
+        .style('r', d => (!d.children && carrierSamples.includes(d.data.name)) ? 9 : (d.children ? 6.5 : 6));
+    }
+
+    if (titleEl) {
+      titleEl.innerHTML = `🧬 Conserved Mutation: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
+    }
+
+    const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
+
+    bodyEl.innerHTML = `
+      <div class="space-y-4 font-sans text-xs">
+        
+        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 flex flex-wrap items-center justify-between gap-3 font-mono">
+          <div>
+            <div class="text-[11px] text-stone-400">Total Inherited Lineages Carrying Mutation:</div>
+            <div class="text-base font-bold text-emerald-400">${carrierSamples.length} Sample Lines (${carrierCohorts.length} Global Cohorts)</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+              High Presence Conserved Motif
+            </span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2 font-mono">
+          <div class="text-[11px] text-stone-400 font-bold uppercase tracking-wider">Carrying Population Cohorts:</div>
+          <div class="flex flex-wrap gap-2">
+            ${carrierCohorts.map(c => `
+              <span class="px-2.5 py-1 rounded-lg bg-stone-900 border border-orange-500/50 text-orange-300 font-bold text-xs">
+                ${this.getFamilyName(c)} (${c})
+              </span>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Cladogram Visualization for this Specific Mutation -->
+        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
+          <div class="text-[11px] text-stone-400 font-mono font-bold uppercase tracking-wider">Lineage Branch Distribution:</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto p-1 font-mono">
+            ${carrierSamples.map(sample => {
+              const code = sample.split('_')[0];
+              const role = this.getSampleRole(sample);
+              const color = this.ETHNICITY_COLORS[code] || '#f59e0b';
+              return `
+                <div class="p-2.5 rounded-lg bg-stone-900 border border-stone-800 flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${color}"></span>
+                    <strong class="text-stone-200">${role}</strong>
+                  </div>
+                  <span class="px-2 py-0.5 rounded bg-stone-950 border border-stone-800 text-[10px] text-stone-400">
+                    Cohort ${code}
+                  </span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  },
+
   render() {
     const container = document.getElementById('treeContainer');
     if (!container || !this.treeData) return;
     container.innerHTML = '';
 
     const width = container.clientWidth || 900;
-    const height = 650;
-    const margin = { top: 30, right: 200, bottom: 30, left: 50 };
+    const height = 470; // Shorter, elegant canvas proportion
+    const margin = { top: 20, right: 180, bottom: 20, left: 40 };
 
     const svg = d3.select(container)
       .append('svg')
@@ -455,7 +544,7 @@ window.TreeViewer = {
     const root = d3.hierarchy(this.treeData);
 
     if (this.activeLayout === 'radial') {
-      const radius = Math.min(width, height) / 2 - 80;
+      const radius = Math.min(width, height) / 2 - 60;
       const cluster = d3.cluster().size([360, radius]);
       cluster(root);
 
@@ -477,8 +566,8 @@ window.TreeViewer = {
         const angles = leaves.map(d => (d.x * Math.PI) / 180);
         const minAngle = d3.min(angles) - 0.08;
         const maxAngle = d3.max(angles) + 0.08;
-        const maxRadius = d3.max(leaves, d => d.y) + 30;
-        const minRadius = d3.min(leaves, d => d.y) - 25;
+        const maxRadius = d3.max(leaves, d => d.y) + 25;
+        const minRadius = d3.min(leaves, d => d.y) - 20;
 
         const arcGenerator = d3.arc()
           .innerRadius(Math.max(10, minRadius))
@@ -526,12 +615,24 @@ window.TreeViewer = {
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
 
+      node.filter(d => !d.children)
+        .append('text')
+        .attr('dy', '0.31em')
+        .attr('x', d => d.x < 180 === !d.children ? 8 : -8)
+        .attr('text-anchor', d => d.x < 180 === !d.children ? 'start' : 'end')
+        .attr('transform', d => d.x >= 180 ? 'rotate(180)' : null)
+        .attr('fill', '#d6d3d1')
+        .style('font-size', '11px')
+        .style('font-family', 'JetBrains Mono, monospace')
+        .text(d => this.getDeidentifiedLabel(d.data.name));
+
     } else {
       const leafCount = root.leaves().length;
-      const layoutHeight = Math.max(height - margin.top - margin.bottom, leafCount * 22);
+      // Generous vertical separation (30px per leaf) to guarantee zero overlapping
+      const layoutHeight = Math.max(height - margin.top - margin.bottom, leafCount * 30);
       const treeLayout = d3.tree()
-        .size([layoutHeight, width - margin.left - margin.right - 180])
-        .separation((a, b) => (a.parent === b.parent ? 1.4 : 2.2));
+        .size([layoutHeight, width - margin.left - margin.right - 140])
+        .separation((a, b) => (a.parent === b.parent ? 1.6 : 2.4));
       treeLayout(root);
 
       // Phylogram / Cladogram Family Overlay Regions
@@ -552,9 +653,9 @@ window.TreeViewer = {
         const minX = d3.min(leaves, d => d.y);
         const maxX = d3.max(leaves, d => d.y);
 
-        const padY = 14;
-        const padXLeft = 20;
-        const padXRight = 140;
+        const padY = 12;
+        const padXLeft = 16;
+        const padXRight = 130;
 
         const overlayG = overlayGroup.append('g').attr('class', `family-overlay-${code}`);
 
@@ -562,7 +663,7 @@ window.TreeViewer = {
           .attr('x', minX - padXLeft)
           .attr('y', minY - padY)
           .attr('width', (maxX - minX) + padXLeft + padXRight)
-          .attr('height', Math.max(28, (maxY - minY) + padY * 2))
+          .attr('height', Math.max(26, (maxY - minY) + padY * 2))
           .attr('rx', 12)
           .attr('fill', color)
           .attr('fill-opacity', 0.16)
@@ -573,11 +674,11 @@ window.TreeViewer = {
         // De-identified Family Title Badge on the Overlay
         const famName = this.getFamilyName(code);
         overlayG.append('text')
-          .attr('x', maxX + 18)
+          .attr('x', maxX + 14)
           .attr('y', (minY + maxY) / 2)
           .attr('dy', '0.35em')
           .attr('fill', color)
-          .style('font-size', '12px')
+          .style('font-size', '11.5px')
           .style('font-weight', '800')
           .style('font-family', 'JetBrains Mono, monospace')
           .text(famName);
@@ -617,13 +718,14 @@ window.TreeViewer = {
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
 
-      // Leaf Node Labels (De-identified roles)
+      // Leaf Node Labels (Role only, zero overlap)
       node.filter(d => !d.children)
         .append('text')
         .attr('dx', 10)
         .attr('dy', '0.32em')
         .attr('fill', '#d6d3d1')
         .style('font-size', '11px')
+        .style('font-weight', '500')
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getDeidentifiedLabel(d.data.name));
     }
@@ -706,44 +808,46 @@ window.TreeViewer = {
             </span>
           </div>
           <p class="text-stone-300 text-xs leading-relaxed font-sans">
-            Inspecting shared high-VAF variants along ancestral branches and highlighting trace mutations.
+            Inspecting shared high-presence variants along ancestral branches. Click any mutation below to open the global cladogram highlighting all carrying lineages.
           </p>
         </div>
 
-        <!-- 1. CONSERVED ANCESTRAL MUTATIONS (Condensed, Listed First) -->
+        <!-- 1. CONSERVED ANCESTRAL MUTATIONS (Interactive Clickable Buttons, General Term) -->
         <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-stone-800 pb-2">
             <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
               <span>🧬 Conserved Ancestral Mutations (${sharedHigh.length})</span>
             </h4>
-            <span class="text-stone-400 font-sans text-[11px]">High VAF conserved motifs along junction</span>
+            <span class="text-stone-400 font-sans text-[11px]">Click mutation to pop up global cladogram</span>
           </div>
           ${sharedHigh.length > 0 ? `
-            <div class="flex flex-wrap gap-2 pt-1">
+            <div class="flex flex-wrap gap-2.5 pt-1">
               ${sharedHigh.map(m => `
-                <span class="px-2.5 py-1.5 rounded-lg bg-stone-950 border border-emerald-800/80 text-emerald-300 font-mono font-bold text-xs shadow-sm">
-                  m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-emerald-400 text-[10px]">(${(m.vaf * 100).toFixed(0)}% VAF)</span>
-                </span>
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-stone-950 hover:bg-emerald-950 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-1.5 group cursor-pointer">
+                  <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                  <span class="text-stone-400 text-[10px] bg-stone-900 px-1.5 py-0.5 rounded border border-stone-800 group-hover:border-emerald-600 group-hover:text-emerald-300">
+                    Detection: High (100%)
+                  </span>
+                </button>
               `).join('')}
             </div>
           ` : `
-            <div class="text-stone-400 italic text-xs font-sans">No deeply shared high-VAF variants unique to this specific internal pair.</div>
+            <div class="text-stone-400 italic text-xs font-sans">No deeply shared high-presence variants unique to this specific internal pair.</div>
           `}
         </div>
 
-        <!-- 2. LOW-VAF MUTED / TRACE MUTATIONS (Appears Second, No Stable Marker) -->
+        <!-- 2. LOW-VAF MUTED / TRACE MUTATIONS -->
         <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-stone-800 pb-2">
             <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-              <span>⚠️ Low-VAF Muted / Trace Mutations (&lt;3% VAF)</span>
+              <span>⚠️ Trace Mutations (&lt;3% Detection)</span>
             </h4>
-            <span class="text-stone-400 font-sans text-[11px]">Sequencer noise / trace heteroplasmy</span>
+            <span class="text-stone-400 font-sans text-[11px]">Trace heteroplasmy</span>
           </div>
 
           ${lowVafMuted.length > 0 ? `
-            <!-- Trace Mutation Warning Banner -->
             <div class="p-3.5 rounded-xl bg-amber-950/40 border border-amber-800/80 text-amber-200 text-xs font-sans">
-              ⚠️ <strong>Trace Mutation Warning:</strong> Variants with VAF lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances of the mutation appearing and cannot be trusted.
+              ⚠️ <strong>Trace Mutation Warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
             </div>
 
             <div class="overflow-x-auto">
@@ -753,7 +857,7 @@ window.TreeViewer = {
                     <th class="p-2.5">Position</th>
                     <th class="p-2.5">Mutation</th>
                     <th class="p-2.5">Role</th>
-                    <th class="p-2.5">VAF %</th>
+                    <th class="p-2.5">Detection Level</th>
                     <th class="p-2.5">Confidence Note</th>
                   </tr>
                 </thead>
@@ -763,7 +867,7 @@ window.TreeViewer = {
                       <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
                       <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
                       <td class="p-2.5 text-orange-300 font-sans">${this.getSampleRole(m.sample)}</td>
-                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% VAF</td>
+                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% Frequency</td>
                       <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded border border-amber-800 text-[10px]">Unverified Trace</span></td>
                     </tr>
                   `).join('')}
@@ -789,7 +893,7 @@ window.TreeViewer = {
     });
   },
 
-  // Single Unified Cohort Mutation Summary Card (No duplicate boxes, No 'Loudest Metric')
+  // Single Unified Cohort Mutation Summary Card (No duplicate boxes)
   updateFamilyDataPanel(selectedCodes, matchedNodes = []) {
     const card = document.getElementById('familyLineageCard');
     if (!card) return;
@@ -813,7 +917,6 @@ window.TreeViewer = {
     const cohortVariants = allVariants.filter(v => v.sample.startsWith(primaryCode + '_') || v.sample === primaryCode);
     const uniqueSamplesInCohort = Array.from(new Set(cohortVariants.map(v => v.sample)));
 
-    // Global uniqueness check
     const mutToSamplesMap = new Map();
     allVariants.forEach(v => {
       const key = `m.${v.pos} ${v.ref}>${v.alt}`;
@@ -833,7 +936,6 @@ window.TreeViewer = {
       return holders && holders.size > 1 && v.vaf >= 0.03;
     });
 
-    // Deduplicate shared mutations for clear overview
     const uniqueSharedMuts = Array.from(new Map(sharedDiagnostic.map(m => [`m.${m.pos}`, m])).values());
     const uniquePrivateMuts = Array.from(new Map(privateMuts.map(m => [`m.${m.pos}`, m])).values());
 
@@ -869,9 +971,9 @@ window.TreeViewer = {
           ${uniqueSharedMuts.length > 0 ? `
             <div class="flex flex-wrap gap-2 pt-1">
               ${uniqueSharedMuts.slice(0, 12).map(m => `
-                <span class="px-2.5 py-1.5 rounded-lg bg-stone-900 border border-emerald-800/60 text-emerald-300 font-mono font-bold text-xs">
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-lg bg-stone-900 hover:bg-emerald-950 border border-emerald-800/60 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
                   m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-stone-400 text-[10px]">(${m.gene || 'D-loop'})</span>
-                </span>
+                </button>
               `).join('')}
             </div>
           ` : `
@@ -893,7 +995,7 @@ window.TreeViewer = {
                 <div class="p-2.5 rounded-lg bg-stone-900 border border-amber-800/60 space-y-1">
                   <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                     <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                    <span class="text-stone-400 text-[10px]">${(m.vaf * 100).toFixed(1)}% VAF</span>
+                    <span class="text-stone-400 text-[10px]">High Presence</span>
                   </div>
                   <div class="text-[11px] text-stone-400 font-sans flex items-center justify-between">
                     <span>${this.getSampleRole(m.sample)}</span>
