@@ -868,31 +868,32 @@ window.PedigreeInspector = {
   FAMILY_PEDIGREES: {
     'IN': {
       code: 'IN',
-      name: 'India (IN - Deepali & Rishi)',
+      name: 'India — Central/North (IN)',
       haplo: 'Haplogroup M / R (IN)',
+      grandmother: 'IN_F_RISG',
       mother: 'IN_F_RISM',
       father: 'IN_M_RISF',
-      children: ['IN_M_RIS', 'IN_M_RISS1', 'IN_F_RISG', 'IN_F_DPL', 'IN_M_DPLH']
+      children: ['IN_M_RIS', 'IN_M_RISS1']
     },
     'IS': {
       code: 'IS',
-      name: 'India South (IS - Vys, Rav & Sel)',
-      haplo: 'Haplogroup M / R (IS / VYS)',
+      name: 'India South — Deccan (IS)',
+      haplo: 'Haplogroup M / R (IS)',
       mother: 'IS_F_VYSM',
       father: 'IS_M_RAV',
-      children: ['IS_M_SEL', 'IS_F_VYS', 'IS_F_VYS2', 'IS_F_VYSC1', 'IS_M_PRIC1']
+      children: ['IS_F_VYS', 'IS_F_VYS2', 'IS_F_VYSC1', 'IS_M_PRIC1']
     },
     'IW': {
       code: 'IW',
-      name: 'India West (IW - Raj & Anjali)',
+      name: 'India West — Gujarat (IW)',
       haplo: 'Haplogroup M / R (IW)',
       mother: 'IW_F_ANJM',
       father: 'IW_M_ANJF',
-      children: ['IW_F_ANJS1', 'IW_F_ANJ']
+      children: ['IW_F_ANJ', 'IW_F_ANJS1']
     },
     'PK': {
       code: 'PK',
-      name: 'Pakistan (PK - Wasim Family)',
+      name: 'Pakistan — Indus Valley (PK)',
       haplo: 'Haplogroup M / U (PK)',
       mother: 'PK_F_WAS',
       father: 'PK_M_WASH',
@@ -900,17 +901,17 @@ window.PedigreeInspector = {
     },
     'UK': {
       code: 'UK',
-      name: 'Ukraine (UK - Nika Family)',
+      name: 'Ukraine — Eastern Europe (UK)',
       haplo: 'Haplogroup U4 / H',
       grandmother: 'UK_F_NIKG',
       mother: 'UK_F_NIKM',
       aunt: 'UK_F_NIKA',
       father: null,
-      children: ['UK_M_NIKS1', 'UK_M_NIKS2', 'UK_M_NIK']
+      children: ['UK_M_NIKS1', 'UK_M_NIK', 'UK_M_NIKS2']
     },
     'MX': {
       code: 'MX',
-      name: 'Mexico (MX - Cry Family)',
+      name: 'Mexico — Mesoamerica (MX)',
       haplo: 'Haplogroup B2',
       mother: 'MX_F_CRY',
       father: 'MX_M_CRYF',
@@ -918,15 +919,15 @@ window.PedigreeInspector = {
     },
     'HK': {
       code: 'HK',
-      name: 'Hong Kong (HK - Jan Family)',
+      name: 'Hong Kong — Pearl River (HK)',
       haplo: 'Haplogroup M7',
-      mother: 'HK_F_JAN',
+      mother: 'HK_F_JANM',
       father: 'HK_M_WLL',
-      children: ['HK_F_JANM']
+      children: ['HK_F_JAN']
     },
     'KR': {
       code: 'KR',
-      name: 'Korea (KR - Moo Family)',
+      name: 'Korea — Northeast Asia (KR)',
       haplo: 'Haplogroup D4',
       mother: 'KR_F_MOO',
       father: null,
@@ -934,7 +935,7 @@ window.PedigreeInspector = {
     },
     'CL': {
       code: 'CL',
-      name: 'Colombia (CL - Alj Family)',
+      name: 'Colombia — South America (CL)',
       haplo: 'Haplogroup C1',
       mother: 'CL_F_ALJ',
       father: null,

@@ -1,9 +1,8 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
- * Strict Privacy: Individual samples display only role (Mother, Father, Child 1, Aunt, etc.),
- * ethnicity visible solely on overlays, zero label collisions,
- * shorter well-proportioned container, bottom translucent zoom controls,
- * interactive Conserved Ancestral Mutation buttons that launch a global cladogram highlighting all carrying samples.
+ * Kinship-Aware Role Mapping (Mother, Father, Child 1, Child 2, Child 3, Aunt, Grandmother),
+ * Zero Label Collisions / Overlaps (Dynamic 1300px logical tree spacing),
+ * Translucent bottom zoom dock, and interactive Conserved Mutation Cladogram pop-up.
  */
 
 window.TreeViewer = {
@@ -71,29 +70,91 @@ window.TreeViewer = {
     });
   },
 
-  // Role mapper for strict privacy protection (Never display real names, no redundant repeats)
+  // Kinship-aware role hierarchy across all 43 samples
   getSampleRole(sampleName) {
     if (!sampleName) return 'Lineage Member';
-    const s = String(sampleName).toUpperCase();
-    if (s.includes('NIKG') || s.includes('RISG')) return 'Grandmother';
-    if (s.includes('NIKA')) return 'Aunt';
-    if (s.includes('ANJM') || s.includes('VYSM') || s.includes('NIKM') || s.includes('WAS') || s.includes('DPL') || s.includes('RISM') || s.includes('MOO') || s.includes('CRY') || s.includes('JAN') || s.includes('ALJ') || s.includes('TON') || s.includes('BHA')) {
-      if (s.endsWith('M') || s.includes('_F_')) return 'Mother';
-    }
-    if (s.includes('ANJF') || s.includes('RISF') || s.includes('RAV') || s.includes('SEL') || s.includes('WASH') || s.includes('DPLH') || s.includes('GER') || s.includes('_M_') || s.includes('PATERNAL')) {
-      return 'Father';
-    }
-    if (s.includes('S1') || s.includes('C1') || s.includes('PRIC1') || s.includes('MOOC1') || s.includes('CRYS1') || s.includes('ALJC1') || s.includes('ANJS1') || s.includes('VYSC1') || s.includes('WASC1') || s.includes('RISS1')) {
-      return 'Child 1';
-    }
-    if (s.includes('S2') || s.includes('C2') || s.includes('WASC2') || s.includes('VYS2')) {
-      return 'Child 2';
-    }
-    if (s.includes('R3')) return 'Lineage Member';
+    const s = String(sampleName).trim().toUpperCase();
+
+    // Exact Map for all samples
+    const EXACT_ROLES = {
+      // UK Cohort (Nika Family: S1 is oldest, NIK is middle, S2 is youngest)
+      'UK_F_NIKG': 'Grandmother',
+      'UK_F_NIKA': 'Aunt',
+      'UK_F_NIKM': 'Mother',
+      'UK_M_NIKS1': 'Child 1 (Oldest)',
+      'UK_M_NIK': 'Child 2 (Middle)',
+      'UK_M_NIKS2': 'Child 3 (Youngest)',
+
+      // IN Cohort (Deepali & Rishi Families)
+      'IN_F_RISG': 'Grandmother',
+      'IN_F_RISM': 'Mother',
+      'IN_M_RISF': 'Father',
+      'IN_M_RIS': 'Child 1',
+      'IN_M_RISS1': 'Child 2',
+      'IN_F_DPL': 'Mother',
+      'IN_M_DPLH': 'Father',
+
+      // IS Cohort (Vys, Rav & Sel)
+      'IS_F_VYSM': 'Mother',
+      'IS_M_RAV': 'Father',
+      'IS_M_SEL': 'Father 2',
+      'IS_F_VYS': 'Child 1',
+      'IS_F_VYS2': 'Child 2',
+      'IS_F_VYSC1': 'Child 3',
+      'IS_M_PRIC1': 'Child 1',
+
+      // IW Cohort (Raj & Anjali Family)
+      'IW_F_ANJM': 'Mother',
+      'IW_M_ANJF': 'Father',
+      'IW_F_ANJ': 'Child 1',
+      'IW_F_ANJS1': 'Child 2',
+
+      // PK Cohort (Wasim Family)
+      'PK_F_WAS': 'Mother',
+      'PK_M_WASH': 'Father',
+      'PK_M_WASC1': 'Child 1',
+      'PK_M_WASC2': 'Child 2',
+
+      // HK Cohort (Jan Family)
+      'HK_F_JANM': 'Mother',
+      'HK_M_WLL': 'Father',
+      'HK_F_JAN': 'Child 1',
+
+      // KR Cohort (Moo Family)
+      'KR_F_MOO': 'Mother',
+      'KR_F_MOOC1': 'Child 1',
+
+      // MX Cohort (Cry Family)
+      'MX_F_CRY': 'Mother',
+      'MX_M_CRYF': 'Father',
+      'MX_F_CRYS1': 'Child 1',
+
+      // CL Cohort (Alj Family)
+      'CL_F_ALJ': 'Mother',
+      'CL_F_ALJC1': 'Child 1',
+
+      // AA, TB, CA, NA, SA
+      'AA_F_TON': 'Mother',
+      'TB_F_BHA': 'Mother',
+      'CA_M_GER': 'Father',
+      'NA_F_R3_2_LP5206_MRG': 'Mother',
+      'SA_M_RD_2_LP5205_MRG': 'Father'
+    };
+
+    if (EXACT_ROLES[s]) return EXACT_ROLES[s];
+
+    // Generic fallback parsing
+    if (s.includes('NIKG') || s.includes('RISG') || s.endsWith('G')) return 'Grandmother';
+    if (s.includes('NIKA') || s.endsWith('A')) return 'Aunt';
+    if (s.endsWith('M') || s.includes('_F_') || s.includes('MOTHER')) return 'Mother';
+    if (s.endsWith('F') || s.endsWith('H') || s.includes('GER') || s.includes('WLL') || s.includes('FATHER')) return 'Father';
+    if (s.includes('S1') || s.includes('C1')) return 'Child 1';
+    if (s.includes('S2') || s.includes('C2') || s.endsWith('2')) return 'Child 2';
+    if (s.includes('S3') || s.includes('C3') || s.endsWith('3')) return 'Child 3';
     return s.includes('_F_') ? 'Mother' : 'Father';
   },
 
-  // De-identified label for leaf nodes (No ethnicity prefix, only role)
+  // Leaf node label (Role ONLY, zero ethnicity code prefix)
   getDeidentifiedLabel(sampleName) {
     if (!sampleName || sampleName.includes('Clade')) return '';
     return this.getSampleRole(sampleName);
@@ -254,7 +315,7 @@ window.TreeViewer = {
     if (this.svgG && this.zoomBehavior && svg.node()) {
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
-        d3.zoomIdentity
+        d3.zoomIdentity.translate(20, 10).scale(0.36)
       );
     }
   },
@@ -276,7 +337,7 @@ window.TreeViewer = {
 
     const width = document.getElementById('treeContainer')?.clientWidth || 900;
     const height = 470;
-    const scale = 1.35;
+    const scale = 0.65;
 
     if (matchedNodes.length > 0) {
       const avgX = d3.mean(matchedNodes, d => d.y);
@@ -284,11 +345,6 @@ window.TreeViewer = {
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
         d3.zoomIdentity.translate(width / 2 - avgX * scale, height / 2 - avgY * scale).scale(scale)
-      );
-    } else {
-      svg.transition().duration(750).call(
-        this.zoomBehavior.transform,
-        d3.zoomIdentity.scale(1.2)
       );
     }
   },
@@ -355,7 +411,7 @@ window.TreeViewer = {
       
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
       const height = 470;
-      const scale = selectedCodes.length > 1 ? 1.4 : 1.95;
+      const scale = selectedCodes.length > 1 ? 0.8 : 1.15;
 
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
@@ -440,7 +496,7 @@ window.TreeViewer = {
     const carriers = allVariants.filter(v => v.pos === targetPos);
     const carrierSamples = Array.from(new Set(carriers.map(v => v.sample)));
 
-    // Highlight on main tree as well
+    // Pulse and highlight on main tree
     const svg = d3.select('#treeContainer svg');
     if (svg.node()) {
       svg.selectAll('.tree-node circle')
@@ -453,7 +509,7 @@ window.TreeViewer = {
     }
 
     if (titleEl) {
-      titleEl.innerHTML = `🧬 Conserved Mutation: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
+      titleEl.innerHTML = `🧬 Conserved Mutation Cladogram: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
     }
 
     const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
@@ -464,11 +520,11 @@ window.TreeViewer = {
         <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 flex flex-wrap items-center justify-between gap-3 font-mono">
           <div>
             <div class="text-[11px] text-stone-400">Total Inherited Lineages Carrying Mutation:</div>
-            <div class="text-base font-bold text-emerald-400">${carrierSamples.length} Sample Lines (${carrierCohorts.length} Global Cohorts)</div>
+            <div class="text-base font-bold text-emerald-400">${carrierSamples.length} Sample Lines Across ${carrierCohorts.length} Global Cohorts</div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
-              High Presence Conserved Motif
+              Conserved Founder Mutation (High Presence)
             </span>
           </div>
         </div>
@@ -520,7 +576,7 @@ window.TreeViewer = {
     container.innerHTML = '';
 
     const width = container.clientWidth || 900;
-    const height = 470; // Shorter, elegant canvas proportion
+    const height = 470; // Shorter, elegant canvas
     const margin = { top: 20, right: 180, bottom: 20, left: 40 };
 
     const svg = d3.select(container)
@@ -535,7 +591,7 @@ window.TreeViewer = {
     this.svgG = g;
 
     this.zoomBehavior = d3.zoom()
-      .scaleExtent([0.4, 4.5])
+      .scaleExtent([0.2, 4.5])
       .on('zoom', (event) => {
         g.attr('transform', event.transform);
       });
@@ -544,7 +600,7 @@ window.TreeViewer = {
     const root = d3.hierarchy(this.treeData);
 
     if (this.activeLayout === 'radial') {
-      const radius = Math.min(width, height) / 2 - 60;
+      const radius = Math.min(width, height) / 2 + 180;
       const cluster = d3.cluster().size([360, radius]);
       cluster(root);
 
@@ -626,12 +682,15 @@ window.TreeViewer = {
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getDeidentifiedLabel(d.data.name));
 
+      // Initial fit
+      svg.call(this.zoomBehavior.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(0.55));
+
     } else {
       const leafCount = root.leaves().length;
-      // Generous vertical separation (30px per leaf) to guarantee zero overlapping
-      const layoutHeight = Math.max(height - margin.top - margin.bottom, leafCount * 30);
+      // Generous 1300px layout height to guarantee ZERO node overlapping
+      const layoutHeight = Math.max(1280, leafCount * 30);
       const treeLayout = d3.tree()
-        .size([layoutHeight, width - margin.left - margin.right - 140])
+        .size([layoutHeight, 720])
         .separation((a, b) => (a.parent === b.parent ? 1.6 : 2.4));
       treeLayout(root);
 
@@ -655,7 +714,7 @@ window.TreeViewer = {
 
         const padY = 12;
         const padXLeft = 16;
-        const padXRight = 130;
+        const padXRight = 140;
 
         const overlayG = overlayGroup.append('g').attr('class', `family-overlay-${code}`);
 
@@ -671,14 +730,14 @@ window.TreeViewer = {
           .attr('stroke-width', 1.8)
           .attr('stroke-opacity', 0.5);
 
-        // De-identified Family Title Badge on the Overlay
+        // Ethnicity visible ONLY on the overlay banner
         const famName = this.getFamilyName(code);
         overlayG.append('text')
           .attr('x', maxX + 14)
           .attr('y', (minY + maxY) / 2)
           .attr('dy', '0.35em')
           .attr('fill', color)
-          .style('font-size', '11.5px')
+          .style('font-size', '12px')
           .style('font-weight', '800')
           .style('font-family', 'JetBrains Mono, monospace')
           .text(famName);
@@ -728,6 +787,9 @@ window.TreeViewer = {
         .style('font-weight', '500')
         .style('font-family', 'JetBrains Mono, monospace')
         .text(d => this.getDeidentifiedLabel(d.data.name));
+
+      // Initial global overview transform
+      svg.call(this.zoomBehavior.transform, d3.zoomIdentity.translate(20, 10).scale(0.36));
     }
   },
 
@@ -893,7 +955,7 @@ window.TreeViewer = {
     });
   },
 
-  // Single Unified Cohort Mutation Summary Card (No duplicate boxes)
+  // Single Unified Cohort Mutation Summary Card
   updateFamilyDataPanel(selectedCodes, matchedNodes = []) {
     const card = document.getElementById('familyLineageCard');
     if (!card) return;
@@ -966,7 +1028,7 @@ window.TreeViewer = {
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
               <span>💎 Conserved Diagnostic Markers (${uniqueSharedMuts.length} Shared Across Family Line)</span>
             </h5>
-            <span class="text-[10px] text-stone-400 font-sans">Inherited across all cohort members</span>
+            <span class="text-[10px] text-stone-400 font-sans">Click any marker to open cladogram</span>
           </div>
           ${uniqueSharedMuts.length > 0 ? `
             <div class="flex flex-wrap gap-2 pt-1">
