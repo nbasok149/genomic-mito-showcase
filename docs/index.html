@@ -13,35 +13,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=6.0">
+  <link rel="stylesheet" href="css/styles.css?v=7.0">
 </head>
 <body class="bg-stone-950 text-stone-100 min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-stone-950">
 
-  <!-- 🧬 Lineage Welcome & Family Selection Modal (Prompt on First Open) -->
+  <!-- 🧬 Lineage Welcome & Cohort Selection Modal (Prompt on First Open) -->
   <div id="familyWelcomeModal" class="fixed inset-0 bg-stone-950/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
-    <div class="earth-panel max-w-2xl w-full p-8 space-y-6 text-center shadow-2xl relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/50">
+    <div class="earth-panel max-w-xl w-full p-8 space-y-6 text-center shadow-2xl relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/50">
       
       <!-- Mitochondria Icon -->
-      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-600 mx-auto flex items-center justify-center text-stone-950 shadow-lg shadow-orange-600/30">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-600 mx-auto flex items-center justify-center text-stone-950 shadow-lg shadow-orange-600/30">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
       </div>
 
       <div class="space-y-1.5">
         <div class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">🧬 Genomic Mito Visualizer</div>
         <h2 class="text-2xl font-extrabold text-stone-100">Select Your Family Lineage</h2>
-        <p class="text-stone-300 text-xs leading-relaxed max-w-lg mx-auto">
-          Choose your family cohort to zoom directly into your ancestral maternal clade on the cladogram, trace your out-of-Africa migration trail on the 3D globe, and inspect your diagnostic mutations.
+        <p class="text-stone-300 text-xs leading-relaxed max-w-md mx-auto">
+          Choose your family cohort below to zoom directly into your ancestral maternal clade on the cladogram, trace your migration trail on the 3D globe, and inspect diagnostic mutations.
         </p>
       </div>
 
-      <!-- Quick Family Select Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-left font-mono text-xs max-h-60 overflow-y-auto p-1">
+      <!-- Clean De-Identified Family Select Grid (No personal names) -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-left font-mono text-xs max-h-56 overflow-y-auto p-1">
         <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
           <div class="font-bold text-orange-400 group-hover:text-orange-300 flex items-center justify-between">
             <span>🇮🇳 India (IN)</span>
             <span class="text-[10px] text-stone-500">M/R</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Deepali &amp; Rishi Families</div>
+          <div class="text-[11px] text-stone-400 font-sans">Central / North India</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -49,7 +49,7 @@
             <span>🇮🇳 India South (IS)</span>
             <span class="text-[10px] text-stone-500">VYS</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Vys, Rav, Sel &amp; Pri</div>
+          <div class="text-[11px] text-stone-400 font-sans">Southern India</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -57,7 +57,7 @@
             <span>🇮🇳 India West (IW)</span>
             <span class="text-[10px] text-stone-500">J1</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Raj &amp; Anjali Family</div>
+          <div class="text-[11px] text-stone-400 font-sans">Western India</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -65,7 +65,7 @@
             <span>🇵🇰 Pakistan (PK)</span>
             <span class="text-[10px] text-stone-500">M/U</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Wasim Family (Indus)</div>
+          <div class="text-[11px] text-stone-400 font-sans">Indus Valley</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -73,7 +73,7 @@
             <span>🇺🇦 Ukraine (UK)</span>
             <span class="text-[10px] text-stone-500">U4/H</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Nika Family</div>
+          <div class="text-[11px] text-stone-400 font-sans">Eastern Europe</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -81,7 +81,7 @@
             <span>🇰🇷 Korea (KR)</span>
             <span class="text-[10px] text-stone-500">D4</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Moo Family</div>
+          <div class="text-[11px] text-stone-400 font-sans">Northeast Asia</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -89,7 +89,7 @@
             <span>🇲🇽 Mexico (MX)</span>
             <span class="text-[10px] text-stone-500">B2</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Cry Family (Mesoamerica)</div>
+          <div class="text-[11px] text-stone-400 font-sans">Mesoamerica</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -97,7 +97,7 @@
             <span>🇭🇰 Hong Kong (HK)</span>
             <span class="text-[10px] text-stone-500">M7</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Jan Family (East Asia)</div>
+          <div class="text-[11px] text-stone-400 font-sans">East Asia Coastal</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -105,7 +105,7 @@
             <span>🇨🇴 Colombia (CL)</span>
             <span class="text-[10px] text-stone-500">C1</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Alj Family (South America)</div>
+          <div class="text-[11px] text-stone-400 font-sans">South America</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -113,7 +113,7 @@
             <span>🌍 African (AA)</span>
             <span class="text-[10px] text-stone-500">L2</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Ton Family (Origin Cradle)</div>
+          <div class="text-[11px] text-stone-400 font-sans">Origin Cradle</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -121,7 +121,7 @@
             <span>🏔️ Tibet (TB)</span>
             <span class="text-[10px] text-stone-500">M9</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Bha Family (High Altitude)</div>
+          <div class="text-[11px] text-stone-400 font-sans">Himalayan Plateau</div>
         </button>
 
         <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
@@ -129,47 +129,45 @@
             <span>🇨🇦 Canada (CA)</span>
             <span class="text-[10px] text-stone-500">H2</span>
           </div>
-          <div class="text-[11px] text-stone-400 font-sans">Ger Family (North America)</div>
+          <div class="text-[11px] text-stone-400 font-sans">North America</div>
         </button>
       </div>
 
-      <!-- Dropdown or Direct Confirm -->
+      <!-- Formatted Full-Width Selection & Action Box (No squishing/overflow) -->
       <div class="space-y-3 pt-2">
-        <div class="flex items-center space-x-2">
-          <select id="welcomeModalSelect" class="flex-grow px-4 py-3 rounded-xl bg-stone-950 border border-stone-700 text-sm text-stone-100 focus:outline-none focus:border-orange-500 font-mono">
-            <option value="IN">🇮🇳 India — Central/North (Deepali &amp; Rishi Families)</option>
-            <option value="IS">🇮🇳 India South (Vys, Rav, Sel, Pri Families)</option>
-            <option value="IW">🇮🇳 India West (Raj &amp; Anjali Family)</option>
-            <option value="PK">🇵🇰 Pakistan (Wasim Family)</option>
-            <option value="UK">🇺🇦 Ukraine (Nika Family)</option>
-            <option value="KR">🇰🇷 Korea (Moo Family)</option>
-            <option value="MX">🇲🇽 Mexico (Cry Family)</option>
-            <option value="HK">🇭🇰 Hong Kong (Jan Family)</option>
-            <option value="CL">🇨🇴 Colombia (Alj Family)</option>
-            <option value="AA">🌍 African (Ton Family)</option>
-            <option value="TB">🏔️ Tibet (Bha Family)</option>
-            <option value="CA">🇨🇦 Canada (Ger Family)</option>
-            <option value="NA">🪶 Native North America (R3 Family)</option>
-          </select>
+        <select id="welcomeModalSelect" class="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-700 text-xs sm:text-sm text-stone-100 focus:outline-none focus:border-orange-500 font-mono">
+          <option value="IN">🇮🇳 India — Central/North (IN)</option>
+          <option value="IS">🇮🇳 India South — Deccan (IS)</option>
+          <option value="IW">🇮🇳 India West — Gujarat/Kathiawar (IW)</option>
+          <option value="PK">🇵🇰 Pakistan — Indus Valley (PK)</option>
+          <option value="UK">🇺🇦 Ukraine — Eastern Europe (UK)</option>
+          <option value="KR">🇰🇷 Korea — Northeast Asia (KR)</option>
+          <option value="MX">🇲🇽 Mexico — Mesoamerica (MX)</option>
+          <option value="HK">🇭🇰 Hong Kong — Pearl River Delta (HK)</option>
+          <option value="CL">🇨🇴 Colombia — Andean South America (CL)</option>
+          <option value="AA">🌍 African — Sub-Saharan Cradle (AA)</option>
+          <option value="TB">🏔️ Tibet — Himalayan Plateau (TB)</option>
+          <option value="CA">🇨🇦 Canada — North America (CA)</option>
+          <option value="NA">🪶 Native North America (NA)</option>
+        </select>
 
-          <button id="confirmWelcomeFamilyBtn" class="py-3 px-6 text-xs font-bold uppercase tracking-wider rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 hover:brightness-110 shadow-lg shadow-orange-600/30 transition-all font-mono shrink-0">
-            Explore My Lineage ➔
-          </button>
-        </div>
+        <button id="confirmWelcomeFamilyBtn" class="w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 hover:brightness-110 shadow-lg shadow-orange-600/30 transition-all font-mono">
+          Explore My Lineage ➔
+        </button>
 
         <div class="flex items-center justify-between text-xs text-stone-400 pt-1 font-mono">
           <label class="flex items-center space-x-2 cursor-pointer">
             <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-stone-950 border-stone-700 text-orange-600 focus:ring-0">
-            <span>Remember my cohort choice</span>
+            <span>Remember cohort choice</span>
           </label>
           <button id="closeWelcomeModalBtn" class="text-stone-500 hover:text-stone-300 transition-colors">
-            Explore Full Cohort Overview
+            Close / Full Overview
           </button>
         </div>
       </div>
 
       <div class="pt-2 border-t border-stone-800/80 text-[11px] text-stone-500 font-mono">
-        🛡️ De-Identified Research Data • Maternal mtDNA Lineage Engine
+        🛡️ De-Identified Data Protection • Maternal mtDNA Lineage Engine
       </div>
     </div>
   </div>
@@ -196,7 +194,7 @@
         </div>
       </div>
 
-      <!-- Navigation Tabs & Action Buttons -->
+      <!-- Action Buttons -->
       <div class="flex items-center space-x-2">
         <button id="openWelcomeModalBtn" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 text-stone-950 hover:brightness-110 shadow-md shadow-orange-600/20 transition-all font-mono flex items-center gap-1.5">
           <span>🌿 Switch Family</span>
@@ -205,7 +203,7 @@
           👨‍👩‍👧 Family Pedigree
         </button>
         <button id="openComparatorBtn" class="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-stone-900 border border-stone-700 hover:bg-stone-800 text-stone-200 transition-all font-mono">
-          Compare Samples
+          Compare Lineages
         </button>
       </div>
     </div>
@@ -277,7 +275,7 @@
         </div>
       </div>
 
-      <!-- Top Ethnicity Legend Bar -->
+      <!-- Top Ethnicity Legend Bar (De-Identified) -->
       <div class="earth-panel p-4 bg-stone-900/90 border border-stone-800 space-y-2 font-mono">
         <div class="flex items-center justify-between text-xs border-b border-stone-800/80 pb-2">
           <span class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
@@ -286,23 +284,23 @@
           <span class="text-stone-400 text-[11px]">13 Regional Population Cohorts</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 text-[11px]">
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IN:</strong> <span class="text-stone-300">India (Deepali/Rishi)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IS:</strong> <span class="text-stone-300">India South (Vys/Rav/Sel)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IW:</strong> <span class="text-stone-300">India West (Raj/Anj)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">PK:</strong> <span class="text-stone-300">Pakistan (Wasim)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">UK:</strong> <span class="text-stone-300">Ukraine (Nika)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">KR:</strong> <span class="text-stone-300">Korea (Moo)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">MX:</strong> <span class="text-stone-300">Mexico (Cry)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">HK:</strong> <span class="text-stone-300">Hong Kong (Jan)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">CL:</strong> <span class="text-stone-300">Colombia (Alj)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">AA:</strong> <span class="text-stone-300">African (Ton)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">TB:</strong> <span class="text-stone-300">Tibet (Bha)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">CA:</strong> <span class="text-stone-300">Canada (Ger)</span></div>
-          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">NA:</strong> <span class="text-stone-300">Native N.Am (R3)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IN:</strong> <span class="text-stone-300">India (Central/North)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IS:</strong> <span class="text-stone-300">India South (Deccan)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IW:</strong> <span class="text-stone-300">India West (Gujarat)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">PK:</strong> <span class="text-stone-300">Pakistan (Indus)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">UK:</strong> <span class="text-stone-300">Ukraine (E. Europe)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">KR:</strong> <span class="text-stone-300">Korea (NE Asia)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">MX:</strong> <span class="text-stone-300">Mexico (Mesoamerica)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">HK:</strong> <span class="text-stone-300">Hong Kong (E. Asia)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">CL:</strong> <span class="text-stone-300">Colombia (S. America)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">AA:</strong> <span class="text-stone-300">African (Cradle)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">TB:</strong> <span class="text-stone-300">Tibet (Plateau)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">CA:</strong> <span class="text-stone-300">Canada (N. America)</span></div>
+          <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">NA:</strong> <span class="text-stone-300">Native N. America</span></div>
         </div>
       </div>
 
-      <!-- Guided Entry Point Card: Find Your Family -->
+      <!-- Guided Entry Point Card: Find Your Family (Clean Layout) -->
       <div class="earth-panel p-5 bg-gradient-to-r from-orange-950/40 via-stone-900 to-amber-950/30 border border-orange-500/50 shadow-xl space-y-3 font-mono">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="space-y-1">
@@ -310,22 +308,22 @@
             <h3 class="text-lg font-bold text-stone-100">Find Your Family Data Instantly</h3>
             <p class="text-stone-300 text-xs font-sans">Select your family cohort below to zoom directly to your branch on the tree and compare lineages.</p>
           </div>
-          <div class="flex items-center space-x-3 w-full md:w-auto">
-            <select id="quickFamilyEntrySelect" class="w-full md:w-64 px-3 py-2 text-xs rounded-xl bg-stone-950 border border-orange-500/70 text-orange-300 font-bold focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all">
-              <option value="">-- Select Your Family --</option>
-              <option value="IN">India - Central/North (Deepali &amp; Rishi)</option>
-              <option value="IS">India South (Vys, Rav, Sel)</option>
-              <option value="IW">India West (Raj &amp; Anjali)</option>
-              <option value="PK">Pakistan (Wasim Family)</option>
-              <option value="UK">Ukraine (Nika Family)</option>
-              <option value="KR">Korea (Moo Family)</option>
-              <option value="MX">Mexico (Cry Family)</option>
-              <option value="HK">Hong Kong (Jan Family)</option>
-              <option value="CL">Colombia (Alj Family)</option>
-              <option value="AA">African (Ton Family)</option>
-              <option value="TB">Tibet (Bha Family)</option>
-              <option value="CA">Canada (Ger Family)</option>
-              <option value="NA">Native North America (R3)</option>
+          <div class="flex items-center w-full md:w-auto">
+            <select id="quickFamilyEntrySelect" class="w-full md:w-72 px-3 py-2 text-xs rounded-xl bg-stone-950 border border-orange-500/70 text-orange-300 font-bold focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all">
+              <option value="">-- Select Your Family Cohort --</option>
+              <option value="IN">India - Central/North (IN)</option>
+              <option value="IS">India South - Deccan (IS)</option>
+              <option value="IW">India West - Gujarat (IW)</option>
+              <option value="PK">Pakistan - Indus Valley (PK)</option>
+              <option value="UK">Ukraine - Eastern Europe (UK)</option>
+              <option value="KR">Korea - Northeast Asia (KR)</option>
+              <option value="MX">Mexico - Mesoamerica (MX)</option>
+              <option value="HK">Hong Kong - Pearl River (HK)</option>
+              <option value="CL">Colombia - South America (CL)</option>
+              <option value="AA">African - Sub-Saharan Cradle (AA)</option>
+              <option value="TB">Tibet - Himalayan Plateau (TB)</option>
+              <option value="CA">Canada - North America (CA)</option>
+              <option value="NA">Native North America (NA)</option>
             </select>
           </div>
         </div>
@@ -341,7 +339,7 @@
               <span id="viewModeIcon">🧬</span>
               <span id="viewModeTitle">Interactive Maternal Lineage &amp; 3D Geo-Explorer</span>
             </h3>
-            <p class="text-xs text-stone-400">Search sample IDs, rotate 3D migration globe, or inspect family diagnostic markers.</p>
+            <p class="text-xs text-stone-400">Search sample roles, rotate 3D migration globe, or inspect family diagnostic markers.</p>
           </div>
 
           <!-- View Mode Toggle Buttons -->
@@ -360,7 +358,7 @@
 
             <!-- Controls Group -->
             <div id="treeControlsGroup" class="flex items-center gap-2">
-              <input id="familyTreeSearchInput" type="text" placeholder="Search Sample or Haplogroup..." class="px-3 py-1.5 bg-stone-900 border border-stone-700 rounded-lg text-xs text-stone-200 focus:outline-none focus:border-orange-500 font-mono w-44">
+              <input id="familyTreeSearchInput" type="text" placeholder="Search Role or Haplogroup..." class="px-3 py-1.5 bg-stone-900 border border-stone-700 rounded-lg text-xs text-stone-200 focus:outline-none focus:border-orange-500 font-mono w-44">
               <select id="treeLayoutSelect" class="bg-stone-900 border border-stone-700 rounded-lg px-2.5 py-1.5 text-xs text-stone-200 focus:outline-none focus:border-orange-500 font-mono">
                 <option value="phylogram">Phylogram</option>
                 <option value="radial">Radial</option>
@@ -400,48 +398,48 @@
           <!-- Globe Canvas Container with Individualized Sample Journey -->
           <div id="globeWrapper" class="w-full hidden space-y-4">
             
-            <!-- Globe Sample Selector & Playback Bar -->
+            <!-- Globe Sample Selector & Playback Bar (De-Identified) -->
             <div class="p-4 rounded-2xl bg-stone-900/90 border border-stone-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono text-xs shadow-xl">
               <div class="space-y-1">
                 <div class="text-orange-400 font-bold uppercase tracking-wider text-[11px]">🌍 Individualized Migration Journey</div>
                 <div class="text-stone-200 font-bold text-sm">Out-of-Africa Progression &amp; Mutation Evidence</div>
-                <p class="text-stone-400 text-xs font-sans">Every sample begins in Africa and branches along historical routes proven by mutation evidence.</p>
+                <p class="text-stone-400 text-xs font-sans">Every lineage begins in Africa and branches along historical routes proven by mutation evidence.</p>
               </div>
 
               <div class="flex items-center space-x-3 w-full md:w-auto">
                 <select id="globeSampleSelect" class="px-3.5 py-2 rounded-xl bg-stone-950 border border-orange-500/70 text-orange-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all">
                   <optgroup label="India (Central/North)">
-                    <option value="IN_F_DPL">Sample: IN_F_DPL (Deepali Mother)</option>
-                    <option value="IN_M_DPLH">Sample: IN_M_DPLH (Deepali Family)</option>
-                    <option value="IN_F_RISM">Sample: IN_F_RISM (Rishi Mother)</option>
-                    <option value="IN_M_RIS">Sample: IN_M_RIS (Rishi Offspring)</option>
+                    <option value="IN_F_DPL">Cohort IN: Mother</option>
+                    <option value="IN_M_DPLH">Cohort IN: Father</option>
+                    <option value="IN_M_RIS">Cohort IN: Offspring</option>
                   </optgroup>
                   <optgroup label="India South (IS)">
-                    <option value="IS_F_VYSM">Sample: IS_F_VYSM (Vys Mother)</option>
-                    <option value="IS_M_RAV">Sample: IS_M_RAV (Rav Father)</option>
-                    <option value="IS_M_SEL">Sample: IS_M_SEL (Sel Father)</option>
-                    <option value="IS_M_PRIC1">Sample: IS_M_PRIC1 (Pri Family)</option>
+                    <option value="IS_F_VYSM">Cohort IS: Mother</option>
+                    <option value="IS_M_RAV">Cohort IS: Paternal Member</option>
+                    <option value="IS_M_SEL">Cohort IS: Paternal Member 2</option>
+                    <option value="IS_M_PRIC1">Cohort IS: Child 1</option>
                   </optgroup>
                   <optgroup label="India West (IW)">
-                    <option value="IW_F_ANJM">Sample: IW_F_ANJM (Anjali Mother)</option>
-                    <option value="IW_M_ANJF">Sample: IW_M_ANJF (Raj Father)</option>
-                    <option value="IW_F_ANJS1">Sample: IW_F_ANJS1 (Anjali Child)</option>
+                    <option value="IW_F_ANJM">Cohort IW: Mother</option>
+                    <option value="IW_M_ANJF">Cohort IW: Father</option>
+                    <option value="IW_F_ANJS1">Cohort IW: Child 1</option>
                   </optgroup>
                   <optgroup label="Pakistan (PK)">
-                    <option value="PK_F_WAS">Sample: PK_F_WAS (Wasim Mother)</option>
-                    <option value="PK_M_WASH">Sample: PK_M_WASH (Wasim Father)</option>
-                    <option value="PK_M_WASC1">Sample: PK_M_WASC1 (Wasim Child)</option>
+                    <option value="PK_F_WAS">Cohort PK: Mother</option>
+                    <option value="PK_M_WASH">Cohort PK: Father</option>
+                    <option value="PK_M_WASC1">Cohort PK: Child 1</option>
                   </optgroup>
                   <optgroup label="Other Regional Lineages">
-                    <option value="UK_F_NIKM">Sample: UK_F_NIKM (Ukraine - Nika)</option>
-                    <option value="KR_F_MOO">Sample: KR_F_MOO (Korea - Moo)</option>
-                    <option value="MX_F_CRY">Sample: MX_F_CRY (Mexico - Cry)</option>
-                    <option value="HK_F_JAN">Sample: HK_F_JAN (Hong Kong - Jan)</option>
-                    <option value="CL_F_ALJ">Sample: CL_F_ALJ (Colombia - Alj)</option>
-                    <option value="AA_F_TON">Sample: AA_F_TON (African - Ton)</option>
-                    <option value="TB_F_BHA">Sample: TB_F_BHA (Tibet - Bha)</option>
-                    <option value="CA_M_GER">Sample: CA_M_GER (Canada - Ger)</option>
-                    <option value="NA_F_R3_2_LP5206_mrg">Sample: NA_F_R3 (Native North America)</option>
+                    <option value="UK_F_NIKM">Cohort UK: Mother</option>
+                    <option value="UK_F_NIKA">Cohort UK: Aunt</option>
+                    <option value="KR_F_MOO">Cohort KR: Mother</option>
+                    <option value="MX_F_CRY">Cohort MX: Mother</option>
+                    <option value="HK_F_JAN">Cohort HK: Mother</option>
+                    <option value="CL_F_ALJ">Cohort CL: Mother</option>
+                    <option value="AA_F_TON">Cohort AA: Mother</option>
+                    <option value="TB_F_BHA">Cohort TB: Mother</option>
+                    <option value="CA_M_GER">Cohort CA: Member</option>
+                    <option value="NA_F_R3_2_LP5206_mrg">Cohort NA: Member</option>
                   </optgroup>
                 </select>
 
@@ -471,10 +469,10 @@
           </div>
         </div>
 
-        <!-- Selected Lineage Detail Card / Loud Sample Inspector -->
+        <!-- Combined Single Cohort Mutation Inspector Card (Clean visual hierarchy, no duplicate boxes) -->
         <div id="familyLineageCard" class="pt-2">
           <div class="p-4 rounded-xl bg-stone-900/80 border border-stone-800 text-xs text-stone-300 font-mono">
-            🌿 Click any family button or sample on the diagram to zoom in and inspect private mutations.
+            🌿 Click any family cohort button or sample node on the diagram to zoom in and inspect private mutations.
           </div>
         </div>
       </div>
@@ -631,8 +629,8 @@
 
   </main>
 
-  <!-- Interactive Comparison Toast -->
-  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-40 hidden max-w-md w-full p-4 rounded-2xl bg-stone-900 border-2 border-orange-500 shadow-2xl space-y-3 font-mono text-xs animate-bounce">
+  <!-- Interactive Comparison Toast (Clean single slide-in, not jumping over and over) -->
+  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-40 hidden max-w-md w-full p-4 rounded-2xl bg-stone-900 border-2 border-orange-500 shadow-2xl space-y-3 font-mono text-xs transition-all duration-300 ease-out">
     <div class="flex items-center justify-between border-b border-stone-800 pb-2">
       <span id="compareToastTitle" class="font-extrabold text-orange-400 text-sm">Branch Selected</span>
       <button id="closeCompareToastBtn" class="text-stone-400 hover:text-stone-100 text-base font-bold">✕</button>
@@ -673,17 +671,28 @@
     </div>
   </div>
 
-  <!-- Comparative Report Modal -->
+  <!-- Comparative Lineage Report Modal (Interactive Multi-Cohort Comparison) -->
   <div id="familyReportModal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
     <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-orange-500/50 bg-stone-900">
-      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-800 pb-4">
         <div>
           <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">Comparative Lineage Report</span>
           <h3 id="reportModalTitle" class="text-xl font-extrabold text-stone-100">Ancestral Variant Analysis</h3>
         </div>
-        <button id="closeReportBtn" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-bold transition-all">
-          ✕ Close
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="reportFamily1Select" class="bg-stone-950 border border-stone-700 rounded-xl px-3 py-1.5 text-xs text-orange-300 font-mono">
+            <!-- Populated by FamilyReportGenerator -->
+          </select>
+          <select id="reportFamily2Select" class="bg-stone-950 border border-stone-700 rounded-xl px-3 py-1.5 text-xs text-amber-300 font-mono">
+            <!-- Populated by FamilyReportGenerator -->
+          </select>
+          <select id="reportFamily3Select" class="bg-stone-950 border border-stone-700 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-mono">
+            <!-- Populated by FamilyReportGenerator -->
+          </select>
+          <button id="closeReportBtn" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-bold transition-all font-mono">
+            ✕ Close
+          </button>
+        </div>
       </div>
       <div id="familyReportModalBody">
         <!-- Rendered dynamically by FamilyReportGenerator -->
@@ -710,8 +719,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/tree_viewer.js?v=6.0"></script>
-  <script src="js/globe_viewer.js?v=6.0"></script>
-  <script src="js/app.js?v=6.0"></script>
+  <script src="js/tree_viewer.js?v=7.0"></script>
+  <script src="js/globe_viewer.js?v=7.0"></script>
+  <script src="js/app.js?v=7.0"></script>
 </body>
 </html>

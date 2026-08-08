@@ -183,19 +183,19 @@ window.DiagnosticMarkersExplorer = {
 
 window.FamilyReportGenerator = {
   REGION_MAP: {
-    'IN': { code: 'IN', name: 'India (IN - Deepali & Rishi)', region: 'Central/North South Asia', haplo: 'Haplogroup M / R (IN)', history: 'Ancient South Asian maternal lineage derived from the early Southern Coastal out-of-Africa migration wave ~60,000 YBP.' },
-    'IS': { code: 'IS', name: 'India South (IS - Vys, Rav & Sel)', region: 'Southern South Asia', haplo: 'Haplogroup M / R (IS / VYS)', history: 'Southern Indian maternal lineage derived from ancient South Asian indigenous Out-of-Africa coastal settlement.' },
-    'IW': { code: 'IW', name: 'India West (IW - Raj & Anjali)', region: 'Western South Asia', haplo: 'Haplogroup M / R (IW)', history: 'Western South Asian regional sub-clade sharing ancient Southern Coastal out-of-Africa founding roots.' },
-    'PK': { code: 'PK', name: 'Pakistan (PK - Wasim)', region: 'Indus Valley', haplo: 'Haplogroup M / U (PK)', history: 'Indus Valley regional maternal lineage sharing deep historical trade and migration connections across Central/South Asia.' },
-    'UK': { code: 'UK', name: 'Ukraine (UK - Nika)', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic Hunter-Gatherers and Neolithic European agricultural expansion.' },
-    'MX': { code: 'MX', name: 'Mexico (MX - Cry)', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient East Asian ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
-    'HK': { code: 'HK', name: 'Hong Kong (HK - Jan)', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China, Hong Kong, and the Japanese Archipelago.' },
-    'KR': { code: 'KR', name: 'Korea (KR - Moo)', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
-    'CL': { code: 'CL', name: 'Colombia (CL - Alj)', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
-    'AA': { code: 'AA', name: 'African (AA - Ton)', region: 'Sub-Saharan Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
-    'TB': { code: 'TB', name: 'Tibet (TB - Bha)', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
-    'CA': { code: 'CA', name: 'Canada (CA - Ger)', region: 'North America', haplo: 'Haplogroup H2', history: 'North American / European lineage (Haplogroup H2).' },
-    'NA': { code: 'NA', name: 'Native North America (NA - R3)', region: 'North America', haplo: 'Haplogroup A2', history: 'Indigenous North American maternal lineage (Haplogroup A2) sharing ancient Beringian founder roots.' }
+    'IN': { code: 'IN', name: 'India — Central/North (IN)', region: 'Central/North South Asia', haplo: 'Haplogroup M / R (IN)', history: 'Ancient South Asian maternal lineage derived from the early Southern Coastal out-of-Africa migration wave ~60,000 YBP.' },
+    'IS': { code: 'IS', name: 'India South — Deccan (IS)', region: 'Southern South Asia', haplo: 'Haplogroup M / R (IS / VYS)', history: 'Southern Indian maternal lineage derived from ancient South Asian indigenous Out-of-Africa coastal settlement.' },
+    'IW': { code: 'IW', name: 'India West — Gujarat (IW)', region: 'Western South Asia', haplo: 'Haplogroup M / R (IW)', history: 'Western South Asian regional sub-clade sharing ancient Southern Coastal out-of-Africa founding roots.' },
+    'PK': { code: 'PK', name: 'Pakistan — Indus Valley (PK)', region: 'Indus Valley', haplo: 'Haplogroup M / U (PK)', history: 'Indus Valley regional maternal lineage sharing deep historical trade and migration connections across Central/South Asia.' },
+    'UK': { code: 'UK', name: 'Ukraine — Eastern Europe (UK)', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic Hunter-Gatherers and Neolithic European agricultural expansion.' },
+    'MX': { code: 'MX', name: 'Mexico — Mesoamerica (MX)', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient East Asian ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
+    'HK': { code: 'HK', name: 'Hong Kong — Pearl River (HK)', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China, Hong Kong, and the Japanese Archipelago.' },
+    'KR': { code: 'KR', name: 'Korea — Northeast Asia (KR)', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
+    'CL': { code: 'CL', name: 'Colombia — South America (CL)', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
+    'AA': { code: 'AA', name: 'African — Sub-Saharan Cradle (AA)', region: 'Sub-Saharan Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
+    'TB': { code: 'TB', name: 'Tibet — Himalayan Plateau (TB)', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
+    'CA': { code: 'CA', name: 'Canada — North America (CA)', region: 'North America', haplo: 'Haplogroup H2', history: 'North American / European lineage (Haplogroup H2).' },
+    'NA': { code: 'NA', name: 'Native North America (NA)', region: 'North America', haplo: 'Haplogroup A2', history: 'Indigenous North American maternal lineage (Haplogroup A2) sharing ancient Beringian founder roots.' }
   },
 
   getAllFamilies() {
@@ -207,7 +207,7 @@ window.FamilyReportGenerator = {
     const cleanCode = familyCode.replace('Ethnicity ', '').replace('Family ', '').trim();
     return this.REGION_MAP[cleanCode] || {
       code: cleanCode,
-      name: `${cleanCode}`,
+      name: `Cohort ${cleanCode}`,
       region: `Cohort ${cleanCode}`,
       haplo: 'Unassigned',
       history: 'Mitochondrial lineage dataset.'
@@ -309,8 +309,8 @@ window.FamilyReportGenerator = {
     if (!select1 || !select2) return;
 
     const families = this.getAllFamilies();
-    const optionsHtml = families.map(f => `<option value="${f.code}">${f.name} — ${f.region}</option>`).join('');
-    const optionalOptionsHtml = `<option value="">-- None (2-Way Compare) --</option>` + optionsHtml;
+    const optionsHtml = families.map(f => `<option value="${f.code}">${f.name}</option>`).join('');
+    const optionalOptionsHtml = `<option value="">-- Optional 3rd Cohort --</option>` + optionsHtml;
 
     select1.innerHTML = optionsHtml;
     select2.innerHTML = optionsHtml;
@@ -330,7 +330,7 @@ window.FamilyReportGenerator = {
   },
 
   renderReport(f1Key, f2Key, f3Key = null) {
-    const reportContainer = document.getElementById('familyReportBody');
+    const reportContainer = document.getElementById('familyReportModalBody') || document.getElementById('familyReportBody');
     if (!reportContainer || !window.App.variantsData) return;
 
     const info1 = this.getFamilyData(f1Key);

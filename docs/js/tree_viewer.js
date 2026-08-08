@@ -1,14 +1,15 @@
 /**
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
- * Clean diagram with clear labels (no 'ethnicity' word), large readable fonts,
- * 3-Tier Zooming (Family Clade -> Macro-Branch Section -> Global Tree),
- * floating zoom controls, loud sample mutation inspector, and internal branch node junction inspector.
+ * Fully privacy-protected with de-identified sample roles (Mother, Father, Child 1, Aunt, etc.),
+ * 3-Tier Zooming, reordered & condensed conserved ancestral mutations chart,
+ * single unified cohort mutation summary card (no duplicate boxes, no 'loudest metric'),
+ * and internal branch node junction inspector.
  */
 
 window.TreeViewer = {
   treeData: null,
   activeLayout: 'phylogram', // phylogram, radial, cladogram
-  selectedEthnicities: [], // Array of selected family codes e.g. ['IN', 'IS', 'IW']
+  selectedEthnicities: [], // Array of selected cohort codes e.g. ['IN', 'IS', 'IW']
   zoomBehavior: null,
   svgG: null,
   zoomTier: 3, // 1 = Family Clade (Zoomed In), 2 = Macro Branch Section, 3 = Global Cladogram (Full Tree)
@@ -62,6 +63,36 @@ window.TreeViewer = {
         });
       }
     });
+  },
+
+  // Role mapper for strict privacy protection (Never display real names)
+  getSampleRole(sampleName) {
+    if (!sampleName) return 'Lineage Member';
+    const s = String(sampleName).toUpperCase();
+    if (s.includes('NIKG') || s.includes('RISG')) return 'Grandmother';
+    if (s.includes('NIKA')) return 'Aunt';
+    if (s.includes('ANJM') || s.includes('VYSM') || s.includes('NIKM') || s.includes('WAS') || s.includes('DPL') || s.includes('RISM') || s.includes('MOO') || s.includes('CRY') || s.includes('JAN') || s.includes('ALJ') || s.includes('TON') || s.includes('BHA')) {
+      if (s.endsWith('M') || s.includes('_F_')) return 'Mother';
+    }
+    if (s.includes('ANJF') || s.includes('RISF') || s.includes('RAV') || s.includes('SEL') || s.includes('WASH') || s.includes('DPLH') || s.includes('GER')) {
+      return 'Father';
+    }
+    if (s.includes('S1') || s.includes('C1') || s.includes('PRIC1') || s.includes('MOOC1') || s.includes('CRYS1') || s.includes('ALJC1') || s.includes('ANJS1') || s.includes('VYSC1') || s.includes('WASC1') || s.includes('RISS1')) {
+      return 'Sibling 1 (Child 1)';
+    }
+    if (s.includes('S2') || s.includes('C2') || s.includes('WASC2') || s.includes('VYS2')) {
+      return 'Sibling 2 (Child 2)';
+    }
+    if (s.includes('R3')) return 'Lineage Member';
+    return s.includes('_F_') ? 'Maternal Member' : 'Paternal Member';
+  },
+
+  getDeidentifiedLabel(sampleName) {
+    if (!sampleName || sampleName.includes('Clade')) return '';
+    const parts = sampleName.split('_');
+    const code = parts[0];
+    const role = this.getSampleRole(sampleName);
+    return `${code} (${role})`;
   },
 
   extractFamilyGroupings() {
@@ -157,7 +188,7 @@ window.TreeViewer = {
         if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
         if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
         if (toastMsg) {
-          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-orange-400">Now click another branch on the tree</strong> to compare!`;
+          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-orange-400">Click another branch on the tree</strong> to compare!`;
         }
         toast.classList.remove('hidden');
       }
@@ -188,7 +219,7 @@ window.TreeViewer = {
     }
   },
 
-  // 3-Tier Intelligent Stepped Zooming
+  // 3-Tier Stepped Zooming
   zoomIn() {
     if (this.zoomTier === 3) {
       const currentCode = this.selectedEthnicities[0] || 'IN';
@@ -206,11 +237,9 @@ window.TreeViewer = {
 
   zoomOut() {
     if (this.zoomTier === 1) {
-      // Zoom out to Tier 2: Macro-Branch Section
       const currentCode = this.selectedEthnicities[0] || 'IN';
       this.zoomToMacroSection(this.macroSections[currentCode] || 2);
     } else {
-      // Zoom out to Tier 3: Global Tree
       this.zoomToGlobal();
     }
   },
@@ -266,7 +295,7 @@ window.TreeViewer = {
     this.selectedEthnicities = [familyCode];
     this.renderFamilyGroupButtons();
     this.highlightFamilyCluster();
-    this.updateZoomBadge(`Family: ${familyCode}`);
+    this.updateZoomBadge(`Cohort: ${familyCode}`);
   },
 
   updateZoomBadge(label) {
@@ -354,10 +383,10 @@ window.TreeViewer = {
   },
 
   ETHNICITY_COLORS: {
-    'IN': '#f59e0b', // Amber (India - Deepali & Rishi)
-    'IS': '#b45309', // Deep Amber (India South - Vys, Rav, Sel)
-    'IW': '#d97706', // Dark Amber (India West - Raj & Anjali)
-    'PK': '#8b5cf6', // Purple (Pakistan - Wasim)
+    'IN': '#f59e0b', // Amber (India)
+    'IS': '#b45309', // Deep Amber (India South)
+    'IW': '#d97706', // Dark Amber (India West)
+    'PK': '#8b5cf6', // Purple (Pakistan)
     'UK': '#6366f1', // Indigo (Ukraine)
     'KR': '#ec4899', // Pink (Korea)
     'MX': '#10b981', // Emerald (Mexico)
@@ -379,26 +408,21 @@ window.TreeViewer = {
     if (!rawName || rawName.includes('Clade')) return '';
     const parts = rawName.split('_');
     const regionMap = {
-      'IN': 'India (IN - Deepali/Rishi)',
-      'IS': 'India South (IS - Vys/Rav/Sel)',
-      'IW': 'India West (IW - Raj/Anj)',
-      'PK': 'Pakistan (PK - Wasim)',
-      'UK': 'Ukraine (UK - Nika)',
-      'KR': 'Korea (KR - Moo)',
-      'MX': 'Mexico (MX - Cry)',
-      'HK': 'Hong Kong (HK - Jan)',
-      'CL': 'Colombia (CL - Alj)',
-      'AA': 'African (AA - Ton)',
-      'TB': 'Tibet (TB - Bha)',
-      'CA': 'Canada (CA - Ger)',
-      'NA': 'Native North America (NA - R3)'
+      'IN': 'India (Central/North)',
+      'IS': 'India South (Deccan)',
+      'IW': 'India West (Gujarat)',
+      'PK': 'Pakistan (Indus)',
+      'UK': 'Ukraine (E. Europe)',
+      'KR': 'Korea (NE Asia)',
+      'MX': 'Mexico (Mesoamerica)',
+      'HK': 'Hong Kong (E. Asia)',
+      'CL': 'Colombia (S. America)',
+      'AA': 'African (Cradle)',
+      'TB': 'Tibet (Plateau)',
+      'CA': 'Canada (N. America)',
+      'NA': 'Native N. America'
     };
     return regionMap[parts[0]] || parts[0];
-  },
-
-  getSampleName(rawName) {
-    if (!rawName || rawName.includes('Clade')) return '';
-    return rawName;
   },
 
   render() {
@@ -408,7 +432,7 @@ window.TreeViewer = {
 
     const width = container.clientWidth || 900;
     const height = 650;
-    const margin = { top: 30, right: 180, bottom: 30, left: 50 };
+    const margin = { top: 30, right: 200, bottom: 30, left: 50 };
 
     const svg = d3.select(container)
       .append('svg')
@@ -546,7 +570,7 @@ window.TreeViewer = {
           .attr('stroke-width', 1.8)
           .attr('stroke-opacity', 0.5);
 
-        // Add Family Title Badge on the Overlay
+        // De-identified Family Title Badge on the Overlay
         const famName = this.getFamilyName(code);
         overlayG.append('text')
           .attr('x', maxX + 18)
@@ -592,6 +616,16 @@ window.TreeViewer = {
         .style('stroke-width', '2px')
         .style('cursor', 'pointer')
         .on('click', (event, d) => this.onNodeClick(d));
+
+      // Leaf Node Labels (De-identified roles)
+      node.filter(d => !d.children)
+        .append('text')
+        .attr('dx', 10)
+        .attr('dy', '0.32em')
+        .attr('fill', '#d6d3d1')
+        .style('font-size', '11px')
+        .style('font-family', 'JetBrains Mono, monospace')
+        .text(d => this.getDeidentifiedLabel(d.data.name));
     }
   },
 
@@ -626,8 +660,16 @@ window.TreeViewer = {
     let sampleA = leaves[0];
     let sampleB = leaves.length > 1 ? leaves[leaves.length - 1] : sampleA;
 
+    const roleA = this.getSampleRole(sampleA);
+    const roleB = this.getSampleRole(sampleB);
+    const codeA = sampleA.split('_')[0];
+    const codeB = sampleB.split('_')[0];
+
+    const deidentifiedA = `${codeA} (${roleA})`;
+    const deidentifiedB = `${codeB} (${roleB})`;
+
     if (titleEl) {
-      titleEl.innerHTML = `🧬 Ancestral Junction Inspector: <span class="text-orange-400">${sampleA}</span> &amp; <span class="text-amber-400">${sampleB}</span> (${leaves.length} Descendant Lineages)`;
+      titleEl.innerHTML = `🧬 Ancestral Junction Inspector: <span class="text-orange-400">${deidentifiedA}</span> &amp; <span class="text-amber-400">${deidentifiedB}</span> (${leaves.length} Descendant Lineages)`;
     }
 
     const sampleAVars = window.App.variantsData.variants.filter(v => v.sample === sampleA);
@@ -653,11 +695,11 @@ window.TreeViewer = {
     bodyEl.innerHTML = `
       <div class="space-y-6 font-sans">
         
-        <div class="p-5 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-3 font-mono">
+        <div class="p-5 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-2 font-mono">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3">
             <div>
               <div class="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1">Branch Node Triangulation</div>
-              <h4 class="text-lg font-extrabold text-stone-100">${sampleA} <span class="text-stone-500">&</span> ${sampleB}</h4>
+              <h4 class="text-lg font-extrabold text-stone-100">${deidentifiedA} <span class="text-stone-500">&amp;</span> ${deidentifiedB}</h4>
             </div>
             <span class="px-3 py-1.5 rounded-xl bg-orange-950/80 border border-orange-700/80 text-xs text-orange-300 font-bold">
               Ancestral Junction Node
@@ -668,6 +710,28 @@ window.TreeViewer = {
           </p>
         </div>
 
+        <!-- 1. CONSERVED ANCESTRAL MUTATIONS (Condensed, Listed First) -->
+        <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
+          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+            <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
+              <span>🧬 Conserved Ancestral Mutations (${sharedHigh.length})</span>
+            </h4>
+            <span class="text-stone-400 font-sans text-[11px]">High VAF conserved motifs along junction</span>
+          </div>
+          ${sharedHigh.length > 0 ? `
+            <div class="flex flex-wrap gap-2 pt-1">
+              ${sharedHigh.map(m => `
+                <span class="px-2.5 py-1.5 rounded-lg bg-stone-950 border border-emerald-800/80 text-emerald-300 font-mono font-bold text-xs shadow-sm">
+                  m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-emerald-400 text-[10px]">(${(m.vaf * 100).toFixed(0)}% VAF)</span>
+                </span>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="text-stone-400 italic text-xs font-sans">No deeply shared high-VAF variants unique to this specific internal pair.</div>
+          `}
+        </div>
+
+        <!-- 2. LOW-VAF MUTED / TRACE MUTATIONS (Appears Second, No Stable Marker) -->
         <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-stone-800 pb-2">
             <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
@@ -688,9 +752,8 @@ window.TreeViewer = {
                   <tr class="border-b border-stone-800 text-stone-400">
                     <th class="p-2.5">Position</th>
                     <th class="p-2.5">Mutation</th>
-                    <th class="p-2.5">Sample</th>
+                    <th class="p-2.5">Role</th>
                     <th class="p-2.5">VAF %</th>
-                    <th class="p-2.5">Gene Locus</th>
                     <th class="p-2.5">Confidence Note</th>
                   </tr>
                 </thead>
@@ -699,9 +762,8 @@ window.TreeViewer = {
                     <tr class="hover:bg-stone-800/40">
                       <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
                       <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
-                      <td class="p-2.5 text-orange-300">${m.sample}</td>
+                      <td class="p-2.5 text-orange-300 font-sans">${this.getSampleRole(m.sample)}</td>
                       <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% VAF</td>
-                      <td class="p-2.5 text-stone-300">${m.gene || 'Control Region (D-loop)'}</td>
                       <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded border border-amber-800 text-[10px]">Unverified Trace</span></td>
                     </tr>
                   `).join('')}
@@ -709,36 +771,9 @@ window.TreeViewer = {
               </table>
             </div>
           ` : `
-            <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs font-mono text-stone-400 flex items-center justify-between">
-              <span>✅ Zero trace mutations (&lt;3%) along this branch junction.</span>
-              <span class="text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold">100% Stable</span>
+            <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs font-mono text-stone-400">
+              Zero trace mutations (&lt;3%) along this branch junction.
             </div>
-          `}
-        </div>
-
-        <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
-            <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
-              <span>🧬 Conserved Ancestral Mutations (${sharedHigh.length})</span>
-            </h4>
-            <span class="text-stone-400 font-sans text-[11px]">High VAF conserved motifs along junction</span>
-          </div>
-          ${sharedHigh.length > 0 ? `
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-              ${sharedHigh.slice(0, 9).map(m => `
-                <div class="p-2.5 rounded-xl bg-stone-950 border border-emerald-900/60 flex items-center justify-between">
-                  <div>
-                    <span class="text-emerald-300 font-bold">m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                    <div class="text-[10px] text-stone-400 font-sans">${m.gene || 'D-loop'}</div>
-                  </div>
-                  <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-bold font-mono">
-                    ${(m.vaf * 100).toFixed(0)}% VAF
-                  </span>
-                </div>
-              `).join('')}
-            </div>
-          ` : `
-            <div class="text-stone-400 italic">No deeply shared high-VAF variants unique to this specific internal pair.</div>
           `}
         </div>
 
@@ -754,6 +789,7 @@ window.TreeViewer = {
     });
   },
 
+  // Single Unified Cohort Mutation Summary Card (No duplicate boxes, No 'Loudest Metric')
   updateFamilyDataPanel(selectedCodes, matchedNodes = []) {
     const card = document.getElementById('familyLineageCard');
     if (!card) return;
@@ -761,8 +797,8 @@ window.TreeViewer = {
     if (!selectedCodes || selectedCodes.length === 0) {
       card.innerHTML = `
         <div class="p-4 rounded-xl bg-stone-900/80 border border-stone-800 text-xs text-stone-300 font-mono flex items-center justify-between">
-          <span>🌿 Click any cohort button or sample node on the cladogram to zoom into private mutations.</span>
-          <span class="text-stone-400 text-[11px]">Showing Global Cohort Tree</span>
+          <span>🌿 Click any cohort button or sample node on the cladogram to zoom in and inspect private mutations.</span>
+          <span class="text-stone-400 text-[11px]">Global Cladogram View</span>
         </div>
       `;
       return;
@@ -771,108 +807,116 @@ window.TreeViewer = {
     if (!window.App.variantsData) return;
 
     const allVariants = window.App.variantsData.variants;
-    const mutToSamplesMap = new Map();
+    const primaryCode = selectedCodes[0];
+    const famName = this.getFamilyName(primaryCode);
 
+    const cohortVariants = allVariants.filter(v => v.sample.startsWith(primaryCode + '_') || v.sample === primaryCode);
+    const uniqueSamplesInCohort = Array.from(new Set(cohortVariants.map(v => v.sample)));
+
+    // Global uniqueness check
+    const mutToSamplesMap = new Map();
     allVariants.forEach(v => {
       const key = `m.${v.pos} ${v.ref}>${v.alt}`;
       if (!mutToSamplesMap.has(key)) mutToSamplesMap.set(key, new Set());
       mutToSamplesMap.get(key).add(v.sample);
     });
 
-    const getFeatureType = (geneName) => {
-      if (!geneName) return 'Non-Coding';
-      if (geneName.includes('tRNA')) return 'tRNA';
-      if (geneName.includes('rRNA')) return 'rRNA';
-      if (geneName.includes('MT-')) return 'Coding CDS';
-      return 'Control Region';
-    };
-
-    let sampleCardsHtml = '';
-
-    const selectedSamples = [];
-    selectedCodes.forEach(code => {
-      const matching = allVariants.map(v => v.sample).filter(s => s.startsWith(code + '_') || s === code);
-      matching.forEach(s => {
-        if (!selectedSamples.includes(s)) selectedSamples.push(s);
-      });
+    const privateMuts = cohortVariants.filter(v => {
+      const key = `m.${v.pos} ${v.ref}>${v.alt}`;
+      const holders = mutToSamplesMap.get(key);
+      return holders && holders.size === 1;
     });
 
-    selectedSamples.slice(0, 4).forEach(sName => {
-      const sVars = allVariants.filter(v => v.sample === sName);
-      
-      const privateMuts = sVars.filter(v => {
-        const key = `m.${v.pos} ${v.ref}>${v.alt}`;
-        const holders = mutToSamplesMap.get(key);
-        return holders && holders.size === 1;
-      });
-
-      const traceMuts = sVars.filter(v => v.vaf > 0 && v.vaf < 0.03);
-
-      sampleCardsHtml += `
-        <div class="p-5 rounded-2xl bg-stone-900 border border-orange-500/50 shadow-2xl space-y-4 font-mono text-xs">
-          
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-3">
-            <div>
-              <span class="text-[10px] text-orange-400 font-bold uppercase tracking-wider">Sample Mutation Inspector</span>
-              <h4 class="text-base font-extrabold text-stone-100 flex items-center gap-2">
-                <span>🧬 ${sName}</span>
-              </h4>
-            </div>
-            <span class="px-3 py-1 rounded-xl bg-orange-950 text-orange-300 border border-orange-800 font-bold text-xs">
-              ${sVars.length} Total Variants
-            </span>
-          </div>
-
-          ${traceMuts.length > 0 ? `
-            <div class="p-3 rounded-xl bg-amber-950/60 border border-amber-700 text-amber-200 text-[11.5px] font-sans">
-              ⚠️ <strong>Trace Mutation Warning:</strong> Variants with VAF lower than 3% (e.g. ${traceMuts.map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances of the mutation appearing and cannot be trusted.
-            </div>
-          ` : ''}
-
-          <div class="p-4 rounded-xl bg-gradient-to-r from-orange-950/70 via-stone-950 to-amber-950/70 border-2 border-orange-500 shadow-xl space-y-2">
-            <div class="flex items-center justify-between border-b border-orange-800/80 pb-1.5">
-              <h5 class="text-sm font-extrabold text-orange-400 tracking-wide flex items-center gap-2 uppercase">
-                <span>🔥 WHAT IS UNIQUE TO THIS SAMPLE (${privateMuts.length})</span>
-              </h5>
-              <span class="text-[10px] bg-orange-500 text-stone-950 font-extrabold px-2 py-0.5 rounded shadow">LOUDEST METRIC</span>
-            </div>
-            ${privateMuts.length > 0 ? `
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                ${privateMuts.map(m => `
-                  <div class="p-2.5 rounded-lg bg-stone-950 border border-orange-500/60 space-y-1">
-                    <div class="flex items-center justify-between text-xs font-bold text-orange-300">
-                      <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                      <span class="text-[10px] text-amber-400">${(m.vaf * 100).toFixed(1)}% VAF</span>
-                    </div>
-                    <div class="text-[11px] text-stone-400 flex items-center justify-between">
-                      <span>${getFeatureType(m.gene)}</span>
-                      <span class="text-stone-300 font-bold">${m.gene || 'D-loop'}</span>
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            ` : `
-              <div class="text-xs text-stone-400 font-sans italic pt-1">
-                No unique private mutations detected for ${sName}; all mutations are shared within the family/haplogroup line.
-              </div>
-            `}
-          </div>
-
-          <div class="pt-2">
-            <button onclick="window.GlobeViewer.setSample('${sName}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-bold text-xs hover:brightness-110 shadow-md transition-all flex items-center gap-2">
-              <span>🌍 View ${sName} Migration Journey on 3D Globe ➔</span>
-            </button>
-          </div>
-
-        </div>
-      `;
+    const sharedDiagnostic = cohortVariants.filter(v => {
+      const key = `m.${v.pos} ${v.ref}>${v.alt}`;
+      const holders = mutToSamplesMap.get(key);
+      return holders && holders.size > 1 && v.vaf >= 0.03;
     });
+
+    // Deduplicate shared mutations for clear overview
+    const uniqueSharedMuts = Array.from(new Map(sharedDiagnostic.map(m => [`m.${m.pos}`, m])).values());
+    const uniquePrivateMuts = Array.from(new Map(privateMuts.map(m => [`m.${m.pos}`, m])).values());
 
     card.innerHTML = `
-      <div class="space-y-4">
-        <div class="grid grid-cols-1 ${selectedSamples.length > 1 ? 'lg:grid-cols-2' : ''} gap-4">
-          ${sampleCardsHtml}
+      <div class="p-6 rounded-2xl bg-stone-900 border border-orange-500/50 shadow-2xl space-y-5 font-mono text-xs">
+        
+        <!-- Header Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3">
+          <div>
+            <div class="text-[11px] text-orange-400 font-bold uppercase tracking-wider">Cohort Maternal Lineage Overview</div>
+            <h4 class="text-lg font-extrabold text-stone-100 flex items-center gap-2">
+              <span>🧬 Cohort: ${famName} (${primaryCode})</span>
+            </h4>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-xl bg-orange-950 text-orange-300 border border-orange-800 font-bold text-xs">
+              ${uniqueSamplesInCohort.length} Lineage Members
+            </span>
+            <span class="px-3 py-1 rounded-xl bg-amber-950 text-amber-300 border border-amber-800 font-bold text-xs">
+              ${cohortVariants.length} Total Variants
+            </span>
+          </div>
         </div>
+
+        <!-- Section 1: Shared Core Diagnostic Markers -->
+        <div class="p-4 rounded-xl bg-stone-950 border border-emerald-900/60 space-y-2.5 shadow-inner">
+          <div class="flex items-center justify-between border-b border-stone-800 pb-1.5">
+            <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
+              <span>💎 Conserved Diagnostic Markers (${uniqueSharedMuts.length} Shared Across Family Line)</span>
+            </h5>
+            <span class="text-[10px] text-stone-400 font-sans">Inherited across all cohort members</span>
+          </div>
+          ${uniqueSharedMuts.length > 0 ? `
+            <div class="flex flex-wrap gap-2 pt-1">
+              ${uniqueSharedMuts.slice(0, 12).map(m => `
+                <span class="px-2.5 py-1.5 rounded-lg bg-stone-900 border border-emerald-800/60 text-emerald-300 font-mono font-bold text-xs">
+                  m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-stone-400 text-[10px]">(${m.gene || 'D-loop'})</span>
+                </span>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="text-stone-400 font-sans text-xs italic">Shared ancestral markers verified at baseline.</div>
+          `}
+        </div>
+
+        <!-- Section 2: Unique Private Mutations -->
+        <div class="p-4 rounded-xl bg-stone-950 border border-amber-900/60 space-y-2.5 shadow-inner">
+          <div class="flex items-center justify-between border-b border-stone-800 pb-1.5">
+            <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
+              <span>⭐ Private Maternal Mutations (${uniquePrivateMuts.length} Lineage Specific)</span>
+            </h5>
+            <span class="text-[10px] text-stone-400 font-sans">Unique to individual maternal transmissions</span>
+          </div>
+          ${uniquePrivateMuts.length > 0 ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 pt-1">
+              ${uniquePrivateMuts.map(m => `
+                <div class="p-2.5 rounded-lg bg-stone-900 border border-amber-800/60 space-y-1">
+                  <div class="flex items-center justify-between text-xs font-bold text-amber-300">
+                    <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                    <span class="text-stone-400 text-[10px]">${(m.vaf * 100).toFixed(1)}% VAF</span>
+                  </div>
+                  <div class="text-[11px] text-stone-400 font-sans flex items-center justify-between">
+                    <span>${this.getSampleRole(m.sample)}</span>
+                    <span class="text-stone-300 font-mono">${m.gene || 'D-loop'}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="text-xs text-stone-400 font-sans italic pt-1">
+              All detected mutations are conserved across the entire cohort line.
+            </div>
+          `}
+        </div>
+
+        <!-- Action Bar: Direct to 3D Globe -->
+        <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
+          <button onclick="window.GlobeViewer.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-bold text-xs hover:brightness-110 shadow-md transition-all flex items-center gap-2">
+            <span>🌍 Trace ${primaryCode} Out-of-Africa Progression on 3D Globe ➔</span>
+          </button>
+          <span class="text-stone-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
+        </div>
+
       </div>
     `;
   }

@@ -126,116 +126,116 @@ window.GlobeViewer = {
   // Individualized Geographic Migration Trails per Sample (All Starting in Africa)
   SAMPLE_TRAILS: {
     'IN': {
-      name: 'India — Central/North (Deepali & Rishi)',
+      name: 'India — Central/North (IN)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Homo sapiens mitochondrial cradle; basal human maternal genome baseline.' },
         { name: 'Southern Coastal Gateway', region: 'Red Sea / Arabian Crossing', coords: [45.0792, 14.5000], ybp: '60,000 YBP', mutations: [1438, 2706, 4769], desc: 'Early modern humans expand across the Bab-el-Mandeb coastal corridor into Southern Asia.' },
         { name: 'Indus-Gangetic Basin', region: 'North India', coords: [77.2090, 28.6139], ybp: '50,000 YBP', mutations: [593, 5075, 6020], desc: 'Establishment of early indigenous South Asian hunter-gatherer maternal lineages.' },
-        { name: 'Central/North Indian Homeland', region: 'Central India (Deepali & Rishi)', coords: [78.9629, 20.5937], ybp: '35,000 YBP to Present', mutations: [10400, 12792, 14783, 15043, 15692, 15859], desc: 'Family lineage established with private maternal diagnostic variants passed across generations.' }
+        { name: 'Central/North Indian Homeland', region: 'Central India (IN Lineage)', coords: [78.9629, 20.5937], ybp: '35,000 YBP to Present', mutations: [10400, 12792, 14783, 15043, 15692, 15859], desc: 'Cohort lineage established with private maternal diagnostic variants passed across generations.' }
       ]
     },
     'IS': {
-      name: 'India South (Vys, Rav & Sel)',
+      name: 'India South — Deccan (IS)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'African origin of human mitochondrial genome.' },
         { name: 'Southern Coastal Gateway', region: 'Arabian Sea Coastal Trail', coords: [55.0000, 22.0000], ybp: '60,000 YBP', mutations: [1438, 2706, 4769], desc: 'Coastal beachcomber migration along the Indian Ocean rim.' },
         { name: 'Deccan Plateau', region: 'Peninsular South India', coords: [77.5946, 12.9716], ybp: '45,000 YBP', mutations: [5186, 9094, 9614], desc: 'Establishment of deep Dravidian / South Indian ancestral macro-haplogroup M/R clades.' },
-        { name: 'South Indian Ancestral Home', region: 'Tamil Nadu / Karnataka (Vys/Rav)', coords: [80.2707, 13.0827], ybp: '30,000 YBP to Present', mutations: [12793, 13194, 13656, 15930], desc: 'Private maternal diagnostic markers proving uninterrupted matrilineal descent.' }
+        { name: 'South Indian Ancestral Home', region: 'Tamil Nadu / Karnataka (IS Lineage)', coords: [80.2707, 13.0827], ybp: '30,000 YBP to Present', mutations: [12793, 13194, 13656, 15930], desc: 'Private maternal diagnostic markers proving uninterrupted matrilineal descent.' }
       ]
     },
     'IW': {
-      name: 'India West (Raj & Anjali)',
+      name: 'India West — Gujarat (IW)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial Eve cradle in Sub-Saharan Africa.' },
         { name: 'Arabian Gulf Crossing', region: 'Gulf of Oman Corridor', coords: [58.5000, 23.6000], ybp: '55,000 YBP', mutations: [1438, 2706, 4769], desc: 'Out-of-Africa coastal transit into Western South Asia.' },
         { name: 'Kathiawar & Gujarat Corridor', region: 'Western India Coast', coords: [71.5000, 22.0000], ybp: '45,000 YBP', mutations: [5508, 8594, 10084, 10754], desc: 'Ancient habitation along the fertile estuaries of Western India.' },
-        { name: 'West Indian Homeland', region: 'Gujarat / Maharashtra (Raj & Family)', coords: [73.1812, 22.3072], ybp: '35,000 YBP to Present', mutations: [11293, 13635, 13971, 14990, 15385], desc: 'Diagnostic maternal markers proving West Indian lineage continuity.' }
+        { name: 'West Indian Homeland', region: 'Gujarat / Maharashtra (IW Lineage)', coords: [73.1812, 22.3072], ybp: '35,000 YBP to Present', mutations: [11293, 13635, 13971, 14990, 15385], desc: 'Diagnostic maternal markers proving West Indian lineage continuity.' }
       ]
     },
     'PK': {
-      name: 'Pakistan (Wasim Family)',
+      name: 'Pakistan — Indus Valley (PK)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Common human maternal origin in East Africa.' },
         { name: 'Makran Coast Route', region: 'Southern Coastal Corridor', coords: [63.0000, 25.5000], ybp: '55,000 YBP', mutations: [1438, 2706, 4769], desc: 'Migration route along the Makran coastline into the Indus Valley.' },
         { name: 'Lower Indus Gateway', region: 'Indus River Basin', coords: [68.3578, 25.3960], ybp: '40,000 YBP', mutations: [511, 3594], desc: 'Establishment of ancient Indus civilization ancestral maternal lineages.' },
-        { name: 'Indus Valley Homeland', region: 'Punjab / Sindh, Pakistan (Wasim)', coords: [69.3451, 30.3753], ybp: '25,000 YBP to Present', mutations: [7269, 7805, 13680, 15479], desc: 'Wasim family diagnostic markers proving continuous regional matrilineal transmission.' }
+        { name: 'Indus Valley Homeland', region: 'Punjab / Sindh (PK Lineage)', coords: [69.3451, 30.3753], ybp: '25,000 YBP to Present', mutations: [7269, 7805, 13680, 15479], desc: 'Cohort diagnostic markers proving continuous regional matrilineal transmission.' }
       ]
     },
     'UK': {
-      name: 'Ukraine (Nika Family)',
+      name: 'Ukraine — Eastern Europe (UK)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Ancient African cradle of modern humans.' },
         { name: 'Levantine Corridor', region: 'Near East / Anatolia', coords: [35.5000, 33.5000], ybp: '50,000 YBP', mutations: [1438, 2706, 7028], desc: 'Out-of-Africa northern expansion through the Middle East into Europe.' },
         { name: 'Pontic-Caspian Steppe', region: 'Black Sea Basin', coords: [33.0000, 46.0000], ybp: '40,000 YBP', mutations: [650, 8395], desc: 'Haplogroup U4/H hunter-gatherer expansion across Eastern Europe.' },
-        { name: 'Ukrainian Homeland', region: 'Dnipro / Kyiv Region (Nika)', coords: [31.1656, 48.3794], ybp: '25,000 YBP to Present', mutations: [10885, 11566, 14467, 16356], desc: 'Maternal pedigree lineage verified from UK_F_NIKG to UK_F_NIKM to offspring.' }
+        { name: 'Ukrainian Homeland', region: 'Dnipro / Kyiv Region (UK Lineage)', coords: [31.1656, 48.3794], ybp: '25,000 YBP to Present', mutations: [10885, 11566, 14467, 16356], desc: 'Maternal pedigree lineage verified across successive generations.' }
       ]
     },
     'KR': {
-      name: 'Korea (Moo Family)',
+      name: 'Korea — Northeast Asia (KR)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial origin in East Africa.' },
         { name: 'Central Asian Steppe Trail', region: 'Altai / Central Asia', coords: [85.0000, 48.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'Northern Eurasian route establishing East Asian macro-haplogroups.' },
         { name: 'Manchurian Basin', region: 'Northeast Asia', coords: [123.0000, 42.0000], ybp: '35,000 YBP', mutations: [63, 1709, 2882, 3010], desc: 'Establishment of Haplogroup D4 founding maternal clades.' },
-        { name: 'Korean Peninsula', region: 'Korea (Moo Family)', coords: [127.7669, 35.9078], ybp: '20,000 YBP to Present', mutations: [8414, 9817, 13544, 15565, 15669], desc: 'Diagnostic maternal markers proving Korean matrilineal continuity.' }
+        { name: 'Korean Peninsula', region: 'Korea (KR Lineage)', coords: [127.7669, 35.9078], ybp: '20,000 YBP to Present', mutations: [8414, 9817, 13544, 15565, 15669], desc: 'Diagnostic maternal markers proving Korean matrilineal continuity.' }
       ]
     },
     'MX': {
-      name: 'Mexico (Cry Family)',
+      name: 'Mexico — Mesoamerica (MX)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Universal human mitochondrial Eve origin in Africa.' },
         { name: 'Siberian-Beringian Transit', region: 'Bering Strait Bridge', coords: [-168.0000, 65.5000], ybp: '25,000 YBP', mutations: [1438, 2706, 499, 4823], desc: 'Ancestors cross the Bering Land Bridge during the Last Glacial Maximum (LGM).' },
         { name: 'Pacific Coastal Corridor', region: 'Northwest America', coords: [-122.0000, 47.0000], ybp: '18,000 YBP', mutations: [6297, 8047], desc: 'Rapid southward migration along the deglaciated Pacific coast.' },
-        { name: 'Mesoamerican Homeland', region: 'Central Mexico (Cry Family)', coords: [-102.5528, 23.6345], ybp: '15,000 YBP to Present', mutations: [9039, 13590], desc: 'Haplogroup B2 founder lineage establishing Mexican maternal roots.' }
+        { name: 'Mesoamerican Homeland', region: 'Central Mexico (MX Lineage)', coords: [-102.5528, 23.6345], ybp: '15,000 YBP to Present', mutations: [9039, 13590], desc: 'Haplogroup B2 founder lineage establishing Mexican maternal roots.' }
       ]
     },
     'HK': {
-      name: 'Hong Kong (Jan Family)',
+      name: 'Hong Kong — Pearl River (HK)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Ancestral African cradle.' },
         { name: 'Southeast Asian Coastal Route', region: 'Sunda Shelf', coords: [100.0000, 15.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'Coastal migration into South and East Asia.' },
         { name: 'South China Coast', region: 'Guangdong Coastal Basin', coords: [113.0000, 23.0000], ybp: '35,000 YBP', mutations: [5821, 6338, 6455], desc: 'Haplogroup M7 expansion along the Pearl River estuary.' },
-        { name: 'Hong Kong Homeland', region: 'Hong Kong (Jan Family)', coords: [114.1694, 22.3193], ybp: '25,000 YBP to Present', mutations: [8602, 9540, 14821], desc: 'Private maternal diagnostic variants passed from HK_F_JAN to offspring.' }
+        { name: 'Hong Kong Homeland', region: 'Hong Kong (HK Lineage)', coords: [114.1694, 22.3193], ybp: '25,000 YBP to Present', mutations: [8602, 9540, 14821], desc: 'Private maternal diagnostic variants passed across generations.' }
       ]
     },
     'CL': {
-      name: 'Colombia (Alj Family)',
+      name: 'Colombia — South America (CL)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Out-of-Africa origin in East Africa.' },
         { name: 'Beringian Crossing', region: 'Beringia to Alaska', coords: [-160.0000, 64.0000], ybp: '22,000 YBP', mutations: [1438, 2706, 3552], desc: 'Early Paleo-Indian founders enter the American continent.' },
         { name: 'Isthmus of Panama', region: 'Central to South America Gateway', coords: [-79.5000, 9.0000], ybp: '16,000 YBP', mutations: [114, 8545, 9545], desc: 'Pioneering expansion across the Panamanian land bridge into South America.' },
-        { name: 'Andean South America', region: 'Colombia (Alj Family)', coords: [-74.2973, 4.5709], ybp: '14,000 YBP to Present', mutations: [11914, 13263, 15323], desc: 'Haplogroup C1 maternal lineage proving South American indigenous continuity.' }
+        { name: 'Andean South America', region: 'Colombia (CL Lineage)', coords: [-74.2973, 4.5709], ybp: '14,000 YBP to Present', mutations: [11914, 13263, 15323], desc: 'Haplogroup C1 maternal lineage proving South American indigenous continuity.' }
       ]
     },
     'TB': {
-      name: 'Tibet (Bha Family)',
+      name: 'Tibet — Himalayan Plateau (TB)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial Eve cradle.' },
         { name: 'Central Asian Gateway', region: 'Silk Road / Tarim Basin', coords: [75.0000, 38.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'High-altitude migration corridor along ancient Central Asian trade routes.' },
         { name: 'Himalayan High-Altitude Plateau', region: 'Tibetan Plateau', coords: [88.0924, 31.6927], ybp: '30,000 YBP', mutations: [3394, 4491], desc: 'Acquisition of the famous m.3394 T>C ND1 oxygen-adaptation mutation for high-altitude hypoxia survival.' },
-        { name: 'Tibetan Homeland', region: 'Lhasa / Qinghai-Tibet Plateau (Bha)', coords: [91.1000, 29.6500], ybp: '20,000 YBP to Present', mutations: [8784, 12950, 14305, 15535, 16048], desc: 'Haplogroup M9 maternal lineage preserved across generations in Tibet.' }
+        { name: 'Tibetan Homeland', region: 'Lhasa / Qinghai-Tibet Plateau (TB Lineage)', coords: [91.1000, 29.6500], ybp: '20,000 YBP to Present', mutations: [8784, 12950, 14305, 15535, 16048], desc: 'Haplogroup M9 maternal lineage preserved across generations in Tibet.' }
       ]
     },
     'AA': {
-      name: 'African (Ton Family)',
+      name: 'African — Sub-Saharan Cradle (AA)',
       stops: [
         { name: 'Mitochondrial Eve Origin', region: 'East African Rift Valley', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [183, 2758], desc: 'Root of all human maternal lineages across the globe.' },
         { name: 'Sub-Saharan African Expansion', region: 'West-Central Africa', coords: [8.6753, 9.0820], ybp: '100,000 YBP to Present', mutations: [5581, 7175, 9128, 11338, 13803, 14308, 15784], desc: 'Haplogroup L2 deep ancestral continuity in Sub-Saharan Africa.' }
       ]
     },
     'CA': {
-      name: 'Canada / Caucasian (Ger Family)',
+      name: 'Canada — North America (CA)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'African cradle of modern humans.' },
         { name: 'European Expansion', region: 'Central Europe', coords: [10.0000, 50.0000], ybp: '35,000 YBP', mutations: [73, 146, 4769], desc: 'Haplogroup H2 European agricultural expansion.' },
-        { name: 'Trans-Atlantic Settlement', region: 'Canada (Ger Family)', coords: [-106.3468, 56.1304], ybp: 'Modern', mutations: [263, 750], desc: 'Trans-Atlantic migration establishing modern Canadian Caucasian family line.' }
+        { name: 'Trans-Atlantic Settlement', region: 'Canada (CA Lineage)', coords: [-106.3468, 56.1304], ybp: 'Modern', mutations: [263, 750], desc: 'Trans-Atlantic migration establishing Canadian Caucasian family line.' }
       ]
     },
     'NA': {
-      name: 'Native North America (R3 Family)',
+      name: 'Native North America (NA)',
       stops: [
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Universal human maternal root in Africa.' },
         { name: 'Beringian Pre-Clovis Founder', region: 'Beringia Refuge', coords: [-165.0000, 65.0000], ybp: '22,000 YBP', mutations: [64, 152, 235, 663, 1736], desc: 'Isolation in Beringia establishing Native American Haplogroup A2.' },
-        { name: 'North American Indigenous Homeland', region: 'Sub-Arctic / North America (R3)', coords: [-149.4937, 64.2008], ybp: '15,000 YBP to Present', mutations: [4248, 4824, 8027, 8794, 12007], desc: 'Continuous indigenous maternal lineage in North America.' }
+        { name: 'North American Indigenous Homeland', region: 'Sub-Arctic / North America (NA Lineage)', coords: [-149.4937, 64.2008], ybp: '15,000 YBP to Present', mutations: [4248, 4824, 8027, 8794, 12007], desc: 'Continuous indigenous maternal lineage in North America.' }
       ]
     }
   },
