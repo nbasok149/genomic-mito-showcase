@@ -13,47 +13,163 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=5.0">
+  <link rel="stylesheet" href="css/styles.css?v=6.0">
 </head>
 <body class="bg-stone-950 text-stone-100 min-h-screen flex flex-col font-sans selection:bg-orange-500 selection:text-stone-950">
 
-  <!-- 🔒 Family Access Lock Screen Overlay -->
-  <div id="familyAccessLockScreen" class="fixed inset-0 bg-stone-950/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
-    <div class="earth-panel max-w-md w-full p-8 space-y-6 text-center shadow-2xl relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-900 to-amber-950/40">
+  <!-- 🧬 Lineage Welcome & Family Selection Modal (Prompt on First Open) -->
+  <div id="familyWelcomeModal" class="fixed inset-0 bg-stone-950/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
+    <div class="earth-panel max-w-2xl w-full p-8 space-y-6 text-center shadow-2xl relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/50">
+      
+      <!-- Mitochondria Icon -->
       <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-600 mx-auto flex items-center justify-center text-stone-950 shadow-lg shadow-orange-600/30">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
       </div>
 
-      <div>
-        <h2 class="text-2xl font-extrabold text-stone-100 mb-1">Mitochondrial Family Portal</h2>
-        <p class="text-stone-400 text-xs leading-relaxed max-w-xs mx-auto">
-          Protected Family Lineage Access. Please enter your family passcode to view cohort data.
+      <div class="space-y-1.5">
+        <div class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">🧬 Genomic Mito Visualizer</div>
+        <h2 class="text-2xl font-extrabold text-stone-100">Select Your Family Lineage</h2>
+        <p class="text-stone-300 text-xs leading-relaxed max-w-lg mx-auto">
+          Choose your family cohort to zoom directly into your ancestral maternal clade on the cladogram, trace your out-of-Africa migration trail on the 3D globe, and inspect your diagnostic mutations.
         </p>
       </div>
 
-      <div class="space-y-3 text-left">
-        <div>
-          <label class="block text-xs font-semibold text-stone-300 mb-1 font-mono">Family Passcode</label>
-          <input id="familyPasscodeInput" type="password" placeholder="Enter passcode..." class="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-700 text-sm text-stone-100 focus:outline-none focus:border-orange-500 font-mono transition-colors">
-          <p id="passcodeErrorMsg" class="hidden text-[11px] text-red-400 font-mono mt-1">
-            ✕ Incorrect passcode. Please try again or contact your family admin.
-          </p>
-        </div>
+      <!-- Quick Family Select Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-left font-mono text-xs max-h-60 overflow-y-auto p-1">
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-orange-400 group-hover:text-orange-300 flex items-center justify-between">
+            <span>🇮🇳 India (IN)</span>
+            <span class="text-[10px] text-stone-500">M/R</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Deepali &amp; Rishi Families</div>
+        </button>
 
-        <div class="flex items-center justify-between text-xs text-stone-400 pt-1">
-          <label class="flex items-center space-x-2 cursor-pointer">
-            <input id="rememberAccessChk" type="checkbox" checked class="rounded bg-stone-950 border-stone-700 text-orange-600 focus:ring-0">
-            <span>Remember this device</span>
-          </label>
-        </div>
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-amber-400 group-hover:text-amber-300 flex items-center justify-between">
+            <span>🇮🇳 India South (IS)</span>
+            <span class="text-[10px] text-stone-500">VYS</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Vys, Rav, Sel &amp; Pri</div>
+        </button>
 
-        <button id="unlockPortalBtn" class="w-full py-3 px-4 text-xs font-bold uppercase tracking-wider rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 hover:brightness-110 shadow-lg shadow-orange-600/30 transition-all font-mono">
-          Unlock Family Portal
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-amber-500 group-hover:text-amber-400 flex items-center justify-between">
+            <span>🇮🇳 India West (IW)</span>
+            <span class="text-[10px] text-stone-500">J1</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Raj &amp; Anjali Family</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-purple-400 group-hover:text-purple-300 flex items-center justify-between">
+            <span>🇵🇰 Pakistan (PK)</span>
+            <span class="text-[10px] text-stone-500">M/U</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Wasim Family (Indus)</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-indigo-400 group-hover:text-indigo-300 flex items-center justify-between">
+            <span>🇺🇦 Ukraine (UK)</span>
+            <span class="text-[10px] text-stone-500">U4/H</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Nika Family</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-pink-400 group-hover:text-pink-300 flex items-center justify-between">
+            <span>🇰🇷 Korea (KR)</span>
+            <span class="text-[10px] text-stone-500">D4</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Moo Family</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center justify-between">
+            <span>🇲🇽 Mexico (MX)</span>
+            <span class="text-[10px] text-stone-500">B2</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Cry Family (Mesoamerica)</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-cyan-400 group-hover:text-cyan-300 flex items-center justify-between">
+            <span>🇭🇰 Hong Kong (HK)</span>
+            <span class="text-[10px] text-stone-500">M7</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Jan Family (East Asia)</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-blue-400 group-hover:text-blue-300 flex items-center justify-between">
+            <span>🇨🇴 Colombia (CL)</span>
+            <span class="text-[10px] text-stone-500">C1</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Alj Family (South America)</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-red-400 group-hover:text-red-300 flex items-center justify-between">
+            <span>🌍 African (AA)</span>
+            <span class="text-[10px] text-stone-500">L2</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Ton Family (Origin Cradle)</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-teal-400 group-hover:text-teal-300 flex items-center justify-between">
+            <span>🏔️ Tibet (TB)</span>
+            <span class="text-[10px] text-stone-500">M9</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Bha Family (High Altitude)</div>
+        </button>
+
+        <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-3 rounded-xl bg-stone-950 border border-stone-800 hover:border-orange-500 hover:bg-orange-950/30 transition-all space-y-1 group">
+          <div class="font-bold text-purple-300 group-hover:text-purple-200 flex items-center justify-between">
+            <span>🇨🇦 Canada (CA)</span>
+            <span class="text-[10px] text-stone-500">H2</span>
+          </div>
+          <div class="text-[11px] text-stone-400 font-sans">Ger Family (North America)</div>
         </button>
       </div>
 
-      <div class="pt-2 border-t border-stone-800/80 text-[11px] text-stone-500">
-        🛡️ De-Identified Data Protection • Non-Medical Inheritance
+      <!-- Dropdown or Direct Confirm -->
+      <div class="space-y-3 pt-2">
+        <div class="flex items-center space-x-2">
+          <select id="welcomeModalSelect" class="flex-grow px-4 py-3 rounded-xl bg-stone-950 border border-stone-700 text-sm text-stone-100 focus:outline-none focus:border-orange-500 font-mono">
+            <option value="IN">🇮🇳 India — Central/North (Deepali &amp; Rishi Families)</option>
+            <option value="IS">🇮🇳 India South (Vys, Rav, Sel, Pri Families)</option>
+            <option value="IW">🇮🇳 India West (Raj &amp; Anjali Family)</option>
+            <option value="PK">🇵🇰 Pakistan (Wasim Family)</option>
+            <option value="UK">🇺🇦 Ukraine (Nika Family)</option>
+            <option value="KR">🇰🇷 Korea (Moo Family)</option>
+            <option value="MX">🇲🇽 Mexico (Cry Family)</option>
+            <option value="HK">🇭🇰 Hong Kong (Jan Family)</option>
+            <option value="CL">🇨🇴 Colombia (Alj Family)</option>
+            <option value="AA">🌍 African (Ton Family)</option>
+            <option value="TB">🏔️ Tibet (Bha Family)</option>
+            <option value="CA">🇨🇦 Canada (Ger Family)</option>
+            <option value="NA">🪶 Native North America (R3 Family)</option>
+          </select>
+
+          <button id="confirmWelcomeFamilyBtn" class="py-3 px-6 text-xs font-bold uppercase tracking-wider rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 hover:brightness-110 shadow-lg shadow-orange-600/30 transition-all font-mono shrink-0">
+            Explore My Lineage ➔
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-stone-400 pt-1 font-mono">
+          <label class="flex items-center space-x-2 cursor-pointer">
+            <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-stone-950 border-stone-700 text-orange-600 focus:ring-0">
+            <span>Remember my cohort choice</span>
+          </label>
+          <button id="closeWelcomeModalBtn" class="text-stone-500 hover:text-stone-300 transition-colors">
+            Explore Full Cohort Overview
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-stone-800/80 text-[11px] text-stone-500 font-mono">
+        🛡️ De-Identified Research Data • Maternal mtDNA Lineage Engine
       </div>
     </div>
   </div>
@@ -72,32 +188,24 @@
             <h1 class="font-extrabold text-lg leading-tight gradient-earth-text">
               Genomic Mito Showcase
             </h1>
-            <a href="https://mtdna-visualizer.vercel.app/" target="_blank" class="hidden sm:inline-flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-stone-950 border border-stone-800 text-[10px] font-mono text-stone-300 hover:text-orange-400 transition-colors">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>mtdna-visualizer.vercel.app</span>
-            </a>
+            <span id="currentFamilyHeaderBadge" class="hidden sm:inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-orange-950/80 border border-orange-700 text-[10px] font-mono text-orange-300 font-bold">
+              Cohort: IN
+            </span>
           </div>
           <p class="text-xs text-stone-400 font-mono">Human mtDNA Variant &amp; Phylogenetics Engine • Vercel Production</p>
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
-      <nav class="hidden md:flex space-x-1.5">
-        <button data-tab="family" id="tab-family" class="nav-tab active px-4 py-2 text-sm rounded-xl font-semibold text-orange-400 bg-orange-950/40 border border-orange-800/50 hover:text-orange-300">
-          🧬 Family Portal & Tree
-        </button>
-      </nav>
-
-      <!-- Action Buttons -->
+      <!-- Navigation Tabs & Action Buttons -->
       <div class="flex items-center space-x-2">
+        <button id="openWelcomeModalBtn" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 text-stone-950 hover:brightness-110 shadow-md shadow-orange-600/20 transition-all font-mono flex items-center gap-1.5">
+          <span>🌿 Switch Family</span>
+        </button>
         <button id="openPedigreeBtn" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 transition-all font-mono">
           👨‍👩‍👧 Family Pedigree
         </button>
-        <button id="openComparatorBtn" class="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 hover:brightness-110 shadow-md shadow-orange-600/25 transition-all">
+        <button id="openComparatorBtn" class="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-stone-900 border border-stone-700 hover:bg-stone-800 text-stone-200 transition-all font-mono">
           Compare Samples
-        </button>
-        <button id="relockPortalBtn" title="Lock Portal" class="px-3 py-1.5 text-xs font-semibold rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-400 hover:text-stone-200 transition-all font-mono">
-          🔒 Lock
         </button>
       </div>
     </div>
@@ -113,7 +221,7 @@
         </div>
         <div class="flex items-center space-x-2">
           <span class="text-stone-400">Variants Detected:</span>
-          <span class="font-bold text-amber-400 bg-amber-950/50 px-2.5 py-0.5 rounded-md border border-amber-800/50">1,001</span>
+          <span class="font-bold text-amber-400 bg-amber-950/50 px-2.5 py-0.5 rounded-md border border-amber-800/50">950</span>
         </div>
         <div class="flex items-center space-x-2">
           <span class="text-stone-400">Reference Genome:</span>
@@ -139,7 +247,7 @@
       <div class="earth-panel p-6 relative overflow-hidden bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-stone-800/80 shadow-2xl">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div class="space-y-2">
-            <h2 class="text-2xl font-extrabold text-stone-100 tracking-tight">Mitochondrial Family Demographic & Lineage Explorer</h2>
+            <h2 class="text-2xl font-extrabold text-stone-100 tracking-tight">Mitochondrial Family Demographic &amp; Lineage Explorer</h2>
             <p class="text-stone-300 text-sm max-w-2xl leading-relaxed">
               Find your family's maternal lineage, inspect high-impact mutations, contrast population haplogroups, and trace non-medical mtDNA inheritance across generations.
             </p>
@@ -175,7 +283,7 @@
           <span class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
             <span>🗺️ Ethnicity Code Reference Legend</span>
           </span>
-          <span class="text-stone-400 text-[11px]">14 Regional Population Cohorts</span>
+          <span class="text-stone-400 text-[11px]">13 Regional Population Cohorts</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 text-[11px]">
           <div class="p-1.5 rounded bg-stone-950 border border-stone-800 flex items-center justify-between"><strong class="text-orange-400">IN:</strong> <span class="text-stone-300">India (Deepali/Rishi)</span></div>
@@ -264,17 +372,93 @@
 
         <!-- Canvas Display Area (Tree & Globe) -->
         <div id="canvasDisplayArea" class="grid grid-cols-1 gap-4">
-          <!-- Tree Canvas Container -->
-          <div id="treeWrapper" class="w-full">
+          
+          <!-- Tree Canvas Container with Floating Zoom Controls -->
+          <div id="treeWrapper" class="w-full relative">
+            
+            <!-- 🔍 Floating Cladogram Zoom Toolbar (3-Tier Stepper) -->
+            <div class="absolute top-3 right-3 z-10 flex items-center space-x-1.5 bg-stone-950/90 backdrop-blur-md p-1.5 rounded-xl border border-stone-800/80 shadow-2xl font-mono text-xs">
+              <span id="treeZoomBadge" class="text-[11px] px-2 py-0.5 rounded-md bg-stone-900 border border-stone-800 text-orange-300 font-bold">
+                Level: Global Tree
+              </span>
+              <button id="btnTreeZoomIn" title="Zoom In to Clade" class="w-8 h-8 rounded-lg bg-stone-900 hover:bg-orange-600 hover:text-stone-950 text-stone-200 border border-stone-700 flex items-center justify-center font-extrabold text-sm transition-all shadow">
+                +
+              </button>
+              <button id="btnTreeZoomOut" title="Zoom Out (Stepped: Macro Branch ➔ Global Tree)" class="w-8 h-8 rounded-lg bg-stone-900 hover:bg-orange-600 hover:text-stone-950 text-stone-200 border border-stone-700 flex items-center justify-center font-extrabold text-sm transition-all shadow">
+                &minus;
+              </button>
+              <button id="btnTreeZoomReset" title="Reset Zoom to Entire Cladogram" class="px-2.5 h-8 rounded-lg bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-100 border border-stone-800 flex items-center justify-center font-bold text-xs transition-all">
+                ⟲ Reset
+              </button>
+            </div>
+
             <div id="treeContainer" class="w-full overflow-hidden border border-stone-800/80 rounded-2xl min-h-[580px] bg-stone-950 flex items-center justify-center">
               <div class="text-stone-500 text-xs animate-pulse font-mono">Initializing Lineage Tree Visualizer...</div>
             </div>
           </div>
 
-          <!-- Globe Canvas Container -->
-          <div id="globeWrapper" class="w-full hidden">
-            <div id="globeContainer" class="w-full overflow-hidden border border-stone-800/80 rounded-2xl min-h-[580px] bg-stone-950 flex items-center justify-center relative">
+          <!-- Globe Canvas Container with Individualized Sample Journey -->
+          <div id="globeWrapper" class="w-full hidden space-y-4">
+            
+            <!-- Globe Sample Selector & Playback Bar -->
+            <div class="p-4 rounded-2xl bg-stone-900/90 border border-stone-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono text-xs shadow-xl">
+              <div class="space-y-1">
+                <div class="text-orange-400 font-bold uppercase tracking-wider text-[11px]">🌍 Individualized Migration Journey</div>
+                <div class="text-stone-200 font-bold text-sm">Out-of-Africa Progression &amp; Mutation Evidence</div>
+                <p class="text-stone-400 text-xs font-sans">Every sample begins in Africa and branches along historical routes proven by mutation evidence.</p>
+              </div>
+
+              <div class="flex items-center space-x-3 w-full md:w-auto">
+                <select id="globeSampleSelect" class="px-3.5 py-2 rounded-xl bg-stone-950 border border-orange-500/70 text-orange-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all">
+                  <optgroup label="India (Central/North)">
+                    <option value="IN_F_DPL">Sample: IN_F_DPL (Deepali Mother)</option>
+                    <option value="IN_M_DPLH">Sample: IN_M_DPLH (Deepali Family)</option>
+                    <option value="IN_F_RISM">Sample: IN_F_RISM (Rishi Mother)</option>
+                    <option value="IN_M_RIS">Sample: IN_M_RIS (Rishi Offspring)</option>
+                  </optgroup>
+                  <optgroup label="India South (IS)">
+                    <option value="IS_F_VYSM">Sample: IS_F_VYSM (Vys Mother)</option>
+                    <option value="IS_M_RAV">Sample: IS_M_RAV (Rav Father)</option>
+                    <option value="IS_M_SEL">Sample: IS_M_SEL (Sel Father)</option>
+                    <option value="IS_M_PRIC1">Sample: IS_M_PRIC1 (Pri Family)</option>
+                  </optgroup>
+                  <optgroup label="India West (IW)">
+                    <option value="IW_F_ANJM">Sample: IW_F_ANJM (Anjali Mother)</option>
+                    <option value="IW_M_ANJF">Sample: IW_M_ANJF (Raj Father)</option>
+                    <option value="IW_F_ANJS1">Sample: IW_F_ANJS1 (Anjali Child)</option>
+                  </optgroup>
+                  <optgroup label="Pakistan (PK)">
+                    <option value="PK_F_WAS">Sample: PK_F_WAS (Wasim Mother)</option>
+                    <option value="PK_M_WASH">Sample: PK_M_WASH (Wasim Father)</option>
+                    <option value="PK_M_WASC1">Sample: PK_M_WASC1 (Wasim Child)</option>
+                  </optgroup>
+                  <optgroup label="Other Regional Lineages">
+                    <option value="UK_F_NIKM">Sample: UK_F_NIKM (Ukraine - Nika)</option>
+                    <option value="KR_F_MOO">Sample: KR_F_MOO (Korea - Moo)</option>
+                    <option value="MX_F_CRY">Sample: MX_F_CRY (Mexico - Cry)</option>
+                    <option value="HK_F_JAN">Sample: HK_F_JAN (Hong Kong - Jan)</option>
+                    <option value="CL_F_ALJ">Sample: CL_F_ALJ (Colombia - Alj)</option>
+                    <option value="AA_F_TON">Sample: AA_F_TON (African - Ton)</option>
+                    <option value="TB_F_BHA">Sample: TB_F_BHA (Tibet - Bha)</option>
+                    <option value="CA_M_GER">Sample: CA_M_GER (Canada - Ger)</option>
+                    <option value="NA_F_R3_2_LP5206_mrg">Sample: NA_F_R3 (Native North America)</option>
+                  </optgroup>
+                </select>
+
+                <button id="playMigrationTrailBtn" class="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-extrabold hover:brightness-110 shadow-lg shadow-orange-600/30 transition-all shrink-0">
+                  ▶ Play Migration Trail
+                </button>
+              </div>
+            </div>
+
+            <!-- Globe Canvas Sphere -->
+            <div id="globeContainer" class="w-full overflow-hidden border border-stone-800/80 rounded-2xl min-h-[540px] bg-stone-950 flex items-center justify-center relative">
               <div class="text-stone-500 text-xs animate-pulse font-mono">Initializing 3D Migration Globe Engine...</div>
+            </div>
+
+            <!-- 🧬 Interactive Mutation Evidence Panel ("Why Your Ancestors Lived Here") -->
+            <div id="globeEvidencePanel" class="p-6 rounded-2xl bg-stone-900/90 border border-amber-500/40 shadow-2xl">
+              <!-- Rendered dynamically by GlobeViewer -->
             </div>
           </div>
         </div>
@@ -322,13 +506,13 @@
             <span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
             <span>Demographic Group Divisions</span>
           </h3>
-          <span class="text-xs px-3 py-1 rounded-md bg-orange-950 text-orange-300 border border-orange-800 font-mono">4 Global Sub-Clades</span>
+          <span class="text-xs px-3 py-1 rounded-md bg-orange-950 text-orange-300 border border-orange-800 font-mono">Global Macro-Clades</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
           <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 flex items-center justify-between">
             <div>
               <span class="font-bold text-orange-400 text-sm">Haplogroup H / U</span>
-              <div class="text-[11px] text-stone-400 font-sans mt-0.5">European & Eurasian Lineages</div>
+              <div class="text-[11px] text-stone-400 font-sans mt-0.5">European &amp; Eurasian Lineages</div>
             </div>
             <span class="text-stone-200 font-bold text-base">42%</span>
           </div>
@@ -342,11 +526,14 @@
           <div class="p-3.5 rounded-xl bg-stone-900/80 border border-stone-800 flex items-center justify-between">
             <div>
               <span class="font-bold text-emerald-400 text-sm">Haplogroup M / N / B</span>
-              <div class="text-[11px] text-stone-400 font-sans mt-0.5">Asian & Indigenous American Lineages</div>
+              <div class="text-[11px] text-stone-400 font-sans mt-0.5">Asian &amp; Indigenous American Lineages</div>
             </div>
             <span class="text-stone-200 font-bold text-base">30%</span>
           </div>
-      <!-- Core Weighting Mechanism & Ancestry-Conditioned Distance Metric (BOTTOM OF PAGE) -->
+        </div>
+      </div>
+
+      <!-- Core Weighting Mechanism & Ancestry-Conditioned Distance Metric -->
       <div class="earth-panel p-6 bg-gradient-to-b from-stone-900 via-stone-900 to-amber-950/30 border border-amber-500/50 shadow-2xl space-y-6">
         
         <!-- Header & Parameter Status -->
@@ -367,7 +554,7 @@
               Monomorphic Filter: Active
             </span>
             <span class="px-3 py-1.5 rounded-lg bg-stone-800 border border-stone-700 text-emerald-300 font-bold shadow-sm">
-              Polymorphic Sites V = 282
+              Polymorphic Sites V = 280
             </span>
           </div>
         </div>
@@ -386,245 +573,145 @@
               <!-- Typeset Fraction Equation -->
               <div class="py-4 px-3 rounded-xl bg-stone-900 border border-amber-800/40 flex items-center justify-center overflow-x-auto shadow-inner">
                 <div class="inline-flex items-center text-stone-100 font-serif text-base select-none">
-                  <span class="font-bold text-lg text-amber-400 mr-2">K(i, j) =</span>
-                  <div class="inline-flex flex-col items-center justify-center mx-1">
-                    <span class="px-2 border-b border-stone-400 font-mono text-xs font-bold text-stone-200">1</span>
-                    <span class="px-2 font-mono text-xs font-bold text-amber-400">V</span>
+                  <span class="italic font-bold text-amber-400 mr-2">K(i, j)</span>
+                  <span class="mx-1">=</span>
+                  <div class="inline-flex flex-col items-center mx-2 text-sm">
+                    <span class="border-b border-stone-600 px-2 pb-0.5">1</span>
+                    <span class="pt-0.5 font-sans font-bold text-amber-300">V</span>
                   </div>
-                  <span class="text-2xl font-serif text-amber-300 mx-1.5">&sum;</span>
-                  <div class="inline-flex flex-col items-center justify-center mx-1">
-                    <span class="px-3 py-0.5 border-b border-amber-400/80 font-mono text-xs text-amber-100">
-                      (VAF<sub>i, v</sub> &minus; p<sub>v</sub>)(VAF<sub>j, v</sub> &minus; p<sub>v</sub>)
+                  <span class="text-xl mx-1 font-sans">&sum;</span>
+                  <div class="inline-flex flex-col items-center mx-2 text-sm">
+                    <span class="border-b border-stone-600 px-3 pb-0.5 italic">
+                      (VAF<sub class="text-[10px]">i, v</sub> &minus; p<sub class="text-[10px]">v</sub>)(VAF<sub class="text-[10px]">j, v</sub> &minus; p<sub class="text-[10px]">v</sub>)
                     </span>
-                    <span class="px-3 py-0.5 font-mono text-xs text-amber-300 font-bold">
-                      p<sub>v</sub> (1 &minus; p<sub>v</sub>)
+                    <span class="pt-0.5 italic text-stone-300">
+                      p<sub class="text-[10px]">v</sub> (1 &minus; p<sub class="text-[10px]">v</sub>)
                     </span>
                   </div>
                 </div>
               </div>
 
-              <p class="text-stone-300 text-xs leading-relaxed font-sans">
-                Weights shared variants inversely by background frequency. Rare, unique mutations (<span class="font-mono text-amber-400 font-bold">p<sub>v</sub> &ll; 1</span>) receive exponentially higher positive scores, revealing true biological kinship rather than stochastic noise.
-              </p>
-            </div>
-
-            <!-- Variable Definitions Key -->
-            <div class="pt-3 border-t border-stone-800/80 grid grid-cols-2 gap-2 text-[11px] font-mono text-stone-400">
-              <div><strong class="text-stone-200">VAF<sub>i, v</sub></strong>: Allele frequency of sample <span class="text-amber-400">i</span></div>
-              <div><strong class="text-stone-200">p<sub>v</sub></strong>: Conditioned reference frequency</div>
-              <div><strong class="text-stone-200">p<sub>v</sub>(1 &minus; p<sub>v</sub>)</strong>: Variance standardization</div>
-              <div><strong class="text-stone-200">V</strong>: Polymorphic locus count</div>
+              <div class="space-y-1.5 text-xs text-stone-300 leading-relaxed font-sans">
+                <p><strong class="text-amber-400 font-mono">Rare-Variant Upweighting:</strong> Rare polymorphisms carry massive statistical power. Dividing by the binomial variance <span class="font-mono text-amber-300 text-[11px]">p_v(1 - p_v)</span> magnifies shared rare heteroplasmic alleles.</p>
+              </div>
             </div>
           </div>
 
-          <!-- 2. Haplogroup Conditioning & Population Averaging -->
-          <div class="p-5 rounded-2xl bg-stone-950/90 border border-orange-500/40 shadow-lg space-y-4 flex flex-col justify-between">
+          <!-- 2. Haplogroup Conditioning & Distance Metric -->
+          <div class="p-5 rounded-2xl bg-stone-950/90 border border-amber-500/40 shadow-lg space-y-4 flex flex-col justify-between">
             <div class="space-y-3">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold font-mono text-orange-400 uppercase tracking-wide">2. Ancestry Conditioning &amp; Family Averaging</span>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800 font-mono">Lineage Correction</span>
+                <span class="text-xs font-bold font-mono text-amber-400 uppercase tracking-wide">2. Haplogroup Conditioning &amp; Distance Metric</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800 font-mono">Background Linear Mixture</span>
               </div>
 
-              <!-- Typeset Linear Combination Equation -->
-              <div class="py-4 px-3 rounded-xl bg-stone-900 border border-orange-800/40 flex items-center justify-center overflow-x-auto shadow-inner">
+              <!-- Typeset Linear Mixture Equation -->
+              <div class="py-4 px-3 rounded-xl bg-stone-900 border border-amber-800/40 flex items-center justify-center overflow-x-auto shadow-inner">
                 <div class="inline-flex items-center text-stone-100 font-serif text-base select-none">
-                  <span class="font-bold text-lg text-orange-400 mr-2">p&#770;<sub>v</sub><sup>(g)</sup> =</span>
-                  <span class="px-2 py-0.5 rounded bg-orange-950 border border-orange-700 text-orange-300 font-mono font-bold text-xs mr-1.5">&lambda;</span>
-                  <span class="font-mono text-xs text-orange-200 mr-2">p<sub>v</sub><sup>(g)</sup></span>
-                  <span class="text-base text-stone-400 font-mono mr-2">+</span>
-                  <span class="font-mono text-xs text-stone-300 mr-1.5">(1 &minus; &lambda;)</span>
-                  <span class="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-700 text-emerald-300 font-mono font-bold text-xs">p<sub>v</sub><sup>global</sup></span>
+                  <span class="italic font-bold text-amber-400 mr-2">p&#770;<sub class="text-[10px]">v</sub><sup class="text-[10px]">(g)</sup></span>
+                  <span class="mx-1">=</span>
+                  <span class="italic text-orange-300 font-bold mx-1">&lambda;</span>
+                  <span class="italic mr-1">p<sub class="text-[10px]">v</sub><sup class="text-[10px]">(g)</sup></span>
+                  <span class="mx-1">+</span>
+                  <span class="mx-1 text-sm">(1 &minus; <span class="italic text-orange-300 font-bold">&lambda;</span>)</span>
+                  <span class="italic ml-1">p<sub class="text-[10px]">v</sub><sup class="text-[10px]">global</sup></span>
                 </div>
               </div>
 
-              <p class="text-stone-300 text-xs leading-relaxed font-sans">
-                Prevents deep continental lineage markers from masquerading as close recent familial kinship. Multi-member families are averaged and counted <strong>exactly once</strong> when calculating <span class="font-mono text-emerald-400 font-bold">p<sub>v</sub><sup>global</sup></span> to prevent large cohorts from skewing background rates.
-              </p>
-            </div>
-
-            <!-- Variable Definitions Key -->
-            <div class="pt-3 border-t border-stone-800/80 grid grid-cols-2 gap-2 text-[11px] font-mono text-stone-400">
-              <div><strong class="text-orange-300">&lambda; = 0.50</strong>: Haplogroup weight</div>
-              <div><strong class="text-stone-200">p<sub>v</sub><sup>(g)</sup></strong>: Haplogroup cohort mean</div>
-              <div><strong class="text-emerald-300">p<sub>v</sub><sup>global</sup></strong>: Global family-averaged rate</div>
-              <div><strong class="text-stone-200">|F| = 1 &times;</strong>: One count per pedigree</div>
+              <div class="space-y-1.5 text-xs text-stone-300 leading-relaxed font-sans">
+                <p><strong class="text-amber-400 font-mono">True Phylogenomic Distance:</strong> Pairwise matrix calculated via <span class="font-mono text-amber-300 text-[11px]">D(i, j) = max(K) &minus; K(i, j)</span>, perfectly mapping rare variant similarities into hierarchical UPGMA trees.</p>
+              </div>
             </div>
           </div>
 
         </div>
-
-        <!-- Bottom Secondary Metrics: Distance Metric Conversion & Monomorphic Filter -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-          <div class="p-4 rounded-xl bg-stone-950/80 border border-stone-800 flex items-start space-x-3">
-            <div class="text-2xl pt-0.5">📐</div>
-            <div class="space-y-1">
-              <div class="flex items-center space-x-2">
-                <strong class="text-stone-100 text-xs">Distance Metric Conversion:</strong>
-                <span class="px-2 py-0.5 rounded bg-stone-900 text-amber-300 font-bold border border-amber-800/50 text-[11px]">
-                  D(i, j) = max(K) &minus; K(i, j)
-                </span>
-              </div>
-              <p class="text-stone-400 text-[11px] font-sans leading-relaxed">
-                Inverts the similarity matrix into a strictly non-negative, metric distance space with <span class="font-mono text-stone-200">D<sub>tree</sub>(i, i) = 0</span> for deterministic UPGMA phylogenetic tree clustering.
-              </p>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-stone-950/80 border border-stone-800 flex items-start space-x-3">
-            <div class="text-2xl pt-0.5">🛡️</div>
-            <div class="space-y-1">
-              <div class="flex items-center space-x-2">
-                <strong class="text-stone-100 text-xs">Monomorphic Locus Elimination:</strong>
-                <span class="px-2 py-0.5 rounded bg-stone-900 text-emerald-300 font-bold border border-emerald-800/50 text-[11px]">
-                  0 &lt; p<sub>v</sub> &lt; 1
-                </span>
-              </div>
-              <p class="text-stone-400 text-[11px] font-sans leading-relaxed">
-                Sites fixed at 0.0 or 1.0 across all lineages are automatically filtered, preventing division-by-zero singularities and ensuring finite, stable pairwise distances.
-              </p>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </div>
 
   </main>
 
-  <!-- Floating Toast: Branch Selected / Pick Another Branch to Compare -->
-  <div id="compareBranchToast" class="hidden fixed bottom-6 right-6 max-w-sm w-full bg-stone-900/95 border-2 border-orange-500 rounded-2xl shadow-2xl p-4 z-[100] backdrop-blur-xl font-mono text-xs space-y-2.5 transition-all">
-    <div class="flex items-center justify-between text-orange-400 font-bold pb-1 border-b border-stone-800">
-      <span class="flex items-center gap-2">
-        <span class="animate-pulse">🌿</span>
-        <span id="compareToastTitle">Branch Selected</span>
-      </span>
-      <button id="closeCompareToastBtn" class="text-stone-400 hover:text-stone-100 font-bold px-1.5 py-0.5 rounded bg-stone-800 hover:bg-stone-700">✕</button>
+  <!-- Interactive Comparison Toast -->
+  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-40 hidden max-w-md w-full p-4 rounded-2xl bg-stone-900 border-2 border-orange-500 shadow-2xl space-y-3 font-mono text-xs animate-bounce">
+    <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+      <span id="compareToastTitle" class="font-extrabold text-orange-400 text-sm">Branch Selected</span>
+      <button id="closeCompareToastBtn" class="text-stone-400 hover:text-stone-100 text-base font-bold">✕</button>
     </div>
-    <p id="compareToastMsg" class="text-stone-200 font-sans text-xs leading-relaxed">
-      Zoomed to your lineage. <strong>Now click another branch on the tree</strong> (or choose a second cohort) to compare maternal lineages!
+    <p id="compareToastMsg" class="text-stone-300 text-xs font-sans leading-relaxed">
+      Selected lineage. Click another branch on the tree to compare!
     </p>
     <div class="flex items-center justify-between pt-1">
-      <span id="firstSelectedBadge" class="px-2 py-1 rounded bg-orange-950 text-orange-300 border border-orange-800 font-bold text-[11px]">
-        Branch 1: UK
+      <span id="firstSelectedBadge" class="px-2.5 py-1 rounded-md bg-stone-950 text-orange-300 border border-stone-800 font-bold">
+        Branch 1
       </span>
-      <button id="toastOpenCompareBtn" class="px-3 py-1 rounded-lg bg-orange-600 hover:bg-orange-500 text-stone-950 font-bold transition-all">
-        Compare Lineages →
+      <button id="toastOpenCompareBtn" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-extrabold hover:brightness-110 shadow-md transition-all">
+        Open Report ➔
       </button>
     </div>
   </div>
 
-  <!-- Modal: Multi-Population Ethnicity Comparative Report Generator -->
-  <div id="familyReportModal" class="fixed inset-0 bg-stone-950/90 backdrop-blur-xl hidden items-center justify-center z-[110] p-4">
-    <div class="earth-panel max-w-5xl w-full max-h-[94vh] flex flex-col p-6 space-y-4 shadow-2xl relative border border-orange-500/40">
-      
-      <!-- Top Bar & Selection Header -->
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-stone-800">
+  <!-- Pedigree Modal -->
+  <div id="pedigreeModal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-orange-500/50 bg-stone-900">
+      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
         <div>
-          <h3 class="text-lg font-bold text-stone-100 flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span>
-            <span>Multi-Population Ethnicity Comparative Report Generator</span>
-          </h3>
-          <p class="text-xs text-stone-400 font-mono">Select 1 to 3 ethnicities to inspect comparative mutational reports & migration origins.</p>
+          <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">Maternal Pedigree Explorer</span>
+          <h3 class="text-xl font-extrabold text-stone-100">Multi-Generational mtDNA Inheritance</h3>
         </div>
-
-        <div class="flex items-center space-x-2">
-          <button id="closeReportBtn" class="px-3.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-mono font-bold transition-all">
+        <div class="flex items-center space-x-3">
+          <select id="pedigreeFamilySelect" class="bg-stone-950 border border-stone-700 rounded-xl px-3 py-1.5 text-xs text-stone-200 focus:outline-none focus:border-orange-500 font-mono">
+            <!-- Populated by JS -->
+          </select>
+          <button id="closePedigreeModalBtn" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-bold transition-all">
             ✕ Close
           </button>
         </div>
       </div>
-
-      <!-- Ethnicity Dropdown Selectors (1 to 3 Groups) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 rounded-xl bg-stone-950/80 border border-stone-800">
-        <div>
-          <label class="block text-xs font-bold text-orange-400 mb-1 font-mono uppercase">Ethnicity 1</label>
-          <select id="reportFamily1Select" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-900 border border-stone-700 text-stone-100 focus:outline-none focus:border-orange-500 font-mono">
-            <!-- Options populated dynamically by app.js -->
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-amber-400 mb-1 font-mono uppercase">Ethnicity 2</label>
-          <select id="reportFamily2Select" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-900 border border-stone-700 text-stone-100 focus:outline-none focus:border-orange-500 font-mono">
-            <!-- Options populated dynamically by app.js -->
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-emerald-400 mb-1 font-mono uppercase">Ethnicity 3 (Optional)</label>
-          <select id="reportFamily3Select" class="w-full px-3 py-2 text-xs rounded-lg bg-stone-900 border border-stone-700 text-stone-100 focus:outline-none focus:border-orange-500 font-mono">
-            <!-- Options populated dynamically by app.js -->
-          </select>
-        </div>
+      <div id="pedigreeModalBody">
+        <!-- Rendered dynamically by PedigreeInspector -->
       </div>
-
-      <!-- Dynamic Report Body Container -->
-      <div id="familyReportBody" class="flex-grow overflow-y-auto pr-1">
-        <!-- Rendered by FamilyReportGenerator -->
-      </div>
-
     </div>
   </div>
 
-  <!-- Modal: Phylogram Ancestral Junction Inspector -->
-  <div id="junctionInspectorModal" class="fixed inset-0 bg-stone-950/90 backdrop-blur-xl hidden items-center justify-center z-[120] p-4">
-    <div class="earth-panel max-w-4xl w-full max-h-[92vh] flex flex-col p-6 space-y-4 shadow-2xl relative border border-amber-500/40">
-      
-      <!-- Modal Header -->
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-stone-800">
+  <!-- Comparative Report Modal -->
+  <div id="familyReportModal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-orange-500/50 bg-stone-900">
+      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
         <div>
-          <div class="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1 font-mono">Phylogram Ancestral Junction Inspector</div>
-          <h3 id="junctionModalTitle" class="text-lg font-bold text-stone-100 flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <span>Ancestral Branch Node Relationship</span>
-          </h3>
+          <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">Comparative Lineage Report</span>
+          <h3 id="reportModalTitle" class="text-xl font-extrabold text-stone-100">Ancestral Variant Analysis</h3>
         </div>
-        <button id="closeJunctionModalBtn" class="px-3.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-mono font-bold transition-all">
+        <button id="closeReportBtn" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-bold transition-all">
           ✕ Close
         </button>
       </div>
-
-      <!-- Modal Body -->
-      <div id="junctionModalBody" class="flex-grow overflow-y-auto pr-1">
-        <!-- Rendered dynamically by TreeViewer -->
+      <div id="familyReportModalBody">
+        <!-- Rendered dynamically by FamilyReportGenerator -->
       </div>
-
     </div>
   </div>
 
-  <!-- Modal: Intra-Family Pedigree & Transmission Inspector -->
-  <div id="pedigreeModal" class="fixed inset-0 bg-stone-950/90 backdrop-blur-xl hidden items-center justify-center z-[120] p-4">
-    <div class="earth-panel max-w-5xl w-full max-h-[92vh] flex flex-col p-6 space-y-4 shadow-2xl relative border border-orange-500/40">
-      
-      <!-- Modal Header -->
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-stone-800">
+  <!-- Ancestral Junction Inspector Modal -->
+  <div id="junctionInspectorModal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-orange-500/50 bg-stone-900">
+      <div class="flex items-center justify-between border-b border-stone-800 pb-4">
         <div>
-          <div class="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1 font-mono">Intra-Family Lineage Contrast</div>
-          <h3 class="text-lg font-bold text-stone-100 flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
-            <span>Family Pedigree & Maternal Transmission Inspector</span>
-          </h3>
+          <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">Ancestral Junction Inspector</span>
+          <h3 id="junctionModalTitle" class="text-xl font-extrabold text-stone-100">Branch Node Triangulation</h3>
         </div>
-        <div class="flex items-center space-x-3">
-          <select id="pedigreeFamilySelect" class="px-3 py-1.5 text-xs rounded-xl bg-stone-900 border border-orange-500/50 text-orange-300 font-mono font-bold focus:outline-none">
-            <!-- Options populated dynamically -->
-          </select>
-          <button id="closePedigreeModalBtn" class="px-3.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-mono font-bold transition-all">
-            ✕ Close
-          </button>
-        </div>
+        <button id="closeJunctionModalBtn" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-xl text-xs font-bold transition-all">
+          ✕ Close
+        </button>
       </div>
-
-      <!-- Modal Body -->
-      <div id="pedigreeModalBody" class="flex-grow overflow-y-auto pr-1">
-        <!-- Rendered dynamically by PedigreeInspector in app.js -->
+      <div id="junctionModalBody">
+        <!-- Rendered dynamically by onInternalNodeClick -->
       </div>
-
     </div>
   </div>
 
-  <!-- Application Scripts -->
-  <script src="js/tree_viewer.js?v=12.0"></script>
-  <script src="js/globe_viewer.js?v=12.0"></script>
-  <script src="js/app.js?v=12.0"></script>
+  <!-- Scripts -->
+  <script src="js/tree_viewer.js?v=6.0"></script>
+  <script src="js/globe_viewer.js?v=6.0"></script>
+  <script src="js/app.js?v=6.0"></script>
 </body>
 </html>

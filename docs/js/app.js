@@ -13,192 +13,103 @@ window.escapeHtml = function(str) {
 };
 
 window.FamilyAccessGate = {
-  SALT: 'mito_rcrs_salt_2026',
-  STORAGE_KEY: 'mito_sec_session_token_v3',
-  MAX_FAILED_ATTEMPTS: 5,
-  LOCKOUT_DURATION_MS: 30000,
-  SESSION_TTL_MS: 24 * 60 * 60 * 1000,
+  STORAGE_KEY: 'mito_selected_family_v5',
 
-  AUTHORIZED_HASHES: [
-    '4fb3568b44035c5bbf8dcc373f08e99b901cc1e9832fae50a084a4d6ff74d5e0', // mitofamily2026
-    'a9c19dd6f56311128b959edc877532c425eafcc63991f2210cda265993d90d1a', // family
-    'dba33c51d3048b4c349b92c39c8c98fcae227bdaf081b48249f62e7e75857e00', // mitochondria
-    'c1be5cc64b59e910e260b188b7744ed42cb01401fab409aeedf24869aca45d44', // rcrs16569
-    '60842aa4ca2d412b4a7ad96af56ed4d22d7d36517da0f6d676d202f186801aa6'  // genomics2026
-  ],
-
-  failedAttempts: 0,
-  lockoutTimer: null,
-
-  async hashString(str) {
-    if (window.crypto && crypto.subtle) {
-      const enc = new TextEncoder();
-      const data = enc.encode(`${this.SALT}:${str.trim().toLowerCase()}`);
-      const buffer = await crypto.subtle.digest('SHA-256', data);
-      return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-    let hash = 0;
-    const combined = `${this.SALT}:${str.trim().toLowerCase()}`;
-    for (let i = 0; i < combined.length; i++) {
-      hash = ((hash << 5) - hash) + combined.charCodeAt(i);
-      hash |= 0;
-    }
-    return Math.abs(hash).toString(16);
-  },
-
-  async isSessionValid() {
-    const raw = localStorage.getItem(this.STORAGE_KEY) || sessionStorage.getItem(this.STORAGE_KEY);
-    if (!raw) return false;
-    try {
-      const session = JSON.parse(raw);
-      if (!session || typeof session !== 'object') return false;
-      const now = Date.now();
-      if (now > session.expiresAt || now < session.grantedAt) {
-        this.lockPortal();
-        return false;
-      }
-      const expectedSig = await this.hashString(`session:${session.grantedAt}:${session.expiresAt}`);
-      return session.signature === expectedSig;
-    } catch {
-      this.lockPortal();
-      return false;
-    }
-  },
-
-  async init() {
-    const isUnlocked = await this.isSessionValid();
-    const lockScreen = document.getElementById('familyAccessLockScreen');
-    
-    if (isUnlocked && lockScreen) {
-      lockScreen.classList.add('hidden');
-      lockScreen.classList.remove('flex');
-    } else if (lockScreen) {
-      lockScreen.classList.remove('hidden');
-      lockScreen.classList.add('flex');
-    }
-
-    this.checkStoredLockout();
+  init() {
     this.bindEvents();
-  },
+    const stored = localStorage.getItem(this.STORAGE_KEY) || sessionStorage.getItem(this.STORAGE_KEY);
+    const modal = document.getElementById('familyWelcomeModal');
 
-  checkStoredLockout() {
-    const lockoutUntil = parseInt(sessionStorage.getItem('mito_sec_lockout_until') || '0', 10);
-    const remaining = lockoutUntil - Date.now();
-    if (remaining > 0) {
-      this.applyLockout(remaining);
+    if (!stored && modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    } else if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      if (stored) {
+        this.applyFamilySelection(stored, false);
+      }
     }
   },
 
   bindEvents() {
-    const unlockBtn = document.getElementById('unlockPortalBtn');
-    const input = document.getElementById('familyPasscodeInput');
-    const lockBtn = document.getElementById('relockPortalBtn');
+    const openBtn = document.getElementById('openWelcomeModalBtn');
+    const closeBtn = document.getElementById('closeWelcomeModalBtn');
+    const modal = document.getElementById('familyWelcomeModal');
+    const select = document.getElementById('welcomeModalSelect');
+    const confirmBtn = document.getElementById('confirmWelcomeFamilyBtn');
 
-    unlockBtn?.addEventListener('click', () => this.attemptUnlock());
-    input?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') this.attemptUnlock();
+    openBtn?.addEventListener('click', () => {
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
     });
 
-    lockBtn?.addEventListener('click', () => this.lockPortal());
-  },
-
-  applyLockout(durationMs) {
-    const unlockBtn = document.getElementById('unlockPortalBtn');
-    const input = document.getElementById('familyPasscodeInput');
-    const errorMsg = document.getElementById('passcodeErrorMsg');
-    
-    if (input) input.disabled = true;
-    if (unlockBtn) unlockBtn.disabled = true;
-
-    sessionStorage.setItem('mito_sec_lockout_until', String(Date.now() + durationMs));
-
-    let secondsLeft = Math.ceil(durationMs / 1000);
-    if (errorMsg) {
-      errorMsg.classList.remove('hidden');
-      errorMsg.textContent = `🛑 Too many attempts. Access locked for ${secondsLeft}s.`;
-    }
-
-    if (this.lockoutTimer) clearInterval(this.lockoutTimer);
-    this.lockoutTimer = setInterval(() => {
-      secondsLeft--;
-      if (secondsLeft <= 0) {
-        clearInterval(this.lockoutTimer);
-        this.failedAttempts = 0;
-        sessionStorage.removeItem('mito_sec_lockout_until');
-        if (input) input.disabled = false;
-        if (unlockBtn) unlockBtn.disabled = false;
-        if (errorMsg) errorMsg.classList.add('hidden');
-      } else if (errorMsg) {
-        errorMsg.textContent = `🛑 Too many attempts. Access locked for ${secondsLeft}s.`;
+    closeBtn?.addEventListener('click', () => {
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
       }
-    }, 1000);
-  },
+    });
 
-  async attemptUnlock() {
-    const input = document.getElementById('familyPasscodeInput');
-    const errorMsg = document.getElementById('passcodeErrorMsg');
-    const rememberChk = document.getElementById('rememberAccessChk');
-    const lockScreen = document.getElementById('familyAccessLockScreen');
-    const val = input?.value.trim();
+    confirmBtn?.addEventListener('click', () => {
+      const val = select?.value || 'IN';
+      this.applyFamilySelection(val, true);
+    });
 
-    if (!val) {
-      if (errorMsg) {
-        errorMsg.classList.remove('hidden');
-        errorMsg.textContent = '✕ Please enter a family passcode.';
-      }
-      return;
-    }
-
-    const inputHash = await this.hashString(val);
-
-    if (this.AUTHORIZED_HASHES.includes(inputHash)) {
-      this.failedAttempts = 0;
-      sessionStorage.removeItem('mito_sec_lockout_until');
-
-      const now = Date.now();
-      const expiresAt = now + this.SESSION_TTL_MS;
-      const signature = await this.hashString(`session:${now}:${expiresAt}`);
-      const tokenPayload = JSON.stringify({ grantedAt: now, expiresAt, signature });
-
-      if (rememberChk?.checked) {
-        localStorage.setItem(this.STORAGE_KEY, tokenPayload);
-      } else {
-        sessionStorage.setItem(this.STORAGE_KEY, tokenPayload);
-      }
-
-      if (errorMsg) errorMsg.classList.add('hidden');
-      lockScreen?.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-      
-      setTimeout(() => {
-        lockScreen?.classList.add('hidden');
-        lockScreen?.classList.remove('flex', 'opacity-0', 'transition-opacity', 'duration-300');
-      }, 300);
-
-      if (window.TreeViewer) window.TreeViewer.render();
-    } else {
-      this.failedAttempts++;
-      if (this.failedAttempts >= this.MAX_FAILED_ATTEMPTS) {
-        this.applyLockout(this.LOCKOUT_DURATION_MS);
-      } else {
-        if (errorMsg) {
-          errorMsg.classList.remove('hidden');
-          errorMsg.textContent = `✕ Incorrect passcode. (${this.MAX_FAILED_ATTEMPTS - this.failedAttempts} attempts remaining)`;
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
         }
-        input?.classList.add('border-red-500');
-        setTimeout(() => input?.classList.remove('border-red-500'), 1500);
-      }
+      });
     }
   },
 
-  lockPortal() {
-    localStorage.removeItem(this.STORAGE_KEY);
-    sessionStorage.removeItem(this.STORAGE_KEY);
-    const lockScreen = document.getElementById('familyAccessLockScreen');
-    const input = document.getElementById('familyPasscodeInput');
-    if (input) input.value = '';
-    if (lockScreen) {
-      lockScreen.classList.remove('hidden');
-      lockScreen.classList.add('flex');
+  applyFamilySelection(code, shouldSave = true) {
+    if (shouldSave) {
+      const rememberChk = document.getElementById('rememberWelcomeChk');
+      if (rememberChk && rememberChk.checked) {
+        localStorage.setItem(this.STORAGE_KEY, code);
+      } else {
+        sessionStorage.setItem(this.STORAGE_KEY, code);
+      }
+    }
+
+    const modal = document.getElementById('familyWelcomeModal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // 1. Zoom into their family on the TreeViewer & highlight that family
+    if (window.TreeViewer) {
+      window.TreeViewer.zoomToFamily(code);
+    }
+
+    // 2. Configure 3D Globe with this sample's individualized migration trail
+    if (window.GlobeViewer) {
+      window.GlobeViewer.setSample(code);
+    }
+
+    // 3. Configure Diagnostic Markers explorer
+    if (window.DiagnosticMarkersExplorer) {
+      window.DiagnosticMarkersExplorer.displayFamily(code, null);
+      const diagSelect = document.getElementById('diagnosticFamilySelect');
+      if (diagSelect) diagSelect.value = code;
+    }
+
+    // 4. Update Quick Select in header/finder
+    const quickSelect = document.getElementById('quickFamilyEntrySelect');
+    if (quickSelect) quickSelect.value = code;
+
+    // 5. Update header current family badge
+    const headerBadge = document.getElementById('currentFamilyHeaderBadge');
+    if (headerBadge) {
+      headerBadge.textContent = `Cohort: ${code}`;
+      headerBadge.classList.remove('hidden');
     }
   }
 };
@@ -1332,26 +1243,21 @@ window.App = {
 
       const eth1 = val;
 
-      // 1. Switch to Tree View if not already
+      // 1. Switch to Tree View
       setView('tree');
 
-      // 2. Select this single family branch on TreeViewer
-      if (window.TreeViewer) {
-        window.TreeViewer.selectedEthnicities = [eth1];
-        window.TreeViewer.renderFamilyGroupButtons();
-        window.TreeViewer.highlightFamilyCluster();
-        if (typeof window.TreeViewer.zoomToFamilyClade === 'function') {
-          window.TreeViewer.zoomToFamilyClade(eth1);
-        }
+      // 2. Select this family across the application
+      if (window.FamilyAccessGate) {
+        window.FamilyAccessGate.applyFamilySelection(eth1, true);
       }
 
       // 3. Smooth scroll directly to the maternal lineage tree
-      const treeSection = document.getElementById('treeWrapper') || document.getElementById('treeCanvasContainer');
+      const treeSection = document.getElementById('treeWrapper') || document.getElementById('treeContainer');
       if (treeSection) {
         treeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
 
-      // 4. Show the interactive popup toast saying "Pick another branch to compare"
+      // 4. Show compare toast
       const toast = document.getElementById('compareBranchToast');
       const toastTitle = document.getElementById('compareToastTitle');
       const toastMsg = document.getElementById('compareToastMsg');
@@ -1363,12 +1269,6 @@ window.App = {
           toastMsg.innerHTML = `Zoomed to <strong>${eth1}</strong> branch. <strong class="text-orange-400">Now click another branch on the tree</strong> (or a cohort button below) to compare!`;
         }
         toast.classList.remove('hidden');
-      }
-
-      // 5. Rotate Globe to Marker in background
-      if (window.GlobeViewer && window.GlobeViewer.migrationData) {
-        const marker = window.GlobeViewer.migrationData.markers.find(m => m.code === eth1);
-        if (marker) window.GlobeViewer.rotateTo(marker.coords);
       }
     });
 
