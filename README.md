@@ -1,9 +1,10 @@
 # Genomic Mito Showcase
 
-Production-grade mitochondrial DNA (mtDNA) variant calling, gap alignment standardization, pairwise distance matrix calculation, and interactive web showcase deployed on GitHub Pages.
+Production-grade mitochondrial DNA (mtDNA) variant calling, gap alignment standardization, ancestry-conditioned GRM weighted distance matrix calculation, and interactive web showcase deployed on **Vercel** and **GitHub Pages**.
 
-![Build & Deploy Status](https://img.shields.io/github/actions/workflow/status/username/genomic-mito-showcase/deploy.yml?branch=main)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnbasok149%2Fgenomic-mito-showcase)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Vercel Free Tier](https://img.shields.io/badge/Vercel-Hobby%20(Free)-black?logo=vercel)
 
 ---
 

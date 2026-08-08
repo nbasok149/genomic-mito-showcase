@@ -1,0 +1,21 @@
+{
+  "name": "genomic-mito-showcase",
+  "version": "1.1.0",
+  "description": "Human mitochondrial DNA variant calling, weighted distance metric, and phylogenetic showcase on Vercel",
+  "private": true,
+  "scripts": {
+    "build": "python3 scripts/export_web_data.py",
+    "start": "python3 -m http.server 3000 --directory docs",
+    "test": "python3 -m unittest discover tests"
+  },
+  "keywords": [
+    "mitochondria",
+    "genomics",
+    "phylogenetics",
+    "dna",
+    "d3",
+    "vercel"
+  ],
+  "author": "nbaso",
+  "license": "MIT"
+}

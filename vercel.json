@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "name": "genomic-mito-showcase",
+  "framework": null,
+  "buildCommand": "python3 scripts/export_web_data.py",
+  "outputDirectory": "docs",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/variants", "destination": "/data/variants_dataset.json" },
+    { "source": "/api/matrix", "destination": "/data/distance_matrix.json" },
+    { "source": "/api/tree", "destination": "/data/phylo_tree.json" },
+    { "source": "/api/annotations", "destination": "/data/genome_annotations.json" }
+  ]
+}
