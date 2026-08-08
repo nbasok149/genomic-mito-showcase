@@ -1220,13 +1220,25 @@ window.App = {
   },
 
   async loadAllData() {
+    const fetchJson = async (filename) => {
+      try {
+        const res = await fetch(`data/${filename}`);
+        if (res.ok) return await res.json();
+      } catch (e) {}
+      try {
+        const res = await fetch(`/data/${filename}`);
+        if (res.ok) return await res.json();
+      } catch (e) {}
+      return null;
+    };
+
     try {
       const [varsRes, distRes, treeRes, geoRes, migRes] = await Promise.all([
-        fetch('data/variants_dataset.json').then(r => r.json()).catch(() => null),
-        fetch('data/distance_matrix.json').then(r => r.json()).catch(() => null),
-        fetch('data/phylo_tree.json').then(r => r.json()).catch(() => null),
-        fetch('data/world_geojson.json').then(r => r.json()).catch(() => null),
-        fetch('data/migration_routes.json').then(r => r.json()).catch(() => null)
+        fetchJson('variants_dataset.json'),
+        fetchJson('distance_matrix.json'),
+        fetchJson('phylo_tree.json'),
+        fetchJson('world_geojson.json'),
+        fetchJson('migration_routes.json')
       ]);
 
       this.variantsData = varsRes;
