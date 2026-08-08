@@ -1176,54 +1176,36 @@ window.App = {
     const reportModal = document.getElementById('familyReportModal');
     const quickSelect = document.getElementById('quickFamilyEntrySelect');
 
-    const btnTree = document.getElementById('viewBtnTree');
-    const btnGlobe = document.getElementById('viewBtnGlobe');
-    const btnSplit = document.getElementById('viewBtnSplit');
-    const treeWrapper = document.getElementById('treeWrapper');
-    const globeWrapper = document.getElementById('globeWrapper');
-    const displayArea = document.getElementById('canvasDisplayArea');
-    const viewTitle = document.getElementById('viewModeTitle');
-    const viewIcon = document.getElementById('viewModeIcon');
+    const mainTabTree = document.getElementById('mainTabTree');
+    const mainTabGlobe = document.getElementById('mainTabGlobe');
+    const tabContentTree = document.getElementById('tabContentTree');
+    const tabContentGlobe = document.getElementById('tabContentGlobe');
 
-    const setView = (mode) => {
+    const switchMainTab = (tab) => {
       const activeClass = 'bg-orange-600 text-stone-950 shadow-md font-bold';
       const inactiveClass = 'text-stone-300 hover:text-stone-100 hover:bg-stone-800 font-bold';
 
-      [btnTree, btnGlobe, btnSplit].forEach(b => {
-        if (b) b.className = `px-3 py-1.5 rounded-lg transition-all ${inactiveClass}`;
-      });
-
-      if (mode === 'tree') {
-        btnTree.className = `px-3 py-1.5 rounded-lg transition-all ${activeClass}`;
-        treeWrapper.classList.remove('hidden');
-        globeWrapper.classList.add('hidden');
-        displayArea.className = 'grid grid-cols-1 gap-4';
-        if (viewTitle) viewTitle.textContent = 'Interactive Maternal Lineage Tree';
-        if (viewIcon) viewIcon.textContent = '🧬';
+      if (tab === 'tree') {
+        if (mainTabTree) mainTabTree.className = `px-4 py-2 rounded-xl transition-all ${activeClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `px-4 py-2 rounded-xl transition-all ${inactiveClass}`;
+        tabContentTree?.classList.remove('hidden');
+        tabContentGlobe?.classList.add('hidden');
         if (window.TreeViewer) window.TreeViewer.render();
-      } else if (mode === 'globe') {
-        btnGlobe.className = `px-3 py-1.5 rounded-lg transition-all ${activeClass}`;
-        treeWrapper.classList.add('hidden');
-        globeWrapper.classList.remove('hidden');
-        displayArea.className = 'grid grid-cols-1 gap-4';
-        if (viewTitle) viewTitle.textContent = '3D Geo-Mitochondrial Migration Globe';
-        if (viewIcon) viewIcon.textContent = '🌍';
-        if (window.GlobeViewer) window.GlobeViewer.render();
-      } else if (mode === 'split') {
-        btnSplit.className = `px-3 py-1.5 rounded-lg transition-all ${activeClass}`;
-        treeWrapper.classList.remove('hidden');
-        globeWrapper.classList.remove('hidden');
-        displayArea.className = 'grid grid-cols-1 lg:grid-cols-2 gap-4';
-        if (viewTitle) viewTitle.textContent = 'Side-by-Side Dual Lineage & Migration View';
-        if (viewIcon) viewIcon.textContent = '⚔️';
-        if (window.TreeViewer) window.TreeViewer.render();
-        if (window.GlobeViewer) window.GlobeViewer.render();
+      } else if (tab === 'globe') {
+        if (mainTabGlobe) mainTabGlobe.className = `px-4 py-2 rounded-xl transition-all ${activeClass}`;
+        if (mainTabTree) mainTabTree.className = `px-4 py-2 rounded-xl transition-all ${inactiveClass}`;
+        tabContentTree?.classList.add('hidden');
+        tabContentGlobe?.classList.remove('hidden');
+        if (window.GlobeViewer) {
+          window.GlobeViewer.render();
+          window.GlobeViewer.populateAllSamplesSelect();
+        }
       }
     };
 
-    btnTree?.addEventListener('click', () => setView('tree'));
-    btnGlobe?.addEventListener('click', () => setView('globe'));
-    btnSplit?.addEventListener('click', () => setView('split'));
+    mainTabTree?.addEventListener('click', () => switchMainTab('tree'));
+    mainTabGlobe?.addEventListener('click', () => switchMainTab('globe'));
+    window.switchMainTab = switchMainTab;
 
     openCompBtn?.addEventListener('click', () => {
       if (window.FamilyReportGenerator) {

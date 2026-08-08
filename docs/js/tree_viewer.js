@@ -2,7 +2,7 @@
  * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
  * Kinship-Aware Role Mapping (Mother, Father, Child 1, Child 2, Child 3, Aunt, Grandmother),
  * Zero Label Collisions / Overlaps (Dynamic 1300px logical tree spacing),
- * Translucent bottom zoom dock, and interactive Conserved Mutation Cladogram pop-up.
+ * Translucent bottom zoom dock, and Integrated Maternal Pedigree Explorer.
  */
 
 window.TreeViewer = {
@@ -49,7 +49,7 @@ window.TreeViewer = {
     });
 
     // Close modals when clicking backdrop or close buttons
-    ['familyReportModal', 'junctionInspectorModal', 'pedigreeModal', 'mutationCladogramModal'].forEach(id => {
+    ['familyReportModal', 'junctionInspectorModal', 'mutationCladogramModal'].forEach(id => {
       const modal = document.getElementById(id);
       if (modal) {
         modal.addEventListener('click', (e) => {
@@ -75,7 +75,7 @@ window.TreeViewer = {
     if (!sampleName) return 'Lineage Member';
     const s = String(sampleName).trim().toUpperCase();
 
-    // Exact Map for all samples
+    // Exact Map for all 43 samples
     const EXACT_ROLES = {
       // UK Cohort (Nika Family: S1 is oldest, NIK is middle, S2 is youngest)
       'UK_F_NIKG': 'Grandmother',
@@ -955,7 +955,7 @@ window.TreeViewer = {
     });
   },
 
-  // Single Unified Cohort Mutation Summary Card
+  // Single Unified Cohort Mutation & Integrated Maternal Pedigree Card
   updateFamilyDataPanel(selectedCodes, matchedNodes = []) {
     const card = document.getElementById('familyLineageCard');
     if (!card) return;
@@ -963,7 +963,7 @@ window.TreeViewer = {
     if (!selectedCodes || selectedCodes.length === 0) {
       card.innerHTML = `
         <div class="p-4 rounded-xl bg-stone-900/80 border border-stone-800 text-xs text-stone-300 font-mono flex items-center justify-between">
-          <span>🌿 Click any cohort button or sample node on the cladogram to zoom in and inspect private mutations.</span>
+          <span>🌿 Click any cohort button or sample node on the cladogram to zoom in and inspect maternal pedigree.</span>
           <span class="text-stone-400 text-[11px]">Global Cladogram View</span>
         </div>
       `;
@@ -1001,6 +1001,84 @@ window.TreeViewer = {
     const uniqueSharedMuts = Array.from(new Map(sharedDiagnostic.map(m => [`m.${m.pos}`, m])).values());
     const uniquePrivateMuts = Array.from(new Map(privateMuts.map(m => [`m.${m.pos}`, m])).values());
 
+    // Look up Maternal Pedigree Configuration
+    const ped = (window.App && window.App.FAMILY_PEDIGREES) ? window.App.FAMILY_PEDIGREES[primaryCode] : null;
+
+    let pedigreeHtml = '';
+    if (ped) {
+      pedigreeHtml = `
+        <!-- INTEGRATED MATERNAL PEDIGREE EXPLORER SECTION -->
+        <div class="p-5 rounded-xl bg-stone-950 border border-orange-500/50 space-y-4 font-sans shadow-lg">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-2">
+            <div>
+              <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">🧬 Maternal Pedigree & Transmission Architecture</span>
+              <h5 class="text-sm font-extrabold text-stone-100 font-mono">${ped.name} (${ped.haplo})</h5>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-orange-950 border border-orange-800 text-orange-300 text-[10.5px] font-bold font-mono">
+              Verified Strict Matrilineal Inheritance
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono text-xs">
+            
+            ${ped.grandmother ? `
+              <div class="p-3 rounded-lg bg-stone-900 border border-amber-500/70 space-y-1">
+                <div class="flex items-center justify-between text-amber-300 font-bold">
+                  <span>Grandmother</span>
+                  <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded border border-amber-800">Ancestor</span>
+                </div>
+                <div class="text-stone-300 text-[11px] font-sans">Originating maternal root line.</div>
+              </div>
+            ` : ''}
+
+            <!-- Mother Node -->
+            <div class="p-3 rounded-lg bg-stone-900 border-2 border-emerald-500 space-y-1">
+              <div class="flex items-center justify-between text-emerald-300 font-bold">
+                <span>Mother</span>
+                <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800 font-bold">100% Transmission</span>
+              </div>
+              <div class="text-stone-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
+            </div>
+
+            ${ped.aunt ? `
+              <div class="p-3 rounded-lg bg-stone-900 border border-emerald-700/70 space-y-1">
+                <div class="flex items-center justify-between text-emerald-400 font-bold">
+                  <span>Aunt</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800">Maternal Sister</span>
+                </div>
+                <div class="text-stone-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
+              </div>
+            ` : ''}
+
+            ${ped.father ? `
+              <div class="p-3 rounded-lg bg-stone-900 border border-stone-800 space-y-1 opacity-80">
+                <div class="flex items-center justify-between text-rose-300 font-bold">
+                  <span>Father</span>
+                  <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded border border-rose-800">0% Transmission</span>
+                </div>
+                <div class="text-stone-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
+              </div>
+            ` : ''}
+
+            <!-- Offspring Nodes -->
+            ${ped.children.map(childSample => {
+              const role = this.getSampleRole(childSample);
+              return `
+                <div class="p-3 rounded-lg bg-stone-900 border border-orange-600/70 space-y-1">
+                  <div class="flex items-center justify-between text-orange-300 font-bold">
+                    <span>${role}</span>
+                    <span class="text-[10px] bg-orange-950 px-1.5 py-0.5 rounded border border-orange-800">Offspring</span>
+                  </div>
+                  <div class="text-stone-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
+                </div>
+              `;
+            }).join('')}
+
+          </div>
+        </div>
+      `;
+    }
+
     card.innerHTML = `
       <div class="p-6 rounded-2xl bg-stone-900 border border-orange-500/50 shadow-2xl space-y-5 font-mono text-xs">
         
@@ -1022,7 +1100,10 @@ window.TreeViewer = {
           </div>
         </div>
 
-        <!-- Section 1: Shared Core Diagnostic Markers -->
+        <!-- Section 1: Integrated Maternal Pedigree Explorer -->
+        ${pedigreeHtml}
+
+        <!-- Section 2: Shared Core Diagnostic Markers -->
         <div class="p-4 rounded-xl bg-stone-950 border border-emerald-900/60 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-stone-800 pb-1.5">
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
@@ -1043,7 +1124,7 @@ window.TreeViewer = {
           `}
         </div>
 
-        <!-- Section 2: Unique Private Mutations -->
+        <!-- Section 3: Unique Private Mutations -->
         <div class="p-4 rounded-xl bg-stone-950 border border-amber-900/60 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-stone-800 pb-1.5">
             <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
@@ -1073,9 +1154,9 @@ window.TreeViewer = {
           `}
         </div>
 
-        <!-- Action Bar: Direct to 3D Globe -->
+        <!-- Action Bar: Direct to 3D Globe Tab -->
         <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
-          <button onclick="window.GlobeViewer.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-bold text-xs hover:brightness-110 shadow-md transition-all flex items-center gap-2">
+          <button onclick="window.switchMainTab('globe'); window.GlobeViewer.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-bold text-xs hover:brightness-110 shadow-md transition-all flex items-center gap-2">
             <span>🌍 Trace ${primaryCode} Out-of-Africa Progression on 3D Globe ➔</span>
           </button>
           <span class="text-stone-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
