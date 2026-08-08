@@ -592,12 +592,12 @@ window.TreeViewer = {
             <span class="text-stone-400 font-sans text-[11px]">Sequencer noise / trace heteroplasmy</span>
           </div>
 
-          <!-- Trace Mutation Warning Banner -->
-          <div class="p-3.5 rounded-xl bg-amber-950/40 border border-amber-800/80 text-amber-200 text-xs font-sans">
-            ⚠️ <strong>Trace Mutation Warning:</strong> Variants with VAF lower than 3% are based on only a few instances of the mutation appearing and cannot be trusted.
-          </div>
-
           ${lowVafMuted.length > 0 ? `
+            <!-- Trace Mutation Warning Banner -->
+            <div class="p-3.5 rounded-xl bg-amber-950/40 border border-amber-800/80 text-amber-200 text-xs font-sans">
+              ⚠️ <strong>Trace Mutation Warning:</strong> Variants with VAF lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances of the mutation appearing and cannot be trusted.
+            </div>
+
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs font-mono">
                 <thead>
