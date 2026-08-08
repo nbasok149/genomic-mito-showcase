@@ -18,6 +18,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Run Genomic Data Pre-processing ETL
         run: |
           python scripts/export_web_data.py

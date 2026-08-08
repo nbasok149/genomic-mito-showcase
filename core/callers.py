@@ -9,30 +9,59 @@ and outputs standardized mutation call tables (.mut / .csv).
 
 import os
 import sys
-import re
-import yaml
+try:
+    import yaml
+except ImportError:
+    yaml = None
+
 from collections import Counter
 import concurrent.futures
 from .aligner import align_gaps_to_lower_coordinate, complement
 
 
 def load_config(config_path="config/filter.yaml"):
-    """Load QC filtering parameters from YAML configuration."""
+    """Load QC filtering parameters from YAML configuration with zero-dependency fallback."""
+    default_cfg = {
+        'reference_fasta': 'data/reference/mtdna.fa',
+        'min_alt_depth': 3,
+        'min_indel_depth': 10,
+        'high_vaf_threshold': 10,
+        'strand_bias_ratio': 0.8,
+        'edge_bias_pct': 0.05,
+        'homopolymer_length': 5,
+        'depth_threshold_denominator': 6,
+        'min_depth_strand_bias': 3,
+        'clonal_amp_denominator': 5
+    }
     if not os.path.exists(config_path):
-        return {
-            'reference_fasta': 'data/reference/mtdna.fa',
-            'min_alt_depth': 3,
-            'min_indel_depth': 10,
-            'high_vaf_threshold': 10,
-            'strand_bias_ratio': 0.8,
-            'edge_bias_pct': 0.05,
-            'homopolymer_length': 5,
-            'depth_threshold_denominator': 6,
-            'min_depth_strand_bias': 3,
-            'clonal_amp_denominator': 5
-        }
-    with open(config_path, 'r') as f:
-        return yaml.safe_load(f)
+        return default_cfg
+    if yaml is not None:
+        try:
+            with open(config_path, 'r') as f:
+                cfg = yaml.safe_load(f)
+                return cfg if isinstance(cfg, dict) else default_cfg
+        except Exception:
+            return default_cfg
+    # Zero-dependency key: value parser
+    cfg = dict(default_cfg)
+    try:
+        with open(config_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and ':' in line:
+                    k, v = line.split(':', 1)
+                    k = k.strip()
+                    v = v.strip()
+                    try:
+                        if '.' in v:
+                            cfg[k] = float(v)
+                        else:
+                            cfg[k] = int(v)
+                    except ValueError:
+                        cfg[k] = v
+    except Exception:
+        pass
+    return cfg
 
 
 def load_fasta(fasta_path):
