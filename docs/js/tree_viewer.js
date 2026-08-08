@@ -119,13 +119,32 @@ window.TreeViewer = {
     this.renderFamilyGroupButtons();
     this.highlightFamilyCluster();
 
-    if (this.selectedEthnicities.length >= 2 && window.FamilyReportGenerator) {
-      window.FamilyReportGenerator.openReportModal(
-        this.selectedEthnicities[0],
-        this.selectedEthnicities[1],
-        this.selectedEthnicities[2] || null
-      );
+    const toast = document.getElementById('compareBranchToast');
+    const toastTitle = document.getElementById('compareToastTitle');
+    const toastMsg = document.getElementById('compareToastMsg');
+    const firstBadge = document.getElementById('firstSelectedBadge');
+
+    if (this.selectedEthnicities.length === 1) {
+      const eth1 = this.selectedEthnicities[0];
+      if (toast) {
+        if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
+        if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
+        if (toastMsg) {
+          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-orange-400">Now click another branch on the tree</strong> to compare!`;
+        }
+        toast.classList.remove('hidden');
+      }
+    } else if (this.selectedEthnicities.length >= 2) {
+      if (toast) toast.classList.add('hidden');
+      if (window.FamilyReportGenerator) {
+        window.FamilyReportGenerator.openReportModal(
+          this.selectedEthnicities[0],
+          this.selectedEthnicities[1],
+          this.selectedEthnicities[2] || null
+        );
+      }
     } else if (this.selectedEthnicities.length === 0) {
+      if (toast) toast.classList.add('hidden');
       const modal = document.getElementById('familyReportModal');
       if (modal) {
         modal.classList.add('hidden');

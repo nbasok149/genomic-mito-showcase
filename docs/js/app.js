@@ -1194,28 +1194,64 @@ window.App = {
       const val = e.target.value;
       if (!val) return;
 
-      let eth1 = val;
-      let eth2 = 'AA';
-      let eth3 = null;
-      if (eth1 === 'AA') {
-        eth2 = 'CL';
-      }
+      const eth1 = val;
 
-      if (window.FamilyReportGenerator) {
-        window.FamilyReportGenerator.openReportModal(eth1, eth2, eth3);
-      }
+      // 1. Switch to Tree View if not already
+      setView('tree');
 
+      // 2. Select this single family branch on TreeViewer
       if (window.TreeViewer) {
         window.TreeViewer.selectedEthnicities = [eth1];
         window.TreeViewer.renderFamilyGroupButtons();
         window.TreeViewer.highlightFamilyCluster();
+        if (typeof window.TreeViewer.zoomToFamilyClade === 'function') {
+          window.TreeViewer.zoomToFamilyClade(eth1);
+        }
       }
 
-      // Rotate Globe to Marker
+      // 3. Smooth scroll directly to the maternal lineage tree
+      const treeSection = document.getElementById('treeWrapper') || document.getElementById('treeCanvasContainer');
+      if (treeSection) {
+        treeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      // 4. Show the interactive popup toast saying "Pick another branch to compare"
+      const toast = document.getElementById('compareBranchToast');
+      const toastTitle = document.getElementById('compareToastTitle');
+      const toastMsg = document.getElementById('compareToastMsg');
+      const firstBadge = document.getElementById('firstSelectedBadge');
+      if (toast) {
+        if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
+        if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
+        if (toastMsg) {
+          toastMsg.innerHTML = `Zoomed to <strong>${eth1}</strong> branch. <strong class="text-orange-400">Now click another branch on the tree</strong> (or a cohort button below) to compare!`;
+        }
+        toast.classList.remove('hidden');
+      }
+
+      // 5. Rotate Globe to Marker in background
       if (window.GlobeViewer && window.GlobeViewer.migrationData) {
         const marker = window.GlobeViewer.migrationData.markers.find(m => m.code === eth1);
         if (marker) window.GlobeViewer.rotateTo(marker.coords);
       }
+    });
+
+    // Wire up Compare Toast Buttons
+    const closeToastBtn = document.getElementById('closeCompareToastBtn');
+    const toastCompareBtn = document.getElementById('toastOpenCompareBtn');
+    const toast = document.getElementById('compareBranchToast');
+
+    closeToastBtn?.addEventListener('click', () => {
+      if (toast) toast.classList.add('hidden');
+    });
+
+    toastCompareBtn?.addEventListener('click', () => {
+      const eth1 = window.TreeViewer?.selectedEthnicities?.[0] || 'UK';
+      const eth2 = eth1 === 'AA' ? 'CL' : (eth1 === 'MX' ? 'KR' : 'AA');
+      if (window.FamilyReportGenerator) {
+        window.FamilyReportGenerator.openReportModal(eth1, eth2, null);
+      }
+      if (toast) toast.classList.add('hidden');
     });
   },
 
