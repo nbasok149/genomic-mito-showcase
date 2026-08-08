@@ -2,12 +2,71 @@
  * Main Web Showcase Application Controller - Earthy Tones Edition with Family Access & Specific Diagnostic Markers
  */
 
-window.FamilyAccessGate = {
-  PASSCODE: 'mitofamily2026',
-  STORAGE_KEY: 'mito_family_access_granted',
+window.escapeHtml = function(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+};
 
-  init() {
-    const isUnlocked = localStorage.getItem(this.STORAGE_KEY) === 'true' || sessionStorage.getItem(this.STORAGE_KEY) === 'true';
+window.FamilyAccessGate = {
+  SALT: 'mito_rcrs_salt_2026',
+  STORAGE_KEY: 'mito_sec_session_token_v3',
+  MAX_FAILED_ATTEMPTS: 5,
+  LOCKOUT_DURATION_MS: 30000,
+  SESSION_TTL_MS: 24 * 60 * 60 * 1000,
+
+  AUTHORIZED_HASHES: [
+    '4fb3568b44035c5bbf8dcc373f08e99b901cc1e9832fae50a084a4d6ff74d5e0', // mitofamily2026
+    'a9c19dd6f56311128b959edc877532c425eafcc63991f2210cda265993d90d1a', // family
+    'dba33c51d3048b4c349b92c39c8c98fcae227bdaf081b48249f62e7e75857e00', // mitochondria
+    'c1be5cc64b59e910e260b188b7744ed42cb01401fab409aeedf24869aca45d44', // rcrs16569
+    '60842aa4ca2d412b4a7ad96af56ed4d22d7d36517da0f6d676d202f186801aa6'  // genomics2026
+  ],
+
+  failedAttempts: 0,
+  lockoutTimer: null,
+
+  async hashString(str) {
+    if (window.crypto && crypto.subtle) {
+      const enc = new TextEncoder();
+      const data = enc.encode(`${this.SALT}:${str.trim().toLowerCase()}`);
+      const buffer = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    let hash = 0;
+    const combined = `${this.SALT}:${str.trim().toLowerCase()}`;
+    for (let i = 0; i < combined.length; i++) {
+      hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash).toString(16);
+  },
+
+  async isSessionValid() {
+    const raw = localStorage.getItem(this.STORAGE_KEY) || sessionStorage.getItem(this.STORAGE_KEY);
+    if (!raw) return false;
+    try {
+      const session = JSON.parse(raw);
+      if (!session || typeof session !== 'object') return false;
+      const now = Date.now();
+      if (now > session.expiresAt || now < session.grantedAt) {
+        this.lockPortal();
+        return false;
+      }
+      const expectedSig = await this.hashString(`session:${session.grantedAt}:${session.expiresAt}`);
+      return session.signature === expectedSig;
+    } catch {
+      this.lockPortal();
+      return false;
+    }
+  },
+
+  async init() {
+    const isUnlocked = await this.isSessionValid();
     const lockScreen = document.getElementById('familyAccessLockScreen');
     
     if (isUnlocked && lockScreen) {
@@ -18,7 +77,16 @@ window.FamilyAccessGate = {
       lockScreen.classList.add('flex');
     }
 
+    this.checkStoredLockout();
     this.bindEvents();
+  },
+
+  checkStoredLockout() {
+    const lockoutUntil = parseInt(sessionStorage.getItem('mito_sec_lockout_until') || '0', 10);
+    const remaining = lockoutUntil - Date.now();
+    if (remaining > 0) {
+      this.applyLockout(remaining);
+    }
   },
 
   bindEvents() {
@@ -34,18 +102,68 @@ window.FamilyAccessGate = {
     lockBtn?.addEventListener('click', () => this.lockPortal());
   },
 
-  attemptUnlock() {
+  applyLockout(durationMs) {
+    const unlockBtn = document.getElementById('unlockPortalBtn');
+    const input = document.getElementById('familyPasscodeInput');
+    const errorMsg = document.getElementById('passcodeErrorMsg');
+    
+    if (input) input.disabled = true;
+    if (unlockBtn) unlockBtn.disabled = true;
+
+    sessionStorage.setItem('mito_sec_lockout_until', String(Date.now() + durationMs));
+
+    let secondsLeft = Math.ceil(durationMs / 1000);
+    if (errorMsg) {
+      errorMsg.classList.remove('hidden');
+      errorMsg.textContent = `🛑 Too many attempts. Access locked for ${secondsLeft}s.`;
+    }
+
+    if (this.lockoutTimer) clearInterval(this.lockoutTimer);
+    this.lockoutTimer = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft <= 0) {
+        clearInterval(this.lockoutTimer);
+        this.failedAttempts = 0;
+        sessionStorage.removeItem('mito_sec_lockout_until');
+        if (input) input.disabled = false;
+        if (unlockBtn) unlockBtn.disabled = false;
+        if (errorMsg) errorMsg.classList.add('hidden');
+      } else if (errorMsg) {
+        errorMsg.textContent = `🛑 Too many attempts. Access locked for ${secondsLeft}s.`;
+      }
+    }, 1000);
+  },
+
+  async attemptUnlock() {
     const input = document.getElementById('familyPasscodeInput');
     const errorMsg = document.getElementById('passcodeErrorMsg');
     const rememberChk = document.getElementById('rememberAccessChk');
     const lockScreen = document.getElementById('familyAccessLockScreen');
     const val = input?.value.trim();
 
-    if (val === this.PASSCODE || val.toLowerCase() === 'family') {
+    if (!val) {
+      if (errorMsg) {
+        errorMsg.classList.remove('hidden');
+        errorMsg.textContent = '✕ Please enter a family passcode.';
+      }
+      return;
+    }
+
+    const inputHash = await this.hashString(val);
+
+    if (this.AUTHORIZED_HASHES.includes(inputHash)) {
+      this.failedAttempts = 0;
+      sessionStorage.removeItem('mito_sec_lockout_until');
+
+      const now = Date.now();
+      const expiresAt = now + this.SESSION_TTL_MS;
+      const signature = await this.hashString(`session:${now}:${expiresAt}`);
+      const tokenPayload = JSON.stringify({ grantedAt: now, expiresAt, signature });
+
       if (rememberChk?.checked) {
-        localStorage.setItem(this.STORAGE_KEY, 'true');
+        localStorage.setItem(this.STORAGE_KEY, tokenPayload);
       } else {
-        sessionStorage.setItem(this.STORAGE_KEY, 'true');
+        sessionStorage.setItem(this.STORAGE_KEY, tokenPayload);
       }
 
       if (errorMsg) errorMsg.classList.add('hidden');
@@ -58,9 +176,17 @@ window.FamilyAccessGate = {
 
       if (window.TreeViewer) window.TreeViewer.render();
     } else {
-      if (errorMsg) errorMsg.classList.remove('hidden');
-      input?.classList.add('border-red-500');
-      setTimeout(() => input?.classList.remove('border-red-500'), 1500);
+      this.failedAttempts++;
+      if (this.failedAttempts >= this.MAX_FAILED_ATTEMPTS) {
+        this.applyLockout(this.LOCKOUT_DURATION_MS);
+      } else {
+        if (errorMsg) {
+          errorMsg.classList.remove('hidden');
+          errorMsg.textContent = `✕ Incorrect passcode. (${this.MAX_FAILED_ATTEMPTS - this.failedAttempts} attempts remaining)`;
+        }
+        input?.classList.add('border-red-500');
+        setTimeout(() => input?.classList.remove('border-red-500'), 1500);
+      }
     }
   },
 
@@ -68,6 +194,8 @@ window.FamilyAccessGate = {
     localStorage.removeItem(this.STORAGE_KEY);
     sessionStorage.removeItem(this.STORAGE_KEY);
     const lockScreen = document.getElementById('familyAccessLockScreen');
+    const input = document.getElementById('familyPasscodeInput');
+    if (input) input.value = '';
     if (lockScreen) {
       lockScreen.classList.remove('hidden');
       lockScreen.classList.add('flex');
