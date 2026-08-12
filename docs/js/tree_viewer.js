@@ -412,14 +412,83 @@ window.TreeViewer = {
     if (badge) badge.textContent = label;
   },
 
+  selectedSamples: [],
+
+  toggleSampleSelection(sampleName) {
+    if (!sampleName) return;
+
+    const code = sampleName.split('_')[0];
+
+    // Keep branch/cohort selection active so we don't unselect the branch
+    if (!this.selectedEthnicities.includes(code)) {
+      this.selectedEthnicities = [code];
+      this.renderFamilyGroupButtons();
+      if (window.DiagnosticMarkersExplorer) {
+        window.DiagnosticMarkersExplorer.displayFamily(code, sampleName);
+      }
+      if (window.MigrationMap) {
+        window.MigrationMap.setSample(sampleName);
+      }
+    }
+
+    // Toggle sample in selected list
+    if (this.selectedSamples.includes(sampleName)) {
+      this.selectedSamples = this.selectedSamples.filter(s => s !== sampleName);
+      this.highlightFamilyCluster();
+      const toast = document.getElementById('compareBranchToast');
+      if (toast) toast.classList.add('hidden');
+      return;
+    }
+
+    this.selectedSamples.push(sampleName);
+
+    const toast = document.getElementById('compareBranchToast');
+    const toastTitle = document.getElementById('compareToastTitle');
+    const toastMsg = document.getElementById('compareToastMsg');
+    const firstBadge = document.getElementById('firstSelectedBadge');
+
+    if (this.selectedSamples.length === 1) {
+      const s1 = this.selectedSamples[0];
+      const role1 = this.getSampleRole(s1);
+      const code1 = s1.split('_')[0];
+
+      if (toast) {
+        if (toastTitle) toastTitle.innerHTML = `<span class="text-emerald-400">🟢 Sample 1 Selected: ${role1} (${s1})</span>`;
+        if (firstBadge) firstBadge.innerHTML = `<span class="text-emerald-300 font-bold">1: ${s1} (${role1})</span>`;
+        if (toastMsg) {
+          toastMsg.innerHTML = `Sample 1 is highlighted in <strong class="text-emerald-400">green</strong>. Now <strong class="text-sky-300">click another sample</strong> on the tree (Mother, Father, Child, etc.) to compare!`;
+        }
+        toast.classList.remove('hidden');
+      }
+
+      this.highlightFamilyCluster();
+    } else if (this.selectedSamples.length >= 2) {
+      const s1 = this.selectedSamples[0];
+      const s2 = this.selectedSamples[1];
+
+      this.highlightFamilyCluster();
+
+      if (toast) toast.classList.add('hidden');
+
+      // Automatically open Sample Comparison Report Modal
+      if (window.FamilyReportGenerator) {
+        window.FamilyReportGenerator.openSampleReportModal(s1, s2);
+      }
+
+      // Reset selection state
+      this.selectedSamples = [];
+    }
+  },
+
   highlightFamilyCluster() {
     const svg = d3.select('#treeContainer svg');
     if (!svg.node()) return;
 
     const selectedCodes = this.selectedEthnicities;
+    const selectedSamples = this.selectedSamples || [];
 
-    if (!selectedCodes || selectedCodes.length === 0) {
-      svg.selectAll('.tree-node').classed('dimmed', false);
+    if ((!selectedCodes || selectedCodes.length === 0) && selectedSamples.length === 0) {
+      svg.selectAll('.tree-node').classed('dimmed', false).classed('sample-selected', false);
       svg.selectAll('.tree-link').classed('dimmed', false).classed('family-active', false);
       svg.selectAll('.family-overlays g').style('opacity', 1);
       this.updateFamilyDataPanel(null);
@@ -427,17 +496,22 @@ window.TreeViewer = {
       return;
     }
 
-    const lowerKeys = selectedCodes.map(c => c.toLowerCase());
+    const lowerKeys = (selectedCodes || []).map(c => c.toLowerCase());
     let matchedNodes = [];
 
     svg.selectAll('.tree-node').each(function(d) {
       const name = (d.data.name || '').toLowerCase();
+      const rawName = d.data.name || '';
       const samples = (d.data.samples || []).map(s => s.toLowerCase());
       
-      const isMatch = lowerKeys.some(key => name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
-      
-      d3.select(this).classed('dimmed', !isMatch);
-      if (isMatch) matchedNodes.push(d);
+      const isMatch = lowerKeys.length > 0 && lowerKeys.some(key => name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
+      const isSampleSelected = selectedSamples.includes(rawName);
+
+      d3.select(this)
+        .classed('dimmed', !isMatch && !isSampleSelected && lowerKeys.length > 0)
+        .classed('sample-selected', isSampleSelected);
+
+      if (isMatch || isSampleSelected) matchedNodes.push(d);
     });
 
     svg.selectAll('.family-overlays g').each(function() {
@@ -451,20 +525,19 @@ window.TreeViewer = {
       const targetName = (d.target.data.name || '').toLowerCase();
       const targetSamples = (d.target.data.samples || []).map(s => s.toLowerCase());
       
-      const isMatch = lowerKeys.some(key => targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_'))) && !targetName.includes('clade');
+      const isMatch = lowerKeys.length > 0 && lowerKeys.some(key => targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_'))) && !targetName.includes('clade');
       
-      d3.select(this).classed('dimmed', !isMatch).classed('family-active', isMatch);
+      d3.select(this).classed('dimmed', !isMatch && lowerKeys.length > 0).classed('family-active', isMatch);
     });
 
     if (matchedNodes.length > 0 && this.svgG && this.zoomBehavior && this.zoomTier === 1) {
       const avgX = d3.mean(matchedNodes, d => d.y);
       const avgY = d3.mean(matchedNodes, d => d.x);
-      
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
-      const height = 500;
+      const height = document.getElementById('treeContainer')?.clientHeight || 520;
       const scale = selectedCodes.length > 1 ? 0.85 : 1.15;
 
-      svg.transition().duration(750).call(
+      svg.transition().duration(650).call(
         this.zoomBehavior.transform,
         d3.zoomIdentity.translate(width / 2 - avgX * scale, height / 2 - avgY * scale).scale(scale)
       );
@@ -726,9 +799,10 @@ window.TreeViewer = {
     const rawName = d.data.name || '';
     if (!rawName || rawName.includes('Clade')) return;
 
-    const code = rawName.split('_')[0];
-    this.toggleEthnicitySelection(code);
+    // Toggle individual sample selection (shows green, prompts for second sample, opens sample report)
+    this.toggleSampleSelection(rawName);
 
+    const code = rawName.split('_')[0];
     if (window.DiagnosticMarkersExplorer) {
       window.DiagnosticMarkersExplorer.displayFamily(code, rawName);
     }

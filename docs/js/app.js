@@ -660,6 +660,220 @@ window.FamilyReportGenerator = {
         });
       });
     }
+  },
+
+  openSampleReportModal(sample1, sample2) {
+    const modal = document.getElementById('familyReportModal');
+    if (!modal) return;
+
+    this.renderSampleReport(sample1, sample2);
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  },
+
+  renderSampleReport(sample1, sample2) {
+    const reportContainer = document.getElementById('familyReportModalBody') || document.getElementById('familyReportBody');
+    const titleEl = document.getElementById('reportModalTitle');
+    if (!reportContainer || !window.App.variantsData || !window.App.distanceData) return;
+
+    const allSamples = window.App.distanceData.samples || [];
+    const matrix = window.App.distanceData.matrix || [];
+
+    const idx1 = allSamples.indexOf(sample1);
+    const idx2 = allSamples.indexOf(sample2);
+
+    const dist = (idx1 >= 0 && idx2 >= 0 && matrix[idx1] && matrix[idx1][idx2] !== undefined)
+      ? matrix[idx1][idx2].toFixed(2)
+      : '0.00';
+
+    const role1 = window.TreeViewer ? window.TreeViewer.getSampleRole(sample1) : 'Sample 1';
+    const role2 = window.TreeViewer ? window.TreeViewer.getSampleRole(sample2) : 'Sample 2';
+
+    const code1 = sample1.split('_')[0];
+    const code2 = sample2.split('_')[0];
+
+    const info1 = this.getFamilyData(code1);
+    const info2 = this.getFamilyData(code2);
+
+    if (titleEl) {
+      titleEl.innerHTML = `🧬 Sample Comparison: <span class="text-emerald-400">${role1} (${sample1})</span> vs <span class="text-sky-400">${role2} (${sample2})</span>`;
+    }
+
+    // Filter variants for each sample
+    const vars1 = window.App.variantsData.variants.filter(v => v.sample === sample1);
+    const vars2 = window.App.variantsData.variants.filter(v => v.sample === sample2);
+
+    const muts1 = new Map(vars1.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
+    const muts2 = new Map(vars2.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
+
+    const allKeysMap = new Map();
+    [...muts1.entries(), ...muts2.entries()].forEach(([k, v]) => {
+      if (!allKeysMap.has(k)) allKeysMap.set(k, v);
+    });
+
+    const shared = [];
+    const unique1 = [];
+    const unique2 = [];
+
+    allKeysMap.forEach((v, k) => {
+      const in1 = muts1.has(k);
+      const in2 = muts2.has(k);
+      if (in1 && in2) shared.push({ ...v, eths: [`${role1} (${sample1})`, `${role2} (${sample2})`] });
+      else if (in1 && !in2) unique1.push({ ...v, eths: [`${role1} (${sample1})`] });
+      else if (in2 && !in1) unique2.push({ ...v, eths: [`${role2} (${sample2})`] });
+    });
+
+    const isSameFamily = code1 === code2;
+    let inheritanceNote = '';
+    let inheritanceBadge = '';
+
+    if (isSameFamily && ((role1.includes('Mother') && role2.includes('Child')) || (role2.includes('Mother') && role1.includes('Child')) || (role1.includes('Child') && role2.includes('Child')))) {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">⭐ 100% Maternal Concordance (0.00 Distance)</span>`;
+      inheritanceNote = `Offspring inherits an exact duplicate of maternal mitochondrial DNA without paternal recombination. The mutational distance between mother and offspring is 0.00.`;
+    } else if (isSameFamily && (role1.includes('Father') || role2.includes('Father'))) {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">⚠️ Paternal Divergence (${dist} Distance)</span>`;
+      inheritanceNote = `Fathers do NOT transmit mitochondrial DNA or familial diagnostic markers to offspring. The father belongs to an independent maternal lineage with distinct polymorphisms.`;
+    } else if (isSameFamily) {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Familial Lineage Match (${dist} Distance)</span>`;
+      inheritanceNote = `Lineage members within the same cohort sharing conserved ancestral diagnostic mutations.`;
+    } else {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Cross-Cohort Comparison (${dist} Distance)</span>`;
+      inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}) separated by prehistoric migration splits.`;
+    }
+
+    const color1 = '#10b981';
+    const color2 = '#38bdf8';
+
+    function placeDots(variantList, centerCX, centerCY, dotColor) {
+      let dotsSvg = '';
+      const cols = Math.ceil(Math.sqrt(variantList.length || 1));
+      variantList.forEach((v, idx) => {
+        const row = Math.floor(idx / cols);
+        const col = idx % cols;
+        const x = centerCX + (col - (cols - 1) / 2) * 15;
+        const y = centerCY + (row - (Math.ceil(variantList.length / cols) - 1) / 2) * 15;
+
+        const vJson = JSON.stringify(v).replace(/"/g, '&quot;');
+        const ethsJson = JSON.stringify(v.eths || []).replace(/"/g, '&quot;');
+
+        dotsSvg += `
+          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#090a0f" stroke-width="1.2"
+            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-emerald-400 shadow-md"
+            data-variant="${vJson}"
+            data-eths="${ethsJson}">
+            <title>m.${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click for details</title>
+          </circle>
+        `;
+      });
+      return dotsSvg;
+    }
+
+    const vennSvgHtml = `
+      <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+          <div>
+            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Interactive Sample Mutation Venn Diagram</span>
+            <h3 class="text-base font-extrabold text-white font-sans">${role1} (${sample1}) vs ${role2} (${sample2})</h3>
+          </div>
+          <span class="text-slate-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail</span>
+        </div>
+
+        <div class="flex justify-center overflow-x-auto py-2">
+          <svg width="600" height="320" viewBox="0 0 600 320" class="select-none">
+            <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.22" stroke="${color1}" stroke-width="2.5"/>
+            <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.22" stroke="${color2}" stroke-width="2.5"/>
+
+            <text x="150" y="90" fill="${color1}" font-weight="800" font-size="11.5" font-family="monospace">${role1} Only (${unique1.length})</text>
+            <text x="450" y="90" fill="${color2}" font-weight="800" font-size="11.5" font-family="monospace">${role2} Only (${unique2.length})</text>
+            <text x="300" y="90" fill="#34d399" font-weight="800" font-size="11.5" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
+
+            ${placeDots(unique1, 160, 160, color1)}
+            ${placeDots(unique2, 440, 160, color2)}
+            ${placeDots(shared, 300, 160, '#34d399')}
+          </svg>
+        </div>
+      </div>
+    `;
+
+    reportContainer.innerHTML = `
+      <div class="space-y-6 font-sans">
+        
+        <!-- Summary Header Card -->
+        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Individual Sample Pairwise Report</div>
+              <h2 class="text-xl font-extrabold text-white">${role1} <span class="text-slate-500">(${sample1})</span> vs ${role2} <span class="text-slate-500">(${sample2})</span></h2>
+            </div>
+            ${inheritanceBadge}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+              <div class="text-slate-400 font-sans">Pairwise Distance:</div>
+              <div class="text-xl font-bold text-emerald-300 font-mono">${dist}</div>
+              <div class="text-[10px] text-slate-500 font-sans">Mutation count differences</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+              <div class="text-slate-400 font-sans">Shared Conserved Mutations:</div>
+              <div class="text-xl font-bold text-sky-300 font-mono">${shared.length} Sites</div>
+              <div class="text-[10px] text-slate-500 font-sans">Identical in both genomes</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+              <div class="text-slate-400 font-sans">Lineage Transmission:</div>
+              <div class="text-sm font-bold text-slate-200 font-mono">${isSameFamily ? (role1.includes('Father') || role2.includes('Father') ? 'Paternal Split' : 'Strict Maternal') : 'Cross-Cohort'}</div>
+              <div class="text-[10px] text-slate-500 font-sans">Mitochondrial inheritance mode</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
+            <div class="text-emerald-300 font-bold font-mono">💡 Biological &amp; Clinical Context:</div>
+            <p class="text-slate-300 leading-relaxed text-[11.5px]">
+              ${inheritanceNote}
+            </p>
+          </div>
+        </div>
+
+        ${vennSvgHtml}
+
+        <!-- Sample Details Breakdown -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
+          <div class="p-4 rounded-2xl bg-slate-950 border border-emerald-500/30 space-y-2">
+            <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
+              <span class="font-bold text-emerald-400 text-sm">Sample 1: ${role1} (${sample1})</span>
+              <span class="text-slate-400 text-[10px]">${info1.name}</span>
+            </div>
+            <p class="text-slate-300 text-[11.5px] leading-relaxed">
+              <strong>Haplogroup:</strong> ${info1.haplo}<br/>
+              <strong>Total Detected Variants:</strong> ${vars1.length} mutations across 16,569 bp mitochondrial genome.
+            </p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-950 border border-sky-500/30 space-y-2">
+            <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
+              <span class="font-bold text-sky-400 text-sm">Sample 2: ${role2} (${sample2})</span>
+              <span class="text-slate-400 text-[10px]">${info2.name}</span>
+            </div>
+            <p class="text-slate-300 text-[11.5px] leading-relaxed">
+              <strong>Haplogroup:</strong> ${info2.haplo}<br/>
+              <strong>Total Detected Variants:</strong> ${vars2.length} mutations across 16,569 bp mitochondrial genome.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    reportContainer.querySelectorAll('.venn-variant-dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        try {
+          const v = JSON.parse(dot.getAttribute('data-variant'));
+          const eths = JSON.parse(dot.getAttribute('data-eths'));
+          this.showVariantModal(v, eths);
+        } catch(err) {}
+      });
+    });
   }
 };
 
