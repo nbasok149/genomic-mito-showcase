@@ -1,74 +1,103 @@
-/* Custom Styling for Genomic Web Showcase - Earthy Tones & Warm Slate Aesthetic (Option B) */
+/* Apple Liquid Glass & High-Clarity Scientific Aesthetics for Genomic Mito Showcase */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-    --bg-dark: #12100e;
-    --panel-bg: rgba(28, 25, 23, 0.85);
-    --panel-border: rgba(217, 119, 6, 0.2);
-    --terracotta: #ea580c;
-    --terracotta-glow: #f97316;
-    --sage: #10b981;
-    --sage-glow: #34d399;
-    --amber: #f59e0b;
-    --stone-text: #f5f5f4;
-    --stone-muted: #a8a29e;
+    --bg-dark: #090a0f;
+    --bg-canvas: #0c0d14;
+    --glass-bg: rgba(17, 20, 29, 0.72);
+    --glass-bg-hover: rgba(23, 27, 40, 0.82);
+    --glass-bg-subtle: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-strong: rgba(255, 255, 255, 0.16);
+    --glass-border-glow: rgba(56, 189, 248, 0.35);
+    
+    --accent-blue: #38bdf8;
+    --accent-indigo: #818cf8;
+    --accent-emerald: #34d399;
+    --accent-amber: #fbbf24;
+    --accent-rose: #f87171;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg-dark);
-    color: var(--stone-text);
+    color: var(--text-primary);
     background-image: 
-        radial-gradient(at 0% 0%, rgba(234, 88, 12, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 60%);
+        radial-gradient(ellipse 90% 60% at 50% -20%, rgba(56, 189, 248, 0.1) 0px, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 100% 100%, rgba(129, 140, 248, 0.07) 0px, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 0% 80%, rgba(52, 211, 153, 0.05) 0px, transparent 55%);
     background-attachment: fixed;
     min-height: 100vh;
+    letter-spacing: -0.01em;
 }
 
-/* Warm Earthy Glassmorphism Panels */
-.earth-panel {
-    background: var(--panel-bg);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid var(--panel-border);
-    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), 0 0 25px 0 rgba(234, 88, 12, 0.05);
+/* Apple Liquid Glass Container / Panel */
+.earth-panel, .glass-card, .liquid-glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 20px 45px -15px rgba(0, 0, 0, 0.7);
     border-radius: 1.25rem;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.earth-panel:hover {
-    border-color: rgba(249, 115, 22, 0.4);
-    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), 0 0 30px 0 rgba(249, 115, 22, 0.12);
+.earth-panel:hover, .glass-card:hover {
+    border-color: var(--glass-border-strong);
+    box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+        0 24px 50px -12px rgba(0, 0, 0, 0.8),
+        0 0 25px 0 rgba(56, 189, 248, 0.08);
 }
 
-.gradient-earth-text {
-    background: linear-gradient(135deg, #fdba74 0%, #f97316 40%, #34d399 100%);
+/* Hero Centered Glass Bar for Select Family */
+.hero-glass-bar {
+    background: linear-gradient(135deg, rgba(24, 28, 42, 0.85) 0%, rgba(15, 17, 26, 0.85) 100%);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+        0 14px 35px -10px rgba(0, 0, 0, 0.7),
+        0 0 20px -3px rgba(56, 189, 248, 0.15);
+    border-radius: 1.25rem;
+}
+
+/* Gradient Text */
+.gradient-earth-text, .gradient-brand-text {
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #38bdf8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* High-Visibility Warm Terracotta Tree Styling */
+/* Tree Styling with Crisp Contrast & Scientific Clarity */
 .tree-link {
     fill: none;
-    stroke: #f97316 !important;
-    stroke-width: 2.8px !important;
-    stroke-opacity: 0.9 !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    stroke: #475569 !important;
+    stroke-width: 2.2px !important;
+    stroke-opacity: 0.85 !important;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tree-link.dimmed {
-    stroke-opacity: 0.38 !important;
-    stroke: #57534e !important;
-    stroke-width: 1.8px !important;
+    stroke-opacity: 0.18 !important;
+    stroke: #334155 !important;
+    stroke-width: 1.5px !important;
 }
 
 .tree-link.family-active {
-    stroke: #f97316 !important;
-    stroke-width: 4.5px !important;
+    stroke: #38bdf8 !important;
+    stroke-width: 3.8px !important;
     stroke-opacity: 1 !important;
-    filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.9));
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.85));
 }
 
 .tree-node {
@@ -76,76 +105,77 @@ body {
 }
 
 .tree-node circle {
-    stroke: #f97316 !important;
-    stroke-width: 2.5px !important;
-    fill: #10b981 !important;
+    stroke: #38bdf8 !important;
+    stroke-width: 2.2px !important;
+    fill: #0ea5e9 !important;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
 }
 
 .tree-node circle:hover {
-    r: 10px !important;
-    fill: #34d399 !important;
-    stroke: #ffffff !important;
-    filter: drop-shadow(0 0 14px rgba(52, 211, 153, 0.95));
+    r: 9px !important;
+    fill: #ffffff !important;
+    stroke: #38bdf8 !important;
+    filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.95));
 }
 
 .tree-node.dimmed {
-    opacity: 0.45;
+    opacity: 0.3;
     transition: opacity 0.25s ease;
 }
 
 .tree-node.dimmed:hover {
     opacity: 1 !important;
-    filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.6));
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.6));
 }
 
 .tree-node.dimmed circle {
-    stroke: #78716c !important;
-    stroke-width: 2px !important;
+    stroke: #64748b !important;
+    stroke-width: 1.5px !important;
 }
 
 .tree-node.dimmed text {
-    fill: #a8a29e !important;
-    font-weight: 500 !important;
+    fill: #64748b !important;
+    font-weight: 400 !important;
 }
 
-.tree-node text {
-    fill: #f5f5f4 !important;
+.tree-node text.leaf-role-label {
+    fill: #e2e8f0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 11.5px;
+    font-weight: 600;
     text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Nav Tabs Styling */
+/* Nav Tabs */
 .nav-tab {
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     border-radius: 0.75rem;
 }
 
 .nav-tab.active {
-    background-color: rgba(234, 88, 12, 0.18);
-    color: #fb923c;
-    border-color: rgba(249, 115, 22, 0.5);
-    box-shadow: 0 0 18px rgba(249, 115, 22, 0.22);
+    background-color: rgba(56, 189, 248, 0.14);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.18);
 }
 
-/* Custom Scrollbars */
+/* Custom Sleek Scrollbars */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
 }
 ::-webkit-scrollbar-track {
-    background: #12100e;
+    background: #090a0f;
 }
 ::-webkit-scrollbar-thumb {
-    background: #292524;
-    border-radius: 4px;
-    border: 1px solid rgba(249, 115, 22, 0.2);
+    background: #1e293b;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #ea580c;
+    background: #334155;
 }
 
 /* Heatmap Tooltip */

@@ -1,13 +1,12 @@
 /**
- * Interactive SVG Phylogenetic Tree Visualizer (D3.js)
- * Kinship-Aware Role Mapping (Mother, Father, Child 1, Child 2, Child 3, Aunt, Grandmother),
- * Zero Label Collisions / Overlaps (Dynamic 1300px logical tree spacing),
- * Translucent bottom zoom dock, and Integrated Maternal Pedigree Explorer.
+ * Interactive SVG Phylogenetic Tree Visualizer (D3.js) - Apple Liquid Glass & High-Clarity Edition
+ * Horizontally stretched phylogram layout, dynamic wide-view label hiding,
+ * crisp ethnicity overlay banners, and integrated maternal pedigree explorer.
  */
 
 window.TreeViewer = {
   treeData: null,
-  activeLayout: 'phylogram', // phylogram, radial, cladogram
+  activeLayout: 'phylogram',
   selectedEthnicities: [],
   zoomBehavior: null,
   svgG: null,
@@ -19,6 +18,22 @@ window.TreeViewer = {
     'KR': 3, 'HK': 3, 'TB': 3, 'NA': 3, 'MX': 3, 'CL': 3
   },
 
+  ETHNICITY_COLORS: {
+    'IN': '#38bdf8', // Sky Blue
+    'IS': '#60a5fa', // Blue
+    'IW': '#818cf8', // Indigo
+    'PK': '#a78bfa', // Purple
+    'UK': '#c084fc', // Violet
+    'KR': '#f472b6', // Pink
+    'MX': '#34d399', // Emerald
+    'HK': '#2dd4bf', // Teal
+    'CL': '#fb923c', // Amber
+    'AA': '#f87171', // Coral Red
+    'TB': '#e879f9', // Fuchsia
+    'CA': '#94a3b8', // Slate
+    'NA': '#fbbf24'  // Gold
+  },
+
   init(data) {
     this.treeData = data;
     this.bindEvents();
@@ -27,15 +42,6 @@ window.TreeViewer = {
   },
 
   bindEvents() {
-    document.getElementById('treeLayoutSelect')?.addEventListener('change', (e) => {
-      this.activeLayout = e.target.value;
-      this.render();
-    });
-
-    document.getElementById('familyTreeSearchInput')?.addEventListener('input', (e) => {
-      this.searchAndHighlight(e.target.value);
-    });
-
     document.getElementById('btnTreeZoomIn')?.addEventListener('click', () => {
       this.zoomIn();
     });
@@ -75,9 +81,8 @@ window.TreeViewer = {
     if (!sampleName) return 'Lineage Member';
     const s = String(sampleName).trim().toUpperCase();
 
-    // Exact Map for all 43 samples
     const EXACT_ROLES = {
-      // UK Cohort (Nika Family: S1 is oldest, NIK is middle, S2 is youngest)
+      // UK Cohort
       'UK_F_NIKG': 'Grandmother',
       'UK_F_NIKA': 'Aunt',
       'UK_F_NIKM': 'Mother',
@@ -85,7 +90,7 @@ window.TreeViewer = {
       'UK_M_NIK': 'Child 2 (Middle)',
       'UK_M_NIKS2': 'Child 3 (Youngest)',
 
-      // IN Cohort (Deepali & Rishi Families)
+      // IN Cohort
       'IN_F_RISG': 'Grandmother',
       'IN_F_RISM': 'Mother',
       'IN_M_RISF': 'Father',
@@ -94,7 +99,7 @@ window.TreeViewer = {
       'IN_F_DPL': 'Mother',
       'IN_M_DPLH': 'Father',
 
-      // IS Cohort (Vys, Rav & Sel)
+      // IS Cohort
       'IS_F_VYSM': 'Mother',
       'IS_M_RAV': 'Father',
       'IS_M_SEL': 'Father 2',
@@ -103,33 +108,33 @@ window.TreeViewer = {
       'IS_F_VYSC1': 'Child 3',
       'IS_M_PRIC1': 'Child 1',
 
-      // IW Cohort (Raj & Anjali Family)
+      // IW Cohort
       'IW_F_ANJM': 'Mother',
       'IW_M_ANJF': 'Father',
       'IW_F_ANJ': 'Child 1',
       'IW_F_ANJS1': 'Child 2',
 
-      // PK Cohort (Wasim Family)
+      // PK Cohort
       'PK_F_WAS': 'Mother',
       'PK_M_WASH': 'Father',
       'PK_M_WASC1': 'Child 1',
       'PK_M_WASC2': 'Child 2',
 
-      // HK Cohort (Jan Family)
+      // HK Cohort
       'HK_F_JANM': 'Mother',
       'HK_M_WLL': 'Father',
       'HK_F_JAN': 'Child 1',
 
-      // KR Cohort (Moo Family)
+      // KR Cohort
       'KR_F_MOO': 'Mother',
       'KR_F_MOOC1': 'Child 1',
 
-      // MX Cohort (Cry Family)
+      // MX Cohort
       'MX_F_CRY': 'Mother',
       'MX_M_CRYF': 'Father',
       'MX_F_CRYS1': 'Child 1',
 
-      // CL Cohort (Alj Family)
+      // CL Cohort
       'CL_F_ALJ': 'Mother',
       'CL_F_ALJC1': 'Child 1',
 
@@ -143,7 +148,6 @@ window.TreeViewer = {
 
     if (EXACT_ROLES[s]) return EXACT_ROLES[s];
 
-    // Generic fallback parsing
     if (s.includes('NIKG') || s.includes('RISG') || s.endsWith('G')) return 'Grandmother';
     if (s.includes('NIKA') || s.endsWith('A')) return 'Aunt';
     if (s.endsWith('M') || s.includes('_F_') || s.includes('MOTHER')) return 'Mother';
@@ -154,10 +158,36 @@ window.TreeViewer = {
     return s.includes('_F_') ? 'Mother' : 'Father';
   },
 
-  // Leaf node label (Role ONLY, zero ethnicity code prefix)
   getDeidentifiedLabel(sampleName) {
     if (!sampleName || sampleName.includes('Clade')) return '';
     return this.getSampleRole(sampleName);
+  },
+
+  getNodeColor(rawName) {
+    if (!rawName || rawName.includes('Clade')) return '#64748b';
+    const code = rawName.split('_')[0];
+    return this.ETHNICITY_COLORS[code] || '#38bdf8';
+  },
+
+  getFamilyName(rawName) {
+    if (!rawName || rawName.includes('Clade')) return '';
+    const parts = rawName.split('_');
+    const regionMap = {
+      'IN': 'India (Central/North)',
+      'IS': 'India South (Deccan)',
+      'IW': 'India West (Gujarat)',
+      'PK': 'Pakistan (Indus)',
+      'UK': 'Ukraine (E. Europe)',
+      'KR': 'Korea (NE Asia)',
+      'MX': 'Mexico (Mesoamerica)',
+      'HK': 'Hong Kong (E. Asia)',
+      'CL': 'Colombia (S. America)',
+      'AA': 'African (Cradle)',
+      'TB': 'Tibet (Plateau)',
+      'CA': 'Canada (N. America)',
+      'NA': 'Native N. America'
+    };
+    return regionMap[parts[0]] || parts[0];
   },
 
   extractFamilyGroupings() {
@@ -191,15 +221,16 @@ window.TreeViewer = {
     const isAll = this.selectedEthnicities.length === 0;
 
     let html = `
-      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3.5 py-1.5 text-xs font-semibold rounded-lg ${isAll ? 'bg-amber-600 text-stone-950 shadow-md shadow-amber-600/30 font-bold' : 'bg-stone-900 text-stone-300 hover:bg-stone-800 border border-stone-800'} transition-all">
+      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3.5 py-1.5 text-xs font-semibold rounded-xl ${isAll ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/25 font-bold' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800 border border-white/10'} transition-all">
         All Cohorts (${groupings.length})
       </button>
     `;
 
     groupings.forEach(g => {
       const active = this.selectedEthnicities.includes(g.key);
+      const color = this.ETHNICITY_COLORS[g.key] || '#38bdf8';
       html += `
-        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3.5 py-1.5 text-xs font-semibold rounded-lg ${active ? 'bg-orange-600 text-stone-950 shadow-md shadow-orange-600/30 font-bold border border-orange-400' : 'bg-stone-900 border border-stone-800 text-stone-300 hover:border-amber-500'} transition-all">
+        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3 py-1.5 text-xs font-semibold rounded-xl ${active ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/25 font-bold border border-sky-400' : 'bg-slate-900/80 border border-white/10 text-slate-300 hover:border-sky-400/50'}" style="${active ? '' : `border-left: 3px solid ${color};`}">
           ${g.key} (${g.samples.length}) ${active ? '✓' : ''}
         </button>
       `;
@@ -211,7 +242,6 @@ window.TreeViewer = {
   clearEthnicitySelection() {
     this.selectedEthnicities = [];
     this.renderFamilyGroupButtons();
-    this.render();
     this.highlightFamilyCluster();
     this.zoomToGlobal();
 
@@ -253,7 +283,7 @@ window.TreeViewer = {
         if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
         if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
         if (toastMsg) {
-          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-orange-400">Click another branch on the tree</strong> to compare!`;
+          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-sky-400">Click another branch on the tree</strong> to compare!`;
         }
         toast.classList.remove('hidden');
       }
@@ -281,6 +311,18 @@ window.TreeViewer = {
 
     if (this.selectedEthnicities.length > 0 && window.GlobeViewer) {
       window.GlobeViewer.setSample(this.selectedEthnicities[0]);
+    }
+  },
+
+  updateLabelVisibility(scale) {
+    // In the widest view (scale < 0.65 and zoomTier === 3), identifiers (Child, Father, etc.) are hidden.
+    // Only ethnicity overlays identify samples at first.
+    const showLabels = scale >= 0.65 || this.zoomTier <= 2;
+    const svg = d3.select('#treeContainer svg');
+    if (svg.node()) {
+      svg.selectAll('.leaf-role-label')
+        .style('opacity', showLabels ? 1 : 0)
+        .style('pointer-events', showLabels ? 'auto' : 'none');
     }
   },
 
@@ -313,10 +355,14 @@ window.TreeViewer = {
     this.updateZoomBadge('Global Tree');
     const svg = d3.select('#treeContainer svg');
     if (this.svgG && this.zoomBehavior && svg.node()) {
+      const containerWidth = document.getElementById('treeContainer')?.clientWidth || 900;
+      // Stretched layout spans 2200px horizontally; initial global zoom scales to fit gracefully
+      const initialScale = Math.min(containerWidth / 2500, 0.38);
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
-        d3.zoomIdentity.translate(20, 10).scale(0.36)
+        d3.zoomIdentity.translate(35, 20).scale(initialScale)
       );
+      this.updateLabelVisibility(initialScale);
     }
   },
 
@@ -336,8 +382,8 @@ window.TreeViewer = {
     });
 
     const width = document.getElementById('treeContainer')?.clientWidth || 900;
-    const height = 470;
-    const scale = 0.65;
+    const height = 500;
+    const scale = 0.7;
 
     if (matchedNodes.length > 0) {
       const avgX = d3.mean(matchedNodes, d => d.y);
@@ -346,6 +392,7 @@ window.TreeViewer = {
         this.zoomBehavior.transform,
         d3.zoomIdentity.translate(width / 2 - avgX * scale, height / 2 - avgY * scale).scale(scale)
       );
+      this.updateLabelVisibility(scale);
     }
   },
 
@@ -373,6 +420,7 @@ window.TreeViewer = {
       svg.selectAll('.tree-link').classed('dimmed', false).classed('family-active', false);
       svg.selectAll('.family-overlays g').style('opacity', 1);
       this.updateFamilyDataPanel(null);
+      this.updateLabelVisibility(0.35);
       return;
     }
 
@@ -410,78 +458,17 @@ window.TreeViewer = {
       const avgY = d3.mean(matchedNodes, d => d.x);
       
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
-      const height = 470;
-      const scale = selectedCodes.length > 1 ? 0.8 : 1.15;
+      const height = 500;
+      const scale = selectedCodes.length > 1 ? 0.85 : 1.15;
 
       svg.transition().duration(750).call(
         this.zoomBehavior.transform,
         d3.zoomIdentity.translate(width / 2 - avgX * scale, height / 2 - avgY * scale).scale(scale)
       );
+      this.updateLabelVisibility(scale);
     }
 
     this.updateFamilyDataPanel(selectedCodes, matchedNodes);
-  },
-
-  searchAndHighlight(query) {
-    const term = query.trim().toLowerCase();
-    const svg = d3.select('#treeContainer svg');
-    if (!svg.node() || !term) {
-      svg.selectAll('.tree-node circle').style('r', d => d.children ? 6.5 : 6);
-      return;
-    }
-
-    svg.selectAll('.tree-node').each(function(d) {
-      const name = (d.data.name || '').toLowerCase();
-      const isMatch = name.includes(term) && !name.includes('clade');
-
-      d3.select(this).select('circle')
-        .style('r', isMatch ? 10 : (d.children ? 6.5 : 6))
-        .style('stroke', isMatch ? '#ffffff' : (d.children ? '#d97706' : window.TreeViewer.getNodeColor(d.data.name)))
-        .style('stroke-width', isMatch ? '3px' : '2px');
-    });
-  },
-
-  ETHNICITY_COLORS: {
-    'IN': '#f59e0b',
-    'IS': '#b45309',
-    'IW': '#d97706',
-    'PK': '#8b5cf6',
-    'UK': '#6366f1',
-    'KR': '#ec4899',
-    'MX': '#10b981',
-    'HK': '#06b6d4',
-    'CL': '#3b82f6',
-    'AA': '#ef4444',
-    'TB': '#14b8a6',
-    'CA': '#a855f7',
-    'NA': '#eab308'
-  },
-
-  getNodeColor(rawName) {
-    if (!rawName || rawName.includes('Clade')) return '#d97706';
-    const code = rawName.split('_')[0];
-    return this.ETHNICITY_COLORS[code] || '#f59e0b';
-  },
-
-  getFamilyName(rawName) {
-    if (!rawName || rawName.includes('Clade')) return '';
-    const parts = rawName.split('_');
-    const regionMap = {
-      'IN': 'India (Central/North)',
-      'IS': 'India South (Deccan)',
-      'IW': 'India West (Gujarat)',
-      'PK': 'Pakistan (Indus)',
-      'UK': 'Ukraine (E. Europe)',
-      'KR': 'Korea (NE Asia)',
-      'MX': 'Mexico (Mesoamerica)',
-      'HK': 'Hong Kong (E. Asia)',
-      'CL': 'Colombia (S. America)',
-      'AA': 'African (Cradle)',
-      'TB': 'Tibet (Plateau)',
-      'CA': 'Canada (N. America)',
-      'NA': 'Native N. America'
-    };
-    return regionMap[parts[0]] || parts[0];
   },
 
   // Interactive Conserved Mutation Cladogram Pop-Up
@@ -501,10 +488,10 @@ window.TreeViewer = {
     if (svg.node()) {
       svg.selectAll('.tree-node circle')
         .style('stroke', d => {
-          if (!d.children && carrierSamples.includes(d.data.name)) return '#10b981';
-          return d.children ? '#d97706' : window.TreeViewer.getNodeColor(d.data.name);
+          if (!d.children && carrierSamples.includes(d.data.name)) return '#34d399';
+          return d.children ? '#64748b' : window.TreeViewer.getNodeColor(d.data.name);
         })
-        .style('stroke-width', d => (!d.children && carrierSamples.includes(d.data.name)) ? '4px' : '2px')
+        .style('stroke-width', d => (!d.children && carrierSamples.includes(d.data.name)) ? '3.5px' : '2px')
         .style('r', d => (!d.children && carrierSamples.includes(d.data.name)) ? 9 : (d.children ? 6.5 : 6));
     }
 
@@ -517,23 +504,23 @@ window.TreeViewer = {
     bodyEl.innerHTML = `
       <div class="space-y-4 font-sans text-xs">
         
-        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 flex flex-wrap items-center justify-between gap-3 font-mono">
+        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 flex flex-wrap items-center justify-between gap-3 font-mono">
           <div>
-            <div class="text-[11px] text-stone-400">Total Inherited Lineages Carrying Mutation:</div>
+            <div class="text-[11px] text-slate-400">Total Inherited Lineages Carrying Mutation:</div>
             <div class="text-base font-bold text-emerald-400">${carrierSamples.length} Sample Lines Across ${carrierCohorts.length} Global Cohorts</div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+            <span class="px-3 py-1 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
               Conserved Founder Mutation (High Presence)
             </span>
           </div>
         </div>
 
-        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2 font-mono">
-          <div class="text-[11px] text-stone-400 font-bold uppercase tracking-wider">Carrying Population Cohorts:</div>
+        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2 font-mono">
+          <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Carrying Population Cohorts:</div>
           <div class="flex flex-wrap gap-2">
             ${carrierCohorts.map(c => `
-              <span class="px-2.5 py-1 rounded-lg bg-stone-900 border border-orange-500/50 text-orange-300 font-bold text-xs">
+              <span class="px-2.5 py-1 rounded-xl bg-slate-900 border border-sky-500/40 text-sky-300 font-bold text-xs">
                 ${this.getFamilyName(c)} (${c})
               </span>
             `).join('')}
@@ -541,20 +528,20 @@ window.TreeViewer = {
         </div>
 
         <!-- Cladogram Visualization for this Specific Mutation -->
-        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
-          <div class="text-[11px] text-stone-400 font-mono font-bold uppercase tracking-wider">Lineage Branch Distribution:</div>
+        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2">
+          <div class="text-[11px] text-slate-400 font-mono font-bold uppercase tracking-wider">Lineage Branch Distribution:</div>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto p-1 font-mono">
             ${carrierSamples.map(sample => {
               const code = sample.split('_')[0];
               const role = this.getSampleRole(sample);
-              const color = this.ETHNICITY_COLORS[code] || '#f59e0b';
+              const color = this.ETHNICITY_COLORS[code] || '#38bdf8';
               return `
-                <div class="p-2.5 rounded-lg bg-stone-900 border border-stone-800 flex items-center justify-between">
+                <div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${color}"></span>
-                    <strong class="text-stone-200">${role}</strong>
+                    <strong class="text-slate-200">${role}</strong>
                   </div>
-                  <span class="px-2 py-0.5 rounded bg-stone-950 border border-stone-800 text-[10px] text-stone-400">
+                  <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-white/10 text-[10px] text-slate-400">
                     Cohort ${code}
                   </span>
                 </div>
@@ -576,221 +563,141 @@ window.TreeViewer = {
     container.innerHTML = '';
 
     const width = container.clientWidth || 900;
-    const height = 470; // Shorter, elegant canvas
-    const margin = { top: 20, right: 180, bottom: 20, left: 40 };
+    const height = 500;
+    const margin = { top: 25, right: 280, bottom: 25, left: 40 };
 
     const svg = d3.select(container)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
-      .style('background', '#0c0a09')
-      .style('border-radius', '1rem');
+      .style('background', '#080a0f')
+      .style('border-radius', '1.5rem');
 
     const g = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
     this.svgG = g;
 
     this.zoomBehavior = d3.zoom()
-      .scaleExtent([0.2, 4.5])
+      .scaleExtent([0.15, 4.5])
       .on('zoom', (event) => {
         g.attr('transform', event.transform);
+        this.updateLabelVisibility(event.transform.k);
       });
     svg.call(this.zoomBehavior);
 
     const root = d3.hierarchy(this.treeData);
+    const leafCount = root.leaves().length;
+    
+    // Generous layout height and STRETCHED 2200px horizontal width to eliminate horizontal compression
+    const layoutHeight = Math.max(1280, leafCount * 30);
+    const layoutWidth = 2200; // Stretched out extensively in the X direction!
 
-    if (this.activeLayout === 'radial') {
-      const radius = Math.min(width, height) / 2 + 180;
-      const cluster = d3.cluster().size([360, radius]);
-      cluster(root);
+    const treeLayout = d3.tree()
+      .size([layoutHeight, layoutWidth])
+      .separation((a, b) => (a.parent === b.parent ? 1.4 : 2.0));
+    treeLayout(root);
 
-      const radialG = g.append('g').attr('transform', `translate(${width / 2},${height / 2})`);
+    // Ethnicity Overlay Regions (Apple Liquid Glass Rounded Rectangles)
+    const overlayGroup = g.append('g').attr('class', 'family-overlays');
+    const familyMap = new Map();
+    root.leaves().forEach(d => {
+      if (d.data.name && !d.data.name.includes('Clade')) {
+        const code = d.data.name.split('_')[0];
+        if (!familyMap.has(code)) familyMap.set(code, []);
+        familyMap.get(code).push(d);
+      }
+    });
 
-      // Radial Family Overlays Group
-      const overlayGroup = radialG.append('g').attr('class', 'family-overlays');
-      const familyMap = new Map();
-      root.leaves().forEach(d => {
-        if (d.data.name && !d.data.name.includes('Clade')) {
-          const code = d.data.name.split('_')[0];
-          if (!familyMap.has(code)) familyMap.set(code, []);
-          familyMap.get(code).push(d);
-        }
-      });
+    familyMap.forEach((leaves, code) => {
+      const color = this.ETHNICITY_COLORS[code] || '#38bdf8';
+      const minY = d3.min(leaves, d => d.x);
+      const maxY = d3.max(leaves, d => d.x);
+      const minX = d3.min(leaves, d => d.y);
+      const maxX = d3.max(leaves, d => d.y);
 
-      familyMap.forEach((leaves, code) => {
-        const color = this.ETHNICITY_COLORS[code] || '#ea580c';
-        const angles = leaves.map(d => (d.x * Math.PI) / 180);
-        const minAngle = d3.min(angles) - 0.08;
-        const maxAngle = d3.max(angles) + 0.08;
-        const maxRadius = d3.max(leaves, d => d.y) + 25;
-        const minRadius = d3.min(leaves, d => d.y) - 20;
+      const padY = 14;
+      const padXLeft = 18;
+      const padXRight = 220;
 
-        const arcGenerator = d3.arc()
-          .innerRadius(Math.max(10, minRadius))
-          .outerRadius(maxRadius)
-          .startAngle(minAngle)
-          .endAngle(maxAngle)
-          .cornerRadius(8);
-
-        overlayGroup.append('path')
-          .attr('class', `family-overlay-${code}`)
-          .attr('d', arcGenerator())
-          .attr('fill', color)
-          .attr('fill-opacity', 0.16)
-          .attr('stroke', color)
-          .attr('stroke-width', 1.8)
-          .attr('stroke-opacity', 0.5);
-      });
-
-      radialG.selectAll('.tree-link')
-        .data(root.links())
-        .enter()
-        .append('path')
-        .attr('class', 'tree-link')
-        .attr('stroke', '#f97316')
-        .attr('stroke-width', '2.5px')
-        .attr('stroke-opacity', '0.9')
-        .attr('fill', 'none')
-        .attr('d', d3.linkRadial()
-          .angle(d => (d.x * Math.PI) / 180)
-          .radius(d => d.y)
-        );
-
-      const node = radialG.selectAll('.tree-node')
-        .data(root.descendants())
-        .enter()
-        .append('g')
-        .attr('class', 'tree-node')
-        .attr('transform', d => `rotate(${d.x - 90}) translate(${d.y},0)`);
-
-      node.append('circle')
-        .attr('r', d => d.children ? 6.5 : 6)
-        .style('fill', d => d.children ? '#f59e0b' : this.getNodeColor(d.data.name))
-        .style('stroke', d => d.children ? '#d97706' : this.getNodeColor(d.data.name))
-        .style('stroke-width', '2px')
+      const overlayG = overlayGroup.append('g')
+        .attr('class', `family-overlay-${code}`)
         .style('cursor', 'pointer')
-        .on('click', (event, d) => this.onNodeClick(d));
+        .on('click', () => this.toggleEthnicitySelection(code));
 
-      node.filter(d => !d.children)
-        .append('text')
-        .attr('dy', '0.31em')
-        .attr('x', d => d.x < 180 === !d.children ? 8 : -8)
-        .attr('text-anchor', d => d.x < 180 === !d.children ? 'start' : 'end')
-        .attr('transform', d => d.x >= 180 ? 'rotate(180)' : null)
-        .attr('fill', '#d6d3d1')
-        .style('font-size', '11px')
+      // Liquid glass rounded squircle bounding box
+      overlayG.append('rect')
+        .attr('x', minX - padXLeft)
+        .attr('y', minY - padY)
+        .attr('width', (maxX - minX) + padXLeft + padXRight)
+        .attr('height', Math.max(28, (maxY - minY) + padY * 2))
+        .attr('rx', 14)
+        .attr('fill', color)
+        .attr('fill-opacity', 0.12)
+        .attr('stroke', color)
+        .attr('stroke-width', 1.6)
+        .attr('stroke-opacity', 0.45);
+
+      // Prominent ethnicity overlay banner text
+      const famName = this.getFamilyName(code);
+      overlayG.append('text')
+        .attr('x', maxX + 18)
+        .attr('y', (minY + maxY) / 2)
+        .attr('dy', '0.35em')
+        .attr('fill', color)
+        .style('font-size', '13px')
+        .style('font-weight', '800')
         .style('font-family', 'JetBrains Mono, monospace')
-        .text(d => this.getDeidentifiedLabel(d.data.name));
+        .style('text-shadow', '0 2px 8px rgba(0,0,0,0.8)')
+        .text(`${famName}`);
+    });
 
-      // Initial fit
-      svg.call(this.zoomBehavior.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(0.55));
+    // Horizontal Phylogram Branch Links
+    g.selectAll('.tree-link')
+      .data(root.links())
+      .enter()
+      .append('path')
+      .attr('class', 'tree-link')
+      .attr('stroke', '#475569')
+      .attr('stroke-width', '2.2px')
+      .attr('stroke-opacity', '0.85')
+      .attr('fill', 'none')
+      .attr('d', d3.linkHorizontal()
+        .x(d => d.y)
+        .y(d => d.x)
+      );
 
-    } else {
-      const leafCount = root.leaves().length;
-      // Generous 1300px layout height to guarantee ZERO node overlapping
-      const layoutHeight = Math.max(1280, leafCount * 30);
-      const treeLayout = d3.tree()
-        .size([layoutHeight, 720])
-        .separation((a, b) => (a.parent === b.parent ? 1.6 : 2.4));
-      treeLayout(root);
+    // Node Groups
+    const node = g.selectAll('.tree-node')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+      .attr('class', 'tree-node')
+      .attr('transform', d => `translate(${d.y},${d.x})`);
 
-      // Phylogram / Cladogram Family Overlay Regions
-      const overlayGroup = g.append('g').attr('class', 'family-overlays');
-      const familyMap = new Map();
-      root.leaves().forEach(d => {
-        if (d.data.name && !d.data.name.includes('Clade')) {
-          const code = d.data.name.split('_')[0];
-          if (!familyMap.has(code)) familyMap.set(code, []);
-          familyMap.get(code).push(d);
-        }
-      });
+    node.append('circle')
+      .attr('r', d => d.children ? 6.5 : 6)
+      .style('fill', d => d.children ? '#0ea5e9' : this.getNodeColor(d.data.name))
+      .style('stroke', d => d.children ? '#38bdf8' : this.getNodeColor(d.data.name))
+      .style('stroke-width', '2px')
+      .style('cursor', 'pointer')
+      .on('click', (event, d) => this.onNodeClick(d));
 
-      familyMap.forEach((leaves, code) => {
-        const color = this.ETHNICITY_COLORS[code] || '#ea580c';
-        const minY = d3.min(leaves, d => d.x);
-        const maxY = d3.max(leaves, d => d.x);
-        const minX = d3.min(leaves, d => d.y);
-        const maxX = d3.max(leaves, d => d.y);
+    // Leaf Node Role Labels (Child, Father, Mother, etc.)
+    // Note: Initially hidden in widest view; smoothly shown when zoomed in
+    node.filter(d => !d.children)
+      .append('text')
+      .attr('class', 'leaf-role-label')
+      .attr('dx', 12)
+      .attr('dy', '0.32em')
+      .attr('fill', '#e2e8f0')
+      .style('font-size', '11.5px')
+      .style('font-weight', '600')
+      .style('font-family', 'JetBrains Mono, monospace')
+      .style('opacity', 0) // Hidden by default in widest view
+      .text(d => this.getDeidentifiedLabel(d.data.name));
 
-        const padY = 12;
-        const padXLeft = 16;
-        const padXRight = 140;
-
-        const overlayG = overlayGroup.append('g').attr('class', `family-overlay-${code}`);
-
-        overlayG.append('rect')
-          .attr('x', minX - padXLeft)
-          .attr('y', minY - padY)
-          .attr('width', (maxX - minX) + padXLeft + padXRight)
-          .attr('height', Math.max(26, (maxY - minY) + padY * 2))
-          .attr('rx', 12)
-          .attr('fill', color)
-          .attr('fill-opacity', 0.16)
-          .attr('stroke', color)
-          .attr('stroke-width', 1.8)
-          .attr('stroke-opacity', 0.5);
-
-        // Ethnicity visible ONLY on the overlay banner
-        const famName = this.getFamilyName(code);
-        overlayG.append('text')
-          .attr('x', maxX + 14)
-          .attr('y', (minY + maxY) / 2)
-          .attr('dy', '0.35em')
-          .attr('fill', color)
-          .style('font-size', '12px')
-          .style('font-weight', '800')
-          .style('font-family', 'JetBrains Mono, monospace')
-          .text(famName);
-      });
-
-      g.selectAll('.tree-link')
-        .data(root.links())
-        .enter()
-        .append('path')
-        .attr('class', 'tree-link')
-        .attr('stroke', '#f97316')
-        .attr('stroke-width', '2.5px')
-        .attr('stroke-opacity', '0.9')
-        .attr('fill', 'none')
-        .attr('d', d => {
-          if (this.activeLayout === 'cladogram') {
-            return `M${d.source.y},${d.source.x}V${d.target.x}H${d.target.y}`;
-          } else {
-            return d3.linkHorizontal()
-              .x(d => d.y)
-              .y(d => d.x)(d);
-          }
-        });
-
-      const node = g.selectAll('.tree-node')
-        .data(root.descendants())
-        .enter()
-        .append('g')
-        .attr('class', 'tree-node')
-        .attr('transform', d => `translate(${d.y},${d.x})`);
-
-      node.append('circle')
-        .attr('r', d => d.children ? 6.5 : 6)
-        .style('fill', d => d.children ? '#f59e0b' : this.getNodeColor(d.data.name))
-        .style('stroke', d => d.children ? '#d97706' : this.getNodeColor(d.data.name))
-        .style('stroke-width', '2px')
-        .style('cursor', 'pointer')
-        .on('click', (event, d) => this.onNodeClick(d));
-
-      // Leaf Node Labels (Role only, zero overlap)
-      node.filter(d => !d.children)
-        .append('text')
-        .attr('dx', 10)
-        .attr('dy', '0.32em')
-        .attr('fill', '#d6d3d1')
-        .style('font-size', '11px')
-        .style('font-weight', '500')
-        .style('font-family', 'JetBrains Mono, monospace')
-        .text(d => this.getDeidentifiedLabel(d.data.name));
-
-      // Initial global overview transform
-      svg.call(this.zoomBehavior.transform, d3.zoomIdentity.translate(20, 10).scale(0.36));
-    }
+    // Initial Global Overview Transform
+    this.zoomToGlobal();
   },
 
   onNodeClick(d) {
@@ -833,7 +740,7 @@ window.TreeViewer = {
     const deidentifiedB = `${codeB} (${roleB})`;
 
     if (titleEl) {
-      titleEl.innerHTML = `🧬 Ancestral Junction Inspector: <span class="text-orange-400">${deidentifiedA}</span> &amp; <span class="text-amber-400">${deidentifiedB}</span> (${leaves.length} Descendant Lineages)`;
+      titleEl.innerHTML = `🧬 Ancestral Junction Inspector: <span class="text-sky-400">${deidentifiedA}</span> &amp; <span class="text-blue-400">${deidentifiedB}</span> (${leaves.length} Descendant Lineages)`;
     }
 
     const sampleAVars = window.App.variantsData.variants.filter(v => v.sample === sampleA);
@@ -859,63 +766,63 @@ window.TreeViewer = {
     bodyEl.innerHTML = `
       <div class="space-y-6 font-sans">
         
-        <div class="p-5 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-2 font-mono">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3">
+        <div class="p-5 rounded-2xl bg-slate-900/90 border border-sky-500/30 shadow-xl space-y-2 font-mono">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
             <div>
-              <div class="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1">Branch Node Triangulation</div>
-              <h4 class="text-lg font-extrabold text-stone-100">${deidentifiedA} <span class="text-stone-500">&amp;</span> ${deidentifiedB}</h4>
+              <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Branch Node Triangulation</div>
+              <h4 class="text-lg font-extrabold text-white">${deidentifiedA} <span class="text-slate-500">&amp;</span> ${deidentifiedB}</h4>
             </div>
-            <span class="px-3 py-1.5 rounded-xl bg-orange-950/80 border border-orange-700/80 text-xs text-orange-300 font-bold">
+            <span class="px-3 py-1.5 rounded-xl bg-sky-950/80 border border-sky-700/80 text-xs text-sky-300 font-bold">
               Ancestral Junction Node
             </span>
           </div>
-          <p class="text-stone-300 text-xs leading-relaxed font-sans">
+          <p class="text-slate-300 text-xs leading-relaxed font-sans">
             Inspecting shared high-presence variants along ancestral branches. Click any mutation below to open the global cladogram highlighting all carrying lineages.
           </p>
         </div>
 
-        <!-- 1. CONSERVED ANCESTRAL MUTATIONS (Interactive Clickable Buttons, General Term) -->
-        <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+        <!-- 1. CONSERVED ANCESTRAL MUTATIONS -->
+        <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
               <span>🧬 Conserved Ancestral Mutations (${sharedHigh.length})</span>
             </h4>
-            <span class="text-stone-400 font-sans text-[11px]">Click mutation to pop up global cladogram</span>
+            <span class="text-slate-400 font-sans text-[11px]">Click mutation to pop up global distribution</span>
           </div>
           ${sharedHigh.length > 0 ? `
             <div class="flex flex-wrap gap-2.5 pt-1">
               ${sharedHigh.map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-stone-950 hover:bg-emerald-950 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-1.5 group cursor-pointer">
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-950/60 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-1.5 group cursor-pointer">
                   <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                  <span class="text-stone-400 text-[10px] bg-stone-900 px-1.5 py-0.5 rounded border border-stone-800 group-hover:border-emerald-600 group-hover:text-emerald-300">
-                    Detection: High (100%)
+                  <span class="text-slate-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded-lg border border-white/10 group-hover:border-emerald-600 group-hover:text-emerald-300">
+                    High (100%)
                   </span>
                 </button>
               `).join('')}
             </div>
           ` : `
-            <div class="text-stone-400 italic text-xs font-sans">No deeply shared high-presence variants unique to this specific internal pair.</div>
+            <div class="text-slate-400 italic text-xs font-sans">No deeply shared high-presence variants unique to this specific internal pair.</div>
           `}
         </div>
 
         <!-- 2. LOW-VAF MUTED / TRACE MUTATIONS -->
-        <div class="p-5 rounded-2xl bg-stone-900/90 border border-stone-800 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+        <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
               <span>⚠️ Trace Mutations (&lt;3% Detection)</span>
             </h4>
-            <span class="text-stone-400 font-sans text-[11px]">Trace heteroplasmy</span>
+            <span class="text-slate-400 font-sans text-[11px]">Trace heteroplasmy</span>
           </div>
 
           ${lowVafMuted.length > 0 ? `
-            <div class="p-3.5 rounded-xl bg-amber-950/40 border border-amber-800/80 text-amber-200 text-xs font-sans">
+            <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-amber-200 text-xs font-sans">
               ⚠️ <strong>Trace Mutation Warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
             </div>
 
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr class="border-b border-stone-800 text-stone-400">
+                  <tr class="border-b border-white/10 text-slate-400">
                     <th class="p-2.5">Position</th>
                     <th class="p-2.5">Mutation</th>
                     <th class="p-2.5">Role</th>
@@ -923,21 +830,21 @@ window.TreeViewer = {
                     <th class="p-2.5">Confidence Note</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-stone-800/60">
+                <tbody class="divide-y divide-white/5">
                   ${lowVafMuted.map(m => `
-                    <tr class="hover:bg-stone-800/40">
+                    <tr class="hover:bg-slate-800/40">
                       <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
-                      <td class="p-2.5 font-bold text-stone-200">${m.ref} &gt; ${m.alt}</td>
-                      <td class="p-2.5 text-orange-300 font-sans">${this.getSampleRole(m.sample)}</td>
+                      <td class="p-2.5 font-bold text-slate-200">${m.ref} &gt; ${m.alt}</td>
+                      <td class="p-2.5 text-sky-300 font-sans">${this.getSampleRole(m.sample)}</td>
                       <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% Frequency</td>
-                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded border border-amber-800 text-[10px]">Unverified Trace</span></td>
+                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-800 text-[10px]">Unverified Trace</span></td>
                     </tr>
                   `).join('')}
                 </tbody>
               </table>
             </div>
           ` : `
-            <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 text-xs font-mono text-stone-400">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-white/10 text-xs font-mono text-slate-400">
               Zero trace mutations (&lt;3%) along this branch junction.
             </div>
           `}
@@ -962,9 +869,9 @@ window.TreeViewer = {
 
     if (!selectedCodes || selectedCodes.length === 0) {
       card.innerHTML = `
-        <div class="p-4 rounded-xl bg-stone-900/80 border border-stone-800 text-xs text-stone-300 font-mono flex items-center justify-between">
-          <span>🌿 Click any cohort button or sample node on the cladogram to zoom in and inspect maternal pedigree.</span>
-          <span class="text-stone-400 text-[11px]">Global Cladogram View</span>
+        <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 text-xs text-slate-300 font-mono flex items-center justify-between">
+          <span>🌿 Click any cohort button or sample node on the phylogram to zoom in and inspect maternal pedigree.</span>
+          <span class="text-slate-400 text-[11px]">Global Phylogram View</span>
         </div>
       `;
       return;
@@ -1001,20 +908,19 @@ window.TreeViewer = {
     const uniqueSharedMuts = Array.from(new Map(sharedDiagnostic.map(m => [`m.${m.pos}`, m])).values());
     const uniquePrivateMuts = Array.from(new Map(privateMuts.map(m => [`m.${m.pos}`, m])).values());
 
-    // Look up Maternal Pedigree Configuration
     const ped = (window.App && window.App.FAMILY_PEDIGREES) ? window.App.FAMILY_PEDIGREES[primaryCode] : null;
 
     let pedigreeHtml = '';
     if (ped) {
       pedigreeHtml = `
         <!-- INTEGRATED MATERNAL PEDIGREE EXPLORER SECTION -->
-        <div class="p-5 rounded-xl bg-stone-950 border border-orange-500/50 space-y-4 font-sans shadow-lg">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-2">
+        <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
             <div>
-              <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">🧬 Maternal Pedigree & Transmission Architecture</span>
-              <h5 class="text-sm font-extrabold text-stone-100 font-mono">${ped.name} (${ped.haplo})</h5>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">🧬 Maternal Pedigree & Transmission Architecture</span>
+              <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
             </div>
-            <span class="px-2.5 py-1 rounded bg-orange-950 border border-orange-800 text-orange-300 text-[10.5px] font-bold font-mono">
+            <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
               Verified Strict Matrilineal Inheritance
             </span>
           </div>
@@ -1022,41 +928,41 @@ window.TreeViewer = {
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono text-xs">
             
             ${ped.grandmother ? `
-              <div class="p-3 rounded-lg bg-stone-900 border border-amber-500/70 space-y-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/50 space-y-1">
                 <div class="flex items-center justify-between text-amber-300 font-bold">
                   <span>Grandmother</span>
-                  <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded border border-amber-800">Ancestor</span>
+                  <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded-lg border border-amber-800">Ancestor</span>
                 </div>
-                <div class="text-stone-300 text-[11px] font-sans">Originating maternal root line.</div>
+                <div class="text-slate-300 text-[11px] font-sans">Originating maternal root line.</div>
               </div>
             ` : ''}
 
             <!-- Mother Node -->
-            <div class="p-3 rounded-lg bg-stone-900 border-2 border-emerald-500 space-y-1">
+            <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
               <div class="flex items-center justify-between text-emerald-300 font-bold">
                 <span>Mother</span>
-                <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800 font-bold">100% Transmission</span>
+                <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% Transmission</span>
               </div>
-              <div class="text-stone-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
+              <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
             </div>
 
             ${ped.aunt ? `
-              <div class="p-3 rounded-lg bg-stone-900 border border-emerald-700/70 space-y-1">
+              <div class="p-3 rounded-xl bg-slate-900 border border-emerald-700/70 space-y-1">
                 <div class="flex items-center justify-between text-emerald-400 font-bold">
                   <span>Aunt</span>
-                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded border border-emerald-800">Maternal Sister</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal Sister</span>
                 </div>
-                <div class="text-stone-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
+                <div class="text-slate-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
               </div>
             ` : ''}
 
             ${ped.father ? `
-              <div class="p-3 rounded-lg bg-stone-900 border border-stone-800 space-y-1 opacity-80">
+              <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1 opacity-75">
                 <div class="flex items-center justify-between text-rose-300 font-bold">
                   <span>Father</span>
-                  <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded border border-rose-800">0% Transmission</span>
+                  <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded-lg border border-rose-800">0% Transmission</span>
                 </div>
-                <div class="text-stone-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
+                <div class="text-slate-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
               </div>
             ` : ''}
 
@@ -1064,12 +970,12 @@ window.TreeViewer = {
             ${ped.children.map(childSample => {
               const role = this.getSampleRole(childSample);
               return `
-                <div class="p-3 rounded-lg bg-stone-900 border border-orange-600/70 space-y-1">
-                  <div class="flex items-center justify-between text-orange-300 font-bold">
+                <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/50 space-y-1">
+                  <div class="flex items-center justify-between text-sky-300 font-bold">
                     <span>${role}</span>
-                    <span class="text-[10px] bg-orange-950 px-1.5 py-0.5 rounded border border-orange-800">Offspring</span>
+                    <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">Offspring</span>
                   </div>
-                  <div class="text-stone-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
+                  <div class="text-slate-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
                 </div>
               `;
             }).join('')}
@@ -1080,21 +986,21 @@ window.TreeViewer = {
     }
 
     card.innerHTML = `
-      <div class="p-6 rounded-2xl bg-stone-900 border border-orange-500/50 shadow-2xl space-y-5 font-mono text-xs">
+      <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-5 font-mono text-xs">
         
         <!-- Header Bar -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
           <div>
-            <div class="text-[11px] text-orange-400 font-bold uppercase tracking-wider">Cohort Maternal Lineage Overview</div>
-            <h4 class="text-lg font-extrabold text-stone-100 flex items-center gap-2">
+            <div class="text-[11px] text-sky-400 font-bold uppercase tracking-wider">Cohort Maternal Lineage Overview</div>
+            <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
               <span>🧬 Cohort: ${famName} (${primaryCode})</span>
             </h4>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-xl bg-orange-950 text-orange-300 border border-orange-800 font-bold text-xs">
+            <span class="px-3 py-1 rounded-xl bg-sky-950 text-sky-300 border border-sky-800 font-bold text-xs">
               ${uniqueSamplesInCohort.length} Lineage Members
             </span>
-            <span class="px-3 py-1 rounded-xl bg-amber-950 text-amber-300 border border-amber-800 font-bold text-xs">
+            <span class="px-3 py-1 rounded-xl bg-slate-950 text-slate-300 border border-white/10 font-bold text-xs">
               ${cohortVariants.length} Total Variants
             </span>
           </div>
@@ -1104,51 +1010,51 @@ window.TreeViewer = {
         ${pedigreeHtml}
 
         <!-- Section 2: Shared Core Diagnostic Markers -->
-        <div class="p-4 rounded-xl bg-stone-950 border border-emerald-900/60 space-y-2.5 shadow-inner">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-1.5">
+        <div class="p-4 rounded-2xl bg-slate-950/90 border border-emerald-900/40 space-y-2.5 shadow-inner">
+          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
               <span>💎 Conserved Diagnostic Markers (${uniqueSharedMuts.length} Shared Across Family Line)</span>
             </h5>
-            <span class="text-[10px] text-stone-400 font-sans">Click any marker to open cladogram</span>
+            <span class="text-[10px] text-slate-400 font-sans">Click any marker to open cladogram</span>
           </div>
           ${uniqueSharedMuts.length > 0 ? `
             <div class="flex flex-wrap gap-2 pt-1">
               ${uniqueSharedMuts.slice(0, 12).map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-lg bg-stone-900 hover:bg-emerald-950 border border-emerald-800/60 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
-                  m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-stone-400 text-[10px]">(${m.gene || 'D-loop'})</span>
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-950/60 border border-emerald-800/60 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
+                  m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-slate-400 text-[10px]">(${m.gene || 'D-loop'})</span>
                 </button>
               `).join('')}
             </div>
           ` : `
-            <div class="text-stone-400 font-sans text-xs italic">Shared ancestral markers verified at baseline.</div>
+            <div class="text-slate-400 font-sans text-xs italic">Shared ancestral markers verified at baseline.</div>
           `}
         </div>
 
         <!-- Section 3: Unique Private Mutations -->
-        <div class="p-4 rounded-xl bg-stone-950 border border-amber-900/60 space-y-2.5 shadow-inner">
-          <div class="flex items-center justify-between border-b border-stone-800 pb-1.5">
+        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2.5 shadow-inner">
+          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
               <span>⭐ Private Maternal Mutations (${uniquePrivateMuts.length} Lineage Specific)</span>
             </h5>
-            <span class="text-[10px] text-stone-400 font-sans">Unique to individual maternal transmissions</span>
+            <span class="text-[10px] text-slate-400 font-sans">Unique to individual maternal transmissions</span>
           </div>
           ${uniquePrivateMuts.length > 0 ? `
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 pt-1">
               ${uniquePrivateMuts.map(m => `
-                <div class="p-2.5 rounded-lg bg-stone-900 border border-amber-800/60 space-y-1">
+                <div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 space-y-1">
                   <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                     <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                    <span class="text-stone-400 text-[10px]">High Presence</span>
+                    <span class="text-slate-400 text-[10px]">High Presence</span>
                   </div>
-                  <div class="text-[11px] text-stone-400 font-sans flex items-center justify-between">
+                  <div class="text-[11px] text-slate-400 font-sans flex items-center justify-between">
                     <span>${this.getSampleRole(m.sample)}</span>
-                    <span class="text-stone-300 font-mono">${m.gene || 'D-loop'}</span>
+                    <span class="text-slate-300 font-mono">${m.gene || 'D-loop'}</span>
                   </div>
                 </div>
               `).join('')}
             </div>
           ` : `
-            <div class="text-xs text-stone-400 font-sans italic pt-1">
+            <div class="text-xs text-slate-400 font-sans italic pt-1">
               All detected mutations are conserved across the entire cohort line.
             </div>
           `}
@@ -1156,10 +1062,10 @@ window.TreeViewer = {
 
         <!-- Action Bar: Direct to 3D Globe Tab -->
         <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
-          <button onclick="window.switchMainTab('globe'); window.GlobeViewer.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-stone-950 font-bold text-xs hover:brightness-110 shadow-md transition-all flex items-center gap-2">
+          <button onclick="window.switchMainTab('globe'); window.GlobeViewer.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs hover:bg-sky-400 shadow-md transition-all flex items-center gap-2">
             <span>🌍 Trace ${primaryCode} Out-of-Africa Progression on 3D Globe ➔</span>
           </button>
-          <span class="text-stone-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
+          <span class="text-slate-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
         </div>
 
       </div>

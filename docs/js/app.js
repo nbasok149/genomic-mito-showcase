@@ -1,5 +1,5 @@
 /**
- * Main Web Showcase Application Controller - Earthy Tones Edition with Family Access & Specific Diagnostic Markers
+ * Main Web Showcase Application Controller - Apple Liquid Glass & Neutral Obsidian Edition
  */
 
 window.escapeHtml = function(str) {
@@ -13,7 +13,7 @@ window.escapeHtml = function(str) {
 };
 
 window.FamilyAccessGate = {
-  STORAGE_KEY: 'mito_selected_family_v5',
+  STORAGE_KEY: 'mito_selected_family_v6',
 
   init() {
     this.bindEvents();
@@ -155,9 +155,9 @@ window.DiagnosticMarkersExplorer = {
     let dadHtml = '';
     if (data.dadNote) {
       dadHtml = `
-        <div class="p-3.5 rounded-xl bg-orange-950/40 border border-orange-800/80 space-y-1.5 font-sans">
-          <div class="text-orange-400 font-bold text-xs font-mono">🧬 Familial Transmission & Paternal Note:</div>
-          <p class="text-stone-300 leading-relaxed text-[11.5px]">
+        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-sans">
+          <div class="text-sky-400 font-bold text-xs font-mono">🧬 Familial Transmission & Paternal Note:</div>
+          <p class="text-slate-300 leading-relaxed text-[11.5px]">
             ${data.dadNote}
           </p>
         </div>
@@ -166,13 +166,13 @@ window.DiagnosticMarkersExplorer = {
 
     container.innerHTML = `
       <div class="space-y-4 font-mono text-xs">
-        <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-800/80 space-y-2">
-          <div class="text-amber-300 font-bold flex items-center justify-between">
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
+          <div class="text-sky-300 font-bold flex items-center justify-between">
             <span class="text-sm">Familial Diagnostic Position Markers for ${data.name}:</span>
-            <span class="text-[10px] text-stone-400 font-sans font-normal">Maternally Transmitted Polymorphisms</span>
+            <span class="text-[10px] text-slate-400 font-sans font-normal">Maternally Transmitted Polymorphisms</span>
           </div>
-          <div class="text-stone-100 font-extrabold text-sm tracking-wide pt-1">
-            ${data.markers.map(m => `<span class="bg-amber-900/80 text-amber-200 px-3 py-1 rounded-lg border border-amber-700/80 mr-2 inline-block mb-2 shadow-sm font-mono">m.${m}</span>`).join('')}
+          <div class="text-white font-extrabold text-sm tracking-wide pt-1">
+            ${data.markers.map(m => `<span class="bg-slate-900 text-sky-300 px-3 py-1 rounded-xl border border-sky-500/30 mr-2 inline-block mb-2 shadow-sm font-mono">m.${m}</span>`).join('')}
           </div>
         </div>
         ${dadHtml}
@@ -240,46 +240,46 @@ window.FamilyReportGenerator = {
     if (!modal) {
       modal = document.createElement('div');
       modal.id = modalId;
-      modal.className = 'fixed inset-0 bg-stone-950/80 backdrop-blur-md flex items-center justify-center z-[200] p-4';
+      modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center z-[200] p-4';
       document.body.appendChild(modal);
     }
 
     const ethBadges = (eths || []).map(e => `
-      <span class="px-2.5 py-1 rounded-lg bg-orange-950 text-orange-300 border border-orange-700 font-mono font-bold text-xs">
+      <span class="px-2.5 py-1 rounded-xl bg-slate-900 text-sky-300 border border-sky-500/30 font-mono font-bold text-xs">
         ${e}
       </span>
     `).join(' ');
 
     modal.innerHTML = `
-      <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-orange-500/50 bg-stone-900 font-mono text-xs">
-        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+      <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-white/15 bg-slate-900 font-mono text-xs rounded-3xl">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
-            <span class="text-[10px] text-orange-400 uppercase font-bold tracking-wider">Mutation Inspector</span>
-            <h3 class="text-base font-extrabold text-amber-300">m.${v.pos} ${v.ref}&gt;${v.alt}</h3>
+            <span class="text-[10px] text-sky-400 uppercase font-bold tracking-wider">Mutation Inspector</span>
+            <h3 class="text-base font-extrabold text-white">m.${v.pos} ${v.ref}&gt;${v.alt}</h3>
           </div>
-          <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-300 rounded-lg text-xs font-bold transition-all">
+          <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all border border-white/10">
             ✕ Close
           </button>
         </div>
 
         <div class="space-y-3 font-sans">
-          <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-            <div class="text-stone-400 text-[11px]">Seen in Population Cohorts:</div>
+          <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+            <div class="text-slate-400 text-[11px]">Seen in Population Cohorts:</div>
             <div class="flex flex-wrap gap-1.5 pt-1">${ethBadges}</div>
           </div>
 
           <div class="grid grid-cols-2 gap-2 font-mono text-xs">
-            <div class="p-2.5 rounded-lg bg-stone-950 border border-stone-800">
-              <span class="text-stone-400 text-[10px] block">Gene / Region</span>
+            <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
+              <span class="text-slate-400 text-[10px] block">Gene / Region</span>
               <strong class="text-emerald-400">${v.gene || 'Control Region (D-loop)'}</strong>
             </div>
-            <div class="p-2.5 rounded-lg bg-stone-950 border border-stone-800">
-              <span class="text-stone-400 text-[10px] block">Variant Frequency (VAF)</span>
-              <strong class="text-amber-400">${(v.vaf ? (v.vaf * 100).toFixed(1) : 100)}% VAF</strong>
+            <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
+              <span class="text-slate-400 text-[10px] block">Variant Frequency (VAF)</span>
+              <strong class="text-sky-400">${(v.vaf ? (v.vaf * 100).toFixed(1) : 100)}% VAF</strong>
             </div>
           </div>
 
-          <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 text-[11.5px] text-stone-300 leading-relaxed">
+          <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 text-[11.5px] text-slate-300 leading-relaxed">
             💡 <strong>Biological Context:</strong> Polymorphic mitochondrial DNA mutation at position m.${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
           </div>
         </div>
@@ -343,11 +343,10 @@ window.FamilyReportGenerator = {
     const samples2 = info2 ? (window.App.distanceData?.samples || []).filter(s => s.startsWith(info2.code + '_')) : [];
     const samples3 = info3 ? (window.App.distanceData?.samples || []).filter(s => s.startsWith(info3.code + '_')) : [];
 
-    const color1 = window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info1.code] || '#6366f1' : '#6366f1';
-    const color2 = info2 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info2.code] || '#ef4444' : '#ef4444';
-    const color3 = info3 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info3.code] || '#10b981' : '#10b981';
+    const color1 = window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info1.code] || '#38bdf8' : '#38bdf8';
+    const color2 = info2 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info2.code] || '#60a5fa' : '#60a5fa';
+    const color3 = info3 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info3.code] || '#34d399' : '#34d399';
 
-    // Helper: Build SVG Venn Dots
     function placeDots(variantList, centerCX, centerCY, dotColor) {
       let dotsSvg = '';
       const cols = Math.ceil(Math.sqrt(variantList.length || 1));
@@ -361,8 +360,8 @@ window.FamilyReportGenerator = {
         const ethsJson = JSON.stringify(v.eths || []).replace(/"/g, '&quot;');
 
         dotsSvg += `
-          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#09090b" stroke-width="1.2"
-            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-amber-400 shadow-md"
+          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#090a0f" stroke-width="1.2"
+            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-sky-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
             <title>m.${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click for details</title>
@@ -412,41 +411,37 @@ window.FamilyReportGenerator = {
         else if (in3 && !in1 && !in2) unique3.push({ ...v, eths: [info3.name] });
       });
 
-      // Render 3-Way Venn Diagram SVG
       const vennSvgHtml = `
-        <div class="p-6 rounded-2xl bg-stone-950 border border-stone-800 space-y-4 shadow-2xl">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-3">
+        <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
-              <h3 class="text-base font-extrabold text-stone-100 font-sans">3-Way Population Variant Distribution</h3>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
+              <h3 class="text-base font-extrabold text-white font-sans">3-Way Population Variant Distribution</h3>
             </div>
-            <span class="text-stone-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full pop-up detail</span>
+            <span class="text-slate-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail</span>
           </div>
 
           <div class="flex justify-center overflow-x-auto py-2">
             <svg width="680" height="420" viewBox="0 0 680 420" class="select-none">
-              <!-- Venn Circles -->
-              <circle cx="260" cy="170" r="135" fill="${color1}" fill-opacity="0.22" stroke="${color1}" stroke-width="2.5"/>
-              <circle cx="420" cy="170" r="135" fill="${color2}" fill-opacity="0.22" stroke="${color2}" stroke-width="2.5"/>
-              <circle cx="340" cy="270" r="135" fill="${color3}" fill-opacity="0.22" stroke="${color3}" stroke-width="2.5"/>
+              <circle cx="260" cy="170" r="135" fill="${color1}" fill-opacity="0.18" stroke="${color1}" stroke-width="2.2"/>
+              <circle cx="420" cy="170" r="135" fill="${color2}" fill-opacity="0.18" stroke="${color2}" stroke-width="2.2"/>
+              <circle cx="340" cy="270" r="135" fill="${color3}" fill-opacity="0.18" stroke="${color3}" stroke-width="2.2"/>
 
-              <!-- Region Labels -->
               <text x="175" y="105" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} Only (${unique1.length})</text>
               <text x="505" y="105" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} Only (${unique2.length})</text>
               <text x="340" y="380" fill="${color3}" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">${info3.code} Only (${unique3.length})</text>
 
-              <text x="340" y="100" fill="#f59e0b" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info2.code} (${shared12.length})</text>
-              <text x="230" y="270" fill="#a855f7" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info3.code} (${shared13.length})</text>
-              <text x="450" y="270" fill="#06b6d4" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info2.code}+${info3.code} (${shared23.length})</text>
+              <text x="340" y="100" fill="#38bdf8" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info2.code} (${shared12.length})</text>
+              <text x="230" y="270" fill="#a78bfa" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info3.code} (${shared13.length})</text>
+              <text x="450" y="270" fill="#2dd4bf" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info2.code}+${info3.code} (${shared23.length})</text>
               <text x="340" y="225" fill="#34d399" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">All 3 (${sharedAll.length})</text>
 
-              <!-- Variant Dots -->
               ${placeDots(unique1, 185, 150, color1)}
               ${placeDots(unique2, 495, 150, color2)}
               ${placeDots(unique3, 340, 335, color3)}
-              ${placeDots(shared12, 340, 130, '#f59e0b')}
-              ${placeDots(shared13, 255, 240, '#a855f7')}
-              ${placeDots(shared23, 425, 240, '#06b6d4')}
+              ${placeDots(shared12, 340, 130, '#38bdf8')}
+              ${placeDots(shared13, 255, 240, '#a78bfa')}
+              ${placeDots(shared23, 425, 240, '#2dd4bf')}
               ${placeDots(sharedAll, 340, 195, '#34d399')}
             </svg>
           </div>
@@ -456,171 +451,75 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
-          <div class="p-6 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-4 font-mono">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-4">
+          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
-                <div class="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1">3-Way Multi-Population Ethnicity Comparative Report</div>
-                <h2 class="text-xl font-extrabold text-stone-100">${info1.name} <span class="text-stone-500">vs</span> ${info2.name} <span class="text-stone-500">vs</span> ${info3.name}</h2>
+                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">3-Way Multi-Population Comparative Report</div>
+                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-slate-500">vs</span> ${info2.name} <span class="text-slate-500">vs</span> ${info3.name}</h2>
               </div>
-              <div class="px-3 py-1.5 rounded-xl bg-orange-950/60 border border-orange-700/60 text-xs text-orange-300 font-bold">
+              <div class="px-3 py-1.5 rounded-xl bg-sky-950/80 border border-sky-800 text-xs text-sky-300 font-bold">
                 3-Way Triangulation Mode
               </div>
             </div>
 
-            <!-- Intuitive Numbers & Distance Explanation -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div class="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-stone-400 font-sans">${info1.code} vs ${info2.code}:</span>
-                  <span class="text-base font-bold text-amber-400">${dist12}</span>
+                  <span class="text-slate-400 font-sans">${info1.code} vs ${info2.code}:</span>
+                  <span class="text-base font-bold text-sky-300">${dist12}</span>
                 </div>
-                <div class="text-[10.5px] text-stone-500 font-sans">Mutational distance rating</div>
+                <div class="text-[10.5px] text-slate-500 font-sans">Mutational distance rating</div>
               </div>
-              <div class="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-stone-400 font-sans">${info1.code} vs ${info3.code}:</span>
-                  <span class="text-base font-bold text-amber-400">${dist13}</span>
+                  <span class="text-slate-400 font-sans">${info1.code} vs ${info3.code}:</span>
+                  <span class="text-base font-bold text-sky-300">${dist13}</span>
                 </div>
-                <div class="text-[10.5px] text-stone-500 font-sans">Mutational distance rating</div>
+                <div class="text-[10.5px] text-slate-500 font-sans">Mutational distance rating</div>
               </div>
-              <div class="p-3.5 rounded-xl bg-stone-950/80 border border-stone-800 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-stone-400 font-sans">${info2.code} vs ${info3.code}:</span>
-                  <span class="text-base font-bold text-amber-400">${dist23}</span>
+                  <span class="text-slate-400 font-sans">${info2.code} vs ${info3.code}:</span>
+                  <span class="text-base font-bold text-sky-300">${dist23}</span>
                 </div>
-                <div class="text-[10.5px] text-stone-500 font-sans">Mutational distance rating</div>
+                <div class="text-[10.5px] text-slate-500 font-sans">Mutational distance rating</div>
               </div>
             </div>
 
-            <div class="p-4 rounded-xl bg-stone-950/80 border border-stone-800 text-xs space-y-1.5 font-sans">
-              <div class="text-amber-400 font-bold font-mono">💡 What do these numbers mean?</div>
-              <p class="text-stone-300 leading-relaxed text-[11.5px]">
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
+              <div class="text-sky-300 font-bold font-mono">💡 What do these numbers mean?</div>
+              <p class="text-slate-300 leading-relaxed text-[11.5px]">
                 <strong>Pairwise Genetic Distance</strong> measures the average number of mitochondrial DNA mutation differences between individuals from two population cohorts.
                 Lower numbers (< 10) indicate close maternal ancestry, while higher numbers (> 18) reflect deep evolutionary divergence over tens of thousands of years.
               </p>
             </div>
           </div>
 
-          <!-- REPLACED 4 BOXES WITH INTERACTIVE VENN DIAGRAM -->
           ${vennSvgHtml}
 
-          <!-- POPULATION BREAKDOWN -->
-          <div class="p-6 rounded-2xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950/30 border border-stone-800 space-y-5 text-xs text-stone-300 leading-relaxed shadow-2xl">
-            <div class="border-b border-stone-800 pb-3">
-              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
+          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-5 text-xs text-slate-300 leading-relaxed shadow-2xl">
+            <div class="border-b border-white/10 pb-3">
+              <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
                 <span>📜 Population Breakdown</span>
               </h4>
-              <p class="text-stone-400 text-[11px] mt-0.5">Triangulated Evolutionary & Geographic Lineage Analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">Triangulated Evolutionary & Geographic Lineage Analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-[11.5px]">
-              <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
-                <div class="font-mono font-bold text-orange-300 text-sm">${info1.name}</div>
-                <div class="text-stone-400 text-[11px]"><strong class="text-stone-200">Haplogroup:</strong> ${info1.haplo}</div>
-                <p class="text-stone-300 leading-relaxed">${info1.history}</p>
+              <div class="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+                <div class="font-mono font-bold text-sky-300 text-sm">${info1.name}</div>
+                <div class="text-slate-400 text-[11px]"><strong class="text-slate-200">Haplogroup:</strong> ${info1.haplo}</div>
+                <p class="text-slate-300 leading-relaxed">${info1.history}</p>
               </div>
-              <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
-                <div class="font-mono font-bold text-amber-300 text-sm">${info2.name}</div>
-                <div class="text-stone-400 text-[11px]"><strong class="text-stone-200">Haplogroup:</strong> ${info2.haplo}</div>
-                <p class="text-stone-300 leading-relaxed">${info2.history}</p>
+              <div class="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+                <div class="font-mono font-bold text-blue-300 text-sm">${info2.name}</div>
+                <div class="text-slate-400 text-[11px]"><strong class="text-slate-200">Haplogroup:</strong> ${info2.haplo}</div>
+                <p class="text-slate-300 leading-relaxed">${info2.history}</p>
               </div>
-              <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
+              <div class="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
                 <div class="font-mono font-bold text-emerald-300 text-sm">${info3.name}</div>
-                <div class="text-stone-400 text-[11px]"><strong class="text-stone-200">Haplogroup:</strong> ${info3.haplo}</div>
-                <p class="text-stone-300 leading-relaxed">${info3.history}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- ADAPTED HOMOPLASIC HOTSPOTS REPORT FOR LAYPERSON -->
-          <div class="p-5 rounded-2xl bg-stone-900 border border-amber-500/40 space-y-4 font-mono text-xs">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-3">
-              <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-                <span>🔥 Fast-Changing DNA Hotspots (Parallel Mutations)</span>
-              </h4>
-              <span class="text-amber-300 bg-amber-950 px-2.5 py-0.5 rounded border border-amber-800 text-[10.5px]">Plain-English Guide for Non-Bioinformaticians</span>
-            </div>
-
-            <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-800/80 text-xs font-sans space-y-2">
-              <div class="font-bold text-amber-300 flex items-center gap-2 text-sm font-mono">
-                💡 Why do unrelated families share these exact mutations?
-              </div>
-              <p class="text-stone-300 leading-relaxed text-[11.5px]">
-                Certain positions in human mitochondrial DNA mutate rapidly and independently in completely unrelated families across the globe.
-                Think of this like two people in different parts of the world independently choosing the same smartphone wallpaper—they didn't copy each other, it's just a common choice.
-                In genetics, these structural 'hotspots' (like repeating DNA letters) occur by random chance and do <strong>NOT</strong> mean two families share recent maternal ancestry.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-1 font-sans">
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.309 (Poly-C Stutter Spot)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A stretch of repeated 'C' letters where extra letters insert spontaneously in almost every population.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.310 (Poly-C Transition)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A single-letter swap within the control region poly-C tract occurring frequently worldwide.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.514 (CA Repeat Loop)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A repeating 'CA' dinucleotide sequence that expands or shrinks easily in many distinct lineages.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.16184 (Hyper-Variable HVS-I)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">One of the fastest-evolving control region positions in the human mitochondrial genome.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.16189 (Poly-C Creator)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A frequent T-to-C transition that triggers a new poly-C tract in control region HVS-I.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.16519 (Global D-loop Locus)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A highly variable terminal D-loop polymorphism present in over 50% of people across all continents.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Synapomorphic Lineage Fingerprints Section -->
-          <div class="p-5 rounded-2xl bg-stone-900 border border-orange-500/40 space-y-3 font-mono text-xs">
-            <div class="flex items-center justify-between border-b border-stone-800 pb-2">
-              <h4 class="font-bold text-orange-400 text-sm flex items-center gap-2">
-                <span>🧬 Synapomorphic Lineage Fingerprints</span>
-              </h4>
-              <span class="text-stone-400 text-[11px]">Shared Derived Clade Signatures</span>
-            </div>
-            <p class="text-stone-300 text-[11.5px] font-sans">
-              Synapomorphies represent ancestral mutations inherited by all descendant branches of a specific maternal clade.
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 font-sans">
-              <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-                <div class="font-bold text-orange-300 font-mono text-xs">${info1.code} Synapomorphies</div>
-                <div class="text-[11px] text-stone-400 font-mono">${unique1.slice(0, 4).map(m => `m.${m.pos}`).join(', ') || 'Haplogroup specific'}</div>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-                <div class="font-bold text-amber-300 font-mono text-xs">${info2.code} Synapomorphies</div>
-                <div class="text-[11px] text-stone-400 font-mono">${unique2.slice(0, 4).map(m => `m.${m.pos}`).join(', ') || 'Haplogroup specific'}</div>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-                <div class="font-bold text-emerald-300 font-mono text-xs">${info3.code} Synapomorphies</div>
-                <div class="text-[11px] text-stone-400 font-mono">${unique3.slice(0, 4).map(m => `m.${m.pos}`).join(', ') || 'Haplogroup specific'}</div>
+                <div class="text-slate-400 text-[11px]"><strong class="text-slate-200">Haplogroup:</strong> ${info3.haplo}</div>
+                <p class="text-slate-300 leading-relaxed">${info3.history}</p>
               </div>
             </div>
           </div>
@@ -628,7 +527,6 @@ window.FamilyReportGenerator = {
         </div>
       `;
 
-      // Bind Dot Click Listeners
       reportContainer.querySelectorAll('.venn-variant-dot').forEach(dot => {
         dot.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -670,27 +568,24 @@ window.FamilyReportGenerator = {
       });
 
       const vennSvgHtml2Way = `
-        <div class="p-6 rounded-2xl bg-stone-950 border border-stone-800 space-y-4 shadow-2xl">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-3">
+        <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-orange-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
-              <h3 class="text-base font-extrabold text-stone-100 font-sans">2-Way Pairwise Variant Distribution</h3>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
+              <h3 class="text-base font-extrabold text-white font-sans">2-Way Pairwise Variant Distribution</h3>
             </div>
-            <span class="text-stone-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail pop-up</span>
+            <span class="text-slate-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail</span>
           </div>
 
           <div class="flex justify-center overflow-x-auto py-2">
             <svg width="600" height="320" viewBox="0 0 600 320" class="select-none">
-              <!-- Venn Circles -->
-              <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.22" stroke="${color1}" stroke-width="2.5"/>
-              <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.22" stroke="${color2}" stroke-width="2.5"/>
+              <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.18" stroke="${color1}" stroke-width="2.2"/>
+              <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.18" stroke="${color2}" stroke-width="2.2"/>
 
-              <!-- Labels -->
               <text x="150" y="90" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} Only (${unique1.length})</text>
               <text x="450" y="90" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} Only (${unique2.length})</text>
               <text x="300" y="90" fill="#34d399" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
 
-              <!-- Dots -->
               ${placeDots(unique1, 160, 160, color1)}
               ${placeDots(unique2, 440, 160, color2)}
               ${placeDots(shared, 300, 160, '#34d399')}
@@ -702,146 +597,58 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
-          <div class="p-6 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-4 font-mono">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-4">
+          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
-                <div class="text-xs text-orange-400 font-bold uppercase tracking-wider mb-1">Pairwise Ethnicity Comparative Report</div>
-                <h2 class="text-xl font-extrabold text-stone-100">${info1.name} <span class="text-stone-500">vs</span> ${info2.name}</h2>
+                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Pairwise Cohort Comparative Report</div>
+                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-slate-500">vs</span> ${info2.name}</h2>
               </div>
-              <div class="flex items-center space-x-3 bg-stone-950/80 px-4 py-2 rounded-xl border border-stone-800">
-                <span class="text-xs text-stone-400">Pairwise Genetic Distance:</span>
-                <span class="text-lg font-bold text-amber-400">${avgDist}</span>
+              <div class="flex items-center space-x-3 bg-slate-950/80 px-4 py-2 rounded-2xl border border-white/10">
+                <span class="text-xs text-slate-400">Pairwise Genetic Distance:</span>
+                <span class="text-lg font-bold text-sky-300">${avgDist}</span>
               </div>
             </div>
 
-            <div class="p-4 rounded-xl bg-stone-950/80 border border-stone-800 text-xs space-y-1.5 font-sans">
-              <div class="text-amber-400 font-bold font-mono">💡 What does Pairwise Genetic Distance mean?</div>
-              <p class="text-stone-300 leading-relaxed text-[11.5px]">
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
+              <div class="text-sky-300 font-bold font-mono">💡 What does Pairwise Genetic Distance mean?</div>
+              <p class="text-slate-300 leading-relaxed text-[11.5px]">
                 <strong>Genetic Distance (${avgDist})</strong> measures the average number of mitochondrial DNA mutation differences between individuals in ${info1.name} and ${info2.name}.
                 Lower values (< 10) indicate close maternal relationship, while higher values (> 18) reflect deep evolutionary divergence over tens of thousands of years.
               </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-              <div class="p-3.5 rounded-xl bg-stone-950/70 border border-stone-800 space-y-1">
-                <div class="font-bold text-orange-300 font-mono">${info1.name} (${info1.region})</div>
-                <div class="text-stone-400"><strong class="text-stone-300">Lineage:</strong> ${info1.haplo}</div>
-                <p class="text-[11px] text-stone-400 leading-relaxed pt-1">${info1.history}</p>
+              <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-white/10 space-y-1">
+                <div class="font-bold text-sky-300 font-mono">${info1.name} (${info1.region})</div>
+                <div class="text-slate-400"><strong class="text-slate-300">Lineage:</strong> ${info1.haplo}</div>
+                <p class="text-[11px] text-slate-400 leading-relaxed pt-1">${info1.history}</p>
               </div>
-              <div class="p-3.5 rounded-xl bg-stone-950/70 border border-stone-800 space-y-1">
-                <div class="font-bold text-amber-300 font-mono">${info2.name} (${info2.region})</div>
-                <div class="text-stone-400"><strong class="text-stone-300">Lineage:</strong> ${info2.haplo}</div>
-                <p class="text-[11px] text-stone-400 leading-relaxed pt-1">${info2.history}</p>
+              <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-white/10 space-y-1">
+                <div class="font-bold text-blue-300 font-mono">${info2.name} (${info2.region})</div>
+                <div class="text-slate-400"><strong class="text-slate-300">Lineage:</strong> ${info2.haplo}</div>
+                <p class="text-[11px] text-slate-400 leading-relaxed pt-1">${info2.history}</p>
               </div>
             </div>
           </div>
 
-          <!-- INTERACTIVE 2-WAY VENN DIAGRAM -->
           ${vennSvgHtml2Way}
 
-          <!-- POPULATION BREAKDOWN -->
-          <div class="p-6 rounded-2xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950/30 border border-stone-800 space-y-4 text-xs text-stone-300 shadow-2xl">
-            <div class="border-b border-stone-800 pb-3">
-              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
+          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-4 text-xs text-slate-300 shadow-2xl">
+            <div class="border-b border-white/10 pb-3">
+              <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
                 <span>📜 Population Breakdown</span>
               </h4>
-              <p class="text-stone-400 text-[11px] mt-0.5">Evolutionary Lineage & Migration Analysis between ${info1.code} and ${info2.code}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary Lineage & Migration Analysis between ${info1.code} and ${info2.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
-                <div class="font-mono font-bold text-orange-300 text-sm">${info1.name} Breakdown</div>
-                <p class="text-stone-300 text-[11.5px] leading-relaxed">${info1.history}</p>
+              <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+                <div class="font-mono font-bold text-sky-300 text-sm">${info1.name} Breakdown</div>
+                <p class="text-slate-300 text-[11.5px] leading-relaxed">${info1.history}</p>
               </div>
-              <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2">
-                <div class="font-mono font-bold text-amber-300 text-sm">${info2.name} Breakdown</div>
-                <p class="text-stone-300 text-[11.5px] leading-relaxed">${info2.history}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- ADAPTED HOMOPLASIC HOTSPOTS REPORT FOR LAYPERSON -->
-          <div class="p-5 rounded-2xl bg-stone-900 border border-amber-500/40 space-y-4 font-mono text-xs">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-3">
-              <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-                <span>🔥 Fast-Changing DNA Hotspots (Parallel Mutations)</span>
-              </h4>
-              <span class="text-amber-300 bg-amber-950 px-2.5 py-0.5 rounded border border-amber-800 text-[10.5px]">Plain-English Guide for Non-Bioinformaticians</span>
-            </div>
-
-            <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-800/80 text-xs font-sans space-y-2">
-              <div class="font-bold text-amber-300 flex items-center gap-2 text-sm font-mono">
-                💡 Why do unrelated families share these exact mutations?
-              </div>
-              <p class="text-stone-300 leading-relaxed text-[11.5px]">
-                Certain positions in human mitochondrial DNA mutate rapidly and independently in completely unrelated families across the globe.
-                Think of this like two people in different parts of the world independently choosing the same smartphone wallpaper—they didn't copy each other, it's just a common choice.
-                In genetics, these structural 'hotspots' (like repeating DNA letters) occur by random chance and do <strong>NOT</strong> mean two families share recent maternal ancestry.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-1 font-sans">
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.309 (Poly-C Stutter Spot)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A stretch of repeated 'C' letters where extra letters insert spontaneously in almost every population.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.310 (Poly-C Transition)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A single-letter swap within the control region poly-C tract occurring frequently worldwide.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.514 (CA Repeat Loop)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A repeating 'CA' dinucleotide sequence that expands or shrinks easily in many distinct lineages.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.16184 (Hyper-Variable HVS-I)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">One of the fastest-evolving control region positions in the human mitochondrial genome.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.16189 (Poly-C Creator)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A frequent T-to-C transition that triggers a new poly-C tract in control region HVS-I.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-amber-900/60 space-y-1.5">
-                <div class="flex items-center justify-between text-amber-300 font-bold font-mono">
-                  <span>m.16519 (Global D-loop Locus)</span>
-                  <span class="text-[10px] text-stone-400">D-loop</span>
-                </div>
-                <p class="text-[11px] text-stone-300 leading-normal">A highly variable terminal D-loop polymorphism present in over 50% of people across all continents.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Synapomorphic Lineage Fingerprints Section -->
-          <div class="p-5 rounded-2xl bg-stone-900 border border-orange-500/40 space-y-3 font-mono text-xs">
-            <div class="flex items-center justify-between border-b border-stone-800 pb-2">
-              <h4 class="font-bold text-orange-400 text-sm flex items-center gap-2">
-                <span>🧬 Synapomorphic Lineage Fingerprints</span>
-              </h4>
-              <span class="text-stone-400 text-[11px]">Derived Clade Signatures</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 font-sans">
-              <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-                <div class="font-bold text-orange-300 font-mono text-xs">${info1.code} Synapomorphies</div>
-                <div class="text-[11px] text-stone-400 font-mono">${unique1.slice(0, 5).map(m => `m.${m.pos}`).join(', ')}</div>
-              </div>
-              <div class="p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-                <div class="font-bold text-amber-300 font-mono text-xs">${info2.code} Synapomorphies</div>
-                <div class="text-[11px] text-stone-400 font-mono">${unique2.slice(0, 5).map(m => `m.${m.pos}`).join(', ')}</div>
+              <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+                <div class="font-mono font-bold text-blue-300 text-sm">${info2.name} Breakdown</div>
+                <p class="text-slate-300 text-[11.5px] leading-relaxed">${info2.history}</p>
               </div>
             </div>
           </div>
@@ -849,7 +656,6 @@ window.FamilyReportGenerator = {
         </div>
       `;
 
-      // Bind Dot Click Listeners
       reportContainer.querySelectorAll('.venn-variant-dot').forEach(dot => {
         dot.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -864,284 +670,6 @@ window.FamilyReportGenerator = {
   }
 };
 
-window.PedigreeInspector = {
-  FAMILY_PEDIGREES: {
-    'IN': {
-      code: 'IN',
-      name: 'India — Central/North (IN)',
-      haplo: 'Haplogroup M / R (IN)',
-      grandmother: 'IN_F_RISG',
-      mother: 'IN_F_RISM',
-      father: 'IN_M_RISF',
-      children: ['IN_M_RIS', 'IN_M_RISS1']
-    },
-    'IS': {
-      code: 'IS',
-      name: 'India South — Deccan (IS)',
-      haplo: 'Haplogroup M / R (IS)',
-      mother: 'IS_F_VYSM',
-      father: 'IS_M_RAV',
-      children: ['IS_F_VYS', 'IS_F_VYS2', 'IS_F_VYSC1', 'IS_M_PRIC1']
-    },
-    'IW': {
-      code: 'IW',
-      name: 'India West — Gujarat (IW)',
-      haplo: 'Haplogroup M / R (IW)',
-      mother: 'IW_F_ANJM',
-      father: 'IW_M_ANJF',
-      children: ['IW_F_ANJ', 'IW_F_ANJS1']
-    },
-    'PK': {
-      code: 'PK',
-      name: 'Pakistan — Indus Valley (PK)',
-      haplo: 'Haplogroup M / U (PK)',
-      mother: 'PK_F_WAS',
-      father: 'PK_M_WASH',
-      children: ['PK_M_WASC1', 'PK_M_WASC2']
-    },
-    'UK': {
-      code: 'UK',
-      name: 'Ukraine — Eastern Europe (UK)',
-      haplo: 'Haplogroup U4 / H',
-      grandmother: 'UK_F_NIKG',
-      mother: 'UK_F_NIKM',
-      aunt: 'UK_F_NIKA',
-      father: null,
-      children: ['UK_M_NIKS1', 'UK_M_NIK', 'UK_M_NIKS2']
-    },
-    'MX': {
-      code: 'MX',
-      name: 'Mexico — Mesoamerica (MX)',
-      haplo: 'Haplogroup B2',
-      mother: 'MX_F_CRY',
-      father: 'MX_M_CRYF',
-      children: ['MX_F_CRYS1']
-    },
-    'HK': {
-      code: 'HK',
-      name: 'Hong Kong — Pearl River (HK)',
-      haplo: 'Haplogroup M7',
-      mother: 'HK_F_JANM',
-      father: 'HK_M_WLL',
-      children: ['HK_F_JAN']
-    },
-    'KR': {
-      code: 'KR',
-      name: 'Korea — Northeast Asia (KR)',
-      haplo: 'Haplogroup D4',
-      mother: 'KR_F_MOO',
-      father: null,
-      children: ['KR_F_MOOC1']
-    },
-    'CL': {
-      code: 'CL',
-      name: 'Colombia — South America (CL)',
-      haplo: 'Haplogroup C1',
-      mother: 'CL_F_ALJ',
-      father: null,
-      children: ['CL_F_ALJC1']
-    }
-  },
-
-  init() {
-    const select = document.getElementById('pedigreeFamilySelect');
-    const openBtn = document.getElementById('openPedigreeBtn');
-    const closeBtn = document.getElementById('closePedigreeModalBtn');
-    const modal = document.getElementById('pedigreeModal');
-
-    if (!select || !modal) return;
-
-    const keys = Object.keys(this.FAMILY_PEDIGREES);
-    select.innerHTML = keys.map(k => `<option value="${k}">${this.FAMILY_PEDIGREES[k].name}</option>`).join('');
-
-    select.onchange = () => this.renderPedigree(select.value);
-
-    openBtn?.addEventListener('click', () => {
-      this.renderPedigree(select.value || 'UK');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    });
-
-    closeBtn?.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    });
-  },
-
-  renderPedigree(famKey) {
-    const bodyEl = document.getElementById('pedigreeModalBody');
-    if (!bodyEl || !window.App.variantsData) return;
-
-    const ped = this.FAMILY_PEDIGREES[famKey] || this.FAMILY_PEDIGREES['UK'];
-    const motherVars = window.App.variantsData.variants.filter(v => v.sample === ped.mother);
-    const fatherVars = ped.father ? window.App.variantsData.variants.filter(v => v.sample === ped.father) : [];
-
-    const motherMap = new Map(motherVars.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
-    const fatherMap = new Map(fatherVars.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
-
-    const childrenVars = ped.children.map(childSample => {
-      const vars = window.App.variantsData.variants.filter(v => v.sample === childSample);
-      return { sample: childSample, vars, map: new Map(vars.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v])) };
-    });
-
-    const maternallyInherited = [];
-    motherMap.forEach((vM, key) => {
-      const inheritedByAll = childrenVars.length === 0 || childrenVars.every(c => c.map.has(key));
-      const inheritedByAny = childrenVars.some(c => c.map.has(key));
-      if (childrenVars.length === 0 || inheritedByAny) {
-        maternallyInherited.push({ ...vM, inheritedByAll });
-      }
-    });
-
-    bodyEl.innerHTML = `
-      <div class="space-y-6 font-sans">
-        
-        <div class="p-6 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900 to-amber-950/40 border border-orange-500/40 shadow-xl space-y-5 font-mono">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3">
-            <div>
-              <div class="text-xs text-orange-400 font-bold uppercase tracking-wider">Maternal Lineage Verification</div>
-              <h3 class="text-lg font-extrabold text-stone-100">${ped.name} <span class="text-stone-500">Pedigree</span></h3>
-            </div>
-            <span class="px-3 py-1.5 rounded-xl bg-orange-950/80 border border-orange-700/80 text-xs text-orange-300 font-bold">
-              ${ped.haplo}
-            </span>
-          </div>
-
-          <!-- Interactive Pedigree Flow Nodes -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
-            ${ped.grandmother ? `
-              <div class="p-4 rounded-xl bg-stone-950 border border-amber-500/80 space-y-2 shadow-lg">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-amber-300 text-sm flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                    <span>Grandmother: ${ped.grandmother}</span>
-                  </span>
-                  <span class="text-[10px] text-amber-400 bg-amber-950 px-2 py-0.5 rounded border border-amber-800 font-bold">Maternal Ancestor</span>
-                </div>
-                <p class="text-[11px] text-stone-400 font-sans">
-                  Originating maternal ancestor for Ukraine lineage line.
-                </p>
-              </div>
-            ` : ''}
-
-            <!-- Mother Card (Maternal Source) -->
-            <div class="p-4 rounded-xl bg-stone-950 border-2 border-emerald-500/80 space-y-2 shadow-lg">
-              <div class="flex items-center justify-between">
-                <span class="font-bold text-emerald-300 text-sm flex items-center gap-1.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                  <span>Mother: ${ped.mother}</span>
-                </span>
-                <span class="text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold">100% Transmission Source</span>
-              </div>
-              <p class="text-[11px] text-stone-400 font-sans">
-                Transmits 100% of mitochondrial genome & diagnostic variants to offspring.
-              </p>
-              <div class="text-xs text-emerald-400 font-mono font-bold pt-1">
-                Total Variants: ${motherVars.length}
-              </div>
-            </div>
-
-            ${ped.aunt ? `
-              <div class="p-4 rounded-xl bg-stone-950 border border-emerald-800 space-y-2 shadow-lg">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-emerald-300 text-sm flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                    <span>Aunt: ${ped.aunt}</span>
-                  </span>
-                  <span class="text-[10px] text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold">Maternal Sister</span>
-                </div>
-                <p class="text-[11px] text-stone-400 font-sans">
-                  Carries identical maternal diagnostic markers from Grandmother ${ped.grandmother}.
-                </p>
-              </div>
-            ` : ''}
-
-            <!-- Father Card (Paternal Non-Transmission) ONLY IF FATHER SAMPLE IS PRESENT -->
-            ${ped.father ? `
-              <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-2 opacity-85">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-rose-300 text-sm flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                    <span>Father: ${ped.father}</span>
-                  </span>
-                  <span class="text-[10px] text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-800 font-bold">0% Transmitted mtDNA</span>
-                </div>
-                <p class="text-[11px] text-stone-400 font-sans">
-                  Paternal nuclear DNA only. 0% of paternal mtDNA or variants are passed to children.
-                </p>
-                <div class="text-xs text-rose-400 font-mono font-bold pt-1">
-                  Paternal Variants: ${fatherVars.length}
-                </div>
-              </div>
-            ` : ''}
-
-          </div>
-
-          <!-- Offspring Line Cards -->
-          ${ped.children.length > 0 ? `
-            <div class="pt-2 border-t border-stone-800">
-              <div class="text-xs text-stone-400 font-sans font-bold mb-2">Offspring Lineages (Children):</div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                ${ped.children.map(child => `
-                  <div class="p-3 rounded-xl bg-stone-950/80 border border-orange-800/60 flex items-center justify-between text-xs">
-                    <div>
-                      <span class="text-orange-300 font-bold">Child: ${child}</span>
-                      <span class="text-stone-400 text-[10px] block font-sans">Inherited 100% Maternal Motifs</span>
-                    </div>
-                    <span class="text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 font-bold text-[10px]">Verified Maternal</span>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-        </div>
-
-        ${maternallyInherited.length > 0 ? `
-          <div class="p-5 rounded-2xl bg-stone-900/90 border border-emerald-800/60 space-y-3 font-mono text-xs shadow-xl">
-            <div class="flex items-center justify-between border-b border-stone-800 pb-2">
-              <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
-                <span>🧬 Maternally Transmitted Conserved Variants (${maternallyInherited.length})</span>
-              </h4>
-              <span class="text-stone-400 font-sans text-[11px]">100% Passed Mother ➔ Children</span>
-            </div>
-
-            <div class="max-h-52 overflow-y-auto border border-stone-800 rounded-xl bg-stone-950">
-              <table class="w-full text-left">
-                <thead class="bg-stone-900 text-stone-300 sticky top-0 border-b border-stone-800 text-[11px]">
-                  <tr>
-                    <th class="p-2.5">Position</th>
-                    <th class="p-2.5">Mutation</th>
-                    <th class="p-2.5">Gene / Region</th>
-                    <th class="p-2.5">Mother VAF</th>
-                    <th class="p-2.5">Transmission Status</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-stone-800/60">
-                  ${maternallyInherited.map(m => `
-                    <tr class="hover:bg-stone-800/40">
-                      <td class="p-2.5 text-orange-400 font-bold">m.${m.pos}</td>
-                      <td class="p-2.5 text-stone-200 font-bold">${m.ref} &gt; ${m.alt}</td>
-                      <td class="p-2.5 text-stone-400 font-sans">${m.gene || 'Control Region (D-loop)'}</td>
-                      <td class="p-2.5 text-amber-400 font-bold">${(m.vaf * 100).toFixed(1)}%</td>
-                      <td class="p-2.5">
-                        <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">
-                          Transmitted
-                        </span>
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ` : ''}
-
-      </div>
-    `;
-  }
-};
-
 window.App = {
   variantsData: null,
   distanceData: null,
@@ -1150,14 +678,13 @@ window.App = {
   migrationData: null,
 
   async init() {
-    console.log("Initializing Genomic Mito Showcase Controller...");
+    console.log("Initializing Genomic Mito Showcase Controller (Apple Liquid Glass Edition)...");
     
     window.FamilyAccessGate.init();
 
     await this.loadAllData();
 
     if (window.DiagnosticMarkersExplorer) window.DiagnosticMarkersExplorer.init();
-    if (window.PedigreeInspector) window.PedigreeInspector.init();
 
     if (this.treeData && window.TreeViewer) {
       window.TreeViewer.init(this.treeData);
@@ -1182,8 +709,8 @@ window.App = {
     const tabContentGlobe = document.getElementById('tabContentGlobe');
 
     const switchMainTab = (tab) => {
-      const activeClass = 'bg-orange-600 text-stone-950 shadow-md font-bold';
-      const inactiveClass = 'text-stone-300 hover:text-stone-100 hover:bg-stone-800 font-bold';
+      const activeClass = 'bg-sky-500 text-slate-950 shadow-md font-bold';
+      const inactiveClass = 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-bold';
 
       if (tab === 'tree') {
         if (mainTabTree) mainTabTree.className = `px-4 py-2 rounded-xl transition-all ${activeClass}`;
@@ -1227,7 +754,7 @@ window.App = {
       const eth1 = val;
 
       // 1. Switch to Tree View
-      setView('tree');
+      switchMainTab('tree');
 
       // 2. Select this family across the application
       if (window.FamilyAccessGate) {
@@ -1249,7 +776,7 @@ window.App = {
         if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
         if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
         if (toastMsg) {
-          toastMsg.innerHTML = `Zoomed to <strong>${eth1}</strong> branch. <strong class="text-orange-400">Now click another branch on the tree</strong> (or a cohort button below) to compare!`;
+          toastMsg.innerHTML = `Zoomed to <strong>${eth1}</strong> branch. <strong class="text-sky-400">Click another branch on the tree</strong> (or a cohort button below) to compare!`;
         }
         toast.classList.remove('hidden');
       }

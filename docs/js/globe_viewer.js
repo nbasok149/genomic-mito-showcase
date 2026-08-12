@@ -1,7 +1,6 @@
 /**
  * 3D Geo-Mitochondrial Migration Globe Viewer (D3.js Orthographic Projection)
- * Vibrant ocean blue sphere, glowing cyan/slate continents, and
- * individualized progressive migration trail for all 43 samples across the dataset.
+ * Apple Liquid Glass & Deep Space Obsidian Aesthetic
  */
 
 window.GlobeViewer = {
@@ -122,7 +121,6 @@ window.GlobeViewer = {
     12007: { locus: 'MT-ND4', change: 'G>A', meaning: 'Private maternal diagnostic marker for Native North America line.' }
   },
 
-  // Generic Geographic Migration Trails per Cohort
   COHORT_TRAILS: {
     'IN': {
       name: 'India — Central/North (IN)',
@@ -148,153 +146,136 @@ window.GlobeViewer = {
         { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial Eve cradle in Sub-Saharan Africa.' },
         { name: 'Arabian Gulf Crossing', region: 'Gulf of Oman Corridor', coords: [58.5000, 23.6000], ybp: '55,000 YBP', mutations: [1438, 2706, 4769], desc: 'Out-of-Africa coastal transit into Western South Asia.' },
         { name: 'Kathiawar & Gujarat Corridor', region: 'Western India Coast', coords: [71.5000, 22.0000], ybp: '45,000 YBP', mutations: [5508, 8594, 10084, 10754], desc: 'Ancient habitation along the fertile estuaries of Western India.' },
-        { name: 'West Indian Homeland', region: 'Gujarat / Maharashtra', coords: [73.1812, 22.3072], ybp: '35,000 YBP to Present', mutations: [11293, 13635, 13971, 14990, 15385], desc: 'Diagnostic maternal markers proving West Indian lineage continuity.' }
+        { name: 'Western Indian Lineage Home', region: 'Gujarat Homeland', coords: [72.5714, 23.0225], ybp: '30,000 YBP to Present', mutations: [11293, 13635, 13971, 14990, 15385], desc: 'Inheritance of distinct India West maternal diagnostic variants.' }
       ]
     },
     'PK': {
       name: 'Pakistan — Indus Valley (PK)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Common human maternal origin in East Africa.' },
-        { name: 'Makran Coast Route', region: 'Southern Coastal Corridor', coords: [63.0000, 25.5000], ybp: '55,000 YBP', mutations: [1438, 2706, 4769], desc: 'Migration route along the Makran coastline into the Indus Valley.' },
-        { name: 'Lower Indus Gateway', region: 'Indus River Basin', coords: [68.3578, 25.3960], ybp: '40,000 YBP', mutations: [511, 3594], desc: 'Establishment of ancient Indus civilization ancestral maternal lineages.' },
-        { name: 'Indus Valley Homeland', region: 'Punjab / Sindh (PK)', coords: [69.3451, 30.3753], ybp: '25,000 YBP to Present', mutations: [7269, 7805, 13680, 15479], desc: 'Cohort diagnostic markers proving continuous regional matrilineal transmission.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Deep ancestral root in East Africa.' },
+        { name: 'Levant & Persian Gateway', region: 'Zagros / Makran Corridor', coords: [56.0000, 27.0000], ybp: '55,000 YBP', mutations: [1438, 2706, 4769], desc: 'Northern dispersal route into Central/South Asia.' },
+        { name: 'Indus River Basin', region: 'Punjab / Sindh', coords: [68.0000, 28.0000], ybp: '40,000 YBP', mutations: [511, 3594, 7269], desc: 'Continuous settlement in the ancient Indus River valley.' },
+        { name: 'Indus Valley Homeland', region: 'Pakistan Homeland', coords: [73.0479, 33.6844], ybp: '25,000 YBP to Present', mutations: [7805, 13680, 15479], desc: 'Private maternal lineage markers defining Pakistan cohort.' }
       ]
     },
     'UK': {
       name: 'Ukraine — Eastern Europe (UK)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Ancient African cradle of modern humans.' },
-        { name: 'Levantine Corridor', region: 'Near East / Anatolia', coords: [35.5000, 33.5000], ybp: '50,000 YBP', mutations: [1438, 2706, 7028], desc: 'Out-of-Africa northern expansion through the Middle East into Europe.' },
-        { name: 'Pontic-Caspian Steppe', region: 'Black Sea Basin', coords: [33.0000, 46.0000], ybp: '40,000 YBP', mutations: [650, 8395], desc: 'Haplogroup U4/H hunter-gatherer expansion across Eastern Europe.' },
-        { name: 'Ukrainian Homeland', region: 'Dnipro / Kyiv Region', coords: [31.1656, 48.3794], ybp: '25,000 YBP to Present', mutations: [10885, 11566, 14467, 16356], desc: 'Maternal pedigree lineage verified across successive generations.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Basal Out-of-Africa maternal lineage root.' },
+        { name: 'Near Eastern Gateway', region: 'Anatolian Corridor', coords: [35.0000, 39.0000], ybp: '45,000 YBP', mutations: [1438, 2706, 4769, 7028], desc: 'Early modern human expansion into Western Eurasia.' },
+        { name: 'Pontic-Caspian Steppe', region: 'Black Sea Basin', coords: [32.0000, 48.0000], ybp: '30,000 YBP', mutations: [650, 8395, 10885], desc: 'European Mesolithic hunter-gatherer maternal foundation.' },
+        { name: 'Eastern European Homeland', region: 'Kyiv / Dnipro Corridor', coords: [30.5234, 50.4501], ybp: '15,000 YBP to Present', mutations: [11566, 14467, 16356], desc: 'Ukraine maternal lineage passed from grandmother to mother and children.' }
       ]
     },
     'KR': {
       name: 'Korea — Northeast Asia (KR)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial origin in East Africa.' },
-        { name: 'Central Asian Steppe Trail', region: 'Altai / Central Asia', coords: [85.0000, 48.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'Northern Eurasian route establishing East Asian macro-haplogroups.' },
-        { name: 'Manchurian Basin', region: 'Northeast Asia', coords: [123.0000, 42.0000], ybp: '35,000 YBP', mutations: [63, 1709, 2882, 3010], desc: 'Establishment of Haplogroup D4 founding maternal clades.' },
-        { name: 'Korean Peninsula', region: 'Korea', coords: [127.7669, 35.9078], ybp: '20,000 YBP to Present', mutations: [8414, 9817, 13544, 15565, 15669], desc: 'Diagnostic maternal markers proving Korean matrilineal continuity.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Basal maternal origin in Africa.' },
+        { name: 'Central Asian Steppe Trail', region: 'Altai / Silk Road Corridor', coords: [85.0000, 48.0000], ybp: '45,000 YBP', mutations: [1438, 2706, 4769], desc: 'Trans-Eurasian migration across Northern Asia.' },
+        { name: 'Manchurian Basin', region: 'Northeast Asia', coords: [125.0000, 43.0000], ybp: '30,000 YBP', mutations: [63, 1709, 2882, 3010], desc: 'Haplogroup D4 founding radiation in Northeast Asia.' },
+        { name: 'Korean Peninsula Homeland', region: 'Seoul / Han River Basin', coords: [126.9780, 37.5665], ybp: '20,000 YBP to Present', mutations: [8414, 9817, 13544, 15565, 15669], desc: 'Distinct Korean maternal line preserved through unbroken matriline.' }
       ]
     },
     'MX': {
       name: 'Mexico — Mesoamerica (MX)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Universal human mitochondrial Eve origin in Africa.' },
-        { name: 'Siberian-Beringian Transit', region: 'Bering Strait Bridge', coords: [-168.0000, 65.5000], ybp: '25,000 YBP', mutations: [1438, 2706, 499, 4823], desc: 'Ancestors cross the Bering Land Bridge during the Last Glacial Maximum (LGM).' },
-        { name: 'Pacific Coastal Corridor', region: 'Northwest America', coords: [-122.0000, 47.0000], ybp: '18,000 YBP', mutations: [6297, 8047], desc: 'Rapid southward migration along the deglaciated Pacific coast.' },
-        { name: 'Mesoamerican Homeland', region: 'Central Mexico', coords: [-102.5528, 23.6345], ybp: '15,000 YBP to Present', mutations: [9039, 13590], desc: 'Haplogroup B2 founder lineage establishing Mexican maternal roots.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'African foundation of human mitochondrial genome.' },
+        { name: 'Beringia Land Bridge', region: 'Bering Strait', coords: [-168.0000, 65.0000], ybp: '25,000 YBP', mutations: [1438, 2706, 4769, 499], desc: 'Ancestral population crosses Beringian steppe during Last Glacial Maximum.' },
+        { name: 'Pacific Coastal Corridor', region: 'Pacific Northwest / California', coords: [-120.0000, 36.0000], ybp: '18,000 YBP', mutations: [4823, 6297], desc: 'Rapid coastal and ice-free corridor transit into Central America.' },
+        { name: 'Mesoamerican Valley', region: 'Central Mexico Plateau', coords: [-99.1332, 19.4326], ybp: '12,000 YBP to Present', mutations: [8047, 9039, 13590], desc: 'Primary Haplogroup B2 founder mutations established in Mesoamerica.' }
       ]
     },
     'HK': {
       name: 'Hong Kong — Pearl River (HK)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Ancestral African cradle.' },
-        { name: 'Southeast Asian Coastal Route', region: 'Sunda Shelf', coords: [100.0000, 15.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'Coastal migration into South and East Asia.' },
-        { name: 'South China Coast', region: 'Guangdong Coastal Basin', coords: [113.0000, 23.0000], ybp: '35,000 YBP', mutations: [5821, 6338, 6455], desc: 'Haplogroup M7 expansion along the Pearl River estuary.' },
-        { name: 'Hong Kong Homeland', region: 'Hong Kong', coords: [114.1694, 22.3193], ybp: '25,000 YBP to Present', mutations: [8602, 9540, 14821], desc: 'Private maternal diagnostic variants passed across generations.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Basal Out-of-Africa maternal lineage root.' },
+        { name: 'Indochina Coastal Corridor', region: 'Southeast Asian Coast', coords: [105.0000, 16.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'Southern coastal dispersal along Sundaland.' },
+        { name: 'Lingnan & South China', region: 'Pearl River Delta Basin', coords: [113.0000, 23.0000], ybp: '30,000 YBP', mutations: [5821, 6338, 6455], desc: 'Establishment of Haplogroup M7 coastal maritime lineages.' },
+        { name: 'Hong Kong Ancestral Home', region: 'Pearl River Estuary', coords: [114.1694, 22.3193], ybp: '15,000 YBP to Present', mutations: [8602, 9540, 14821], desc: 'Private maternal diagnostic variants passed across generations in HK.' }
       ]
     },
     'CL': {
       name: 'Colombia — South America (CL)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Out-of-Africa origin in East Africa.' },
-        { name: 'Beringian Crossing', region: 'Beringia to Alaska', coords: [-160.0000, 64.0000], ybp: '22,000 YBP', mutations: [1438, 2706, 3552], desc: 'Early Paleo-Indian founders enter the American continent.' },
-        { name: 'Isthmus of Panama', region: 'Central to South America Gateway', coords: [-79.5000, 9.0000], ybp: '16,000 YBP', mutations: [114, 8545, 9545], desc: 'Pioneering expansion across the Panamanian land bridge into South America.' },
-        { name: 'Andean South America', region: 'Colombia', coords: [-74.2973, 4.5709], ybp: '14,000 YBP to Present', mutations: [11914, 13263, 15323], desc: 'Haplogroup C1 maternal lineage proving South American indigenous continuity.' }
-      ]
-    },
-    'TB': {
-      name: 'Tibet — Himalayan Plateau (TB)',
-      stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial Eve cradle.' },
-        { name: 'Central Asian Gateway', region: 'Silk Road / Tarim Basin', coords: [75.0000, 38.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'High-altitude migration corridor along ancient Central Asian trade routes.' },
-        { name: 'Himalayan High-Altitude Plateau', region: 'Tibetan Plateau', coords: [88.0924, 31.6927], ybp: '30,000 YBP', mutations: [3394, 4491], desc: 'Acquisition of the famous m.3394 T>C ND1 oxygen-adaptation mutation for high-altitude hypoxia survival.' },
-        { name: 'Tibetan Homeland', region: 'Lhasa / Qinghai-Tibet Plateau', coords: [91.1000, 29.6500], ybp: '20,000 YBP to Present', mutations: [8784, 12950, 14305, 15535, 16048], desc: 'Haplogroup M9 maternal lineage preserved across generations in Tibet.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Human maternal origin in Africa.' },
+        { name: 'Beringian & North America Trail', region: 'North American Corridor', coords: [-105.0000, 45.0000], ybp: '20,000 YBP', mutations: [1438, 2706, 4769, 114], desc: 'Paleo-Indian founding groups advance southward.' },
+        { name: 'Isthmus of Panama Crossing', region: 'Central America Gateway', coords: [-79.5000, 9.0000], ybp: '16,000 YBP', mutations: [3552, 8545], desc: 'Entry into the South American continent.' },
+        { name: 'Colombian Andean Homeland', region: 'Northern Andes / Bogota', coords: [-74.0721, 4.7110], ybp: '13,000 YBP to Present', mutations: [9545, 11914, 13263, 15323], desc: 'Haplogroup C1 maternal lineage established in South America.' }
       ]
     },
     'AA': {
       name: 'African — Sub-Saharan Cradle (AA)',
       stops: [
-        { name: 'Mitochondrial Eve Origin', region: 'East African Rift Valley', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [183, 2758], desc: 'Root of all human maternal lineages across the globe.' },
-        { name: 'Sub-Saharan African Expansion', region: 'West-Central Africa', coords: [8.6753, 9.0820], ybp: '100,000 YBP to Present', mutations: [5581, 7175, 9128, 11338, 13803, 14308, 15784], desc: 'Haplogroup L2 deep ancestral continuity in Sub-Saharan Africa.' }
+        { name: 'Ancestral Eve Cradle', region: 'East Africa / Rift Valley', coords: [36.0000, -1.0000], ybp: '200,000 YBP', mutations: [183, 2758], desc: 'Mitochondrial Eve lineage foundation.' },
+        { name: 'Congo-Nile Watershed', region: 'Central Africa', coords: [25.0000, 0.0000], ybp: '100,000 YBP', mutations: [5581, 7175], desc: 'Early diversification of Haplogroup L lineages.' },
+        { name: 'West-Central African Belt', region: 'Sub-Saharan Belt', coords: [15.0000, 8.0000], ybp: '50,000 YBP', mutations: [9128, 11338], desc: 'Continuous deep African maternal lineage diversification.' },
+        { name: 'African Ancestral Homeland', region: 'Sub-Saharan West Africa', coords: [5.0000, 7.5000], ybp: '25,000 YBP to Present', mutations: [13803, 14308, 15784], desc: 'Deep ancestral African root markers preserved.' }
+      ]
+    },
+    'TB': {
+      name: 'Tibet — Himalayan Plateau (TB)',
+      stops: [
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Basal Out-of-Africa lineage root.' },
+        { name: 'Central Asian Foothills', region: 'Pamir / Hindu Kush', coords: [72.0000, 37.0000], ybp: '50,000 YBP', mutations: [1438, 2706, 4769], desc: 'Trans-Himalayan dispersal corridors.' },
+        { name: 'Tibetan Plateau Margin', region: 'Qinghai-Tibet', coords: [88.0000, 32.0000], ybp: '30,000 YBP', mutations: [3394, 4491], desc: 'Acquisition of iconic high-altitude hypoxia adaptation mutation m.3394 in complex I.' },
+        { name: 'Himalayan High Plateau', region: 'Lhasa Plateau', coords: [91.1172, 29.6469], ybp: '20,000 YBP to Present', mutations: [8784, 12950, 14305, 15535, 16048], desc: 'Ancient Tibetan matrilineal continuity on the roof of the world.' }
       ]
     },
     'CA': {
       name: 'Canada — North America (CA)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'African cradle of modern humans.' },
-        { name: 'European Expansion', region: 'Central Europe', coords: [10.0000, 50.0000], ybp: '35,000 YBP', mutations: [73, 146, 4769], desc: 'Haplogroup H2 European agricultural expansion.' },
-        { name: 'Trans-Atlantic Settlement', region: 'Canada', coords: [-106.3468, 56.1304], ybp: 'Modern', mutations: [263, 750], desc: 'Trans-Atlantic migration establishing Canadian Caucasian family line.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'African foundation of human mitochondrial genome.' },
+        { name: 'Western European Corridor', region: 'Atlantic Maritime Europe', coords: [0.0000, 50.0000], ybp: '35,000 YBP', mutations: [1438, 2706, 4769, 73], desc: 'Haplogroup H2 lineage foundation in Western Eurasia.' },
+        { name: 'North Atlantic Crossing', region: 'Maritime Transit', coords: [-45.0000, 52.0000], ybp: '500 YBP', mutations: [146], desc: 'Historical trans-Atlantic migration to North America.' },
+        { name: 'Canadian Homeland', region: 'Eastern Canada', coords: [-75.6972, 45.4215], ybp: 'Present', mutations: [263, 4769], desc: 'European-derived Canadian maternal lineage.' }
       ]
     },
     'NA': {
       name: 'Native North America (NA)',
       stops: [
-        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Universal human maternal root in Africa.' },
-        { name: 'Beringian Pre-Clovis Founder', region: 'Beringia Refuge', coords: [-165.0000, 65.0000], ybp: '22,000 YBP', mutations: [64, 152, 235, 663, 1736], desc: 'Isolation in Beringia establishing Native American Haplogroup A2.' },
-        { name: 'North American Indigenous Homeland', region: 'Sub-Arctic / North America', coords: [-149.4937, 64.2008], ybp: '15,000 YBP to Present', mutations: [4248, 4824, 8027, 8794, 12007], desc: 'Continuous indigenous maternal lineage in North America.' }
+        { name: 'East African Cradle', region: 'Rift Valley, Africa', coords: [38.7578, 8.9806], ybp: '150,000–200,000 YBP', mutations: [263, 750], desc: 'Mitochondrial Eve lineage foundation.' },
+        { name: 'Beringian Steppe Refuge', region: 'Bering Strait Gateway', coords: [-168.0000, 65.0000], ybp: '25,000 YBP', mutations: [1438, 2706, 4769, 64, 152], desc: 'Beringian standstill and Haplogroup A2 founding radiation.' },
+        { name: 'Ice-Free Interior Corridor', region: 'Subarctic Canada / Plains', coords: [-115.0000, 55.0000], ybp: '16,000 YBP', mutations: [235, 663, 1736, 4248], desc: 'Early post-glacial expansion across North America.' },
+        { name: 'Indigenous North American Homeland', region: 'North American Basin', coords: [-100.0000, 42.0000], ybp: '12,000 YBP to Present', mutations: [4824, 8027, 8794, 12007, 16111, 16290, 16319], desc: 'Preserved Native North American maternal founder line.' }
       ]
     }
-  },
-
-  getSampleTrail(sampleKey) {
-    const code = (sampleKey || 'IN').split('_')[0];
-    return this.COHORT_TRAILS[code] || this.COHORT_TRAILS['IN'];
   },
 
   init(geoData, migrationData) {
     this.geoData = geoData;
     this.migrationData = migrationData;
+
     this.populateAllSamplesSelect();
     this.bindEvents();
     this.render();
+    this.renderEvidencePanel();
     this.startAutoRotation();
-    this.setSample('IN_F_DPL');
+  },
+
+  getSampleTrail(sampleKey) {
+    if (!sampleKey) sampleKey = 'IN_F_DPL';
+    const code = sampleKey.split('_')[0];
+    return this.COHORT_TRAILS[code] || this.COHORT_TRAILS['IN'];
   },
 
   populateAllSamplesSelect() {
     const select = document.getElementById('globeSampleSelect');
-    if (!select || !window.App.variantsData) return;
+    if (!select || !window.App.distanceData) return;
 
-    const samples = Array.from(new Set(window.App.variantsData.variants.map(v => v.sample)));
-    const cohortsMap = new Map();
-
-    samples.forEach(s => {
+    const samples = window.App.distanceData.samples || [];
+    select.innerHTML = samples.map(s => {
       const code = s.split('_')[0];
-      if (!cohortsMap.has(code)) cohortsMap.set(code, []);
-      cohortsMap.get(code).push(s);
-    });
+      const role = window.TreeViewer ? window.TreeViewer.getSampleRole(s) : 'Lineage Member';
+      return `<option value="${s}">[${code}] ${role} (${s})</option>`;
+    }).join('');
 
-    let html = '';
-    cohortsMap.forEach((cohortSamples, code) => {
-      const cohortName = window.TreeViewer ? window.TreeViewer.getFamilyName(code) : `Cohort ${code}`;
-      html += `<optgroup label="${cohortName} (${code})">`;
-      cohortSamples.forEach(s => {
-        const role = window.TreeViewer ? window.TreeViewer.getSampleRole(s) : 'Member';
-        html += `<option value="${s}">${role} (${code})</option>`;
-      });
-      html += `</optgroup>`;
-    });
-
-    select.innerHTML = html;
+    select.value = this.activeSample;
+    select.onchange = (e) => {
+      this.setSample(e.target.value);
+    };
   },
 
   bindEvents() {
-    window.addEventListener('resize', () => {
-      if (document.getElementById('globeContainer')) {
-        this.render();
-      }
-    });
-
-    const sampleSelect = document.getElementById('globeSampleSelect');
-    if (sampleSelect) {
-      sampleSelect.addEventListener('change', (e) => {
-        this.setSample(e.target.value);
-      });
-    }
-
     const playBtn = document.getElementById('playMigrationTrailBtn');
     if (playBtn) {
       playBtn.addEventListener('click', () => {
@@ -384,8 +365,8 @@ window.GlobeViewer = {
       .append('svg')
       .attr('width', width)
       .attr('height', height)
-      .style('background', '#080d16')
-      .style('border-radius', '1rem')
+      .style('background', '#080a0f')
+      .style('border-radius', '1.5rem')
       .style('cursor', 'grab');
 
     const g = svg.append('g');
@@ -398,18 +379,16 @@ window.GlobeViewer = {
 
     this.pathGenerator = d3.geoPath().projection(this.projection);
 
-    // 1. Vibrant Ocean Blue Sphere Gradient
     const defs = svg.append('defs');
     const oceanGrad = defs.append('radialGradient')
       .attr('id', 'globeOceanGlow')
       .attr('cx', '40%')
       .attr('cy', '35%')
       .attr('r', '70%');
-    oceanGrad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
-    oceanGrad.append('stop').attr('offset', '35%').attr('stop-color', '#0369a1');
-    oceanGrad.append('stop').attr('offset', '70%').attr('stop-color', '#075985');
-    oceanGrad.append('stop').attr('offset', '92%').attr('stop-color', '#0c4a6e');
-    oceanGrad.append('stop').attr('offset', '100%').attr('stop-color', '#022c43');
+    oceanGrad.append('stop').attr('offset', '0%').attr('stop-color', '#0369a1');
+    oceanGrad.append('stop').attr('offset', '45%').attr('stop-color', '#075985');
+    oceanGrad.append('stop').attr('offset', '80%').attr('stop-color', '#0c4a6e');
+    oceanGrad.append('stop').attr('offset', '100%').attr('stop-color', '#031726');
 
     const oceanG = g.append('g').attr('class', 'ocean-layer');
     oceanG.append('circle')
@@ -418,21 +397,19 @@ window.GlobeViewer = {
       .attr('r', radius)
       .attr('fill', 'url(#globeOceanGlow)')
       .attr('stroke', '#38bdf8')
-      .attr('stroke-width', '2px')
-      .style('filter', 'drop-shadow(0 0 25px rgba(56, 189, 248, 0.25))');
+      .attr('stroke-width', '1.5px')
+      .style('filter', 'drop-shadow(0 0 25px rgba(56, 189, 248, 0.2))');
 
-    // 2. Graticules (Subtle glowing latitude/longitude lines)
     const graticule = d3.geoGraticule()();
     g.append('path')
       .attr('class', 'graticule-layer')
       .attr('d', this.pathGenerator(graticule))
       .attr('fill', 'none')
       .attr('stroke', '#0284c7')
-      .attr('stroke-width', '0.75px')
-      .attr('stroke-opacity', '0.35')
+      .attr('stroke-width', '0.6px')
+      .attr('stroke-opacity', '0.3')
       .attr('stroke-dasharray', '2 4');
 
-    // 3. Landmass Features (Slate Navy with Luminous Glowing Coastlines)
     if (this.geoData && this.geoData.features) {
       g.append('g')
         .attr('class', 'land-layer')
@@ -445,56 +422,65 @@ window.GlobeViewer = {
         .attr('fill', '#1e293b')
         .attr('fill-opacity', '0.92')
         .attr('stroke', '#38bdf8')
-        .attr('stroke-width', '1.3px')
-        .attr('stroke-opacity', '0.8');
+        .attr('stroke-width', '1.2px')
+        .attr('stroke-opacity', '0.7');
     }
 
-    // 4. Individualized Migration Arcs Layer
-    g.append('g').attr('class', 'migration-arcs-layer');
-
-    // 5. Continental Stops & Pins Layer
+    g.append('g').attr('class', 'arcs-layer');
     g.append('g').attr('class', 'markers-layer');
 
-    // Drag-to-Rotate Handler
-    const self = this;
     const drag = d3.drag()
-      .on('start', function() {
-        self.isAutoRotating = false;
-        self.lastInteractionTime = Date.now();
-        d3.select(this).style('cursor', 'grabbing');
+      .on('start', () => {
+        this.isAutoRotating = false;
+        this.lastInteractionTime = Date.now();
+        svg.style('cursor', 'grabbing');
       })
-      .on('drag', function(event) {
-        self.lastInteractionTime = Date.now();
-        const rotate = self.projection.rotate();
-        const k = 75 / self.projection.scale();
-        self.projection.rotate([rotate[0] + event.dx * k, rotate[1] - event.dy * k]);
-        self.updatePositions();
+      .on('drag', (event) => {
+        this.lastInteractionTime = Date.now();
+        const rotate = this.projection.rotate();
+        const k = 75 / this.projection.scale();
+        this.projection.rotate([
+          rotate[0] + event.dx * k,
+          Math.max(-80, Math.min(80, rotate[1] - event.dy * k))
+        ]);
+        this.updatePositions();
       })
-      .on('end', function() {
-        d3.select(this).style('cursor', 'grab');
-        self.lastInteractionTime = Date.now();
+      .on('end', () => {
+        svg.style('cursor', 'grab');
+        this.lastInteractionTime = Date.now();
+        setTimeout(() => { this.isAutoRotating = true; }, 3000);
       });
 
     svg.call(drag);
 
-    // Initial render of trail positions
+    const zoom = d3.zoom()
+      .scaleExtent([radius * 0.7, radius * 3.5])
+      .on('zoom', (event) => {
+        this.lastInteractionTime = Date.now();
+        this.projection.scale(event.transform.k);
+        oceanG.select('circle').attr('r', event.transform.k);
+        this.updatePositions();
+      });
+
+    svg.call(zoom).call(zoom.transform, d3.zoomIdentity.scale(radius));
+
     this.updatePositions();
   },
 
   updatePositions() {
-    if (!this.svgG || !this.projection) return;
+    if (!this.svgG || !this.projection || !this.pathGenerator) return;
 
-    const path = this.pathGenerator;
-    const rotate = this.projection.rotate();
-    const center = [-rotate[0], -rotate[1]];
-
-    this.svgG.select('.graticule-layer').attr('d', path(d3.geoGraticule()()));
-    this.svgG.selectAll('.land-feature').attr('d', path);
+    this.svgG.select('.graticule-layer').attr('d', this.pathGenerator(d3.geoGraticule()()));
+    this.svgG.selectAll('.land-feature').attr('d', this.pathGenerator);
 
     const trail = this.getSampleTrail(this.activeSample);
-    const stops = trail ? trail.stops : [];
+    if (!trail || !trail.stops.length) return;
 
-    const arcsLayer = this.svgG.select('.migration-arcs-layer');
+    const stops = trail.stops;
+    const center = [-this.projection.rotate()[0], -this.projection.rotate()[1]];
+    const path = this.pathGenerator;
+
+    const arcsLayer = this.svgG.select('.arcs-layer');
     arcsLayer.selectAll('*').remove();
 
     for (let i = 0; i < stops.length - 1; i++) {
@@ -509,8 +495,8 @@ window.GlobeViewer = {
         arcsLayer.append('path')
           .attr('d', path(geoArc))
           .attr('fill', 'none')
-          .attr('stroke', isCompleted ? '#10b981' : '#f59e0b')
-          .attr('stroke-width', isCompleted ? '3.2px' : '2.5px')
+          .attr('stroke', isCompleted ? '#34d399' : '#38bdf8')
+          .attr('stroke-width', isCompleted ? '3.2px' : '2.2px')
           .attr('stroke-opacity', isCompleted ? 0.95 : 0.6)
           .attr('stroke-dasharray', isCompleted ? 'none' : '5 4');
       }
@@ -526,7 +512,7 @@ window.GlobeViewer = {
         if (xy) {
           const isCurrent = idx === this.activeStepIndex;
           const isPast = idx < this.activeStepIndex;
-          const pinColor = isCurrent ? '#f97316' : (isPast ? '#10b981' : '#f59e0b');
+          const pinColor = isCurrent ? '#38bdf8' : (isPast ? '#34d399' : '#64748b');
 
           const pinG = markersLayer.append('g')
             .attr('transform', `translate(${xy[0]},${xy[1]})`)
@@ -594,7 +580,7 @@ window.GlobeViewer = {
       const isCurrent = idx === this.activeStepIndex;
       const isPast = idx < this.activeStepIndex;
       return `
-        <button onclick="window.GlobeViewer.goToStep(${idx})" class="p-2.5 rounded-xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-orange-600 text-stone-950 border-orange-400 font-bold shadow-lg shadow-orange-600/30' : (isPast ? 'bg-stone-950 border-emerald-800/80 text-emerald-300' : 'bg-stone-950 border-stone-800 text-stone-400 hover:border-stone-700')}">
+        <button onclick="window.GlobeViewer.goToStep(${idx})" class="p-3 rounded-2xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-sky-500 text-slate-950 border-sky-400 font-bold shadow-lg shadow-sky-500/25' : (isPast ? 'bg-slate-950 border-emerald-800/80 text-emerald-300' : 'bg-slate-950 border-white/10 text-slate-400 hover:border-white/20')}">
           <div class="text-[10px] uppercase font-bold flex items-center justify-between">
             <span>Step ${idx + 1}</span>
             <span>${stop.ybp}</span>
@@ -611,12 +597,12 @@ window.GlobeViewer = {
         meaning: `Ancestral mutation at position m.${pos} confirming historical migration route.`
       };
       return `
-        <div class="p-3.5 rounded-xl bg-stone-950 border border-stone-800 space-y-1.5 font-mono text-xs">
-          <div class="flex items-center justify-between border-b border-stone-800/80 pb-1">
-            <span class="font-extrabold text-amber-400 text-sm">m.${pos} ${evidence.change}</span>
-            <span class="px-2 py-0.5 rounded bg-stone-900 border border-stone-800 text-[10px] text-stone-300">${evidence.locus}</span>
+        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-mono text-xs">
+          <div class="flex items-center justify-between border-b border-white/10 pb-1">
+            <span class="font-extrabold text-sky-400 text-sm">m.${pos} ${evidence.change}</span>
+            <span class="px-2 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] text-slate-300">${evidence.locus}</span>
           </div>
-          <p class="text-stone-300 font-sans text-xs leading-relaxed pt-0.5">
+          <p class="text-slate-300 font-sans text-xs leading-relaxed pt-0.5">
             <strong>Biological &amp; Historical Evidence:</strong> ${evidence.meaning}
           </p>
         </div>
@@ -626,37 +612,37 @@ window.GlobeViewer = {
     panel.innerHTML = `
       <div class="space-y-5 font-sans">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-800 pb-3 font-mono">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3 font-mono">
           <div>
-            <div class="text-xs text-orange-400 font-bold uppercase tracking-wider">Lineage Migration Evidence: ${role} (${code})</div>
-            <h3 class="text-lg font-extrabold text-stone-100">Step ${this.activeStepIndex + 1} of ${trail.stops.length}: ${currentStop.name}</h3>
+            <div class="text-xs text-sky-400 font-bold uppercase tracking-wider">Lineage Migration Evidence: ${role} (${code})</div>
+            <h3 class="text-lg font-extrabold text-white">Step ${this.activeStepIndex + 1} of ${trail.stops.length}: ${currentStop.name}</h3>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-xl bg-orange-950 text-orange-300 border border-orange-800 text-xs font-bold font-mono">
+            <span class="px-3 py-1 rounded-xl bg-sky-950 text-sky-300 border border-sky-800 text-xs font-bold font-mono">
               ${currentStop.ybp}
             </span>
           </div>
         </div>
 
         <!-- 4-Step Interactive Timeline Stepper -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           ${timelineStepsHtml}
         </div>
 
-        <div class="p-4 rounded-xl bg-stone-950 border border-stone-800 space-y-1">
-          <div class="text-[11px] text-stone-400 font-mono uppercase font-bold">Geographic &amp; Anthropological Context:</div>
-          <p class="text-stone-200 text-xs leading-relaxed">
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+          <div class="text-[11px] text-slate-400 font-mono uppercase font-bold">Geographic &amp; Anthropological Context:</div>
+          <p class="text-slate-200 text-xs leading-relaxed">
             ${currentStop.desc}
           </p>
         </div>
 
-        <!-- Mutations Evidence: "Which mutations mean what" -->
+        <!-- Mutations Evidence -->
         <div class="space-y-2.5">
           <div class="flex items-center justify-between font-mono text-xs">
             <span class="font-bold text-emerald-400 uppercase tracking-wider">
               🧬 Mutation Evidence Proving Ancestral Habitation (${currentStop.mutations.length} Markers):
             </span>
-            <span class="text-stone-400 text-[11px]">Historical Lineage Markers</span>
+            <span class="text-slate-400 text-[11px]">Historical Lineage Markers</span>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
