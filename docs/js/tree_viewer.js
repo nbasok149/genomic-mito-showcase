@@ -309,8 +309,8 @@ window.TreeViewer = {
       window.DiagnosticMarkersExplorer.displayFamily(this.selectedEthnicities[0], null);
     }
 
-    if (this.selectedEthnicities.length > 0 && window.GlobeViewer) {
-      window.GlobeViewer.setSample(this.selectedEthnicities[0]);
+    if (this.selectedEthnicities.length > 0 && window.MigrationMap) {
+      window.MigrationMap.setSample(this.selectedEthnicities[0]);
     }
   },
 
@@ -1062,8 +1062,8 @@ window.TreeViewer = {
 
         <!-- Action Bar: Direct to 3D Globe Tab -->
         <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
-          <button onclick="window.switchMainTab('globe'); window.GlobeViewer.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs hover:bg-sky-400 shadow-md transition-all flex items-center gap-2">
-            <span>🌍 Trace ${primaryCode} Out-of-Africa Progression on 3D Globe ➔</span>
+          <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs hover:bg-sky-400 shadow-md transition-all flex items-center gap-2">
+            <span>🗺️ Trace ${primaryCode} Out-of-Africa Progression on Satellite Map ➔</span>
           </button>
           <span class="text-slate-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
         </div>

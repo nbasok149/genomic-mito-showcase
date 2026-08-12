@@ -1,5 +1,5 @@
 /**
- * Main Web Showcase Application Controller - Apple Liquid Glass & Neutral Obsidian Edition
+ * Main Web Showcase Application Controller - Apple Liquid Glass & 2D Satellite Migration Map Edition
  */
 
 window.escapeHtml = function(str) {
@@ -13,7 +13,7 @@ window.escapeHtml = function(str) {
 };
 
 window.FamilyAccessGate = {
-  STORAGE_KEY: 'mito_selected_family_v6',
+  STORAGE_KEY: 'mito_selected_family_v7',
 
   init() {
     this.bindEvents();
@@ -89,9 +89,9 @@ window.FamilyAccessGate = {
       window.TreeViewer.zoomToFamily(code);
     }
 
-    // 2. Configure 3D Globe with this sample's individualized migration trail
-    if (window.GlobeViewer) {
-      window.GlobeViewer.setSample(code);
+    // 2. Configure 2D Satellite Migration Map with this sample's individualized migration trail
+    if (window.MigrationMap) {
+      window.MigrationMap.setSample(code);
     }
 
     // 3. Configure Diagnostic Markers explorer
@@ -156,7 +156,7 @@ window.DiagnosticMarkersExplorer = {
     if (data.dadNote) {
       dadHtml = `
         <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-sans">
-          <div class="text-sky-400 font-bold text-xs font-mono">🧬 Familial Transmission & Paternal Note:</div>
+          <div class="text-sky-400 font-bold text-xs font-mono">🧬 Familial Transmission &amp; Paternal Note:</div>
           <p class="text-slate-300 leading-relaxed text-[11.5px]">
             ${data.dadNote}
           </p>
@@ -502,7 +502,7 @@ window.FamilyReportGenerator = {
               <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
                 <span>📜 Population Breakdown</span>
               </h4>
-              <p class="text-slate-400 text-[11px] mt-0.5">Triangulated Evolutionary & Geographic Lineage Analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">Triangulated Evolutionary &amp; Geographic Lineage Analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-[11.5px]">
@@ -638,7 +638,7 @@ window.FamilyReportGenerator = {
               <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
                 <span>📜 Population Breakdown</span>
               </h4>
-              <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary Lineage & Migration Analysis between ${info1.code} and ${info2.code}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary Lineage &amp; Migration Analysis between ${info1.code} and ${info2.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -674,11 +674,9 @@ window.App = {
   variantsData: null,
   distanceData: null,
   treeData: null,
-  geoData: null,
-  migrationData: null,
 
   async init() {
-    console.log("Initializing Genomic Mito Showcase Controller (Apple Liquid Glass Edition)...");
+    console.log("Initializing Genomic Mito Showcase Controller (Satellite Migration Map Edition)...");
     
     window.FamilyAccessGate.init();
 
@@ -690,8 +688,8 @@ window.App = {
       window.TreeViewer.init(this.treeData);
     }
 
-    if (this.geoData && this.migrationData && window.GlobeViewer) {
-      window.GlobeViewer.init(this.geoData, this.migrationData);
+    if (window.MigrationMap) {
+      window.MigrationMap.init();
     }
 
     this.bindEvents();
@@ -713,19 +711,22 @@ window.App = {
       const inactiveClass = 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-bold';
 
       if (tab === 'tree') {
-        if (mainTabTree) mainTabTree.className = `px-4 py-2 rounded-xl transition-all ${activeClass}`;
-        if (mainTabGlobe) mainTabGlobe.className = `px-4 py-2 rounded-xl transition-all ${inactiveClass}`;
+        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all ${activeClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all ${inactiveClass}`;
         tabContentTree?.classList.remove('hidden');
         tabContentGlobe?.classList.add('hidden');
         if (window.TreeViewer) window.TreeViewer.render();
       } else if (tab === 'globe') {
-        if (mainTabGlobe) mainTabGlobe.className = `px-4 py-2 rounded-xl transition-all ${activeClass}`;
-        if (mainTabTree) mainTabTree.className = `px-4 py-2 rounded-xl transition-all ${inactiveClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all ${activeClass}`;
+        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all ${inactiveClass}`;
         tabContentTree?.classList.add('hidden');
         tabContentGlobe?.classList.remove('hidden');
-        if (window.GlobeViewer) {
-          window.GlobeViewer.render();
-          window.GlobeViewer.populateAllSamplesSelect();
+        if (window.MigrationMap) {
+          window.MigrationMap.initLeafletMap();
+          window.MigrationMap.populateAllSamplesSelect();
+          setTimeout(() => {
+            if (window.MigrationMap.map) window.MigrationMap.map.invalidateSize();
+          }, 200);
         }
       }
     };
@@ -815,19 +816,15 @@ window.App = {
     };
 
     try {
-      const [varsRes, distRes, treeRes, geoRes, migRes] = await Promise.all([
+      const [varsRes, distRes, treeRes] = await Promise.all([
         fetchJson('variants_dataset.json'),
         fetchJson('distance_matrix.json'),
-        fetchJson('phylo_tree.json'),
-        fetchJson('world_geojson.json'),
-        fetchJson('migration_routes.json')
+        fetchJson('phylo_tree.json')
       ]);
 
       this.variantsData = varsRes;
       this.distanceData = distRes;
       this.treeData = treeRes;
-      this.geoData = geoRes;
-      this.migrationData = migRes;
 
       console.log("✓ Loaded all dataset JSONs successfully.");
     } catch (e) {

@@ -3,226 +3,258 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Genomic Mito Showcase | Mitochondrial DNA Pipeline &amp; Web Visualizer</title>
+  <title>Genomic Mito Showcase | Human mtDNA Ancestral Lineage Visualizer</title>
   
   <!-- Tailwind CSS & D3.js CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   
+  <!-- Leaflet Satellite Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
   <!-- Font & Custom Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=10.0">
+  <link rel="stylesheet" href="css/styles.css?v=11.0">
 </head>
 <body class="bg-[#090a0f] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-sky-500 selection:text-slate-950">
 
-  <!-- 🧬 Lineage Welcome & Cohort Selection Modal (Prompt on First Open) -->
-  <div id="familyWelcomeModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
-    <div class="earth-panel max-w-xl w-full p-8 space-y-6 text-center shadow-2xl relative overflow-hidden bg-slate-900/90 border border-white/10 rounded-3xl">
+  <!-- 🧬 Opening Welcome & Genomic Education Modal (First Open Prompt) -->
+  <div id="familyWelcomeModal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
+    <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative border border-white/10 bg-slate-900/95 rounded-3xl">
       
-      <!-- Mitochondria Icon -->
-      <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 mx-auto flex items-center justify-center text-white shadow-lg shadow-sky-500/25">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+      <!-- Top Title & Sample Report Banner -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+        <div class="space-y-1">
+          <div class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">🧬 Human Mitochondrial DNA Pipeline</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Genomic Mito Showcase</h2>
+        </div>
+        <div class="px-3.5 py-2 rounded-2xl bg-sky-950/80 border border-sky-500/40 font-mono text-xs text-sky-300 font-bold self-start sm:self-auto shadow-sm">
+          📊 Dataset: 43 Sequenced Samples • 13 Global Cohorts
+        </div>
       </div>
 
-      <div class="space-y-1.5">
-        <div class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">🧬 Genomic Mito Visualizer</div>
-        <h2 class="text-2xl font-extrabold text-white tracking-tight">Select Your Family Lineage</h2>
-        <p class="text-slate-400 text-xs leading-relaxed max-w-md mx-auto">
-          Choose your family cohort below to zoom directly into your ancestral maternal clade on the phylogram, trace your migration trail on the 3D globe, and inspect diagnostic mutations.
+      <!-- Simple Guide on How to Use the Website -->
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
+        <div class="text-xs font-mono font-bold text-sky-300 uppercase tracking-wider">💡 How to Use This Website &amp; What You're Looking At:</div>
+        <p class="text-xs text-slate-300 leading-relaxed font-sans">
+          This platform visualizes <strong>43 complete human mitochondrial DNA genomes</strong> to trace matrilineal descent, familial diagnostic mutations, and prehistoric migrations across 200,000 years. Select a family cohort below to inspect strict maternal inheritance on the <strong>Phylogenetic Tree (Tab 1)</strong> and step through the satellite-mapped <strong>Out-of-Africa Migration Trail (Tab 2)</strong>.
         </p>
       </div>
 
-      <!-- Clean De-Identified Family Select Grid (No personal names) -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-left font-mono text-xs max-h-56 overflow-y-auto p-1">
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-sky-400 group-hover:text-sky-300 flex items-center justify-between">
-            <span>🇮🇳 India (IN)</span>
-            <span class="text-[10px] text-slate-500">M/R</span>
+      <!-- 🔬 Simple Graphic & Matrix: mtDNA vs. Nuclear DNA -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between font-mono text-xs">
+          <span class="text-xs font-bold text-white uppercase tracking-wider">🔬 Why Mitochondrial DNA (mtDNA) is Superior for Lineage Tracing:</span>
+          <span class="text-[11px] text-sky-400">Scientific Comparison</span>
+        </div>
+
+        <!-- Comparative Graphic Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 font-mono text-xs">
+          
+          <!-- Mitochondrial DNA (mtDNA) Card -->
+          <div class="p-4 rounded-2xl bg-gradient-to-b from-sky-950/40 to-slate-950 border-2 border-sky-500/60 space-y-2.5 shadow-lg">
+            <div class="flex items-center justify-between border-b border-sky-500/30 pb-2">
+              <span class="font-extrabold text-sky-300 text-sm">Mitochondrial DNA (mtDNA)</span>
+              <span class="px-2 py-0.5 rounded-lg bg-sky-900 text-sky-200 text-[10px] font-bold">Optimal for Ancestry</span>
+            </div>
+            
+            <div class="space-y-1.5 text-[11px] font-sans text-slate-300">
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Location:</span>
+                <strong class="text-sky-300 font-mono">Mitochondria (Cytoplasm)</strong>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Copies per Cell:</span>
+                <strong class="text-sky-300 font-mono">100 – 10,000 Copies</strong>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Genome Size:</span>
+                <strong class="text-sky-300 font-mono">16,569 Base Pairs</strong>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Inheritance Mode:</span>
+                <strong class="text-emerald-400 font-mono">100% Strict Maternal</strong>
+              </div>
+              <div class="flex justify-between py-0.5">
+                <span class="text-slate-400">Recombination / Shuffling:</span>
+                <strong class="text-emerald-400 font-mono">Zero (None)</strong>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-sky-950/60 border border-sky-800/60 text-[11px] text-sky-200 font-sans leading-relaxed">
+              ⭐ <strong>Why it's better:</strong> Passed 100% intact from mother to all children without paternal recombination scrambling, creating an unbroken generational record over 200,000 years.
+            </div>
           </div>
-          <div class="text-[11px] text-slate-400 font-sans">Central / North India</div>
-        </button>
 
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-blue-400 group-hover:text-blue-300 flex items-center justify-between">
-            <span>🇮🇳 India South (IS)</span>
-            <span class="text-[10px] text-slate-500">VYS</span>
+          <!-- Nuclear DNA Card -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2.5 opacity-85">
+            <div class="flex items-center justify-between border-b border-white/10 pb-2">
+              <span class="font-extrabold text-slate-300 text-sm">Nuclear DNA</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-900 text-slate-400 text-[10px]">Nuclear Genome</span>
+            </div>
+            
+            <div class="space-y-1.5 text-[11px] font-sans text-slate-300">
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Location:</span>
+                <strong class="text-slate-300 font-mono">Cell Nucleus</strong>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Copies per Cell:</span>
+                <strong class="text-slate-300 font-mono">2 Copies (Diploid)</strong>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Genome Size:</span>
+                <strong class="text-slate-300 font-mono">~3.2 Billion Base Pairs</strong>
+              </div>
+              <div class="flex justify-between py-0.5 border-b border-white/5">
+                <span class="text-slate-400">Inheritance Mode:</span>
+                <strong class="text-slate-300 font-mono">50% Maternal + 50% Paternal</strong>
+              </div>
+              <div class="flex justify-between py-0.5">
+                <span class="text-slate-400">Recombination / Shuffling:</span>
+                <strong class="text-amber-400 font-mono">Frequent (Every Generation)</strong>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-white/10 text-[11px] text-slate-400 font-sans leading-relaxed">
+              ⚠️ <strong>Limitation for Lineage:</strong> Recombination shuffles alleles each generation, halving ancestral signals every step (e.g. only 3.12% after 5 generations).
+            </div>
           </div>
-          <div class="text-[11px] text-slate-400 font-sans">Southern India</div>
-        </button>
 
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-indigo-400 group-hover:text-indigo-300 flex items-center justify-between">
-            <span>🇮🇳 India West (IW)</span>
-            <span class="text-[10px] text-slate-500">J1</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Western India</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-purple-400 group-hover:text-purple-300 flex items-center justify-between">
-            <span>🇵🇰 Pakistan (PK)</span>
-            <span class="text-[10px] text-slate-500">M/U</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Indus Valley</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-violet-400 group-hover:text-violet-300 flex items-center justify-between">
-            <span>🇺🇦 Ukraine (UK)</span>
-            <span class="text-[10px] text-slate-500">U4/H</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Eastern Europe</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-pink-400 group-hover:text-pink-300 flex items-center justify-between">
-            <span>🇰🇷 Korea (KR)</span>
-            <span class="text-[10px] text-slate-500">D4</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Northeast Asia</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center justify-between">
-            <span>🇲🇽 Mexico (MX)</span>
-            <span class="text-[10px] text-slate-500">B2</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Mesoamerica</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-teal-400 group-hover:text-teal-300 flex items-center justify-between">
-            <span>🇭🇰 Hong Kong (HK)</span>
-            <span class="text-[10px] text-slate-500">M7</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">East Asia Coastal</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-amber-400 group-hover:text-amber-300 flex items-center justify-between">
-            <span>🇨🇴 Colombia (CL)</span>
-            <span class="text-[10px] text-slate-500">C1</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">South America</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-rose-400 group-hover:text-rose-300 flex items-center justify-between">
-            <span>🌍 African (AA)</span>
-            <span class="text-[10px] text-slate-500">L2</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Origin Cradle</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-fuchsia-400 group-hover:text-fuchsia-300 flex items-center justify-between">
-            <span>🏔️ Tibet (TB)</span>
-            <span class="text-[10px] text-slate-500">M9</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">Himalayan Plateau</div>
-        </button>
-
-        <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-3 rounded-2xl bg-slate-950/80 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all space-y-1 group">
-          <div class="font-bold text-slate-300 group-hover:text-white flex items-center justify-between">
-            <span>🇨🇦 Canada (CA)</span>
-            <span class="text-[10px] text-slate-500">H2</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-sans">North America</div>
-        </button>
-      </div>
-
-      <!-- Formatted Full-Width Selection & Action Box -->
-      <div class="space-y-3 pt-2">
-        <select id="welcomeModalSelect" class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-white/10 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-sky-500 font-mono">
-          <option value="IN">🇮🇳 India — Central/North (IN)</option>
-          <option value="IS">🇮🇳 India South — Deccan (IS)</option>
-          <option value="IW">🇮🇳 India West — Gujarat (IW)</option>
-          <option value="PK">🇵🇰 Pakistan — Indus Valley (PK)</option>
-          <option value="UK">🇺🇦 Ukraine — Eastern Europe (UK)</option>
-          <option value="KR">🇰🇷 Korea — Northeast Asia (KR)</option>
-          <option value="MX">🇲🇽 Mexico — Mesoamerica (MX)</option>
-          <option value="HK">🇭🇰 Hong Kong — Pearl River (HK)</option>
-          <option value="CL">🇨🇴 Colombia — South America (CL)</option>
-          <option value="AA">🌍 African — Sub-Saharan Cradle (AA)</option>
-          <option value="TB">🏔️ Tibet — Himalayan Plateau (TB)</option>
-          <option value="CA">🇨🇦 Canada — North America (CA)</option>
-          <option value="NA">🪶 Native North America (NA)</option>
-        </select>
-
-        <button id="confirmWelcomeFamilyBtn" class="w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-2xl bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-lg shadow-sky-500/25 transition-all font-mono">
-          Explore My Lineage ➔
-        </button>
-
-        <div class="flex items-center justify-between text-xs text-slate-400 pt-1 font-mono">
-          <label class="flex items-center space-x-2 cursor-pointer">
-            <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0">
-            <span>Remember cohort choice</span>
-          </label>
-          <button id="closeWelcomeModalBtn" class="text-slate-500 hover:text-slate-300 transition-colors">
-            Close / Full Overview
-          </button>
         </div>
       </div>
 
-      <div class="pt-2 border-t border-white/5 text-[11px] text-slate-500 font-mono">
-        🛡️ De-Identified Data Protection • Maternal mtDNA Lineage Engine
+      <!-- Cohort Selector Section -->
+      <div class="space-y-3 pt-1 border-t border-white/10">
+        <div class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">Select Your Family Cohort to Begin:</div>
+        
+        <!-- Cohort Buttons Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-left font-mono text-xs max-h-44 overflow-y-auto p-1">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-sky-400 group-hover:text-sky-300 text-xs">🇮🇳 India (IN)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Central/North</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-blue-400 group-hover:text-blue-300 text-xs">🇮🇳 India South (IS)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Deccan Plateau</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-indigo-400 group-hover:text-indigo-300 text-xs">🇮🇳 India West (IW)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Gujarat Corridor</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-purple-400 group-hover:text-purple-300 text-xs">🇵🇰 Pakistan (PK)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Indus Valley</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-violet-400 group-hover:text-violet-300 text-xs">🇺🇦 Ukraine (UK)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Eastern Europe</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-pink-400 group-hover:text-pink-300 text-xs">🇰🇷 Korea (KR)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Northeast Asia</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-emerald-400 group-hover:text-emerald-300 text-xs">🇲🇽 Mexico (MX)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Mesoamerica</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-teal-400 group-hover:text-teal-300 text-xs">🇭🇰 Hong Kong (HK)</div>
+            <div class="text-[10px] text-slate-400 font-sans">East Asia Coastal</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-amber-400 group-hover:text-amber-300 text-xs">🇨🇴 Colombia (CL)</div>
+            <div class="text-[10px] text-slate-400 font-sans">South America</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-rose-400 group-hover:text-rose-300 text-xs">🌍 African (AA)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Origin Cradle</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-fuchsia-400 group-hover:text-fuchsia-300 text-xs">🏔️ Tibet (TB)</div>
+            <div class="text-[10px] text-slate-400 font-sans">Himalayan Plateau</div>
+          </button>
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
+            <div class="font-bold text-slate-300 group-hover:text-white text-xs">🇨🇦 Canada (CA)</div>
+            <div class="text-[10px] text-slate-400 font-sans">North America</div>
+          </button>
+        </div>
+
+        <div class="space-y-3 pt-2">
+          <select id="welcomeModalSelect" class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-white/10 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-sky-500 font-mono">
+            <option value="IN">🇮🇳 India — Central/North (IN)</option>
+            <option value="IS">🇮🇳 India South — Deccan (IS)</option>
+            <option value="IW">🇮🇳 India West — Gujarat (IW)</option>
+            <option value="PK">🇵🇰 Pakistan — Indus Valley (PK)</option>
+            <option value="UK">🇺🇦 Ukraine — Eastern Europe (UK)</option>
+            <option value="KR">🇰🇷 Korea — Northeast Asia (KR)</option>
+            <option value="MX">🇲🇽 Mexico — Mesoamerica (MX)</option>
+            <option value="HK">🇭🇰 Hong Kong — Pearl River (HK)</option>
+            <option value="CL">🇨🇴 Colombia — South America (CL)</option>
+            <option value="AA">🌍 African — Sub-Saharan Cradle (AA)</option>
+            <option value="TB">🏔️ Tibet — Himalayan Plateau (TB)</option>
+            <option value="CA">🇨🇦 Canada — North America (CA)</option>
+            <option value="NA">🪶 Native North America (NA)</option>
+          </select>
+
+          <button id="confirmWelcomeFamilyBtn" class="w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-2xl bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-lg shadow-sky-500/25 transition-all font-mono">
+            Explore My Lineage ➔
+          </button>
+
+          <div class="flex items-center justify-between text-xs text-slate-400 pt-1 font-mono">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0">
+              <span>Remember cohort choice</span>
+            </label>
+            <button id="closeWelcomeModalBtn" class="text-slate-500 hover:text-slate-300 transition-colors">
+              Close / Full Overview
+            </button>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <!-- Header & Navigation Bar (Apple Liquid Glass Header) -->
-  <header class="border-b border-white/10 bg-slate-950/75 backdrop-blur-2xl sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+  <!-- Header & Navigation Bar (Single Consolidated Row, Bigger Font, Max 2/3 Height) -->
+  <header class="border-b border-white/10 bg-slate-950/80 backdrop-blur-2xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16 gap-4">
       
-      <!-- Brand & Logo -->
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center font-mono font-bold text-white text-lg shadow-lg shadow-sky-500/20 border border-white/15">
-          mt
-        </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <h1 class="font-extrabold text-lg leading-tight text-white tracking-tight">
-              Genomic Mito Showcase
-            </h1>
-            <span id="currentFamilyHeaderBadge" class="hidden sm:inline-flex items-center space-x-1 px-2 py-0.5 rounded-lg bg-sky-950/80 border border-sky-600/50 text-[10px] font-mono text-sky-300 font-bold">
-              Cohort: IN
-            </span>
-          </div>
-          <p class="text-xs text-slate-400 font-mono">Human mtDNA Variant &amp; Phylogenetics Engine</p>
-        </div>
+      <!-- Website Title (Bigger font, no mt logo, no subheading) -->
+      <div class="flex items-center space-x-3 shrink-0">
+        <h1 class="font-extrabold text-xl sm:text-2xl text-white tracking-tight leading-none">
+          Genomic Mito Showcase
+        </h1>
+        <span id="currentFamilyHeaderBadge" class="hidden md:inline-flex items-center px-2 py-0.5 rounded-lg bg-sky-950/80 border border-sky-500/30 text-[10px] font-mono text-sky-300 font-bold">
+          Cohort: IN
+        </span>
       </div>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center space-x-2.5">
-        <button id="openWelcomeModalBtn" class="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-md shadow-sky-500/20 transition-all font-mono flex items-center gap-1.5">
-          <span>🌿 Switch Family</span>
+      <!-- Center: Tab 1 & Tab 2 on the SAME LINE as Website Title -->
+      <div class="flex items-center space-x-1.5 bg-slate-900/90 p-1 rounded-2xl border border-white/10 shadow-inner font-mono text-xs">
+        <button id="mainTabTree" class="px-3.5 py-1.5 rounded-xl font-bold bg-sky-500 text-slate-950 shadow-md transition-all flex items-center gap-1.5">
+          <span>🧬 Tab 1: Phylogenetic Tree</span>
         </button>
-        <button id="openComparatorBtn" class="px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-900/90 border border-white/10 hover:border-white/20 text-slate-200 transition-all font-mono">
+        <button id="mainTabGlobe" class="px-3.5 py-1.5 rounded-xl font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center gap-1.5">
+          <span>🗺️ Tab 2: 2D Migration Map</span>
+        </button>
+      </div>
+
+      <!-- Right Action Controls -->
+      <div class="flex items-center space-x-2 shrink-0">
+        <button id="openWelcomeModalBtn" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-md shadow-sky-500/20 transition-all font-mono">
+          🌿 Switch Family
+        </button>
+        <button id="openComparatorBtn" class="hidden sm:inline-flex px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-900 border border-white/10 hover:border-white/20 text-slate-200 transition-all font-mono">
           Compare Lineages
         </button>
       </div>
+
     </div>
   </header>
-
-  <!-- 🗂️ Top Main Navigation Tabs (Phylogenetic Tree vs 3D Migration Globe) -->
-  <section class="bg-slate-950/60 border-b border-white/10 py-3 px-4 sm:px-6 lg:px-8 sticky top-16 z-40 backdrop-blur-xl">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
-      <div class="flex items-center space-x-2 bg-slate-900/80 p-1.5 rounded-2xl border border-white/10 shadow-inner">
-        <button id="mainTabTree" class="px-4 py-2 rounded-xl font-bold bg-sky-500 text-slate-950 shadow-md transition-all flex items-center gap-2">
-          <span>🧬 Tab 1: Phylogenetic Tree</span>
-        </button>
-        <button id="mainTabGlobe" class="px-4 py-2 rounded-xl font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center gap-2">
-          <span>🌍 Tab 2: 3D Migration Globe</span>
-        </button>
-      </div>
-
-      <div class="flex items-center space-x-4 text-slate-400 text-xs">
-        <div>Total Lineages: <strong class="text-sky-400 font-bold">43 Samples</strong></div>
-      </div>
-    </div>
-  </section>
 
   <!-- Main View Container -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
@@ -317,38 +349,56 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- TAB 2: 3D MIGRATION GLOBE & JOURNEY        -->
+    <!-- TAB 2: 2D SATELLITE MIGRATION MAP (SPLIT)  -->
     <!-- ========================================== -->
     <div id="tabContentGlobe" class="space-y-6 hidden">
       
-      <!-- Globe Top Selector & Controls -->
-      <div class="earth-panel p-5 rounded-3xl bg-slate-900/80 border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono text-xs shadow-2xl">
-        <div class="space-y-1">
-          <div class="text-sky-400 font-bold uppercase tracking-wider text-xs">🌍 3D Geo-Mitochondrial Migration Explorer</div>
-          <h3 class="text-lg font-extrabold text-white tracking-tight">Out-of-Africa Lineage Trail (All 43 Samples)</h3>
-          <p class="text-slate-400 text-xs font-sans">Every lineage begins in Africa and progresses along historical routes proven by mutation evidence.</p>
+      <!-- Top Cohort Selector & Controls Bar -->
+      <div class="earth-panel p-4 rounded-3xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs shadow-2xl">
+        <div class="space-y-0.5">
+          <div class="text-sky-400 font-bold uppercase tracking-wider text-xs flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+            <span>🗺️ Prehistoric 2D Satellite Migration Map</span>
+          </div>
+          <p class="text-slate-400 text-xs font-sans">High-resolution satellite imagery tracking maternal Out-of-Africa migrations over 200,000 years.</p>
         </div>
 
-        <div class="flex items-center space-x-3 w-full md:w-auto">
-          <select id="globeSampleSelect" class="px-4 py-2.5 rounded-xl bg-slate-950 border border-sky-500/60 text-sky-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
-            <!-- Populated with all 43 samples by GlobeViewer -->
+        <div class="flex items-center space-x-3 w-full sm:w-auto">
+          <select id="globeSampleSelect" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-slate-950 border border-sky-500/60 text-sky-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+            <!-- Populated with samples by MigrationMap -->
           </select>
 
-          <button id="playMigrationTrailBtn" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-extrabold hover:bg-sky-400 shadow-lg shadow-sky-500/25 transition-all shrink-0">
+          <button id="playMigrationTrailBtn" class="px-4 py-2 rounded-xl bg-sky-500 text-slate-950 font-extrabold hover:bg-sky-400 shadow-lg shadow-sky-500/25 transition-all shrink-0">
             ▶ Play Migration Trail
           </button>
         </div>
       </div>
 
-      <!-- Globe Canvas Sphere with Ocean Deep Dark Gradient -->
-      <div id="globeContainer" class="w-full overflow-hidden border border-white/10 rounded-3xl min-h-[520px] bg-slate-950/95 flex items-center justify-center relative shadow-2xl">
-        <div class="text-slate-500 text-xs animate-pulse font-mono">Initializing 3D Migration Globe Engine...</div>
+      <!-- Split Layout: Majority (8 cols) = 2D Satellite Map | Minority (4 cols) = Lineage Evidence Dossier -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left: 2D Satellite Migration Map (Majority: 8 cols) -->
+        <div class="lg:col-span-8 space-y-3">
+          <div class="w-full overflow-hidden border border-white/10 rounded-3xl min-h-[560px] h-[600px] bg-[#080d1a] relative shadow-2xl">
+            <div id="migrationMapContainer" class="w-full h-full"></div>
+            
+            <!-- Map Top Overlay Floating Prompt Badge -->
+            <div class="absolute top-4 left-4 z-[400] bg-slate-950/85 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/10 font-mono text-xs text-sky-300 shadow-xl flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+              <span>🛰️ Satellite Basemap • Interactive Out-of-Africa Trail</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Un-condensed Lineage Evidence & Verified Anthropological Dossier (Minority: 4 cols) -->
+        <div class="lg:col-span-4 space-y-4">
+          <div id="migrationDossierPanel" class="earth-panel p-5 rounded-3xl bg-slate-900/80 border border-white/10 shadow-2xl">
+            <!-- Rendered dynamically by MigrationMap.renderDossier() -->
+          </div>
+        </div>
+
       </div>
 
-      <!-- 🧬 Interactive Mutation Evidence Panel ("Why Your Ancestors Lived Here") -->
-      <div id="globeEvidencePanel" class="earth-panel p-6 rounded-3xl bg-slate-900/80 border border-white/10 shadow-2xl">
-        <!-- Rendered dynamically by GlobeViewer -->
-      </div>
     </div>
 
   </main>
@@ -372,7 +422,7 @@
     </div>
   </div>
 
-  <!-- Comparative Lineage Report Modal (Apple Liquid Glass Modal) -->
+  <!-- Comparative Lineage Report Modal -->
   <div id="familyReportModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-50 p-4">
     <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-slate-900/95 rounded-3xl">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
@@ -439,8 +489,8 @@
 
   <!-- Scripts -->
   <script src="js/topojson-client.min.js"></script>
-  <script src="js/tree_viewer.js?v=10.0"></script>
-  <script src="js/globe_viewer.js?v=10.0"></script>
-  <script src="js/app.js?v=10.0"></script>
+  <script src="js/tree_viewer.js?v=11.0"></script>
+  <script src="js/migration_map.js?v=11.0"></script>
+  <script src="js/app.js?v=11.0"></script>
 </body>
 </html>

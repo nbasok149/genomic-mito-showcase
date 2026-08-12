@@ -161,6 +161,37 @@ body {
     box-shadow: 0 0 16px rgba(56, 189, 248, 0.18);
 }
 
+/* Leaflet Satellite Map Custom Styling */
+#migrationMapContainer {
+    z-index: 1;
+    background: #080d1a;
+}
+
+.leaflet-container {
+    background: #090a0f !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+.glowing-route-line {
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.95)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.5));
+}
+
+.apple-glass-tooltip {
+    background: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #f8fafc !important;
+    border-radius: 0.75rem !important;
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
+}
+
+.apple-glass-tooltip:before {
+    border-top-color: rgba(15, 23, 42, 0.9) !important;
+}
+
 /* Custom Sleek Scrollbars */
 ::-webkit-scrollbar {
     width: 7px;
