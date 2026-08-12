@@ -342,11 +342,14 @@ window.TreeViewer = {
   },
 
   zoomOut() {
+    const svg = d3.select('#treeContainer svg');
     if (this.zoomTier === 1) {
       const currentCode = this.selectedEthnicities[0] || 'IN';
       this.zoomToMacroSection(this.macroSections[currentCode] || 2);
-    } else {
+    } else if (this.zoomTier === 2) {
       this.zoomToGlobal();
+    } else if (this.zoomBehavior && svg.node()) {
+      svg.transition().duration(500).call(this.zoomBehavior.scaleBy, 0.7);
     }
   },
 
@@ -583,7 +586,21 @@ window.TreeViewer = {
         g.attr('transform', event.transform);
         this.updateLabelVisibility(event.transform.k);
       });
-    svg.call(this.zoomBehavior);
+    
+    // Disable D3 default double-click zoom-in behavior
+    svg.call(this.zoomBehavior)
+       .on('dblclick.zoom', null);
+
+    // Double clicking the phylogenetic tree canvas (not on any button/node) zooms out
+    svg.on('dblclick', (event) => {
+      const tag = event.target.tagName ? event.target.tagName.toLowerCase() : '';
+      if (tag === 'circle' || tag === 'button' || event.target.closest('button') || event.target.closest('select')) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      this.zoomOut();
+    });
 
     const root = d3.hierarchy(this.treeData);
     const leafCount = root.leaves().length;

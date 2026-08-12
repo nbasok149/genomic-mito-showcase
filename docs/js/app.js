@@ -36,8 +36,6 @@ window.FamilyAccessGate = {
     const openBtn = document.getElementById('openWelcomeModalBtn');
     const closeBtn = document.getElementById('closeWelcomeModalBtn');
     const modal = document.getElementById('familyWelcomeModal');
-    const select = document.getElementById('welcomeModalSelect');
-    const confirmBtn = document.getElementById('confirmWelcomeFamilyBtn');
 
     openBtn?.addEventListener('click', () => {
       if (modal) {
@@ -51,11 +49,6 @@ window.FamilyAccessGate = {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
       }
-    });
-
-    confirmBtn?.addEventListener('click', () => {
-      const val = select?.value || 'IN';
-      this.applyFamilySelection(val, true);
     });
 
     if (modal) {

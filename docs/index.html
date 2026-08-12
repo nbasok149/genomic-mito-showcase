@@ -25,14 +25,44 @@
   <div id="familyWelcomeModal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
     <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative border border-white/10 bg-slate-900/95 rounded-3xl">
       
-      <!-- Top Title & Sample Report Banner -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+      <!-- Top Title & Simple Mitochondrial Organelle Graphic Banner -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
         <div class="space-y-1">
-          <div class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">🧬 Human Mitochondrial DNA Pipeline</div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Genomic Mito Showcase</h2>
+          <p class="text-xs text-slate-400 font-mono">Human Mitochondrial DNA Maternal Ancestry Platform</p>
         </div>
-        <div class="px-3.5 py-2 rounded-2xl bg-sky-950/80 border border-sky-500/40 font-mono text-xs text-sky-300 font-bold self-start sm:self-auto shadow-sm">
-          📊 Dataset: 43 Sequenced Samples • 13 Global Cohorts
+
+        <!-- 🔬 Simple Mitochondrial Anatomy Graphic -->
+        <div class="flex items-center space-x-3 bg-slate-950/80 p-2.5 sm:p-3 rounded-2xl border border-sky-500/30 shrink-0 shadow-inner">
+          <svg viewBox="0 0 160 80" class="w-24 sm:w-32 h-auto shrink-0 select-none">
+            <!-- Outer Membrane (Sky Blue) -->
+            <rect x="5" y="10" width="150" height="60" rx="30" fill="#0369a1" fill-opacity="0.25" stroke="#38bdf8" stroke-width="2"/>
+            <!-- Intermembrane space -->
+            <rect x="12" y="17" width="136" height="46" rx="23" fill="#0c4a6e" fill-opacity="0.45"/>
+            <!-- Inner Folded Cristae (Teal) -->
+            <path d="M 35,17 C 35,32 45,32 45,17 M 55,63 C 55,42 65,42 65,63 M 75,17 C 75,40 85,40 85,17 M 95,63 C 95,35 105,35 105,63 M 115,17 C 115,35 125,35 125,17" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Circular mtDNA plasmid loop (Gold) -->
+            <circle cx="50" cy="48" r="8.5" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="2 1"/>
+            <circle cx="50" cy="48" r="2.5" fill="#fbbf24" fill-opacity="0.7"/>
+            <!-- Second Circular mtDNA loop -->
+            <circle cx="110" cy="48" r="6.5" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-dasharray="2 1"/>
+            <!-- Matrix Granules -->
+            <circle cx="75" cy="48" r="1.5" fill="#e2e8f0"/>
+            <circle cx="85" cy="52" r="1.5" fill="#e2e8f0"/>
+            <circle cx="30" cy="40" r="1.5" fill="#e2e8f0"/>
+          </svg>
+          <div class="space-y-0.5 font-mono text-[10px]">
+            <div class="text-sky-300 font-bold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+              <span>Mitochondrion</span>
+            </div>
+            <div class="text-slate-400 text-[9.5px]">
+              <span class="text-teal-300">Cristae</span> • <strong class="text-amber-400">Circular mtDNA</strong>
+            </div>
+            <div class="text-slate-400 text-[8.5px] font-sans">
+              16,569 bp • 100% Maternal
+            </div>
+          </div>
         </div>
       </div>
 
@@ -40,7 +70,7 @@
       <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
         <div class="text-xs font-mono font-bold text-sky-300 uppercase tracking-wider">💡 How to Use This Website &amp; What You're Looking At:</div>
         <p class="text-xs text-slate-300 leading-relaxed font-sans">
-          This platform visualizes <strong>43 complete human mitochondrial DNA genomes</strong> to trace matrilineal descent, familial diagnostic mutations, and prehistoric migrations across 200,000 years. Select a family cohort below to inspect strict maternal inheritance on the <strong>Phylogenetic Tree (Tab 1)</strong> and step through the satellite-mapped <strong>Out-of-Africa Migration Trail (Tab 2)</strong>.
+          This platform visualizes complete human mitochondrial DNA genomes to trace matrilineal descent, familial diagnostic mutations, and prehistoric migrations across 200,000 years. Select a family cohort below to inspect strict maternal inheritance on the <strong>Phylogenetic Tree (Tab 1)</strong> and step through the satellite-mapped <strong>Out-of-Africa Migration Trail (Tab 2)</strong>.
         </p>
       </div>
 
@@ -127,92 +157,206 @@
         </div>
       </div>
 
-      <!-- Cohort Selector Section -->
+      <!-- Cohort Selector Section with Country Flag Overlays -->
       <div class="space-y-3 pt-1 border-t border-white/10">
-        <div class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">Select Your Family Cohort to Begin:</div>
+        <div class="flex items-center justify-between font-mono text-xs">
+          <span class="font-bold text-slate-300 uppercase tracking-wider">Select Your Family Cohort:</span>
+          <span class="text-[11px] text-sky-400">Click any country to explore</span>
+        </div>
         
-        <!-- Cohort Buttons Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-left font-mono text-xs max-h-44 overflow-y-auto p-1">
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-sky-400 group-hover:text-sky-300 text-xs">🇮🇳 India (IN)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Central/North</div>
+        <!-- Cohort Buttons Grid with Flag Overlays -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 text-left font-mono text-xs max-h-56 overflow-y-auto p-1">
+          
+          <!-- India (IN) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-sky-400 hover:bg-sky-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="13.33" fill="#FF9933"/>
+              <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
+              <rect y="26.66" width="60" height="13.33" fill="#138808"/>
+              <circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/>
+              <circle cx="30" cy="20" r="1" fill="#000080"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-sky-400 group-hover:text-sky-300 text-xs truncate">India (IN)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Central/North</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-blue-400 group-hover:text-blue-300 text-xs">🇮🇳 India South (IS)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Deccan Plateau</div>
+
+          <!-- India South (IS) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-blue-400 hover:bg-blue-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="13.33" fill="#FF9933"/>
+              <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
+              <rect y="26.66" width="60" height="13.33" fill="#138808"/>
+              <circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/>
+              <circle cx="30" cy="20" r="1" fill="#000080"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-blue-400 group-hover:text-blue-300 text-xs truncate">India South (IS)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Deccan Plateau</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-indigo-400 group-hover:text-indigo-300 text-xs">🇮🇳 India West (IW)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Gujarat Corridor</div>
+
+          <!-- India West (IW) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-indigo-400 hover:bg-indigo-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="13.33" fill="#FF9933"/>
+              <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
+              <rect y="26.66" width="60" height="13.33" fill="#138808"/>
+              <circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/>
+              <circle cx="30" cy="20" r="1" fill="#000080"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-indigo-400 group-hover:text-indigo-300 text-xs truncate">India West (IW)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Gujarat Corridor</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-purple-400 group-hover:text-purple-300 text-xs">🇵🇰 Pakistan (PK)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Indus Valley</div>
+
+          <!-- Pakistan (PK) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-purple-400 hover:bg-purple-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="15" height="40" fill="#FFFFFF"/>
+              <rect x="15" width="45" height="40" fill="#01411C"/>
+              <circle cx="38" cy="20" r="10" fill="#FFFFFF"/>
+              <circle cx="41" cy="18" r="8.5" fill="#01411C"/>
+              <polygon points="41,13 42.5,17.5 47,17.5 43.5,20 45,24.5 41,22 37,24.5 38.5,20 35,17.5 39.5,17.5" fill="#FFFFFF"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-purple-400 group-hover:text-purple-300 text-xs truncate">Pakistan (PK)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Indus Valley</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-violet-400 group-hover:text-violet-300 text-xs">🇺🇦 Ukraine (UK)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Eastern Europe</div>
+
+          <!-- Ukraine (UK) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-violet-400 hover:bg-violet-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="20" fill="#0057B7"/>
+              <rect y="20" width="60" height="20" fill="#FFD700"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-violet-400 group-hover:text-violet-300 text-xs truncate">Ukraine (UK)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Eastern Europe</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-pink-400 group-hover:text-pink-300 text-xs">🇰🇷 Korea (KR)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Northeast Asia</div>
+
+          <!-- Korea (KR) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-pink-400 hover:bg-pink-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="40" fill="#FFFFFF"/>
+              <circle cx="30" cy="20" r="8" fill="#C60C30"/>
+              <path d="M 30,12 A 4,4 0 0 0 30,20 A 4,4 0 0 1 30,28 A 8,8 0 0 1 30,12" fill="#003478"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-pink-400 group-hover:text-pink-300 text-xs truncate">Korea (KR)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Northeast Asia</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-emerald-400 group-hover:text-emerald-300 text-xs">🇲🇽 Mexico (MX)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Mesoamerica</div>
+
+          <!-- Mexico (MX) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-emerald-400 hover:bg-emerald-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="20" height="40" fill="#006847"/>
+              <rect x="20" width="20" height="40" fill="#FFFFFF"/>
+              <rect x="40" width="20" height="40" fill="#CE1126"/>
+              <circle cx="30" cy="20" r="3.5" fill="#8B5A2B"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-emerald-400 group-hover:text-emerald-300 text-xs truncate">Mexico (MX)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Mesoamerica</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-teal-400 group-hover:text-teal-300 text-xs">🇭🇰 Hong Kong (HK)</div>
-            <div class="text-[10px] text-slate-400 font-sans">East Asia Coastal</div>
+
+          <!-- Hong Kong (HK) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-teal-400 hover:bg-teal-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="40" fill="#DE2910"/>
+              <circle cx="30" cy="20" r="4" fill="#FFFFFF"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-teal-400 group-hover:text-teal-300 text-xs truncate">Hong Kong (HK)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Pearl River</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-amber-400 group-hover:text-amber-300 text-xs">🇨🇴 Colombia (CL)</div>
-            <div class="text-[10px] text-slate-400 font-sans">South America</div>
+
+          <!-- Colombia (CL) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-amber-400 hover:bg-amber-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="20" fill="#FCD116"/>
+              <rect y="20" width="60" height="10" fill="#003893"/>
+              <rect y="30" width="60" height="10" fill="#CE1126"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-amber-400 group-hover:text-amber-300 text-xs truncate">Colombia (CL)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">South America</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-rose-400 group-hover:text-rose-300 text-xs">🌍 African (AA)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Origin Cradle</div>
+
+          <!-- African (AA) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-rose-400 hover:bg-rose-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="13.33" fill="#E31B23"/>
+              <rect y="13.33" width="60" height="13.33" fill="#000000"/>
+              <rect y="26.66" width="60" height="13.33" fill="#00853F"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-rose-400 group-hover:text-rose-300 text-xs truncate">African (AA)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Origin Cradle</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-fuchsia-400 group-hover:text-fuchsia-300 text-xs">🏔️ Tibet (TB)</div>
-            <div class="text-[10px] text-slate-400 font-sans">Himalayan Plateau</div>
+
+          <!-- Tibet (TB) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-fuchsia-400 hover:bg-fuchsia-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="60" height="40" fill="#003893"/>
+              <polygon points="0,0 60,0 30,22" fill="#E31B23"/>
+              <polygon points="15,40 45,40 30,22" fill="#FFFFFF"/>
+              <circle cx="30" cy="18" r="3.5" fill="#FCD116"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-fuchsia-400 group-hover:text-fuchsia-300 text-xs truncate">Tibet (TB)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Himalayan Plateau</div>
+            </div>
           </button>
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-2.5 rounded-xl bg-slate-950 border border-white/5 hover:border-sky-500/50 hover:bg-sky-950/20 transition-all group">
-            <div class="font-bold text-slate-300 group-hover:text-white text-xs">🇨🇦 Canada (CA)</div>
-            <div class="text-[10px] text-slate-400 font-sans">North America</div>
+
+          <!-- Canada (CA) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-slate-300 hover:bg-slate-800/40 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="15" height="40" fill="#FF0000"/>
+              <rect x="15" width="30" height="40" fill="#FFFFFF"/>
+              <rect x="45" width="15" height="40" fill="#FF0000"/>
+              <path d="M 30,12 L 32,16 L 35,15 L 33,19 L 37,21 L 33,23 L 34,27 L 31,25 L 30.5,29 L 29.5,29 L 29,25 L 26,27 L 27,23 L 23,21 L 27,19 L 25,15 L 28,16 Z" fill="#FF0000"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-slate-200 group-hover:text-white text-xs truncate">Canada (CA)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">North America</div>
+            </div>
           </button>
+
+          <!-- Native North America (NA) -->
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('NA', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-amber-300 hover:bg-amber-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md">
+            <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
+              <rect width="30" height="20" fill="#FFD700"/>
+              <rect x="30" width="30" height="20" fill="#CE1126"/>
+              <rect y="20" width="30" height="20" fill="#000000"/>
+              <rect x="30" y="20" width="30" height="20" fill="#FFFFFF"/>
+              <circle cx="30" cy="20" r="6" fill="none" stroke="#2c3e50" stroke-width="1.2"/>
+            </svg>
+            <div class="overflow-hidden">
+              <div class="font-bold text-amber-300 group-hover:text-amber-200 text-xs truncate">Native America (NA)</div>
+              <div class="text-[10px] text-slate-400 font-sans truncate">Indigenous Americas</div>
+            </div>
+          </button>
+
         </div>
 
-        <div class="space-y-3 pt-2">
-          <select id="welcomeModalSelect" class="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-white/10 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-sky-500 font-mono">
-            <option value="IN">🇮🇳 India — Central/North (IN)</option>
-            <option value="IS">🇮🇳 India South — Deccan (IS)</option>
-            <option value="IW">🇮🇳 India West — Gujarat (IW)</option>
-            <option value="PK">🇵🇰 Pakistan — Indus Valley (PK)</option>
-            <option value="UK">🇺🇦 Ukraine — Eastern Europe (UK)</option>
-            <option value="KR">🇰🇷 Korea — Northeast Asia (KR)</option>
-            <option value="MX">🇲🇽 Mexico — Mesoamerica (MX)</option>
-            <option value="HK">🇭🇰 Hong Kong — Pearl River (HK)</option>
-            <option value="CL">🇨🇴 Colombia — South America (CL)</option>
-            <option value="AA">🌍 African — Sub-Saharan Cradle (AA)</option>
-            <option value="TB">🏔️ Tibet — Himalayan Plateau (TB)</option>
-            <option value="CA">🇨🇦 Canada — North America (CA)</option>
-            <option value="NA">🪶 Native North America (NA)</option>
-          </select>
-
-          <button id="confirmWelcomeFamilyBtn" class="w-full py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-2xl bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-lg shadow-sky-500/25 transition-all font-mono">
-            Explore My Lineage ➔
+        <div class="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-white/10 font-mono">
+          <label class="flex items-center space-x-2 cursor-pointer">
+            <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0">
+            <span>Remember cohort choice</span>
+          </label>
+          <button id="closeWelcomeModalBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white transition-all text-xs font-bold border border-white/10 shadow-sm">
+            Close / Explore All Lineages ➔
           </button>
-
-          <div class="flex items-center justify-between text-xs text-slate-400 pt-1 font-mono">
-            <label class="flex items-center space-x-2 cursor-pointer">
-              <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0">
-              <span>Remember cohort choice</span>
-            </label>
-            <button id="closeWelcomeModalBtn" class="text-slate-500 hover:text-slate-300 transition-colors">
-              Close / Full Overview
-            </button>
-          </div>
         </div>
       </div>
 
@@ -304,7 +448,7 @@
           <button id="btnTreeZoomIn" title="Zoom In" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-sky-500 hover:text-slate-950 text-slate-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md">
             +
           </button>
-          <button id="btnTreeZoomOut" title="Zoom Out" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-sky-500 hover:text-slate-950 text-slate-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md">
+          <button id="btnTreeZoomOut" title="Zoom Out (or Double-Click Canvas)" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-sky-500 hover:text-slate-950 text-slate-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md">
             &minus;
           </button>
           <button id="btnTreeZoomReset" title="Reset Zoom" class="px-3 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 flex items-center justify-center font-bold text-xs transition-all backdrop-blur-md">
