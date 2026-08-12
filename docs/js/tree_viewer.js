@@ -243,7 +243,7 @@ window.TreeViewer = {
       const color = this.ETHNICITY_COLORS[g.key] || '#38bdf8';
       html += `
         <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3 py-1.5 text-xs font-semibold rounded-xl ${active ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/25 font-bold border border-sky-400' : 'bg-slate-900/80 border border-white/10 text-slate-300 hover:border-sky-400/50'}" style="${active ? '' : `border-left: 3px solid ${color};`}">
-          ${g.key} (${g.samples.length}) ${active ? '✓' : ''}
+          ${g.key} (${g.samples.length}) ${active ? '(Active)' : ''}
         </button>
       `;
     });
@@ -465,7 +465,7 @@ window.TreeViewer = {
       const code1 = s1.split('_')[0];
 
       if (toast) {
-        if (toastTitle) toastTitle.innerHTML = `<span class="text-emerald-400">🟢 Sample 1 Selected: ${role1} (${s1})</span>`;
+        if (toastTitle) toastTitle.innerHTML = `<span class="text-emerald-400">Sample 1 Selected: ${role1} (${s1})</span>`;
         if (firstBadge) firstBadge.innerHTML = `<span class="text-emerald-300 font-bold">1: ${s1} (${role1})</span>`;
         if (toastMsg) {
           toastMsg.innerHTML = `Sample 1 is highlighted in <strong class="text-emerald-400">green</strong>. Now <strong class="text-sky-300">click another sample</strong> on the tree (Mother, Father, Child, etc.) to compare!`;
@@ -584,7 +584,7 @@ window.TreeViewer = {
     }
 
     if (titleEl) {
-      titleEl.innerHTML = `🧬 Conserved Mutation Cladogram: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
+      titleEl.innerHTML = `Conserved Mutation Cladogram: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
     }
 
     const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
@@ -843,7 +843,7 @@ window.TreeViewer = {
     const deidentifiedB = `${codeB} (${roleB})`;
 
     if (titleEl) {
-      titleEl.innerHTML = `🧬 Ancestral Junction Inspector: <span class="text-sky-400">${deidentifiedA}</span> &amp; <span class="text-blue-400">${deidentifiedB}</span> (${leaves.length} Descendant Lineages)`;
+      titleEl.innerHTML = `Ancestral Junction Inspector: <span class="text-sky-400">${deidentifiedA}</span> &amp; <span class="text-blue-400">${deidentifiedB}</span> (${leaves.length} Descendant Lineages)`;
     }
 
     const sampleAVars = window.App.variantsData.variants.filter(v => v.sample === sampleA);
@@ -888,7 +888,7 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
-              <span>🧬 Conserved Ancestral Mutations (${sharedHigh.length})</span>
+              <span>Conserved Ancestral Mutations (${sharedHigh.length})</span>
             </h4>
             <span class="text-slate-400 font-sans text-[11px]">Click mutation to pop up global distribution</span>
           </div>
@@ -912,14 +912,14 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-              <span>⚠️ Trace Mutations (&lt;3% Detection)</span>
+              <span>Trace Mutations (&lt;3% Detection)</span>
             </h4>
             <span class="text-slate-400 font-sans text-[11px]">Trace heteroplasmy</span>
           </div>
 
           ${lowVafMuted.length > 0 ? `
             <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-amber-200 text-xs font-sans">
-              ⚠️ <strong>Trace Mutation Warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
+              <strong>Trace Mutation Warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
             </div>
 
             <div class="overflow-x-auto">
@@ -973,7 +973,7 @@ window.TreeViewer = {
     if (!selectedCodes || selectedCodes.length === 0) {
       card.innerHTML = `
         <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 text-xs text-slate-300 font-mono flex items-center justify-between">
-          <span>🌿 Click any cohort button or sample node on the phylogram to zoom in and inspect maternal pedigree.</span>
+          <span>Click any cohort button or sample node on the phylogram to zoom in and inspect maternal pedigree.</span>
           <span class="text-slate-400 text-[11px]">Global Phylogram View</span>
         </div>
       `;
@@ -1020,7 +1020,7 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">🧬 Maternal Pedigree & Transmission Architecture</span>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Maternal Pedigree &amp; Transmission Architecture</span>
               <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
             </div>
             <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
@@ -1096,7 +1096,7 @@ window.TreeViewer = {
           <div>
             <div class="text-[11px] text-sky-400 font-bold uppercase tracking-wider">Cohort Maternal Lineage Overview</div>
             <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
-              <span>🧬 Cohort: ${famName} (${primaryCode})</span>
+              <span>Cohort: ${famName} (${primaryCode})</span>
             </h4>
           </div>
           <div class="flex items-center gap-2">
@@ -1116,7 +1116,7 @@ window.TreeViewer = {
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-emerald-900/40 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
-              <span>💎 Conserved Diagnostic Markers (${uniqueSharedMuts.length} Shared Across Family Line)</span>
+              <span>Conserved Diagnostic Markers (${uniqueSharedMuts.length} Shared Across Family Line)</span>
             </h5>
             <span class="text-[10px] text-slate-400 font-sans">Click any marker to open cladogram</span>
           </div>
@@ -1137,7 +1137,7 @@ window.TreeViewer = {
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
-              <span>⭐ Private Maternal Mutations (${uniquePrivateMuts.length} Lineage Specific)</span>
+              <span>Private Maternal Mutations (${uniquePrivateMuts.length} Lineage Specific)</span>
             </h5>
             <span class="text-[10px] text-slate-400 font-sans">Unique to individual maternal transmissions</span>
           </div>
@@ -1163,10 +1163,10 @@ window.TreeViewer = {
           `}
         </div>
 
-        <!-- Action Bar: Direct to 3D Globe Tab -->
+        <!-- Action Bar: Direct to 2D Satellite Map Tab -->
         <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
           <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs hover:bg-sky-400 shadow-md transition-all flex items-center gap-2">
-            <span>🗺️ Trace ${primaryCode} Out-of-Africa Progression on Satellite Map ➔</span>
+            <span>Trace ${primaryCode} Out-of-Africa Progression on Satellite Map ➔</span>
           </button>
           <span class="text-slate-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
         </div>

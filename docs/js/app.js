@@ -149,7 +149,7 @@ window.DiagnosticMarkersExplorer = {
     if (data.dadNote) {
       dadHtml = `
         <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-sans">
-          <div class="text-sky-400 font-bold text-xs font-mono">🧬 Familial Transmission &amp; Paternal Note:</div>
+          <div class="text-sky-400 font-bold text-xs font-mono">Familial Transmission &amp; Paternal Note:</div>
           <p class="text-slate-300 leading-relaxed text-[11.5px]">
             ${data.dadNote}
           </p>
@@ -273,7 +273,7 @@ window.FamilyReportGenerator = {
           </div>
 
           <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 text-[11.5px] text-slate-300 leading-relaxed">
-            💡 <strong>Biological Context:</strong> Polymorphic mitochondrial DNA mutation at position m.${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
+            <strong>Biological Context:</strong> Polymorphic mitochondrial DNA mutation at position m.${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
           </div>
         </div>
       </div>
@@ -411,7 +411,7 @@ window.FamilyReportGenerator = {
               <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
               <h3 class="text-base font-extrabold text-white font-sans">3-Way Population Variant Distribution</h3>
             </div>
-            <span class="text-slate-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail</span>
+            <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
 
           <div class="flex justify-center overflow-x-auto py-2">
@@ -480,7 +480,7 @@ window.FamilyReportGenerator = {
             </div>
 
             <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-              <div class="text-sky-300 font-bold font-mono">💡 What do these numbers mean?</div>
+              <div class="text-sky-300 font-bold font-mono">What do these numbers mean?</div>
               <p class="text-slate-300 leading-relaxed text-[11.5px]">
                 <strong>Pairwise Genetic Distance</strong> measures the average number of mitochondrial DNA mutation differences between individuals from two population cohorts.
                 Lower numbers (< 10) indicate close maternal ancestry, while higher numbers (> 18) reflect deep evolutionary divergence over tens of thousands of years.
@@ -493,7 +493,7 @@ window.FamilyReportGenerator = {
           <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-5 text-xs text-slate-300 leading-relaxed shadow-2xl">
             <div class="border-b border-white/10 pb-3">
               <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
-                <span>📜 Population Breakdown</span>
+                <span>Population Breakdown</span>
               </h4>
               <p class="text-slate-400 text-[11px] mt-0.5">Triangulated Evolutionary &amp; Geographic Lineage Analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
             </div>
@@ -567,7 +567,7 @@ window.FamilyReportGenerator = {
               <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
               <h3 class="text-base font-extrabold text-white font-sans">2-Way Pairwise Variant Distribution</h3>
             </div>
-            <span class="text-slate-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail</span>
+            <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
 
           <div class="flex justify-center overflow-x-auto py-2">
@@ -603,7 +603,7 @@ window.FamilyReportGenerator = {
             </div>
 
             <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-              <div class="text-sky-300 font-bold font-mono">💡 What does Pairwise Genetic Distance mean?</div>
+              <div class="text-sky-300 font-bold font-mono">What does Pairwise Genetic Distance mean?</div>
               <p class="text-slate-300 leading-relaxed text-[11.5px]">
                 <strong>Genetic Distance (${avgDist})</strong> measures the average number of mitochondrial DNA mutation differences between individuals in ${info1.name} and ${info2.name}.
                 Lower values (< 10) indicate close maternal relationship, while higher values (> 18) reflect deep evolutionary divergence over tens of thousands of years.
@@ -629,7 +629,7 @@ window.FamilyReportGenerator = {
           <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-4 text-xs text-slate-300 shadow-2xl">
             <div class="border-b border-white/10 pb-3">
               <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
-                <span>📜 Population Breakdown</span>
+                <span>Population Breakdown</span>
               </h4>
               <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary Lineage &amp; Migration Analysis between ${info1.code} and ${info2.code}</p>
             </div>
@@ -697,7 +697,7 @@ window.FamilyReportGenerator = {
     const info2 = this.getFamilyData(code2);
 
     if (titleEl) {
-      titleEl.innerHTML = `🧬 Sample Comparison: <span class="text-emerald-400">${role1} (${sample1})</span> vs <span class="text-sky-400">${role2} (${sample2})</span>`;
+      titleEl.innerHTML = `Sample Comparison: <span class="text-emerald-400">${role1} (${sample1})</span> vs <span class="text-sky-400">${role2} (${sample2})</span>`;
     }
 
     // Filter variants for each sample
@@ -729,10 +729,10 @@ window.FamilyReportGenerator = {
     let inheritanceBadge = '';
 
     if (isSameFamily && ((role1.includes('Mother') && role2.includes('Child')) || (role2.includes('Mother') && role1.includes('Child')) || (role1.includes('Child') && role2.includes('Child')))) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">⭐ 100% Maternal Concordance (0.00 Distance)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">100% Maternal Concordance (0.00 Distance)</span>`;
       inheritanceNote = `Offspring inherits an exact duplicate of maternal mitochondrial DNA without paternal recombination. The mutational distance between mother and offspring is 0.00.`;
     } else if (isSameFamily && (role1.includes('Father') || role2.includes('Father'))) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">⚠️ Paternal Divergence (${dist} Distance)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Paternal Divergence (${dist} Distance)</span>`;
       inheritanceNote = `Fathers do NOT transmit mitochondrial DNA or familial diagnostic markers to offspring. The father belongs to an independent maternal lineage with distinct polymorphisms.`;
     } else if (isSameFamily) {
       inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Familial Lineage Match (${dist} Distance)</span>`;
@@ -776,7 +776,7 @@ window.FamilyReportGenerator = {
             <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Interactive Sample Mutation Venn Diagram</span>
             <h3 class="text-base font-extrabold text-white font-sans">${role1} (${sample1}) vs ${role2} (${sample2})</h3>
           </div>
-          <span class="text-slate-400 text-xs font-mono">💡 Hover over dots to view positions; click dot for full detail</span>
+          <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
         </div>
 
         <div class="flex justify-center overflow-x-auto py-2">
@@ -828,7 +828,7 @@ window.FamilyReportGenerator = {
           </div>
 
           <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-            <div class="text-emerald-300 font-bold font-mono">💡 Biological &amp; Clinical Context:</div>
+            <div class="text-emerald-300 font-bold font-mono">Biological &amp; Clinical Context:</div>
             <p class="text-slate-300 leading-relaxed text-[11.5px]">
               ${inheritanceNote}
             </p>

@@ -642,7 +642,7 @@ window.MigrationMap = {
       if (step >= trail.stops.length) {
         clearInterval(this.playInterval);
         this.playInterval = null;
-        if (playBtn) playBtn.innerHTML = '<span>⟲ Replay Trail</span>';
+        if (playBtn) playBtn.innerHTML = '<span>Replay Trail</span>';
         return;
       }
       this.goToStep(step);
@@ -670,7 +670,7 @@ window.MigrationMap = {
         <button onclick="window.MigrationMap.goToStep(${idx})" class="p-2 rounded-xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-sky-500 text-slate-950 border-sky-400 font-bold shadow-md shadow-sky-500/25' : (isPast ? 'bg-slate-950 border-emerald-500/50 text-emerald-300' : 'bg-slate-950/80 border-white/10 text-slate-400 hover:border-white/20')}">
           <div class="text-[9.5px] uppercase font-bold flex items-center justify-between">
             <span>Step ${idx + 1}</span>
-            <span>${isCurrent ? '● Active' : (isPast ? '✓' : '')}</span>
+            <span>${isCurrent ? 'Active' : (isPast ? 'Done' : '')}</span>
           </div>
           <div class="font-sans font-bold text-[11px] truncate mt-0.5">${stop.name.split('(')[0]}</div>
         </button>
@@ -736,7 +736,7 @@ window.MigrationMap = {
             <span class="text-slate-300 font-bold">Migration Progress: Step ${this.activeStepIndex + 1} of ${totalSteps}</span>
             <div class="flex items-center space-x-1.5">
               <button onclick="window.MigrationMap.prevStep()" ${this.activeStepIndex === 0 ? 'disabled' : ''} class="px-2.5 py-1 rounded-xl bg-slate-950 border border-white/10 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs">
-                ⏮ Prev
+                Prev
               </button>
               <button onclick="window.MigrationMap.nextStep()" ${this.activeStepIndex === totalSteps - 1 ? 'disabled' : ''} class="px-3 py-1 rounded-xl bg-sky-500 text-slate-950 hover:bg-sky-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs shadow-sm">
                 Next Step ➔
@@ -761,7 +761,7 @@ window.MigrationMap = {
         <!-- Verified Facts & Statistics with 2 Sources -->
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold text-sky-300 uppercase tracking-wider flex items-center justify-between">
-            <span>📊 Verified Anthropological Data:</span>
+            <span>Verified Anthropological Data:</span>
             <span class="text-[10px] text-slate-400">2 Verified Sources per Stat</span>
           </div>
           <div class="space-y-2">
@@ -772,7 +772,7 @@ window.MigrationMap = {
         <!-- Diagnostic Mutations Evidence -->
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center justify-between">
-            <span>🧬 Mutation Evidence (${currentStop.mutations.length} Markers):</span>
+            <span>Mutation Evidence (${currentStop.mutations.length} Markers):</span>
             <span class="text-[10px] text-slate-400">Matched in Dataset</span>
           </div>
           <div class="space-y-2">

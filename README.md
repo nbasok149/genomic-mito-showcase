@@ -8,80 +8,78 @@
 [![Platform](https://img.shields.io/badge/Platform-Vercel%20Edge%20Network-black?logo=vercel)](https://mtdna-visualizer.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-🌐 **Production Application**: **[https://mtdna-visualizer.vercel.app/](https://mtdna-visualizer.vercel.app/)**
+**Production Application**: [https://mtdna-visualizer.vercel.app/](https://mtdna-visualizer.vercel.app/)
 
 ---
 
-## 🧬 Project Overview & Scientific Context
+## Project Overview & Scientific Context
 
 **Genomic Mito Showcase** is a specialized genomic visualization and lineage tracing platform built to analyze human mitochondrial DNA (mtDNA) against the revised Cambridge Reference Sequence (**rCRS NC_012920.1, 16,569 base pairs**).
 
-Mitochondrial DNA is uniquely suited for reconstructing maternal genealogies and deep prehistoric migrations because it is **100% strictly maternally inherited without paternal crossing-over or recombination shuffling**. This platform investigates **43 sequenced whole-mitochondrial genomes across 13 global ancestral cohorts**, demonstrating maternal kinship fidelity and tracking the epic 200,000-year Out-of-Africa human dispersal.
+Mitochondrial DNA is uniquely suited for reconstructing maternal genealogies and deep prehistoric migrations because it is **100% strictly maternally inherited without paternal crossing-over or recombination shuffling**. This platform investigates **43 sequenced whole-mitochondrial genomes across 13 global ancestral cohorts**, demonstrating maternal kinship fidelity and tracking the 200,000-year Out-of-Africa human dispersal.
 
 ```mermaid
-flowchart LR
-    subgraph DataEngine ["Genomic Data & ETL Engine"]
-        FA["rCRS Reference (16,569 bp)"] --> Core["core/callers.py & aligner.py"]
-        RAW["Sequencing Alignments (43 Samples)"] --> Core
-        Core --> DM["core/distance.py (Ancestry GRM)"]
-        DM --> ETL["scripts/export_web_data.py"]
-    end
-
-    subgraph WebShowcase ["Client-Side Web Showcase (docs/)"]
-        ETL --> JSON1["variants_dataset.json"]
-        ETL --> JSON2["distance_matrix.json"]
-        ETL --> JSON3["phylo_tree.json"]
-        
-        JSON1 & JSON2 & JSON3 --> Tree["Tab 1: Phylogenetic Tree & Sample Comparator"]
-        JSON1 & JSON2 & JSON3 --> Map["Tab 2: 2D Satellite Migration Map"]
-    end
-
-    WebShowcase --> Vercel["Vercel Anycast Edge Distribution (mtdna-visualizer.vercel.app)"]
+flowchart TD
+    FA["rCRS Reference Genome (16,569 bp)"] --> Core["Genomic QC & Variant Caller (core/callers.py)"]
+    RAW["43 Sample Sequencing Alignments"] --> Core
+    Core --> DM["Ancestry-Conditioned GRM (core/distance.py)"]
+    DM --> ETL["Data Serialization ETL (scripts/export_web_data.py)"]
+    
+    ETL --> J1["variants_dataset.json"]
+    ETL --> J2["distance_matrix.json"]
+    ETL --> J3["phylo_tree.json"]
+    
+    J1 --> WebApp["Web Application Engine (docs/)"]
+    J2 --> WebApp
+    J3 --> WebApp
+    
+    WebApp --> Tab1["Tab 1: Phylogenetic Tree & Sample Comparator"]
+    WebApp --> Tab2["Tab 2: 2D Satellite Migration Map"]
 ```
 
 ---
 
-## ✨ Key Platform Features
+## Key Platform Features
 
-### 1. 🌲 Tab 1: Phylogenetic Tree & Cladogram
+### 1. Tab 1: Phylogenetic Tree & Cladogram
 - **Stretched Phylogram Architecture**: A 2200px horizontal layout that resolves horizontal compression while preserving smooth panning and zooming.
-- **Dynamic Hierarchy Visibility**: Leaf role labels (`Mother`, `Father`, `Child`, etc.) are hidden in the global overview to prevent visual clutter, allowing prominent ethnicity overlay banners to identify sample clusters first. Role labels fade in smoothly upon zooming.
-- **Double-Click Background Zoom-Out**: Double-clicking anywhere on the tree canvas smoothly zooms out from Family View ➔ Macro-Branch View ➔ Global Overview.
-- **Interactive Sample Selection**: Clicking an individual sample highlights it in **glowing emerald green** (`#10b981`) without deselecting the branch, prompting the user to select a second sample for direct comparison.
+- **Dynamic Hierarchy Visibility**: Leaf role labels (Mother, Father, Child, etc.) are hidden in the global overview to prevent visual clutter, allowing prominent ethnicity overlay banners to identify sample clusters first. Role labels fade in smoothly upon zooming.
+- **Double-Click Background Zoom-Out**: Double-clicking anywhere on the tree canvas smoothly zooms out from Family View to Macro-Branch View to Global Overview.
+- **Interactive Sample Selection**: Clicking an individual sample highlights it in green (`#10b981`) without deselecting the branch, prompting the user to select a second sample for direct comparison.
 - **Sample Pairwise Comparison Report**:
   - Computes exact genetic distance between individuals.
-  - **Maternal Inheritance Concordance**: Explains 100% maternal identical transmission (`0.00` distance for mother/child) versus independent paternal divergence for fathers.
+  - **Maternal Inheritance Concordance**: Explains 100% maternal identical transmission (0.00 distance for mother/child) versus independent paternal divergence for fathers.
   - **Interactive 2-Way & 3-Way Venn Diagrams**: Clickable variant dots showing shared conserved mutations and unique polymorphisms with gene annotations and variant allele frequencies (VAF).
 
-### 2. 🗺️ Tab 2: 2D Prehistoric Satellite Migration Map
+### 2. Tab 2: 2D Prehistoric Satellite Migration Map
 - **Majority-Minority Split Layout**: Features an interactive **2D high-resolution satellite basemap** (Leaflet + Esri World Imagery) paired with an un-condensed **Anthropological Evidence Dossier**.
-- **Origin-First Step Progression**: Initiates at **Step 1: East African Cradle (Origin of All Modern Humans)** with step navigation controls (`Next Step ➔`, `⏮ Prev`, `▶ Auto-Play Trail`).
+- **Origin-First Step Progression**: Initiates at **Step 1: East African Cradle (Origin of All Modern Humans)** with step navigation controls (Next Step, Previous, Auto-Play Trail).
 - **Verified Anthropological Statistics**: Every stop on the migration path includes regional media cards, evolutionary significance, and **verified archaeological and genetic statistics backed by 2+ peer-reviewed sources**:
-  - *East African Cradle*: 233,000 ± 22,000 YBP Omo Kibish fossil antiquity (*Vidal et al. Nature 2022; McDougall et al. Nature 2005*).
-  - *Southern Coastal Gateway*: -120m sea level drop narrowing the Red Sea to 4–11 km during MIS 4 glaciations (*Siddall et al. Nature 2003; Bailey et al. Quat. Int. 2007*).
-  - *Indian Subcontinent*: >50,000 YBP continuous tool traditions across the Toba ash layer (*Petraglia et al. Science 2007; Clarkson et al. Science 2020*).
-  - *Beringia & Americas*: ~21,000–23,000 YBP White Sands human footprints (*Bennett et al. Science 2021; Pigati et al. Science 2023*).
-  - *Tibetan Plateau*: `m.3394 T>C` Complex I hypoxia adaptation (*Ji et al. PNAS 2012; Lu et al. Science 2016*).
+  - *East African Cradle*: 233,000 +/- 22,000 YBP Omo Kibish fossil antiquity (Vidal et al. Nature 2022; McDougall et al. Nature 2005).
+  - *Southern Coastal Gateway*: -120m sea level drop narrowing the Red Sea to 4-11 km during MIS 4 glaciations (Siddall et al. Nature 2003; Bailey et al. Quat. Int. 2007).
+  - *Indian Subcontinent*: >50,000 YBP continuous tool traditions across the Toba ash layer (Petraglia et al. Science 2007; Clarkson et al. Science 2020).
+  - *Beringia & Americas*: ~21,000-23,000 YBP White Sands human footprints (Bennett et al. Science 2021; Pigati et al. Science 2023).
+  - *Tibetan Plateau*: `m.3394 T>C` Complex I hypoxia adaptation (Ji et al. PNAS 2012; Lu et al. Science 2016).
 
-### 3. 🔬 Opening Welcome & Genomic Education Modal
+### 3. Opening Welcome & Genomic Education Modal
 - **Mitochondrial Anatomy Graphic**: An inline vector diagram illustrating the outer membrane, folded inner cristae, and circular mtDNA loop (16,569 bp).
 - **Country Flag Overlays**: Distinct country flag badges across all 13 family cohorts.
 - **mtDNA vs. Nuclear DNA Comparative Matrix**:
-  - *Cell Location*: Cytoplasm / Mitochondria (100–10,000 copies/cell) vs. Nucleus (2 copies/cell).
+  - *Cell Location*: Cytoplasm / Mitochondria (100-10,000 copies/cell) vs. Nucleus (2 copies/cell).
   - *Genome Size*: 16,569 bp (compact circular) vs. ~3.2 billion bp (23 chromosome pairs).
   - *Inheritance*: 100% strict maternal (unbroken molecular clock) vs. 50/50 parental recombination.
 
-### 4. ⚙️ Adaptable Kinship & Gender Role Parser
-- Accurately distinguishes multi-generational familial roles (`Grandmother`, `Mother`, `Father`, `Aunt`, `Sons`, `Daughters`) in pedigrees (e.g. Ukraine, India, Pakistan, Mexico, Hong Kong) from single-sample individuals:
-  - `CA_M_GER`: Categorized as **`Man`** (Canadian individual, not `Father`).
-  - `AA_F_TON`: Categorized as **`Woman`** (African root individual).
-  - `TB_F_BHA`: Categorized as **`Woman`** (Tibetan individual).
-  - `NA_F_R3_2_LP5206_mrg`: Categorized as **`Woman`** (Native North American individual).
-  - `SA_M_RD_2_LP5205_mrg`: Categorized as **`Man`** (South American individual).
+### 4. Adaptable Kinship & Gender Role Parser
+- Accurately distinguishes multi-generational familial roles (Grandmother, Mother, Father, Aunt, Sons, Daughters) in pedigrees (e.g. Ukraine, India, Pakistan, Mexico, Hong Kong) from single-sample individuals:
+  - `CA_M_GER`: Categorized as **Man** (Canadian individual, not Father).
+  - `AA_F_TON`: Categorized as **Woman** (African root individual).
+  - `TB_F_BHA`: Categorized as **Woman** (Tibetan individual).
+  - `NA_F_R3_2_LP5206_mrg`: Categorized as **Woman** (Native North American individual).
+  - `SA_M_RD_2_LP5205_mrg`: Categorized as **Man** (South American individual).
 
 ---
 
-## 📂 Repository Directory Structure
+## Repository Directory Structure
 
 ```
 genomic-mito-showcase/
@@ -133,7 +131,7 @@ genomic-mito-showcase/
 
 ---
 
-## 🚀 Quick Start & Developer Guide
+## Quick Start & Developer Guide
 
 ### 1. Data Pre-processing ETL
 To re-compute the distance matrix and export all web JSON datasets:
@@ -160,16 +158,16 @@ Open `http://localhost:3000` in your web browser.
 
 ---
 
-## 🌐 Continuous Deployment on Vercel
+## Continuous Deployment on Vercel
 
 The live web application is continuously deployed on **Vercel**:
-👉 **[https://mtdna-visualizer.vercel.app/](https://mtdna-visualizer.vercel.app/)**
+[https://mtdna-visualizer.vercel.app/](https://mtdna-visualizer.vercel.app/)
 
 - **Automated CI/CD**: Every push to `main` triggers Vercel's edge builder to execute `python3 scripts/export_web_data.py` and deploy the static showcase in `docs/`.
 - **Edge Performance**: Clean URLs, security headers (`HSTS`, `X-Content-Type-Options`, `Content-Security-Policy`), and 24-hour cache-revalidation for all JSON endpoints are configured in [`vercel.json`](vercel.json).
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.

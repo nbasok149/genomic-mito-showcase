@@ -92,7 +92,7 @@ def export_all(lambda_param=0.5):
     }
     with open(os.path.join(docs_data_dir, "genome_annotations.json"), "w") as f:
         json.dump(annotations_data, f, indent=2)
-    print("✓ Exported docs/data/genome_annotations.json")
+    print("[OK] Exported docs/data/genome_annotations.json")
 
     # 2. Collect Variants & Compute Weighted Distance Metric
     # Load per-sample variants from summary directories
@@ -233,13 +233,13 @@ def export_all(lambda_param=0.5):
     }
     with open(os.path.join(docs_data_dir, "distance_matrix.json"), "w") as f:
         json.dump(dist_data, f, indent=2)
-    print(f"✓ Exported docs/data/distance_matrix.json ({len(samples)}x{len(samples)} weighted distance matrix, V={metric_results['polymorphic_sites_count']} polymorphic sites)")
+    print(f"[OK] Exported docs/data/distance_matrix.json ({len(samples)}x{len(samples)} weighted distance matrix, V={metric_results['polymorphic_sites_count']} polymorphic sites)")
 
     # 4. Build & Export UPGMA Phylogenetic Tree from Weighted Distances
     tree_data = build_weighted_upgma_tree(samples, matrix)
     with open(os.path.join(docs_data_dir, "phylo_tree.json"), "w") as f:
         json.dump(tree_data, f, indent=2)
-    print("✓ Exported docs/data/phylo_tree.json (Weighted UPGMA Tree)")
+    print("[OK] Exported docs/data/phylo_tree.json (Weighted UPGMA Tree)")
 
     # 5. Build Complete Variants Dataset
     variants = []
@@ -284,7 +284,7 @@ def export_all(lambda_param=0.5):
 
     with open(os.path.join(docs_data_dir, "variants_dataset.json"), "w") as f:
         json.dump(dataset_payload, f, indent=2)
-    print(f"✓ Exported docs/data/variants_dataset.json ({len(variants)} variants across {len(samples)} samples)")
+    print(f"[OK] Exported docs/data/variants_dataset.json ({len(variants)} variants across {len(samples)} samples)")
 
 
 if __name__ == "__main__":
