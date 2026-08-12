@@ -77,85 +77,97 @@ window.TreeViewer = {
   },
 
   // Kinship-aware role hierarchy across all 43 samples
+  // Adaptable Kinship & Gender Role parser across all 43 samples and generic formats
   getSampleRole(sampleName) {
     if (!sampleName) return 'Lineage Member';
     const s = String(sampleName).trim().toUpperCase();
 
-    const EXACT_ROLES = {
-      // UK Cohort
+    // 1. Explicit verified multi-generational pedigree relationships
+    const KNOWN_FAMILY_ROLES = {
+      // UK 3-Generation Pedigree (Grandmother -> Mother -> 3 Sons, Aunt)
       'UK_F_NIKG': 'Grandmother',
       'UK_F_NIKA': 'Aunt',
       'UK_F_NIKM': 'Mother',
-      'UK_M_NIKS1': 'Child 1 (Oldest)',
-      'UK_M_NIK': 'Child 2 (Middle)',
-      'UK_M_NIKS2': 'Child 3 (Youngest)',
+      'UK_M_NIKS1': 'Child 1 (Son)',
+      'UK_M_NIK': 'Child 2 (Son)',
+      'UK_M_NIKS2': 'Child 3 (Son)',
 
-      // IN Cohort
+      // IN Cohort (Rishi & Deepali family lines)
       'IN_F_RISG': 'Grandmother',
-      'IN_F_RISM': 'Mother',
-      'IN_M_RISF': 'Father',
-      'IN_M_RIS': 'Child 1',
-      'IN_M_RISS1': 'Child 2',
-      'IN_F_DPL': 'Mother',
-      'IN_M_DPLH': 'Father',
+      'IN_F_RISM': 'Mother (Rishi Mother)',
+      'IN_M_RISF': 'Father (Rishi Father)',
+      'IN_M_RIS': 'Child 1 (Son)',
+      'IN_M_RISS1': 'Child 2 (Son)',
+      'IN_F_DPL': 'Mother (Deepali)',
+      'IN_M_DPLH': 'Father (Deepali Husband)',
 
-      // IS Cohort
-      'IS_F_VYSM': 'Mother',
-      'IS_M_RAV': 'Father',
-      'IS_M_SEL': 'Father 2',
-      'IS_F_VYS': 'Child 1',
-      'IS_F_VYS2': 'Child 2',
-      'IS_F_VYSC1': 'Child 3',
-      'IS_M_PRIC1': 'Child 1',
+      // IS Cohort (Vys family pedigree & kin)
+      'IS_F_VYSM': 'Mother (Vys Mother)',
+      'IS_M_RAV': 'Father (Rav)',
+      'IS_M_SEL': 'Father 2 (Sel)',
+      'IS_F_VYS': 'Woman (Kin)',
+      'IS_F_VYS2': 'Woman (Kin)',
+      'IS_F_VYSC1': 'Child 1 (Daughter)',
+      'IS_M_PRIC1': 'Child 2 (Son)',
 
-      // IW Cohort
-      'IW_F_ANJM': 'Mother',
-      'IW_M_ANJF': 'Father',
-      'IW_F_ANJ': 'Child 1',
-      'IW_F_ANJS1': 'Child 2',
+      // IW Cohort (Anjali family pedigree & kin)
+      'IW_F_ANJM': 'Mother (Anjali Mother)',
+      'IW_M_ANJF': 'Father (Raj / Anjali Father)',
+      'IW_F_ANJS1': 'Child 1 (Daughter)',
+      'IW_F_ANJ': 'Woman (Kin)',
 
-      // PK Cohort
-      'PK_F_WAS': 'Mother',
-      'PK_M_WASH': 'Father',
-      'PK_M_WASC1': 'Child 1',
-      'PK_M_WASC2': 'Child 2',
+      // PK Cohort (Wasim family pedigree)
+      'PK_F_WAS': 'Mother (Wasim Mother)',
+      'PK_M_WASH': 'Father (Wasim Father)',
+      'PK_M_WASC1': 'Child 1 (Son)',
+      'PK_M_WASC2': 'Child 2 (Son)',
 
-      // HK Cohort
-      'HK_F_JANM': 'Mother',
-      'HK_M_WLL': 'Father',
-      'HK_F_JAN': 'Child 1',
+      // HK Cohort (Jan family pedigree)
+      'HK_F_JANM': 'Mother (Jan Mother)',
+      'HK_M_WLL': 'Father (William / Jan Father)',
+      'HK_F_JAN': 'Child 1 (Daughter)',
 
       // KR Cohort
-      'KR_F_MOO': 'Mother',
-      'KR_F_MOOC1': 'Child 1',
+      'KR_F_MOO': 'Mother (Cohort Mother)',
+      'KR_F_MOOC1': 'Child 1 (Daughter)',
 
-      // MX Cohort
-      'MX_F_CRY': 'Mother',
-      'MX_M_CRYF': 'Father',
-      'MX_F_CRYS1': 'Child 1',
+      // MX Cohort (Crystal family pedigree)
+      'MX_F_CRY': 'Mother (Crystal Mother)',
+      'MX_M_CRYF': 'Father (Crystal Father)',
+      'MX_F_CRYS1': 'Child 1 (Daughter)',
 
       // CL Cohort
-      'CL_F_ALJ': 'Mother',
-      'CL_F_ALJC1': 'Child 1',
+      'CL_F_ALJ': 'Mother (Alejandra Mother)',
+      'CL_F_ALJC1': 'Child 1 (Daughter)',
 
-      // AA, TB, CA, NA, SA
-      'AA_F_TON': 'Mother',
-      'TB_F_BHA': 'Mother',
-      'CA_M_GER': 'Father',
-      'NA_F_R3_2_LP5206_MRG': 'Mother',
-      'SA_M_RD_2_LP5205_MRG': 'Father'
+      // Solo / Unspecified Cohort Individuals
+      'CA_M_GER': 'Man',
+      'AA_F_TON': 'Woman',
+      'TB_F_BHA': 'Woman',
+      'NA_F_R3_2_LP5206_MRG': 'Woman',
+      'SA_M_RD_2_LP5205_MRG': 'Man'
     };
 
-    if (EXACT_ROLES[s]) return EXACT_ROLES[s];
+    if (KNOWN_FAMILY_ROLES[s]) return KNOWN_FAMILY_ROLES[s];
 
-    if (s.includes('NIKG') || s.includes('RISG') || s.endsWith('G')) return 'Grandmother';
-    if (s.includes('NIKA') || s.endsWith('A')) return 'Aunt';
-    if (s.endsWith('M') || s.includes('_F_') || s.includes('MOTHER')) return 'Mother';
-    if (s.endsWith('F') || s.endsWith('H') || s.includes('GER') || s.includes('WLL') || s.includes('FATHER')) return 'Father';
-    if (s.includes('S1') || s.includes('C1')) return 'Child 1';
-    if (s.includes('S2') || s.includes('C2') || s.endsWith('2')) return 'Child 2';
-    if (s.includes('S3') || s.includes('C3') || s.endsWith('3')) return 'Child 3';
-    return s.includes('_F_') ? 'Mother' : 'Father';
+    // 2. Structural kinship token matching
+    if (s.endsWith('NIKG') || s.endsWith('RISG') || s.endsWith('_G') || s.includes('GRANDMOTHER')) return 'Grandmother';
+    if (s.endsWith('NIKA') || s.endsWith('_A') || s.includes('AUNT')) return 'Aunt';
+    if (s.includes('C1') || s.includes('S1') || s.includes('D1')) return s.includes('_F_') ? 'Child 1 (Daughter)' : 'Child 1 (Son)';
+    if (s.includes('C2') || s.includes('S2') || s.includes('D2')) return s.includes('_F_') ? 'Child 2 (Daughter)' : 'Child 2 (Son)';
+    if (s.includes('C3') || s.includes('S3') || s.includes('D3')) return s.includes('_F_') ? 'Child 3 (Daughter)' : 'Child 3 (Son)';
+
+    // 3. Adaptable parsing for unspecifiedly related people: Man or Woman depending on F/M gender flag
+    const tokens = s.split('_');
+    for (let i = 1; i < tokens.length; i++) {
+      if (tokens[i] === 'F') return 'Woman';
+      if (tokens[i] === 'M') return 'Man';
+    }
+
+    if (s.includes('_F_') || s.startsWith('F_')) return 'Woman';
+    if (s.includes('_M_') || s.startsWith('M_')) return 'Man';
+
+    return 'Individual';
   },
 
   getDeidentifiedLabel(sampleName) {

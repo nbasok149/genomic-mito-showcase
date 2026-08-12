@@ -117,11 +117,11 @@ window.DiagnosticMarkersExplorer = {
     'HK': { name: 'Hong Kong (HK)', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Father) carries non-transmitted paternal line; children inherit 100% of maternal markers from HK_F_JAN.' },
     'UK': { name: 'Ukraine (UK)', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'UK_F_NIKM (Mother)', aunt: 'UK_F_NIKA (Aunt)', grandmother: 'UK_F_NIKG (Grandmother)', dadNote: 'No father sample collected for Ukraine cohort; maternal inheritance verified through UK_F_NIKG ➔ UK_F_NIKM ➔ offspring.' },
     'KR': { name: 'Korea (KR)', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'KR_F_MOO (Mother)', dadNote: 'No father sample collected; maternal lineage strictly passed from KR_F_MOO to KR_F_MOOC1.' },
-    'CL': { name: 'Colombia (CL)', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers pass 0% mitochondrial DNA or familial diagnostic markers to offspring; passed from CL_F_ALJ to CL_F_ALJC1.' },
-    'AA': { name: 'African (AA)', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], mother: 'AA_F_TON (Mother)', dadNote: 'Sub-Saharan African maternal root line transmitted strictly maternally.' },
-    'TB': { name: 'Tibet (TB)', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], mother: 'TB_F_BHA (Mother)', dadNote: 'Tibetan maternal lineage transmitted strictly through mother.' },
-    'CA': { name: 'Canada (CA)', markers: [73, 146, 263, 4769], mother: 'CA_M_GER', dadNote: 'Maternal mtDNA passed strictly down female lineage.' },
-    'NA': { name: 'Native North America (NA)', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], mother: 'NA_F_R3_2_LP5206_mrg (Mother)', dadNote: 'Indigenous North American maternal founder line passed across generations.' }
+    'CL': { name: 'Colombia (CL)', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers pass 0% mitochondrial DNA or familial diagnostic markers to offspring; passed 100% maternally from CL_F_ALJ to child CL_F_ALJC1.' },
+    'AA': { name: 'African (AA)', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'AA_F_TON (African Woman)', dadNote: 'Deep Sub-Saharan African maternal root lineage (Macro-Haplogroup L2) representing the ancestral root of all modern humans.' },
+    'TB': { name: 'Tibet (TB)', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'TB_F_BHA (Tibetan Woman)', dadNote: 'High-altitude adapted Tibetan Plateau maternal lineage (Haplogroup M9) carrying the m.3394 T>C complex I hypoxia adaptation mutation.' },
+    'CA': { name: 'Canada (CA)', markers: [73, 146, 263, 4769], individual: 'CA_M_GER (Canadian Man)', dadNote: 'Individual sequenced male sample from the Canadian / European macro-haplogroup H2 lineage.' },
+    'NA': { name: 'Native North America (NA)', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'NA_F_R3_2_LP5206_mrg (Indigenous North American Woman)', dadNote: 'Indigenous North American founding maternal lineage (Haplogroup A2) derived from prehistoric Beringian migrations.' }
   },
 
   init() {
