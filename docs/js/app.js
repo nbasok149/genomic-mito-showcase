@@ -183,7 +183,7 @@ window.DiagnosticMarkersExplorer = {
     'KR': { name: 'Korea', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'Cohort Mother', dadNote: 'Maternal lineage strictly passed to offspring.' },
     'CL': { name: 'Colombia', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'Alejandra', dadNote: 'Passed 100% maternally to offspring.' },
     'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'Toniann', dadNote: 'Ancestral root of all modern human maternal lineages.' },
-    'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'Bharti', dadNote: 'High-altitude adapted lineage carrying m.3394 T>C complex I mutation.' },
+    'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'Bharti', dadNote: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
     'CA': { name: 'Canada', markers: [73, 146, 263, 4769], individual: 'German', dadNote: 'Macro-haplogroup H2 lineage.' },
     'NA': { name: 'Native America', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'Native America Woman', dadNote: 'Indigenous founding lineage derived from prehistoric Beringian migrations.' }
   },
@@ -213,7 +213,7 @@ window.DiagnosticMarkersExplorer = {
     if (data.dadNote) {
       dadHtml = `
         <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-sans">
-          <div class="text-sky-400 font-bold text-xs font-mono">Transmission Note:</div>
+          <div class="text-sky-400 font-bold text-xs font-mono">Transmission note:</div>
           <p class="text-slate-300 leading-relaxed text-[11.5px]">
             ${data.dadNote}
           </p>
@@ -229,7 +229,7 @@ window.DiagnosticMarkersExplorer = {
             <span class="text-[10px] text-slate-400 font-sans font-normal">Maternally transmitted polymorphisms</span>
           </div>
           <div class="text-white font-extrabold text-sm tracking-wide pt-1">
-            ${data.markers.map(m => `<span class="bg-slate-900 text-sky-300 px-3 py-1 rounded-xl border border-sky-500/30 mr-2 inline-block mb-2 shadow-sm font-mono">m.${m}</span>`).join('')}
+            ${data.markers.map(m => `<span class="bg-slate-900 text-sky-300 px-3 py-1 rounded-xl border border-sky-500/30 mr-2 inline-block mb-2 shadow-sm font-mono">${m}</span>`).join('')}
           </div>
         </div>
         ${dadHtml}
@@ -313,7 +313,7 @@ window.FamilyReportGenerator = {
         <div class="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
             <span class="text-[10px] text-sky-400 uppercase font-bold tracking-wider">Mutation inspector</span>
-            <h3 class="text-base font-extrabold text-white">m.${v.pos} ${v.ref}&gt;${v.alt}</h3>
+            <h3 class="text-base font-extrabold text-white">${v.pos} ${v.ref}&gt;${v.alt}</h3>
           </div>
           <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all border border-white/10">
             ✕ Close
@@ -338,11 +338,11 @@ window.FamilyReportGenerator = {
           </div>
 
           <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 text-[11.5px] text-slate-300 leading-relaxed">
-            <strong>Biological context:</strong> Polymorphic mitochondrial DNA mutation at position m.${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
+            <strong>Biological context:</strong> Polymorphic mitochondrial DNA mutation at position ${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
           </div>
         </div>
       </div>
-    `;
+    `;  `;
 
     modal.onclick = (e) => {
       if (e.target === modal) modal.remove();
@@ -431,7 +431,7 @@ window.FamilyReportGenerator = {
             class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-sky-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
-            <title>m.${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click for details</title>
+            <title>${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click for details</title>
           </circle>
         `;
       });
@@ -901,7 +901,7 @@ window.FamilyReportGenerator = {
             class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-emerald-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
-            <title>m.${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'})</title>
+            <title>${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'})</title>
           </circle>
         `;
       });
@@ -966,60 +966,92 @@ window.FamilyReportGenerator = {
 
     const sortedPositions = Array.from(allPosMap.values()).sort((a, b) => a.pos - b.pos);
     const HK_SPECIFIC_POSITIONS = [5821, 6338, 6455, 8602, 9540, 14821];
+    const fam1Markers = (window.DiagnosticMarkersExplorer && window.DiagnosticMarkersExplorer.FAMILY_MARKERS[code1])
+      ? window.DiagnosticMarkersExplorer.FAMILY_MARKERS[code1].markers
+      : [];
+    const fam2Markers = (window.DiagnosticMarkersExplorer && window.DiagnosticMarkersExplorer.FAMILY_MARKERS[code2])
+      ? window.DiagnosticMarkersExplorer.FAMILY_MARKERS[code2].markers
+      : [];
+    const SPECIFIC_POSITIONS = Array.from(new Set([...HK_SPECIFIC_POSITIONS, ...fam1Markers, ...fam2Markers]));
 
     const markerRowsHtml = sortedPositions.map((item, idx) => {
       const isShared = item.alt1 !== null && item.alt2 !== null && item.alt1 === item.alt2;
+      const isSpecific = SPECIFIC_POSITIONS.includes(item.pos);
       const isHkSpecific = HK_SPECIFIC_POSITIONS.includes(item.pos);
 
-      let badgeHtml = '';
-      let rowStyle = '';
-      let barHtml = '';
-
-      if (isHkSpecific) {
-        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-amber-950/90 border border-amber-400 text-amber-300 font-bold text-[10.5px] shadow-sm shadow-amber-500/20">Hong Kong specific</span>`;
-        rowStyle = 'border-amber-500/40 bg-amber-950/20';
-        barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-amber-400 h-2 rounded-full w-full shadow-sm shadow-amber-400"></div></div>`;
-      } else if (isShared) {
-        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-bold text-[10.5px]">Shared conserved</span>`;
-        rowStyle = 'border-emerald-500/30 bg-slate-950/80';
-        barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-emerald-400 h-2 rounded-full w-full shadow-sm shadow-emerald-400"></div></div>`;
+      // Left Box: Sample 1 number/allele
+      let s1BoxClass = '';
+      let s1Text = '';
+      if (item.alt1 !== null) {
+        if (isSpecific) {
+          s1BoxClass = 'bg-yellow-950/80 border border-yellow-400 text-yellow-300 shadow-sm shadow-yellow-500/20';
+        } else if (isShared) {
+          s1BoxClass = 'bg-emerald-950/80 border border-emerald-500 text-emerald-300 shadow-sm shadow-emerald-500/20';
+        } else {
+          s1BoxClass = 'bg-rose-950/80 border border-rose-500 text-rose-300 shadow-sm shadow-rose-500/20';
+        }
+        s1Text = `<span class="font-mono font-bold text-xs">${item.pos} ${item.ref}&gt;${item.alt1}</span>`;
       } else {
-        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-rose-950/80 border border-rose-500/60 text-rose-300 font-bold text-[10.5px]">Private mutation</span>`;
-        rowStyle = 'border-white/5 bg-slate-950/50';
-        barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-rose-500 h-2 rounded-full ${item.alt1 ? 'w-1/2' : 'w-1/2 ml-auto'}"></div></div>`;
+        s1BoxClass = 'bg-slate-900/60 border border-white/5 text-slate-500';
+        s1Text = `<span class="font-mono text-slate-500 text-[11px]">Ref (${item.ref})</span>`;
       }
 
-      const sample1Allele = item.alt1
-        ? `<span class="font-bold text-emerald-300 font-mono">m.${item.pos} ${item.ref}&gt;${item.alt1}</span>`
-        : `<span class="text-slate-500 font-mono text-[11px]">Ref (${item.ref})</span>`;
+      // Right Box: Sample 2 number/allele
+      let s2BoxClass = '';
+      let s2Text = '';
+      if (item.alt2 !== null) {
+        if (isSpecific) {
+          s2BoxClass = 'bg-yellow-950/80 border border-yellow-400 text-yellow-300 shadow-sm shadow-yellow-500/20';
+        } else if (isShared) {
+          s2BoxClass = 'bg-emerald-950/80 border border-emerald-500 text-emerald-300 shadow-sm shadow-emerald-500/20';
+        } else {
+          s2BoxClass = 'bg-rose-950/80 border border-rose-500 text-rose-300 shadow-sm shadow-rose-500/20';
+        }
+        s2Text = `<span class="font-mono font-bold text-xs">${item.pos} ${item.ref}&gt;${item.alt2}</span>`;
+      } else {
+        s2BoxClass = 'bg-slate-900/60 border border-white/5 text-slate-500';
+        s2Text = `<span class="font-mono text-slate-500 text-[11px]">Ref (${item.ref})</span>`;
+      }
 
-      const sample2Allele = item.alt2
-        ? `<span class="font-bold text-sky-300 font-mono">m.${item.pos} ${item.ref}&gt;${item.alt2}</span>`
-        : `<span class="text-slate-500 font-mono text-[11px]">Ref (${item.ref})</span>`;
+      // Status Badge
+      let badgeHtml = '';
+      if (isSpecific) {
+        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-yellow-950/90 border border-yellow-400 text-yellow-300 font-bold text-[10px] shadow-sm shadow-yellow-500/20">${isHkSpecific ? 'Hong Kong specific' : 'Ethnic specific'}</span>`;
+      } else if (isShared) {
+        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-bold text-[10px]">Shared conserved</span>`;
+      } else {
+        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-rose-950/80 border border-rose-500/60 text-rose-300 font-bold text-[10px]">Private mutation</span>`;
+      }
 
       return `
-        <div class="p-3 rounded-2xl border ${rowStyle} flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs font-mono transition-all">
-          <div class="flex items-center space-x-3 shrink-0">
-            <span class="text-slate-400 font-bold w-8 text-right">#${idx + 1}</span>
-            <span class="px-2 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-white font-bold">m.${item.pos}</span>
-            <span class="px-2 py-0.5 rounded-lg bg-slate-900/80 border border-white/5 text-[10.5px] text-slate-300">${item.gene}</span>
+        <div class="p-3 rounded-2xl border border-white/10 bg-slate-950/70 grid grid-cols-1 md:grid-cols-12 items-center gap-2.5 text-xs font-mono transition-all hover:bg-slate-950/90">
+          
+          <!-- Sample 1 Side (Left) -->
+          <div class="md:col-span-4 p-2.5 rounded-xl border ${s1BoxClass} flex items-center justify-between">
+            <span class="text-[10px] text-slate-400 font-sans truncate mr-2">${name1}:</span>
+            <div>${s1Text}</div>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 flex-1 text-center font-mono">
-            <div class="p-1.5 rounded-xl bg-slate-900/60 border border-white/5">
-              <div class="text-[9.5px] text-slate-400 font-sans">${name1}:</div>
-              <div>${sample1Allele}</div>
+          <!-- Middle Section: Position info & Green bar in the middle -->
+          <div class="md:col-span-4 flex flex-col items-center justify-center space-y-1.5 px-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-slate-400 font-bold text-[11px]">#${idx + 1}</span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-white font-bold text-xs">${item.pos}</span>
+              <span class="px-2 py-0.5 rounded-lg bg-slate-900/80 border border-white/5 text-[10px] text-slate-300">${item.gene}</span>
             </div>
-            <div class="p-1.5 rounded-xl bg-slate-900/60 border border-white/5">
-              <div class="text-[9.5px] text-slate-400 font-sans">${name2}:</div>
-              <div>${sample2Allele}</div>
+            <!-- Green Bar in the Middle -->
+            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-white/10">
+              <div class="bg-emerald-400 h-2 rounded-full w-full shadow-sm shadow-emerald-400/60"></div>
             </div>
-          </div>
-
-          <div class="flex items-center justify-end space-x-3 shrink-0 w-full md:w-56">
-            <div class="flex-1">${barHtml}</div>
             <div class="shrink-0">${badgeHtml}</div>
           </div>
+
+          <!-- Sample 2 Side (Right) -->
+          <div class="md:col-span-4 p-2.5 rounded-xl border ${s2BoxClass} flex items-center justify-between">
+            <div>${s2Text}</div>
+            <span class="text-[10px] text-slate-400 font-sans truncate ml-2 text-right">:${name2}</span>
+          </div>
+
         </div>
       `;
     }).join('');
@@ -1095,9 +1127,9 @@ window.FamilyReportGenerator = {
               <h3 class="text-base font-extrabold text-white font-sans">Full variant position matching diagram (${sortedPositions.length} total loci)</h3>
             </div>
             <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Shared (${shared.length})</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Private (${unique1.length + unique2.length})</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Hong Kong specific</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span> Shared (${shared.length})</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm shadow-rose-500"></span> Private (${unique1.length + unique2.length})</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-yellow-400 shadow-sm shadow-yellow-400"></span> Ethnic specific</span>
             </div>
           </div>
 

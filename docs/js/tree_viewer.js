@@ -629,7 +629,7 @@ window.TreeViewer = {
     }
 
     if (titleEl) {
-      titleEl.innerHTML = `Conserved mutation cladogram: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
+      titleEl.innerHTML = `Conserved mutation cladogram: <span class="text-emerald-400 font-mono">${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
     }
 
     const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
@@ -950,7 +950,7 @@ window.TreeViewer = {
             <div class="flex flex-wrap gap-2.5 pt-1">
               ${sharedHigh.map(m => `
                 <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-950/60 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-1.5 group cursor-pointer">
-                  <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                  <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
                   <span class="text-slate-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded-lg border border-white/10 group-hover:border-emerald-600 group-hover:text-emerald-300">
                     High (100%)
                   </span>
@@ -973,7 +973,7 @@ window.TreeViewer = {
 
           ${lowVafMuted.length > 0 ? `
             <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-amber-200 text-xs font-sans">
-              <strong>Trace mutation warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
+              <strong>Trace mutation warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
             </div>
 
             <div class="overflow-x-auto">
@@ -990,7 +990,7 @@ window.TreeViewer = {
                 <tbody class="divide-y divide-white/5">
                   ${lowVafMuted.map(m => `
                     <tr class="hover:bg-slate-800/40">
-                      <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
+                      <td class="p-2.5 text-amber-400 font-bold">${m.pos}</td>
                       <td class="p-2.5 font-bold text-slate-200">${m.ref} &gt; ${m.alt}</td>
                       <td class="p-2.5 text-sky-300 font-sans">${this.getSampleRole(m.sample)}</td>
                       <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% frequency</td>
@@ -1045,25 +1045,25 @@ window.TreeViewer = {
 
     const mutToSamplesMap = new Map();
     allVariants.forEach(v => {
-      const key = `m.${v.pos} ${v.ref}>${v.alt}`;
+      const key = `${v.pos} ${v.ref}>${v.alt}`;
       if (!mutToSamplesMap.has(key)) mutToSamplesMap.set(key, new Set());
       mutToSamplesMap.get(key).add(v.sample);
     });
 
     const privateMuts = cohortVariants.filter(v => {
-      const key = `m.${v.pos} ${v.ref}>${v.alt}`;
+      const key = `${v.pos} ${v.ref}>${v.alt}`;
       const holders = mutToSamplesMap.get(key);
       return holders && holders.size === 1;
     });
 
     const sharedDiagnostic = cohortVariants.filter(v => {
-      const key = `m.${v.pos} ${v.ref}>${v.alt}`;
+      const key = `${v.pos} ${v.ref}>${v.alt}`;
       const holders = mutToSamplesMap.get(key);
       return holders && holders.size > 1 && v.vaf >= 0.03;
     });
 
-    const uniqueSharedMuts = Array.from(new Map(sharedDiagnostic.map(m => [`m.${m.pos}`, m])).values());
-    const uniquePrivateMuts = Array.from(new Map(privateMuts.map(m => [`m.${m.pos}`, m])).values());
+    const uniqueSharedMuts = Array.from(new Map(sharedDiagnostic.map(m => [`${m.pos}`, m])).values());
+    const uniquePrivateMuts = Array.from(new Map(privateMuts.map(m => [`${m.pos}`, m])).values());
 
     const ped = (window.App && window.App.FAMILY_PEDIGREES) ? window.App.FAMILY_PEDIGREES[primaryCode] : null;
 
@@ -1187,7 +1187,7 @@ window.TreeViewer = {
             <div class="flex flex-wrap gap-2 pt-1">
               ${uniqueSharedMuts.slice(0, 12).map(m => `
                 <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-950/60 border border-emerald-800/60 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
-                  m.${m.pos} ${m.ref}&gt;${m.alt} <span class="text-slate-400 text-[10px]">(${m.gene || 'D-loop'})</span>
+                  ${m.pos} ${m.ref}&gt;${m.alt} <span class="text-slate-400 text-[10px]">(${m.gene || 'D-loop'})</span>
                 </button>
               `).join('')}
             </div>
@@ -1209,7 +1209,7 @@ window.TreeViewer = {
               ${uniquePrivateMuts.map(m => `
                 <div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 space-y-1">
                   <div class="flex items-center justify-between text-xs font-bold text-amber-300">
-                    <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
+                    <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
                     <span class="text-slate-400 text-[10px]">High presence</span>
                   </div>
                   <div class="text-[11px] text-slate-400 font-sans flex items-center justify-between">

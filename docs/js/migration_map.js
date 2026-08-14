@@ -549,9 +549,9 @@ window.MigrationMap = {
           latlng: [29.6469, 91.1172],
           ybp: '30,000 YBP to Present',
           mutations: [3394, 4491, 8784, 12950, 14305, 15535, 16048],
-          desc: 'Acquisition of iconic mitochondrial complex I hypoxia adaptation mutation m.3394 T>C, enabling permanent living in extreme high-altitude hypoxia.',
+          desc: 'Acquisition of iconic mitochondrial complex I hypoxia adaptation mutation 3394 T>C, enabling permanent living in extreme high-altitude hypoxia.',
           stats: [
-            { label: 'Hypoxia Mutation', val: 'm.3394 T>C (ND1)', note: 'Enhances mitochondrial ATP generation efficiency under low oxygen.', sources: ['Ji et al. PNAS (2012)', 'Lu et al. Science (2016)'] },
+            { label: 'Hypoxia Mutation', val: '3394 T>C (ND1)', note: 'Enhances mitochondrial ATP generation efficiency under low oxygen.', sources: ['Ji et al. PNAS (2012)', 'Lu et al. Science (2016)'] },
             { label: 'Plateau Habitation Date', val: '~30,000–40,000 YBP', note: 'Nwya Devu site establishes early high-altitude occupation.', sources: ['Zhang et al. Science (2018)'] }
           ]
         }
@@ -931,12 +931,12 @@ window.MigrationMap = {
       const evidence = this.MUTATION_MEANINGS[pos] || {
         locus: 'Mitochondrial DNA',
         change: 'Polymorphism',
-        meaning: `Ancestral mutation at position m.${pos} confirming historical migration checkpoint.`
+        meaning: `Ancestral mutation at position ${pos} confirming historical migration checkpoint.`
       };
       return `
         <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1 font-mono text-xs">
           <div class="flex items-center justify-between border-b border-white/10 pb-1">
-            <span class="font-extrabold text-sky-400 text-xs">m.${pos} ${evidence.change}</span>
+            <span class="font-extrabold text-sky-400 text-xs">${pos} ${evidence.change}</span>
             <span class="px-2 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-[9.5px] text-slate-300">${evidence.locus}</span>
           </div>
           <p class="text-slate-300 font-sans text-[11px] leading-relaxed pt-0.5">
