@@ -225,8 +225,8 @@ window.DiagnosticMarkersExplorer = {
       <div class="space-y-4 font-mono text-xs">
         <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
           <div class="text-sky-300 font-bold flex items-center justify-between">
-            <span class="text-sm">Diagnostic Markers: ${data.name}</span>
-            <span class="text-[10px] text-slate-400 font-sans font-normal">Maternally Transmitted Polymorphisms</span>
+            <span class="text-sm">Diagnostic markers: ${data.name}</span>
+            <span class="text-[10px] text-slate-400 font-sans font-normal">Maternally transmitted polymorphisms</span>
           </div>
           <div class="text-white font-extrabold text-sm tracking-wide pt-1">
             ${data.markers.map(m => `<span class="bg-slate-900 text-sky-300 px-3 py-1 rounded-xl border border-sky-500/30 mr-2 inline-block mb-2 shadow-sm font-mono">m.${m}</span>`).join('')}
@@ -278,11 +278,12 @@ window.FamilyReportGenerator = {
     let total = 0, count = 0;
 
     samplesA.forEach(s1 => {
-      const idx1 = allSamples.indexOf(s1);
+      const i = allSamples.indexOf(s1);
+      if (i < 0) return;
       samplesB.forEach(s2 => {
-        const idx2 = allSamples.indexOf(s2);
-        if (idx1 >= 0 && idx2 >= 0 && matrix[idx1] && matrix[idx1][idx2] !== undefined) {
-          total += matrix[idx1][idx2];
+        const j = allSamples.indexOf(s2);
+        if (j >= 0 && matrix[i] && matrix[i][j] !== undefined) {
+          total += matrix[i][j];
           count++;
         }
       });
@@ -311,7 +312,7 @@ window.FamilyReportGenerator = {
       <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-white/15 bg-slate-900 font-mono text-xs rounded-3xl">
         <div class="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
-            <span class="text-[10px] text-sky-400 uppercase font-bold tracking-wider">Mutation Inspector</span>
+            <span class="text-[10px] text-sky-400 uppercase font-bold tracking-wider">Mutation inspector</span>
             <h3 class="text-base font-extrabold text-white">m.${v.pos} ${v.ref}&gt;${v.alt}</h3>
           </div>
           <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all border border-white/10">
@@ -321,23 +322,23 @@ window.FamilyReportGenerator = {
 
         <div class="space-y-3 font-sans">
           <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-            <div class="text-slate-400 text-[11px]">Seen in Population Cohorts:</div>
+            <div class="text-slate-400 text-[11px]">Seen in population cohorts:</div>
             <div class="flex flex-wrap gap-1.5 pt-1">${ethBadges}</div>
           </div>
 
           <div class="grid grid-cols-2 gap-2 font-mono text-xs">
             <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
-              <span class="text-slate-400 text-[10px] block">Gene / Region</span>
-              <strong class="text-emerald-400">${v.gene || 'Control Region (D-loop)'}</strong>
+              <span class="text-slate-400 text-[10px] block">Gene / region</span>
+              <strong class="text-emerald-400">${v.gene || 'Control region (D-loop)'}</strong>
             </div>
             <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
-              <span class="text-slate-400 text-[10px] block">Variant Frequency (VAF)</span>
+              <span class="text-slate-400 text-[10px] block">Variant frequency (VAF)</span>
               <strong class="text-sky-400">${(v.vaf ? (v.vaf * 100).toFixed(1) : 100)}% VAF</strong>
             </div>
           </div>
 
           <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 text-[11.5px] text-slate-300 leading-relaxed">
-            <strong>Biological Context:</strong> Polymorphic mitochondrial DNA mutation at position m.${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
+            <strong>Biological context:</strong> Polymorphic mitochondrial DNA mutation at position m.${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
           </div>
         </div>
       </div>
@@ -481,8 +482,8 @@ window.FamilyReportGenerator = {
         <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
-              <h3 class="text-base font-extrabold text-white font-sans">3-Way Population Variant Distribution</h3>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
+              <h3 class="text-base font-extrabold text-white font-sans">3-Way population variant distribution</h3>
             </div>
             <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
@@ -493,9 +494,9 @@ window.FamilyReportGenerator = {
               <circle cx="420" cy="170" r="135" fill="${color2}" fill-opacity="0.18" stroke="${color2}" stroke-width="2.2"/>
               <circle cx="340" cy="270" r="135" fill="${color3}" fill-opacity="0.18" stroke="${color3}" stroke-width="2.2"/>
 
-              <text x="175" y="105" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} Only (${unique1.length})</text>
-              <text x="505" y="105" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} Only (${unique2.length})</text>
-              <text x="340" y="380" fill="${color3}" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">${info3.code} Only (${unique3.length})</text>
+              <text x="175" y="105" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} only (${unique1.length})</text>
+              <text x="505" y="105" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} only (${unique2.length})</text>
+              <text x="340" y="380" fill="${color3}" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">${info3.code} only (${unique3.length})</text>
 
               <text x="340" y="100" fill="#38bdf8" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info2.code} (${shared12.length})</text>
               <text x="230" y="270" fill="#a78bfa" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info3.code} (${shared13.length})</text>
@@ -520,11 +521,11 @@ window.FamilyReportGenerator = {
           <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
-                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">3-Way Multi-Population Comparative Report</div>
+                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">3-Way multi-population comparative report</div>
                 <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-slate-500">vs</span> ${info2.name} <span class="text-slate-500">vs</span> ${info3.name}</h2>
               </div>
               <div class="px-3 py-1.5 rounded-xl bg-sky-950/80 border border-sky-800 text-xs text-sky-300 font-bold">
-                3-Way Triangulation Mode
+                3-Way triangulation mode
               </div>
             </div>
 
@@ -555,7 +556,7 @@ window.FamilyReportGenerator = {
             <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
               <div class="text-sky-300 font-bold font-mono">What do these numbers mean?</div>
               <p class="text-slate-300 leading-relaxed text-[11.5px]">
-                <strong>Pairwise Genetic Distance</strong> measures the average number of mitochondrial DNA mutation differences between individuals from two population cohorts.
+                <strong>Pairwise genetic distance</strong> measures the average number of mitochondrial DNA mutation differences between individuals from two population cohorts.
                 Lower numbers (< 10) indicate close maternal ancestry, while higher numbers (> 18) reflect deep evolutionary divergence over tens of thousands of years.
               </p>
             </div>
@@ -566,9 +567,9 @@ window.FamilyReportGenerator = {
           <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-5 text-xs text-slate-300 leading-relaxed shadow-2xl">
             <div class="border-b border-white/10 pb-3">
               <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
-                <span>Population Breakdown</span>
+                <span>Population breakdown</span>
               </h4>
-              <p class="text-slate-400 text-[11px] mt-0.5">Triangulated Evolutionary &amp; Geographic Lineage Analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">Triangulated evolutionary and geographic lineage analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-[11.5px]">
@@ -637,8 +638,8 @@ window.FamilyReportGenerator = {
         <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive Mutational Venn Diagram</span>
-              <h3 class="text-base font-extrabold text-white font-sans">2-Way Pairwise Variant Distribution</h3>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
+              <h3 class="text-base font-extrabold text-white font-sans">2-Way pairwise variant distribution</h3>
             </div>
             <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
@@ -648,8 +649,8 @@ window.FamilyReportGenerator = {
               <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.18" stroke="${color1}" stroke-width="2.2"/>
               <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.18" stroke="${color2}" stroke-width="2.2"/>
 
-              <text x="150" y="90" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} Only (${unique1.length})</text>
-              <text x="450" y="90" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} Only (${unique2.length})</text>
+              <text x="150" y="90" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} only (${unique1.length})</text>
+              <text x="450" y="90" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} only (${unique2.length})</text>
               <text x="300" y="90" fill="#34d399" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
 
               ${placeDots(unique1, 160, 160, color1)}
@@ -666,19 +667,19 @@ window.FamilyReportGenerator = {
           <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
-                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Pairwise Cohort Comparative Report</div>
+                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Pairwise cohort comparative report</div>
                 <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-slate-500">vs</span> ${info2.name}</h2>
               </div>
               <div class="flex items-center space-x-3 bg-slate-950/80 px-4 py-2 rounded-2xl border border-white/10">
-                <span class="text-xs text-slate-400">Pairwise Genetic Distance:</span>
+                <span class="text-xs text-slate-400">Pairwise genetic distance:</span>
                 <span class="text-lg font-bold text-sky-300">${avgDist}</span>
               </div>
             </div>
 
             <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-              <div class="text-sky-300 font-bold font-mono">What does Pairwise Genetic Distance mean?</div>
+              <div class="text-sky-300 font-bold font-mono">What does pairwise genetic distance mean?</div>
               <p class="text-slate-300 leading-relaxed text-[11.5px]">
-                <strong>Genetic Distance (${avgDist})</strong> measures the average number of mitochondrial DNA mutation differences between individuals in ${info1.name} and ${info2.name}.
+                <strong>Genetic distance (${avgDist})</strong> measures the average number of mitochondrial DNA mutation differences between individuals in ${info1.name} and ${info2.name}.
                 Lower values (< 10) indicate close maternal relationship, while higher values (> 18) reflect deep evolutionary divergence over tens of thousands of years.
               </p>
             </div>
@@ -702,18 +703,18 @@ window.FamilyReportGenerator = {
           <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-4 text-xs text-slate-300 shadow-2xl">
             <div class="border-b border-white/10 pb-3">
               <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
-                <span>Population Breakdown</span>
+                <span>Population breakdown</span>
               </h4>
-              <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary Lineage &amp; Migration Analysis between ${info1.code} and ${info2.code}</p>
+              <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary lineage and migration analysis between ${info1.code} and ${info2.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
-                <div class="font-mono font-bold text-sky-300 text-sm">${info1.name} Breakdown</div>
+                <div class="font-mono font-bold text-sky-300 text-sm">${info1.name} breakdown</div>
                 <p class="text-slate-300 text-[11.5px] leading-relaxed">${info1.history}</p>
               </div>
               <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
-                <div class="font-mono font-bold text-blue-300 text-sm">${info2.name} Breakdown</div>
+                <div class="font-mono font-bold text-blue-300 text-sm">${info2.name} breakdown</div>
                 <p class="text-slate-300 text-[11.5px] leading-relaxed">${info2.history}</p>
               </div>
             </div>
@@ -867,16 +868,16 @@ window.FamilyReportGenerator = {
     let inheritanceBadge = '';
 
     if (Number(dist) === 0.00) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">Identical Maternal Lineage (0.00 Distance)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">Identical maternal lineage (0.00 distance)</span>`;
       inheritanceNote = `Identical mitochondrial DNA sequence with zero mutational differences across all 16,569 base pairs, verifying direct maternal transmission.`;
     } else if (isSameCohort && (role1.includes('Father') || role2.includes('Father'))) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Paternal Lineage (${dist} Distance)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Paternal lineage (${dist} distance)</span>`;
       inheritanceNote = `Mitochondrial DNA is inherited strictly maternally. Fathers do not transmit mtDNA to offspring.`;
     } else if (isSameCohort) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Same Cohort (${dist} Distance)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Same cohort (${dist} distance)</span>`;
       inheritanceNote = `Both samples originate from the ${info1.name} cohort, separated by ${dist} mutational differences.`;
     } else {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Cross-Cohort Comparison (${dist} Distance)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Cross-cohort comparison (${dist} distance)</span>`;
       inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}), separated by ${dist} mutational differences.`;
     }
 
@@ -911,7 +912,7 @@ window.FamilyReportGenerator = {
       <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
           <div>
-            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Variant Distribution</span>
+            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Variant distribution</span>
             <h3 class="text-base font-extrabold text-white font-sans">${name1} vs ${name2}</h3>
           </div>
           <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for detail</span>
@@ -975,15 +976,15 @@ window.FamilyReportGenerator = {
       let barHtml = '';
 
       if (isHkSpecific) {
-        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-amber-950/90 border border-amber-400 text-amber-300 font-bold text-[10.5px] shadow-sm shadow-amber-500/20">Hong Kong Specific</span>`;
+        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-amber-950/90 border border-amber-400 text-amber-300 font-bold text-[10.5px] shadow-sm shadow-amber-500/20">Hong Kong specific</span>`;
         rowStyle = 'border-amber-500/40 bg-amber-950/20';
         barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-amber-400 h-2 rounded-full w-full shadow-sm shadow-amber-400"></div></div>`;
       } else if (isShared) {
-        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-bold text-[10.5px]">Shared Conserved</span>`;
+        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-bold text-[10.5px]">Shared conserved</span>`;
         rowStyle = 'border-emerald-500/30 bg-slate-950/80';
         barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-emerald-400 h-2 rounded-full w-full shadow-sm shadow-emerald-400"></div></div>`;
       } else {
-        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-rose-950/80 border border-rose-500/60 text-rose-300 font-bold text-[10.5px]">Private Mutation</span>`;
+        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-rose-950/80 border border-rose-500/60 text-rose-300 font-bold text-[10.5px]">Private mutation</span>`;
         rowStyle = 'border-white/5 bg-slate-950/50';
         barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-rose-500 h-2 rounded-full ${item.alt1 ? 'w-1/2' : 'w-1/2 ml-auto'}"></div></div>`;
       }
@@ -1030,7 +1031,7 @@ window.FamilyReportGenerator = {
         <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Pairwise Sample Report</div>
+              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Pairwise sample report</div>
               <h2 class="text-xl font-extrabold text-white">${name1} <span class="text-slate-500">vs</span> ${name2}</h2>
             </div>
             ${inheritanceBadge}
@@ -1038,24 +1039,24 @@ window.FamilyReportGenerator = {
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Pairwise Distance:</div>
+              <div class="text-slate-400 font-sans">Pairwise distance:</div>
               <div class="text-xl font-bold text-emerald-300 font-mono">${dist}</div>
               <div class="text-[10px] text-slate-500 font-sans">Mutation differences</div>
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Shared Mutations:</div>
+              <div class="text-slate-400 font-sans">Shared mutations:</div>
               <div class="text-xl font-bold text-sky-300 font-mono">${shared.length} Sites</div>
               <div class="text-[10px] text-slate-500 font-sans">Identical in both genomes</div>
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Lineage Transmission:</div>
-              <div class="text-sm font-bold text-slate-200 font-mono">${Number(dist) === 0 ? 'Strict Maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal Line' : (isSameCohort ? 'Intra-Cohort' : 'Cross-Cohort'))}</div>
+              <div class="text-slate-400 font-sans">Lineage transmission:</div>
+              <div class="text-sm font-bold text-slate-200 font-mono">${Number(dist) === 0 ? 'Strict maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal line' : (isSameCohort ? 'Intra-cohort' : 'Cross-cohort'))}</div>
               <div class="text-[10px] text-slate-500 font-sans">Inheritance mode</div>
             </div>
           </div>
 
           <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-            <div class="text-emerald-300 font-bold font-mono">Biological Context:</div>
+            <div class="text-emerald-300 font-bold font-mono">Biological context:</div>
             <p class="text-slate-300 leading-relaxed text-[11.5px]">
               ${inheritanceNote}
             </p>
@@ -1090,13 +1091,13 @@ window.FamilyReportGenerator = {
         <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Comprehensive Familial Marker Analysis</span>
-              <h3 class="text-base font-extrabold text-white font-sans">Full Variant Position Matching Diagram (${sortedPositions.length} Total Loci)</h3>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Comprehensive familial marker analysis</span>
+              <h3 class="text-base font-extrabold text-white font-sans">Full variant position matching diagram (${sortedPositions.length} total loci)</h3>
             </div>
             <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
               <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Shared (${shared.length})</span>
               <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Private (${unique1.length + unique2.length})</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Hong Kong Specific</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Hong Kong specific</span>
             </div>
           </div>
 
@@ -1109,7 +1110,7 @@ window.FamilyReportGenerator = {
           <div class="p-4 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-2 font-sans shadow-xl">
             <div class="flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
               <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400"></span>
-              <span>Hong Kong Specific Mutations (Cross-Validated Dataset Verification):</span>
+              <span>Hong Kong specific mutations (cross-validated dataset verification):</span>
             </div>
             <p class="text-slate-200 text-xs leading-relaxed">
               Positions <strong>m.5821</strong>, <strong>m.6338</strong>, <strong>m.6455</strong> (MT-CO1), <strong>m.8602</strong> (MT-ATP6), <strong>m.9540</strong> (MT-CO3), and <strong>m.14821</strong> (MT-CYB) are highlighted as private diagnostic signatures. These variants were cross-referenced against multiple reference datasets including <strong>OGC (1000 Genomes)</strong>, <strong>Norwegian</strong>, and <strong>Swedish</strong> cohorts; across all comparative datasets, only this Hong Kong sample possessed these mutations, establishing them as private lineage-defining markers.

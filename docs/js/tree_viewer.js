@@ -273,7 +273,7 @@ window.TreeViewer = {
 
     let html = `
       <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3.5 py-1.5 text-xs font-semibold rounded-xl ${isAll ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/25 font-bold' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800 border border-white/10'} transition-all">
-        All Cohorts (${groupings.length})
+        All cohorts (${groupings.length})
       </button>
     `;
 
@@ -331,7 +331,7 @@ window.TreeViewer = {
     if (this.selectedEthnicities.length === 1) {
       const eth1 = this.selectedEthnicities[0];
       if (toast) {
-        if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
+        if (toastTitle) toastTitle.textContent = `Branch selected: ${eth1}`;
         if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
         if (toastMsg) {
           toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-sky-400">Click another branch on the tree</strong> to compare!`;
@@ -629,7 +629,7 @@ window.TreeViewer = {
     }
 
     if (titleEl) {
-      titleEl.innerHTML = `Conserved Mutation Cladogram: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
+      titleEl.innerHTML = `Conserved mutation cladogram: <span class="text-emerald-400 font-mono">m.${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
     }
 
     const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
@@ -639,18 +639,18 @@ window.TreeViewer = {
         
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 flex flex-wrap items-center justify-between gap-3 font-mono">
           <div>
-            <div class="text-[11px] text-slate-400">Total Inherited Lineages Carrying Mutation:</div>
-            <div class="text-base font-bold text-emerald-400">${carrierSamples.length} Sample Lines Across ${carrierCohorts.length} Global Cohorts</div>
+            <div class="text-[11px] text-slate-400">Total inherited lineages carrying mutation:</div>
+            <div class="text-base font-bold text-emerald-400">${carrierSamples.length} sample lines across ${carrierCohorts.length} global cohorts</div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
-              Conserved Founder Mutation (High Presence)
+              Conserved founder mutation (high presence)
             </span>
           </div>
         </div>
 
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2 font-mono">
-          <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Carrying Population Cohorts:</div>
+          <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Carrying population cohorts:</div>
           <div class="flex flex-wrap gap-2">
             ${carrierCohorts.map(c => `
               <span class="px-2.5 py-1 rounded-xl bg-slate-900 border border-sky-500/40 text-sky-300 font-bold text-xs">
@@ -662,7 +662,7 @@ window.TreeViewer = {
 
         <!-- Cladogram Visualization for this Specific Mutation -->
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2">
-          <div class="text-[11px] text-slate-400 font-mono font-bold uppercase tracking-wider">Lineage Branch Distribution:</div>
+          <div class="text-[11px] text-slate-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto p-1 font-mono">
             ${carrierSamples.map(sample => {
               const code = sample.split('_')[0];
@@ -897,7 +897,7 @@ window.TreeViewer = {
     const deidentifiedB = `${codeB} (${roleB})`;
 
     if (titleEl) {
-      titleEl.innerHTML = `Ancestral Junction Inspector: <span class="text-sky-400">${deidentifiedA}</span> &amp; <span class="text-blue-400">${deidentifiedB}</span> (${leaves.length} Descendant Lineages)`;
+      titleEl.innerHTML = `Ancestral junction inspector: <span class="text-sky-400">${deidentifiedA}</span> &amp; <span class="text-blue-400">${deidentifiedB}</span> (${leaves.length} descendant lineages)`;
     }
 
     const sampleAVars = window.App.variantsData.variants.filter(v => v.sample === sampleA);
@@ -926,11 +926,11 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-900/90 border border-sky-500/30 shadow-xl space-y-2 font-mono">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
             <div>
-              <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Branch Node Triangulation</div>
+              <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Branch node triangulation</div>
               <h4 class="text-lg font-extrabold text-white">${deidentifiedA} <span class="text-slate-500">&amp;</span> ${deidentifiedB}</h4>
             </div>
             <span class="px-3 py-1.5 rounded-xl bg-sky-950/80 border border-sky-700/80 text-xs text-sky-300 font-bold">
-              Ancestral Junction Node
+              Ancestral junction node
             </span>
           </div>
           <p class="text-slate-300 text-xs leading-relaxed font-sans">
@@ -942,7 +942,7 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
-              <span>Conserved Ancestral Mutations (${sharedHigh.length})</span>
+              <span>Conserved ancestral mutations (${sharedHigh.length})</span>
             </h4>
             <span class="text-slate-400 font-sans text-[11px]">Click mutation to pop up global distribution</span>
           </div>
@@ -966,14 +966,14 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-              <span>Trace Mutations (&lt;3% Detection)</span>
+              <span>Trace mutations (&lt;3% detection)</span>
             </h4>
             <span class="text-slate-400 font-sans text-[11px]">Trace heteroplasmy</span>
           </div>
 
           ${lowVafMuted.length > 0 ? `
             <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-amber-200 text-xs font-sans">
-              <strong>Trace Mutation Warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
+              <strong>Trace mutation warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`m.${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
             </div>
 
             <div class="overflow-x-auto">
@@ -983,8 +983,8 @@ window.TreeViewer = {
                     <th class="p-2.5">Position</th>
                     <th class="p-2.5">Mutation</th>
                     <th class="p-2.5">Role</th>
-                    <th class="p-2.5">Detection Level</th>
-                    <th class="p-2.5">Confidence Note</th>
+                    <th class="p-2.5">Detection level</th>
+                    <th class="p-2.5">Confidence note</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
@@ -993,8 +993,8 @@ window.TreeViewer = {
                       <td class="p-2.5 text-amber-400 font-bold">m.${m.pos}</td>
                       <td class="p-2.5 font-bold text-slate-200">${m.ref} &gt; ${m.alt}</td>
                       <td class="p-2.5 text-sky-300 font-sans">${this.getSampleRole(m.sample)}</td>
-                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% Frequency</td>
-                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-800 text-[10px]">Unverified Trace</span></td>
+                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% frequency</td>
+                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-800 text-[10px]">Unverified trace</span></td>
                     </tr>
                   `).join('')}
                 </tbody>
@@ -1028,7 +1028,7 @@ window.TreeViewer = {
       card.innerHTML = `
         <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 text-xs text-slate-300 font-mono flex items-center justify-between">
           <span>Click any cohort button or sample node on the phylogram to zoom in and inspect maternal pedigree.</span>
-          <span class="text-slate-400 text-[11px]">Global Phylogram View</span>
+          <span class="text-slate-400 text-[11px]">Global phylogram view</span>
         </div>
       `;
       return;
@@ -1080,11 +1080,11 @@ window.TreeViewer = {
         <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Maternal Pedigree &amp; Transmission Architecture</span>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Maternal pedigree and transmission architecture</span>
               <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
             </div>
             <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
-              Verified Strict Matrilineal Inheritance
+              Verified strict matrilineal inheritance
             </span>
           </div>
 
@@ -1105,7 +1105,7 @@ window.TreeViewer = {
               <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
                 <div class="flex items-center justify-between text-emerald-300 font-bold">
                   <span>Mother</span>
-                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% Transmission</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% transmission</span>
                 </div>
                 <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
               </div>
@@ -1115,7 +1115,7 @@ window.TreeViewer = {
               <div class="p-3 rounded-xl bg-slate-900 border border-emerald-700/70 space-y-1">
                 <div class="flex items-center justify-between text-emerald-400 font-bold">
                   <span>Aunt</span>
-                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal Sister</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal sister</span>
                 </div>
                 <div class="text-slate-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
               </div>
@@ -1125,7 +1125,7 @@ window.TreeViewer = {
               <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1 opacity-75">
                 <div class="flex items-center justify-between text-rose-300 font-bold">
                   <span>Father</span>
-                  <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded-lg border border-rose-800">0% Transmission</span>
+                  <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded-lg border border-rose-800">0% transmission</span>
                 </div>
                 <div class="text-slate-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
               </div>
@@ -1150,7 +1150,6 @@ window.TreeViewer = {
         </div>
       `;
     }
-    }
 
     card.innerHTML = `
       <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-5 font-mono text-xs">
@@ -1158,17 +1157,17 @@ window.TreeViewer = {
         <!-- Header Bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
           <div>
-            <div class="text-[11px] text-sky-400 font-bold uppercase tracking-wider">Cohort Maternal Lineage Overview</div>
+            <div class="text-[11px] text-sky-400 font-bold uppercase tracking-wider">Cohort maternal lineage overview</div>
             <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
               <span>Cohort: ${famName} (${primaryCode})</span>
             </h4>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1 rounded-xl bg-sky-950 text-sky-300 border border-sky-800 font-bold text-xs">
-              ${uniqueSamplesInCohort.length} Lineage Members
+              ${uniqueSamplesInCohort.length} lineage members
             </span>
             <span class="px-3 py-1 rounded-xl bg-slate-950 text-slate-300 border border-white/10 font-bold text-xs">
-              ${cohortVariants.length} Total Variants
+              ${cohortVariants.length} total variants
             </span>
           </div>
         </div>
@@ -1180,7 +1179,7 @@ window.TreeViewer = {
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-emerald-900/40 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
-              <span>Conserved Diagnostic Markers (${uniqueSharedMuts.length} Shared Across Family Line)</span>
+              <span>Conserved diagnostic markers (${uniqueSharedMuts.length} shared across family line)</span>
             </h5>
             <span class="text-[10px] text-slate-400 font-sans">Click any marker to open cladogram</span>
           </div>
@@ -1201,7 +1200,7 @@ window.TreeViewer = {
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
-              <span>Private Maternal Mutations (${uniquePrivateMuts.length} Lineage Specific)</span>
+              <span>Private maternal mutations (${uniquePrivateMuts.length} lineage specific)</span>
             </h5>
             <span class="text-[10px] text-slate-400 font-sans">Unique to individual maternal transmissions</span>
           </div>
@@ -1211,7 +1210,7 @@ window.TreeViewer = {
                 <div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 space-y-1">
                   <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                     <span>m.${m.pos} ${m.ref}&gt;${m.alt}</span>
-                    <span class="text-slate-400 text-[10px]">High Presence</span>
+                    <span class="text-slate-400 text-[10px]">High presence</span>
                   </div>
                   <div class="text-[11px] text-slate-400 font-sans flex items-center justify-between">
                     <span>${this.getSampleRole(m.sample)}</span>
@@ -1230,9 +1229,9 @@ window.TreeViewer = {
         <!-- Action Bar: Direct to 2D Satellite Map Tab -->
         <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
           <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs hover:bg-sky-400 shadow-md transition-all flex items-center gap-2">
-            <span>Trace ${primaryCode} Out-of-Africa Progression on Satellite Map ➔</span>
+            <span>Trace ${primaryCode} Out-of-Africa progression on satellite map ➔</span>
           </button>
-          <span class="text-slate-400 text-[11px] font-mono">De-Identified Genomic Data Protection Active</span>
+          <span class="text-slate-400 text-[11px] font-mono">De-identified genomic data protection active</span>
         </div>
 
       </div>

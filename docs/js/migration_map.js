@@ -920,7 +920,7 @@ window.MigrationMap = {
         </div>
         <p class="text-[11px] text-slate-300 leading-normal">${st.note}</p>
         <div class="pt-1.5 border-t border-white/5 flex flex-wrap items-center gap-1.5 text-[9.5px] font-mono text-slate-400">
-          <span class="text-sky-400 font-bold">Verified Sources:</span>
+          <span class="text-sky-400 font-bold">Verified sources:</span>
           ${(st.sources || []).map(src => `<span class="bg-slate-900 px-1.5 py-0.5 rounded border border-white/5 text-slate-300">${src}</span>`).join('')}
         </div>
       </div>
@@ -940,7 +940,7 @@ window.MigrationMap = {
             <span class="px-2 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-[9.5px] text-slate-300">${evidence.locus}</span>
           </div>
           <p class="text-slate-300 font-sans text-[11px] leading-relaxed pt-0.5">
-            <strong>Biological Proof:</strong> ${evidence.meaning}
+            <strong>Biological proof:</strong> ${evidence.meaning}
           </p>
         </div>
       `;
@@ -951,7 +951,7 @@ window.MigrationMap = {
       <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900 to-slate-950 p-4 space-y-1">
         <div class="flex items-center space-x-2 text-xs font-mono text-sky-400 font-bold uppercase tracking-wider">
           <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-          <span>Geographic Checkpoint</span>
+          <span>Geographic checkpoint</span>
         </div>
         <h4 class="text-base font-extrabold text-white tracking-tight">${currentStop.name}</h4>
         <div class="text-xs text-slate-400 font-mono">${currentStop.region} • <strong class="text-sky-300">${currentStop.ybp}</strong></div>
@@ -967,13 +967,13 @@ window.MigrationMap = {
         <!-- Interactive Stepper Controls -->
         <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 shadow-xl">
           <div class="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
-            <span class="text-slate-300 font-bold">Migration Progress: Step ${this.activeStepIndex + 1} of ${totalSteps}</span>
+            <span class="text-slate-300 font-bold">Migration progress: step ${this.activeStepIndex + 1} of ${totalSteps}</span>
             <div class="flex items-center space-x-1.5">
               <button onclick="window.MigrationMap.prevStep()" ${this.activeStepIndex === 0 ? 'disabled' : ''} class="px-2.5 py-1 rounded-xl bg-slate-950 border border-white/10 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs">
                 Prev
               </button>
               <button onclick="window.MigrationMap.nextStep()" ${this.activeStepIndex === totalSteps - 1 ? 'disabled' : ''} class="px-3 py-1 rounded-xl bg-sky-500 text-slate-950 hover:bg-sky-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs shadow-sm">
-                Next Step ➔
+                Next step ➔
               </button>
             </div>
           </div>
@@ -986,7 +986,7 @@ window.MigrationMap = {
 
         <!-- Area Significance & Description -->
         <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 space-y-2 shadow-xl">
-          <div class="text-xs text-sky-400 font-mono font-bold uppercase tracking-wider">Significance to Humanity:</div>
+          <div class="text-xs text-sky-400 font-mono font-bold uppercase tracking-wider">Significance to humanity:</div>
           <p class="text-slate-200 text-xs leading-relaxed font-sans">
             ${currentStop.desc}
           </p>
@@ -995,8 +995,8 @@ window.MigrationMap = {
         <!-- Verified Facts & Statistics with 2 Sources -->
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold text-sky-300 uppercase tracking-wider flex items-center justify-between">
-            <span>Verified Anthropological Data:</span>
-            <span class="text-[10px] text-slate-400">2 Verified Sources per Stat</span>
+            <span>Verified anthropological data:</span>
+            <span class="text-[10px] text-slate-400">2 verified sources per stat</span>
           </div>
           <div class="space-y-2">
             ${statsHtml}
@@ -1006,8 +1006,8 @@ window.MigrationMap = {
         <!-- Diagnostic Mutations Evidence -->
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center justify-between">
-            <span>Mutation Evidence (${(currentStop.mutations || []).length} Markers):</span>
-            <span class="text-[10px] text-slate-400">Matched in Dataset</span>
+            <span>Mutation evidence (${(currentStop.mutations || []).length} markers):</span>
+            <span class="text-[10px] text-slate-400">Matched in dataset</span>
           </div>
           <div class="space-y-2">
             ${mutationCardsHtml}
