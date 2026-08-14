@@ -308,6 +308,10 @@ window.FamilyReportGenerator = {
       </span>
     `).join(' ');
 
+    const baseMap = { 'A': 'adenine', 'C': 'cytosine', 'G': 'guanine', 'T': 'thymine' };
+    const refBase = baseMap[(v.ref || '').toUpperCase()] || v.ref;
+    const altBase = baseMap[(v.alt || '').toUpperCase()] || v.alt;
+
     modal.innerHTML = `
       <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-white/15 bg-slate-900 font-mono text-xs rounded-3xl">
         <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -321,6 +325,14 @@ window.FamilyReportGenerator = {
         </div>
 
         <div class="space-y-3 font-sans">
+          <!-- Basepair Substitution Explanation (Early Clarification) -->
+          <div class="p-3.5 rounded-2xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 leading-relaxed font-sans space-y-1">
+            <div class="font-bold text-sky-300 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
+            <p class="text-slate-200 text-xs leading-relaxed">
+              <strong>${v.ref}&gt;${v.alt}</strong> means an ancestral <strong>${refBase}</strong> basepair became a <strong>${altBase}</strong> basepair at position <strong>${v.pos}</strong>.
+            </p>
+          </div>
+
           <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
             <div class="text-slate-400 text-[11px]">Seen in population cohorts:</div>
             <div class="flex flex-wrap gap-1.5 pt-1">${ethBadges}</div>
@@ -342,7 +354,7 @@ window.FamilyReportGenerator = {
           </div>
         </div>
       </div>
-    `;  `;
+    `;
 
     modal.onclick = (e) => {
       if (e.target === modal) modal.remove();

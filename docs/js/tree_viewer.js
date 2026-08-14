@@ -633,10 +633,21 @@ window.TreeViewer = {
     }
 
     const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
+    const baseMap = { 'A': 'adenine', 'C': 'cytosine', 'G': 'guanine', 'T': 'thymine' };
+    const refBase = baseMap[(ref || '').toUpperCase()] || ref;
+    const altBase = baseMap[(alt || '').toUpperCase()] || alt;
 
     bodyEl.innerHTML = `
       <div class="space-y-4 font-sans text-xs">
         
+        <!-- Basepair Substitution Explanation (Early Clarification) -->
+        <div class="p-3.5 rounded-2xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 leading-relaxed font-sans space-y-1">
+          <div class="font-bold text-sky-300 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
+          <p class="text-slate-200 text-xs leading-relaxed">
+            <strong>${ref}&gt;${alt}</strong> indicates that an ancestral <strong>${refBase}</strong> basepair became a <strong>${altBase}</strong> basepair at position <strong>${pos}</strong>.
+          </p>
+        </div>
+
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 flex flex-wrap items-center justify-between gap-3 font-mono">
           <div>
             <div class="text-[11px] text-slate-400">Total inherited lineages carrying mutation:</div>
