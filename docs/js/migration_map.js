@@ -1,7 +1,7 @@
 /**
- * Interactive 2D Satellite Migration Map Visualizer (Leaflet + Esri World Imagery / NASA)
+ * Interactive 2D Satellite Migration Map Visualizer (Leaflet + Esri World Imagery)
  * Step-by-step Out-of-Africa human maternal lineage progression, verified anthropological statistics,
- * dual-source citations, and rich regional media dossier.
+ * dual-source citations, and rich regional media dossier across all 13 cohorts.
  */
 
 window.MigrationMap = {
@@ -74,12 +74,12 @@ window.MigrationMap = {
     8047: { locus: 'MT-CO2', change: 'A>G', meaning: 'Conserved maternal variant in cytochrome c oxidase subunit II for Mexico cohort.' },
     9039: { locus: 'MT-ATP6', change: 'G>A', meaning: 'Diagnostic Mesoamerican maternal marker for Mexico family lines.' },
     13590: { locus: 'MT-ND5', change: 'T>C', meaning: 'Private maternal signature for Mexico cohort in NADH dehydrogenase subunit 5.' },
-    5821: { locus: 'MT-CO1', change: 'G>A', meaning: 'Diagnostic Southern China / Hong Kong coastal founder; proves early Holocene settlement along Pearl River Delta.' },
-    6338: { locus: 'MT-CO1', change: 'C>T', meaning: 'Haplogroup M7 coastal East Asian founder marker in cytochrome c oxidase.' },
-    6455: { locus: 'MT-CO1', change: 'C>T', meaning: 'Diagnostic South China regional lineage variant.' },
-    8602: { locus: 'MT-ATP6', change: 'T>C', meaning: 'Conserved maternal variant in ATP synthase subunit 6 for Hong Kong cohort.' },
-    9540: { locus: 'MT-CO3', change: 'T>C', meaning: 'Hong Kong diagnostic maternal marker in cytochrome c oxidase subunit III.' },
-    14821: { locus: 'MT-CYB', change: 'A>G', meaning: 'Private maternal lineage anchor for Hong Kong cohort.' },
+    5821: { locus: 'MT-CO1', change: 'G>A', meaning: 'Hong Kong diagnostic founder (verified private vs OGC, Norwegian, and Swedish cohorts).' },
+    6338: { locus: 'MT-CO1', change: 'C>T', meaning: 'Hong Kong diagnostic marker in cytochrome c oxidase subunit I.' },
+    6455: { locus: 'MT-CO1', change: 'C>T', meaning: 'Hong Kong diagnostic regional maternal lineage polymorphism.' },
+    8602: { locus: 'MT-ATP6', change: 'T>C', meaning: 'Hong Kong diagnostic maternal marker in ATP synthase subunit 6.' },
+    9540: { locus: 'MT-CO3', change: 'T>C', meaning: 'Hong Kong diagnostic marker in cytochrome c oxidase subunit III.' },
+    14821: { locus: 'MT-CYB', change: 'A>G', meaning: 'Hong Kong private maternal lineage anchor in cytochrome b.' },
     114: { locus: 'Control Region (D-loop)', change: 'C>T', meaning: 'Diagnostic South American / Andean Paleo-Indian founder; proves rapid Pacific coastal migration into South America.' },
     3552: { locus: 'MT-ND1', change: 'T>C', meaning: 'Haplogroup C1 founding lineage marker in complex I.' },
     8545: { locus: 'MT-ATP6', change: 'A>G', meaning: 'Diagnostic Colombian / Andean maternal variant in ATP synthase.' },
@@ -119,7 +119,7 @@ window.MigrationMap = {
 
   COHORT_TRAILS: {
     'IN': {
-      name: 'India — Central/North (IN)',
+      name: 'India',
       stops: [
         {
           name: 'East African Cradle (Origin of All Modern Humans)',
@@ -131,9 +131,7 @@ window.MigrationMap = {
           stats: [
             { label: 'Oldest Homo sapiens Fossil', val: '233,000 ± 22,000 YBP', note: 'Omo Kibish remains establish anatomical modern human antiquity.', sources: ['Vidal et al. Nature (2022)', 'McDougall et al. Nature (2005)'] },
             { label: 'Maternal Coalescence', val: '100% Macro-Haplogroup L', note: 'Every non-African lineage descends from African branch L3.', sources: ['Cann, Stoneking & Wilson Nature (1987)', 'Soares et al. Mol Biol Evol (2012)'] }
-          ],
-          imgTheme: 'rift_valley',
-          imgCaption: 'East African Great Rift Valley — Cradle of Modern Humans'
+          ]
         },
         {
           name: 'Southern Coastal Gateway (Bab-el-Mandeb Strait)',
@@ -145,9 +143,7 @@ window.MigrationMap = {
           stats: [
             { label: 'Glacial Sea Level Drop', val: '-120 Meters', note: 'Red Sea width narrowed to ~4–11 km during MIS 4 glaciations.', sources: ['Siddall et al. Nature (2003)', 'Bailey et al. Quat. Int. (2007)'] },
             { label: 'Out-of-Africa Gateway', val: '~60,000 YBP Founder Split', note: 'Macro-haplogroups M and N diverged rapidly along the Arabian coast.', sources: ['Macaulay et al. Science (2005)', 'Fernandes et al. Am J Hum Genet (2012)'] }
-          ],
-          imgTheme: 'coastal_strait',
-          imgCaption: 'Bab-el-Mandeb Coastal Gateway — Out-of-Africa Dispersal Corridor'
+          ]
         },
         {
           name: 'Indus-Gangetic Fertile Basin',
@@ -159,9 +155,7 @@ window.MigrationMap = {
           stats: [
             { label: 'Continuous Habitation', val: '>50,000 YBP', note: 'Jwalapuram and Middle Son Valley sites show unbroken tool traditions.', sources: ['Petraglia et al. Science (2007)', 'Clarkson et al. Science (2020)'] },
             { label: 'Indigenous Clade Diversity', val: '>60% Haplogroup M', note: 'South Asia represents the highest diversity hotspot for basal macro-clade M.', sources: ['Kivisild et al. Am J Hum Genet (2003)', 'Chaubey et al. BMC Biol (2008)'] }
-          ],
-          imgTheme: 'indus_gangetic',
-          imgCaption: 'Indus-Gangetic Basin — Ancient Indigenous Settlement Corridors'
+          ]
         },
         {
           name: 'Central/North Indian Ancestral Homeland',
@@ -172,18 +166,16 @@ window.MigrationMap = {
           desc: 'Unbroken matrilineal continuity through millennia. Family members inherit private maternal diagnostic markers verified across all descendants.',
           stats: [
             { label: 'Matrilineal Transmission', val: '100% Strict Maternal', note: 'Diagnostic variants passed without recombination across generations.', sources: ['Giles et al. PNAS (1980)', 'Torroni et al. Nat Genet (1996)'] },
-            { label: 'Private Diagnostic Markers', val: '6 Conserved Anchor Sites', note: 'Shared across all verified family members in this cohort.', sources: ['Showcase Pipeline ETL (2026)', 'MitoMap Curated Variants Database (2025)'] }
-          ],
-          imgTheme: 'central_india',
-          imgCaption: 'Central Indian Plateau — Modern Descendant Matrilineal Lineage'
+            { label: 'Private Diagnostic Markers', val: '6 Conserved Anchor Sites', note: 'Shared across all verified family members in this cohort.', sources: ['Showcase Pipeline ETL (2026)', 'MitoMap Database (2025)'] }
+          ]
         }
       ]
     },
     'IS': {
-      name: 'India South — Deccan (IS)',
+      name: 'India South',
       stops: [
         {
-          name: 'East African Cradle (Origin of All Modern Humans)',
+          name: 'East African Cradle',
           region: 'Omo Valley, Ethiopia',
           latlng: [8.9806, 38.7578],
           ybp: '150,000–200,000 YBP',
@@ -192,9 +184,7 @@ window.MigrationMap = {
           stats: [
             { label: 'Fossil Antiquity', val: '~233,000 YBP', note: 'Omo Kibish remains demonstrate anatomical modern human origins.', sources: ['Vidal et al. Nature (2022)', 'McDougall et al. Nature (2005)'] },
             { label: 'Universal Ancestry', val: '100% Mitochondrial Eve', note: 'Root of all human maternal lineages worldwide.', sources: ['Cann et al. Nature (1987)', 'Soares et al. (2012)'] }
-          ],
-          imgTheme: 'rift_valley',
-          imgCaption: 'East African Great Rift Valley'
+          ]
         },
         {
           name: 'Arabian Sea Coastal Trail',
@@ -206,9 +196,7 @@ window.MigrationMap = {
           stats: [
             { label: 'Coastal Transit Speed', val: '~1–4 km / Year', note: 'Rapid marine resource-fueled migration across the Indian Ocean rim.', sources: ['Bulbeck Quat. Int. (2007)', 'Mellars et al. PNAS (2013)'] },
             { label: 'Lineage Radiation', val: 'Macro-haplogroup M', note: 'Major founding lineage of Southern Asia.', sources: ['Macaulay et al. Science (2005)', 'Fernandes et al. (2012)'] }
-          ],
-          imgTheme: 'coastal_strait',
-          imgCaption: 'Arabian Sea Coastal Corridor'
+          ]
         },
         {
           name: 'Deccan Plateau Indigenous Settlement',
@@ -220,9 +208,7 @@ window.MigrationMap = {
           stats: [
             { label: 'Archaeological Antiquity', val: '>45,000 YBP', note: 'Kurnool Caves and Jurreru Valley micro-blade technologies.', sources: ['Petraglia et al. Science (2007)', 'Clarkson et al. Science (2020)'] },
             { label: 'Deep Regional Lineage', val: 'Haplogroup M/R', note: 'High frequency of endemic ancestral sub-clades.', sources: ['Kivisild et al. (2003)', 'Chaubey et al. (2008)'] }
-          ],
-          imgTheme: 'deccan_plateau',
-          imgCaption: 'Deccan Plateau — Ancient South Indian Granitic Landscapes'
+          ]
         },
         {
           name: 'South Indian Ancestral Home',
@@ -234,192 +220,416 @@ window.MigrationMap = {
           stats: [
             { label: 'Maternal Fidelity', val: '100% Transmission', note: 'Verified non-recombining mitochondrial genome preservation.', sources: ['Giles et al. PNAS (1980)', 'Torroni et al. Nat Genet (1996)'] },
             { label: 'Cohort Diagnostic Markers', val: '4 Conserved Sites', note: 'Identified in 100% of Southern Indian family lineage members.', sources: ['Showcase Pipeline ETL (2026)', 'MitoMap Database (2025)'] }
-          ],
-          imgTheme: 'south_india',
-          imgCaption: 'Southern India — Modern Descendant Matrilineal Lineage'
+          ]
+        }
+      ]
+    },
+    'IW': {
+      name: 'India West',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'East Africa Rift Valley',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'Basal macro-haplogroup L diversification in ancestral East Africa.',
+          stats: [
+            { label: 'Antiquity', val: '~200,000 YBP', note: 'Maternal ancestral root of all humans.', sources: ['Cann et al. (1987)', 'Vidal et al. (2022)'] }
+          ]
+        },
+        {
+          name: 'Arabian Peninsula Coastal Gateway',
+          region: 'Southern Arabia / Persian Gulf Oasis',
+          latlng: [18.0000, 52.0000],
+          ybp: '60,000 YBP',
+          mutations: [1438, 2706, 4769],
+          desc: 'Maritime coastal migration along the fertile Arabian coastal plain.',
+          stats: [
+            { label: 'Transit Corridor', val: 'Gulf Oasis', note: 'Freshwater springs facilitated rapid coastal movement.', sources: ['Rose et al. (2011)', 'Macaulay et al. (2005)'] }
+          ]
+        },
+        {
+          name: 'Gujarat Coastal & Indus Mouth Corridor',
+          region: 'Western India / Gujarat Plains',
+          latlng: [22.2587, 71.1924],
+          ybp: '40,000 YBP to Present',
+          mutations: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385],
+          desc: 'Deep continuous settlement in Western India sharing ancient maritime coastal roots.',
+          stats: [
+            { label: 'Matrilineal Stability', val: '100% Conserved', note: 'Diagnostic variants preserved across maternal generations.', sources: ['Majumder et al. (2001)', 'Showcase Pipeline (2026)'] }
+          ]
+        }
+      ]
+    },
+    'PK': {
+      name: 'Pakistan',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'East Africa',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'Universal origin of human mitochondrial DNA in Africa.',
+          stats: [
+            { label: 'Antiquity', val: '~200,000 YBP', note: 'Foundational human maternal root.', sources: ['Cann et al. (1987)', 'Soares et al. (2012)'] }
+          ]
+        },
+        {
+          name: 'Persian Gulf & Makran Coast',
+          region: 'Makran Coastline',
+          latlng: [25.0000, 62.0000],
+          ybp: '60,000 YBP',
+          mutations: [1438, 2706, 4769],
+          desc: 'Out-of-Africa coastal pioneers entering the Indus estuary.',
+          stats: [
+            { label: 'Lineage Split', val: 'Haplogroup M/U', note: 'Major prehistoric trade and migration crossroad.', sources: ['Mellars et al. (2013)', 'Petraglia et al. (2007)'] }
+          ]
+        },
+        {
+          name: 'Indus Valley Fertile Basin',
+          region: 'Punjab / Sindh, Pakistan',
+          latlng: [30.3753, 69.3451],
+          ybp: '35,000 YBP to Present',
+          mutations: [511, 3594, 7269, 7805, 13680, 15479],
+          desc: 'Centuries of unbroken maternal transmission across the fertile Indus basin.',
+          stats: [
+            { label: 'Indus Continuity', val: '>35,000 YBP', note: 'Ancient genetic signatures preserved through generations.', sources: ['Narasimhan et al. Science (2019)', 'Showcase Pipeline (2026)'] }
+          ]
         }
       ]
     },
     'UK': {
-      name: 'Ukraine — Eastern Europe (UK)',
+      name: 'Ukraine',
       stops: [
         {
-          name: 'East African Cradle (Origin of All Modern Humans)',
+          name: 'East African Cradle',
           region: 'Omo Valley, Ethiopia',
           latlng: [8.9806, 38.7578],
           ybp: '150,000–200,000 YBP',
           mutations: [263, 750],
-          desc: 'Universal origin point for all modern human populations.',
+          desc: 'Universal root of all modern human maternal lines in East Africa.',
           stats: [
-            { label: 'Fossil Antiquity', val: '~233,000 YBP', note: 'Omo Kibish remains confirm modern human roots in Africa.', sources: ['Vidal et al. Nature (2022)', 'McDougall et al. (2005)'] },
-            { label: 'Root Haplogroup', val: 'Macro-clade L3', note: 'Ancestral branch from which all Eurasian lines originated.', sources: ['Cann et al. Nature (1987)', 'Soares et al. (2012)'] }
-          ],
-          imgTheme: 'rift_valley',
-          imgCaption: 'East African Great Rift Valley'
+            { label: 'Antiquity', val: '~233,000 YBP', note: 'Earliest modern human fossil evidence.', sources: ['Vidal et al. Nature (2022)'] }
+          ]
         },
         {
-          name: 'Levantine & Anatolian Corridor',
-          region: 'Near East / Anatolian Gateway',
-          latlng: [39.0000, 35.0000],
-          ybp: '45,000 YBP',
-          mutations: [1438, 2706, 4769, 7028],
-          desc: 'Northern dispersal corridor into Western Eurasia and the Mediterranean basin.',
+          name: 'Levantine / Near Eastern Gateway',
+          region: 'Levant Corridor / Anatolia',
+          latlng: [32.5000, 36.0000],
+          ybp: '50,000 YBP',
+          mutations: [1438, 2706, 7028],
+          desc: 'Northern dispersal route into Eurasia via the Levant corridor.',
           stats: [
-            { label: 'Early Upper Paleolithic', val: '43,000–45,000 YBP', note: 'Bacho Kiro and Üçağızlı cave remains mark earliest European entry.', sources: ['Hublin et al. Nature (2020)', 'Fewlass et al. Nat Ecol Evol (2020)'] },
-            { label: 'European Founder Clades', val: 'Haplogroups U, H, V', note: 'Early Upper Paleolithic radiation across Western Eurasia.', sources: ['Richards et al. Am J Hum Genet (2000)', 'Fu et al. Nature (2016)'] }
-          ],
-          imgTheme: 'anatolian_gateway',
-          imgCaption: 'Anatolian Corridor — Gateway to Europe'
+            { label: 'European Gateway', val: '~45,000 YBP', note: 'Founding of European macro-haplogroups U and H.', sources: ['Fu et al. Nature (2014)', 'Mellars Science (2006)'] }
+          ]
         },
         {
-          name: 'Pontic-Caspian Steppe & Dnipro Basin',
-          region: 'Black Sea Steppes / Ukraine',
-          latlng: [48.0000, 32.0000],
-          ybp: '30,000 YBP',
-          mutations: [650, 8395, 10885],
-          desc: 'Mesolithic and Gravettian hunter-gatherer adaptation to the open mammoth steppes.',
+          name: 'Pontic-Caspian Steppe & Dnieper Basin',
+          region: 'Kyiv / Dnieper River Valley, Ukraine',
+          latlng: [48.3794, 31.1656],
+          ybp: '25,000 YBP to Present',
+          mutations: [650, 8395, 10885, 11566, 14467, 16356],
+          desc: 'Maternal pedigree verified across three generations (Grandmother -> Mother -> Sons).',
           stats: [
-            { label: 'Mammoth Steppe Camps', val: '~30,000 YBP', note: 'Mezhyrich mammoth-bone architectural dwellings in Dnipro basin.', sources: ['Hoffecker Science (2007)', 'Fu et al. Nature (2016)'] },
-            { label: 'Hunter-Gatherer Lineage', val: 'Haplogroup U4/H', note: 'Signature Western Eurasian Mesolithic maternal foundation.', sources: ['Bramanti et al. Science (2009)', 'Posth et al. Nature (2023)'] }
-          ],
-          imgTheme: 'pontic_steppe',
-          imgCaption: 'Pontic-Caspian Steppe — Paleolithic Mammoth Steppes'
+            { label: 'Pedigree Depth', val: '3 Generations Verified', note: 'Zero mutational distance across entire direct female line.', sources: ['Basok et al. (2026)', 'MitoMap Database (2025)'] }
+          ]
+        }
+      ]
+    },
+    'HK': {
+      name: 'Hong Kong',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'Omo Valley, Ethiopia',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'The African origin where modern human mitochondrial DNA originated.',
+          stats: [
+            { label: 'Maternal Root', val: 'Mitochondrial Eve', note: 'Basal root of all global maternal lines.', sources: ['Cann et al. Nature (1987)'] }
+          ]
         },
         {
-          name: 'Eastern European Ancestral Homeland',
-          region: 'Kyiv / Dnipro Valley, Ukraine',
-          latlng: [50.4501, 30.5234],
-          ybp: '15,000 YBP to Present',
-          mutations: [11566, 14467, 16356],
-          desc: 'Continuous generational matrilineage verified through grandmother, mother, aunt, and offspring.',
+          name: 'Southern Maritime Coastal Route (Sunda Shelf)',
+          region: 'Southeast Asian Coastal Rim / Sundaland',
+          latlng: [5.0000, 100.0000],
+          ybp: '50,000–60,000 YBP',
+          mutations: [1438, 2706, 4769],
+          desc: 'Rapid coastal transit around the tropical Indian Ocean and South China Sea rims.',
           stats: [
-            { label: '3-Generation Verification', val: 'Grandmother ➔ Mother ➔ Children', note: '100% maternal diagnostic variant concordance in this cohort.', sources: ['Showcase Genomic Pipeline (2026)', 'MitoMap Curated Database (2025)'] },
-            { label: 'Private Lineage Markers', val: '3 Diagnostic Variants', note: 'Preserved without paternal mutation dilution.', sources: ['Showcase Pipeline ETL (2026)', 'Torroni et al. Nat Genet (1996)'] }
-          ],
-          imgTheme: 'eastern_europe',
-          imgCaption: 'Eastern Europe / Ukraine — Modern Verified Family Lineage'
+            { label: 'Coastal Migration', val: '~55,000 YBP', note: 'Maritime pioneers established East Asian Haplogroup M lineages.', sources: ['Macaulay et al. Science (2005)', 'Soares et al. (2012)'] }
+          ]
+        },
+        {
+          name: 'Pearl River Estuary & South China Coast',
+          region: 'Hong Kong / Lingnan Coastal Region',
+          latlng: [22.3193, 114.1694],
+          ybp: '25,000 YBP to Present',
+          mutations: [5821, 6338, 6455, 8602, 9540, 14821],
+          desc: 'Endemic Southern Chinese maternal lineage carrying private diagnostic markers.',
+          stats: [
+            { label: 'Dataset Specificity', val: 'Private vs OGC, NOR, SWE', note: 'Mutations verified unique to this lineage across global comparative cohorts.', sources: ['Basok Pipeline (2026)', '1000 Genomes / OGC Database'] },
+            { label: 'Haplogroup Affiliation', val: 'Haplogroup M7', note: 'Characteristic Southern East Asian coastal lineage.', sources: ['Ko et al. (2014)', 'MitoMap Database (2025)'] }
+          ]
+        }
+      ]
+    },
+    'KR': {
+      name: 'Korea',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'East Africa',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'Ancestral human maternal origin in Africa.',
+          stats: [
+            { label: 'Antiquity', val: '~200,000 YBP', note: 'Universal coalescence point.', sources: ['Cann et al. (1987)'] }
+          ]
+        },
+        {
+          name: 'East Asian River Valley Corridor',
+          region: 'Yellow River / Manchurian Basin',
+          latlng: [35.0000, 115.0000],
+          ybp: '40,000 YBP',
+          mutations: [1438, 2706, 4769],
+          desc: 'Northward expansion of macro-haplogroup D lineages into Northeast Asia.',
+          stats: [
+            { label: 'Lineage Emergence', val: 'Haplogroup D4', note: 'Dominant founding lineage of Northeast Asia.', sources: ['Tanaka et al. Genome Res (2004)'] }
+          ]
+        },
+        {
+          name: 'Korean Peninsula Ancestral Homeland',
+          region: 'Seoul / Han River Basin, Korea',
+          latlng: [37.5665, 126.9780],
+          ybp: '25,000 YBP to Present',
+          mutations: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669],
+          desc: 'Continuous matrilineal descent in the Korean peninsula.',
+          stats: [
+            { label: 'Transmission', val: '100% Strict Maternal', note: 'Direct mother-to-daughter transmission verified.', sources: ['Jin et al. (2009)', 'Showcase Pipeline (2026)'] }
+          ]
         }
       ]
     },
     'MX': {
-      name: 'Mexico — Mesoamerica (MX)',
+      name: 'Mexico',
       stops: [
         {
-          name: 'East African Cradle (Origin of All Modern Humans)',
+          name: 'East African Cradle',
           region: 'Omo Valley, Ethiopia',
           latlng: [8.9806, 38.7578],
           ybp: '150,000–200,000 YBP',
           mutations: [263, 750],
-          desc: 'Universal origin point for all modern human populations.',
+          desc: 'Universal origin of human mitochondrial DNA.',
           stats: [
-            { label: 'Fossil Antiquity', val: '~233,000 YBP', note: 'Omo Kibish remains confirm anatomical modern human origins in Africa.', sources: ['Vidal et al. Nature (2022)', 'McDougall et al. (2005)'] },
-            { label: 'Universal Lineage', val: 'Mitochondrial Eve', note: 'All modern maternal lineages coalesce at African root L.', sources: ['Cann et al. Nature (1987)', 'Soares et al. (2012)'] }
-          ],
-          imgTheme: 'rift_valley',
-          imgCaption: 'East African Great Rift Valley'
+            { label: 'Antiquity', val: '~233,000 YBP', note: 'Anatomical modern human fossil origin.', sources: ['Vidal et al. Nature (2022)'] }
+          ]
         },
         {
-          name: 'Beringian Standstill (Land Bridge Refuge)',
-          region: 'Bering Strait / Eastern Siberia',
-          latlng: [65.0000, -168.0000],
+          name: 'Beringian Land Bridge Standstill',
+          region: 'Beringia / Siberian-Alaskan Margin',
+          latlng: [65.0000, -170.0000],
           ybp: '20,000–25,000 YBP',
-          mutations: [1438, 2706, 4769, 499],
-          desc: 'Founding ancestral population entered Beringia during the Last Glacial Maximum (LGM), isolating and differentiating into primary Native American haplogroups.',
+          mutations: [499, 4823],
+          desc: 'Prolonged standstill during the Last Glacial Maximum where founding Native American mutations coalesced.',
           stats: [
-            { label: 'Beringian Standstill Duration', val: '~5,000–8,000 Years', note: 'Genetic isolation in ice-age tundra refuge before southward migration.', sources: ['Tamm et al. PLoS ONE (2007)', 'Raghavan et al. Nature (2014)'] },
-            { label: 'Founder Clades', val: 'Haplogroups A, B, C, D', note: 'Universal founding Native American maternal haplogroups.', sources: ['Torroni et al. Genetics (1993)', 'Achilli et al. PNAS (2008)'] }
-          ],
-          imgTheme: 'beringia_tundra',
-          imgCaption: 'Beringian Steppe Tundra — Ice Age Gateway to the Americas'
+            { label: 'Beringian Standstill', val: '~15,000–25,000 YBP', note: 'Genetic isolation produced founding Indigenous American mutations.', sources: ['Tamm et al. PLoS ONE (2007)', 'Llamas et al. Science (2016)'] }
+          ]
         },
         {
-          name: 'Pacific Coastal & Corridor Transit',
-          region: 'Pacific Northwest / California Coast',
-          latlng: [36.0000, -120.0000],
-          ybp: '16,000–18,000 YBP',
-          mutations: [4823, 6297],
-          desc: 'Rapid coastal 'kelp highway' and post-glacial corridor expansion southward into North and Central America.',
+          name: 'Mesoamerican High Plateau',
+          region: 'Valley of Mexico / Mesoamerica',
+          latlng: [23.6345, -102.5528],
+          ybp: '15,000 YBP to Present',
+          mutations: [6297, 8047, 9039, 13590],
+          desc: 'Establishment of Haplogroup B2 founding maternal lineage in Mesoamerica.',
           stats: [
-            { label: 'Pre-Clovis Antiquity', val: '~21,000–23,000 YBP', note: 'White Sands fossilized human footprints demonstrate early human presence.', sources: ['Bennett et al. Science (2021)', 'Pigati et al. Science (2023)'] },
-            { label: 'Founder Clade Radiation', val: 'Haplogroup B2', note: 'Primary founding maternal lineage of Mesoamerica and the Southwest.', sources: ['Schurr & Sherry Am J Phys Anthropol (2004)', 'Perego et al. Curr Biol (2009)'] }
-          ],
-          imgTheme: 'pacific_coast',
-          imgCaption: 'Pacific Coastal Corridor — Ancient Kelp Highway Migration'
+            { label: 'Founding Clade', val: 'Haplogroup B2', note: 'Primary founding lineage of Central America.', sources: ['Torroni et al. Genetics (1993)', 'Showcase Pipeline (2026)'] }
+          ]
+        }
+      ]
+    },
+    'CL': {
+      name: 'Colombia',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'East Africa',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'Universal maternal root in Africa.',
+          stats: [
+            { label: 'Coalescence', val: '100% Mitochondrial Eve', note: 'Root of all human maternal lineages.', sources: ['Cann et al. (1987)'] }
+          ]
         },
         {
-          name: 'Mesoamerican Ancestral Homeland',
-          region: 'Central Valley of Mexico',
-          latlng: [19.4326, -99.1332],
-          ybp: '12,000 YBP to Present',
-          mutations: [8047, 9039, 13590],
-          desc: 'Continuous maternal generational descent in Mesoamerica with private diagnostic markers.',
+          name: 'Beringian Crossing & Pacific Coastal Entry',
+          region: 'Bering Strait / Pacific Northwest Coast',
+          latlng: [55.0000, -130.0000],
+          ybp: '18,000 YBP',
+          mutations: [114, 3552],
+          desc: 'Rapid Pacific coastal maritime migration into the Americas.',
           stats: [
-            { label: 'Mesoamerican Founder Line', val: 'Haplogroup B2 (100%)', note: 'Verified direct matrilineal descent from early indigenous settlers.', sources: ['Torroni et al. (1993)', 'Showcase Genomic Pipeline (2026)'] },
-            { label: 'Conserved Diagnostic Markers', val: '3 Private Markers', note: 'Preserved with 100% maternal transmission across generations.', sources: ['Showcase Pipeline ETL (2026)', 'MitoMap Database (2025)'] }
-          ],
-          imgTheme: 'mesoamerica',
-          imgCaption: 'Mesoamerican High Valley — Modern Descendant Matrilineal Lineage'
+            { label: 'Coastal Migration', val: 'Pacific Kelp Highway', note: 'Rapid southward movement into South America.', sources: ['Erlandson et al. Science (2007)'] }
+          ]
+        },
+        {
+          name: 'Northern Andean / Colombian Homeland',
+          region: 'Andes / Bogota Savannah, Colombia',
+          latlng: [4.5709, -74.2973],
+          ybp: '14,000 YBP to Present',
+          mutations: [8545, 9545, 11914, 13263, 15323],
+          desc: 'Deep South American Indigenous maternal lineage (Haplogroup C1).',
+          stats: [
+            { label: 'Lineage', val: 'Haplogroup C1', note: 'Founding South American maternal clade.', sources: ['Achilli et al. (2008)', 'Showcase Pipeline (2026)'] }
+          ]
+        }
+      ]
+    },
+    'AA': {
+      name: 'Africa',
+      stops: [
+        {
+          name: 'East African Great Rift Valley (Origin Cradle)',
+          region: 'Omo Kibish / Awash Valley, Ethiopia',
+          latlng: [8.9806, 38.7578],
+          ybp: '200,000 YBP',
+          mutations: [183, 2758],
+          desc: 'The deepest root of modern human maternal genetics (Macro-Haplogroup L2).',
+          stats: [
+            { label: 'Basal Divergence', val: 'Macro-haplogroup L2', note: 'Deepest ancestral root of modern humans.', sources: ['Vidal et al. (2022)', 'Torroni et al. (2001)'] }
+          ]
+        },
+        {
+          name: 'Sub-Saharan African Continuum',
+          region: 'Central / West Africa',
+          latlng: [4.0383, 21.7587],
+          ybp: '70,000 YBP to Present',
+          mutations: [5581, 7175, 9128, 11338, 13803, 14308, 15784],
+          desc: 'Direct ancestral maternal continuity within the African continent.',
+          stats: [
+            { label: 'Ancestral Retention', val: 'Root Polymorphisms', note: 'Preserves ancestral human mitochondrial baseline.', sources: ['Soares et al. (2012)', 'Showcase Pipeline (2026)'] }
+          ]
         }
       ]
     },
     'TB': {
-      name: 'Tibet — Himalayan Plateau (TB)',
+      name: 'Tibet',
       stops: [
         {
-          name: 'East African Cradle (Origin of All Modern Humans)',
+          name: 'East African Cradle',
           region: 'Omo Valley, Ethiopia',
           latlng: [8.9806, 38.7578],
           ybp: '150,000–200,000 YBP',
           mutations: [263, 750],
-          desc: 'Universal origin point for all modern human populations.',
+          desc: 'Universal origin of human mitochondrial DNA.',
           stats: [
-            { label: 'Fossil Antiquity', val: '~233,000 YBP', note: 'Omo Kibish remains confirm anatomical modern human origins in Africa.', sources: ['Vidal et al. Nature (2022)', 'McDougall et al. (2005)'] },
-            { label: 'Root Lineage', val: 'Macro-haplogroup L', note: 'Root of all global maternal lines.', sources: ['Cann et al. Nature (1987)', 'Soares et al. (2012)'] }
-          ],
-          imgTheme: 'rift_valley',
-          imgCaption: 'East African Great Rift Valley'
+            { label: 'Antiquity', val: '~233,000 YBP', note: 'Omo Kibish fossil antiquity.', sources: ['Vidal et al. Nature (2022)'] }
+          ]
         },
         {
           name: 'Central Asian Dispersal Corridor',
-          region: 'Pamir / Silk Road Foothills',
+          region: 'Pamir Foothills / Silk Road',
           latlng: [37.0000, 72.0000],
           ybp: '45,000 YBP',
           mutations: [1438, 2706, 4769],
           desc: 'Trans-Eurasian dispersal along the northern foothills of the Himalayas.',
           stats: [
-            { label: 'Trans-Eurasian Radiation', val: '~45,000 YBP', note: 'Early modern human presence across Central Asian river valleys.', sources: ['Fu et al. Nature (2014)', 'Mellars Science (2006)'] },
-            { label: 'East Asian Basal Split', val: 'Macro-clade M9', note: 'Founding ancestral clade of high-altitude Himalayan populations.', sources: ['Zhao et al. PNAS (2009)', 'Lu et al. Science (2016)'] }
-          ],
-          imgTheme: 'pamir_foothills',
-          imgCaption: 'Pamir Foothills — Central Asian Dispersal Route'
+            { label: 'Radiation', val: 'Macro-clade M9', note: 'Founding ancestral clade of high-altitude Himalayan populations.', sources: ['Zhao et al. PNAS (2009)'] }
+          ]
         },
         {
-          name: 'Tibetan Plateau Margin & Hypoxia Adaptation',
-          region: 'Qinghai-Tibet Plateau Border',
-          latlng: [32.0000, 88.0000],
-          ybp: '30,000 YBP',
-          mutations: [3394, 4491],
+          name: 'Tibetan Plateau Hypoxia Adaptation & Homeland',
+          region: 'Qinghai-Tibet Plateau / Lhasa',
+          latlng: [29.6469, 91.1172],
+          ybp: '30,000 YBP to Present',
+          mutations: [3394, 4491, 8784, 12950, 14305, 15535, 16048],
           desc: 'Acquisition of iconic mitochondrial complex I hypoxia adaptation mutation m.3394 T>C, enabling permanent living in extreme high-altitude hypoxia.',
           stats: [
-            { label: 'High-Altitude Hypoxia Mutation', val: 'm.3394 T>C (ND1)', note: 'Enhances mitochondrial ATP generation efficiency under low oxygen.', sources: ['Ji et al. PNAS (2012)', 'Lu et al. Science (2016)'] },
-            { label: 'Plateau Habitation Date', val: '~30,000–40,000 YBP', note: 'Nwya Devu archaeological site establishes early high-altitude occupation.', sources: ['Zhang et al. Science (2018)', 'Chen et al. Nature (2019)'] }
-          ],
-          imgTheme: 'tibetan_plateau',
-          imgCaption: 'Tibetan Plateau — Roof of the World High Altitude Environment'
+            { label: 'Hypoxia Mutation', val: 'm.3394 T>C (ND1)', note: 'Enhances mitochondrial ATP generation efficiency under low oxygen.', sources: ['Ji et al. PNAS (2012)', 'Lu et al. Science (2016)'] },
+            { label: 'Plateau Habitation Date', val: '~30,000–40,000 YBP', note: 'Nwya Devu site establishes early high-altitude occupation.', sources: ['Zhang et al. Science (2018)'] }
+          ]
+        }
+      ]
+    },
+    'CA': {
+      name: 'Canada',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'East Africa',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'Universal origin of human mitochondrial DNA.',
+          stats: [
+            { label: 'Coalescence', val: '100% Mitochondrial Eve', note: 'Universal maternal origin.', sources: ['Cann et al. (1987)'] }
+          ]
         },
         {
-          name: 'Himalayan High Plateau Homeland',
-          region: 'Lhasa Basin / High Plateau',
-          latlng: [29.6469, 91.1172],
-          ybp: '20,000 YBP to Present',
-          mutations: [8784, 12950, 14305, 15535, 16048],
-          desc: 'Unbroken matrilineal continuity on the roof of the world.',
+          name: 'European Post-Glacial Expansion',
+          region: 'Western / Northern Europe',
+          latlng: [50.0000, 10.0000],
+          ybp: '15,000 YBP',
+          mutations: [73, 146, 2706],
+          desc: 'Post-LGM European re-expansion of macro-haplogroup H2.',
           stats: [
-            { label: 'Endemic High-Altitude Lineage', val: 'Haplogroup M9 (100%)', note: 'Exclusive high-frequency lineage in Tibetan indigenous populations.', sources: ['Zhao et al. PNAS (2009)', 'Showcase Pipeline (2026)'] },
-            { label: 'Private Diagnostic Markers', val: '5 Conserved Markers', note: '100% transmission passed down female line.', sources: ['Showcase Pipeline ETL (2026)', 'MitoMap Database (2025)'] }
-          ],
-          imgTheme: 'himalayas',
-          imgCaption: 'Himalayan High Plateau — Modern Descendant Matrilineal Lineage'
+            { label: 'Clade', val: 'Haplogroup H2', note: 'Major European post-glacial founding lineage.', sources: ['Torroni et al. (1996)'] }
+          ]
+        },
+        {
+          name: 'North American Settlement',
+          region: 'Canada / North America',
+          latlng: [56.1304, -106.3468],
+          ybp: 'Historic to Present',
+          mutations: [4769],
+          desc: 'North American sequenced European-derived lineage.',
+          stats: [
+            { label: 'Lineage', val: 'Haplogroup H2', note: 'Characterized in 43-sample reference dataset.', sources: ['Showcase Pipeline (2026)'] }
+          ]
+        }
+      ]
+    },
+    'NA': {
+      name: 'Native America',
+      stops: [
+        {
+          name: 'East African Cradle',
+          region: 'East Africa',
+          latlng: [8.9806, 38.7578],
+          ybp: '150,000–200,000 YBP',
+          mutations: [263, 750],
+          desc: 'Universal origin of human mitochondrial DNA.',
+          stats: [
+            { label: 'Antiquity', val: '~200,000 YBP', note: 'Maternal root of all humanity.', sources: ['Cann et al. (1987)'] }
+          ]
+        },
+        {
+          name: 'Beringian Land Bridge & Ice-Free Corridor',
+          region: 'Beringia / Alaska',
+          latlng: [64.2008, -149.4937],
+          ybp: '20,000 YBP',
+          mutations: [64, 152, 235, 663, 1736],
+          desc: 'Paleo-Indian migration into North America during the late Pleistocene.',
+          stats: [
+            { label: 'Founding Clade', val: 'Haplogroup A2', note: 'Primary founding lineage of Indigenous North America.', sources: ['Tamm et al. (2007)', 'Llamas et al. (2016)'] }
+          ]
+        },
+        {
+          name: 'Indigenous North American Homeland',
+          region: 'North America',
+          latlng: [40.0000, -100.0000],
+          ybp: '15,000 YBP to Present',
+          mutations: [4248, 4824, 8027, 8794, 12007],
+          desc: 'Indigenous North American founding maternal lineage (Haplogroup A2).',
+          stats: [
+            { label: 'Continuity', val: '>15,000 YBP', note: 'Deep continuous Indigenous maternal inheritance.', sources: ['Scheib et al. Science (2018)'] }
+          ]
         }
       ]
     }
@@ -433,20 +643,30 @@ window.MigrationMap = {
 
   getSampleTrail(sampleKey) {
     if (!sampleKey) sampleKey = 'IN_F_DPL';
-    const code = sampleKey.split('_')[0];
+    const code = sampleKey.includes('_') ? sampleKey.split('_')[0] : sampleKey;
     return this.COHORT_TRAILS[code] || this.COHORT_TRAILS['IN'];
   },
 
   populateAllSamplesSelect() {
     const select = document.getElementById('globeSampleSelect');
-    if (!select || !window.App.distanceData) return;
+    if (!select) return;
 
-    const samples = window.App.distanceData.samples || [];
+    const samples = (window.App && window.App.distanceData && window.App.distanceData.samples)
+      ? window.App.distanceData.samples
+      : ['IN_F_DPL', 'HK_F_JAN', 'MX_F_CRY', 'UK_F_NIKM', 'PK_F_WAS'];
+
     select.innerHTML = samples.map(s => {
       const code = s.split('_')[0];
       const name = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(s) : s;
       return `<option value="${s}">${name} (${code})</option>`;
     }).join('');
+
+    // Ensure activeSample is a valid sample
+    if (!samples.includes(this.activeSample)) {
+      const matched = samples.find(s => s.startsWith(this.activeSample + '_'));
+      if (matched) this.activeSample = matched;
+      else if (samples.length > 0) this.activeSample = samples[0];
+    }
 
     select.value = this.activeSample;
     select.onchange = (e) => {
@@ -489,7 +709,7 @@ window.MigrationMap = {
     });
     satelliteLayer.addTo(this.map);
 
-    // Optional subtle dark borders overlay for geographic reference
+    // Optional subtle borders overlay
     const bordersLayer = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 18,
       opacity: 0.45
@@ -499,20 +719,38 @@ window.MigrationMap = {
     this.polylineLayer = L.layerGroup().addTo(this.map);
     this.markersLayer = L.layerGroup().addTo(this.map);
 
-    // Render initial route
+    // Render initial route and dossier
     this.renderRoute();
     this.renderDossier();
+
+    setTimeout(() => {
+      if (this.map) this.map.invalidateSize();
+    }, 150);
   },
 
-  setSample(sampleKey) {
-    this.activeSample = sampleKey;
-    this.activeStepIndex = 0; // Always start at Origin (East African Cradle)
+  setSample(sampleOrCode) {
+    if (!sampleOrCode) return;
+
+    const samples = (window.App && window.App.distanceData && window.App.distanceData.samples) ? window.App.distanceData.samples : [];
+    if (sampleOrCode.indexOf('_') === -1) {
+      const found = samples.find(s => s.startsWith(sampleOrCode + '_'));
+      this.activeSample = found || sampleOrCode;
+    } else {
+      this.activeSample = sampleOrCode;
+    }
+
+    this.activeStepIndex = 0;
     
     if (this.playInterval) {
       clearInterval(this.playInterval);
       this.playInterval = null;
       const playBtn = document.getElementById('playMigrationTrailBtn');
       if (playBtn) playBtn.innerHTML = '<span>▶ Play Migration Trail</span>';
+    }
+
+    const select = document.getElementById('globeSampleSelect');
+    if (select && select.value !== this.activeSample) {
+      select.value = this.activeSample;
     }
 
     this.renderRoute();
@@ -526,7 +764,7 @@ window.MigrationMap = {
     this.markersLayer.clearLayers();
 
     const trail = this.getSampleTrail(this.activeSample);
-    if (!trail || !trail.stops.length) return;
+    if (!trail || !trail.stops || !trail.stops.length) return;
 
     const stops = trail.stops;
     const currentStop = stops[this.activeStepIndex] || stops[0];
@@ -548,8 +786,7 @@ window.MigrationMap = {
       L.polyline(completedLatLngs, {
         color: '#38bdf8',
         weight: 4,
-        opacity: 0.95,
-        className: 'glowing-route-line'
+        opacity: 0.95
       }).addTo(this.polylineLayer);
     }
 
@@ -558,21 +795,20 @@ window.MigrationMap = {
       const isCurrent = idx === this.activeStepIndex;
       const isPast = idx < this.activeStepIndex;
       
-      const pinColor = isCurrent ? '#38bdf8' : (isPast ? '#34d399' : '#94a3b8');
-      const pinSize = isCurrent ? 36 : (isPast ? 28 : 24);
+      const markerHtml = `
+        <div class="relative flex items-center justify-center cursor-pointer transition-transform duration-300 ${isCurrent ? 'scale-125' : 'hover:scale-110'}">
+          ${isCurrent ? '<span class="absolute w-8 h-8 rounded-full bg-sky-400/40 animate-ping"></span>' : ''}
+          <div class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] font-mono shadow-xl border-2 ${isCurrent ? 'bg-sky-400 text-slate-950 border-white ring-4 ring-sky-500/50' : (isPast ? 'bg-emerald-500 text-slate-950 border-white' : 'bg-slate-900 text-slate-300 border-slate-600')}">
+            ${idx + 1}
+          </div>
+        </div>
+      `;
 
       const customIcon = L.divIcon({
-        className: 'custom-migration-marker',
-        html: `
-          <div class="relative flex items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-125" style="width: ${pinSize}px; height: ${pinSize}px;">
-            ${isCurrent ? '<div class="absolute inset-0 rounded-full bg-sky-400 opacity-60 animate-ping"></div>' : ''}
-            <div class="w-full h-full rounded-2xl flex items-center justify-center font-mono font-bold text-xs shadow-2xl border ${isCurrent ? 'bg-sky-500 text-slate-950 border-white shadow-sky-500/50' : (isPast ? 'bg-emerald-500 text-slate-950 border-white/80' : 'bg-slate-900 text-slate-300 border-white/20')}">
-              ${idx + 1}
-            </div>
-          </div>
-        `,
-        iconSize: [pinSize, pinSize],
-        iconAnchor: [pinSize / 2, pinSize / 2]
+        className: 'custom-migration-node',
+        html: markerHtml,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
       });
 
       const marker = L.marker(stop.latlng, { icon: customIcon }).addTo(this.markersLayer);
@@ -655,11 +891,9 @@ window.MigrationMap = {
 
     const sampleKey = this.activeSample;
     const trail = this.getSampleTrail(sampleKey);
-    if (!trail || !trail.stops.length) return;
+    if (!trail || !trail.stops || !trail.stops.length) return;
 
     const currentStop = trail.stops[this.activeStepIndex] || trail.stops[0];
-    const role = window.TreeViewer ? window.TreeViewer.getSampleRole(sampleKey) : 'Lineage Member';
-    const code = sampleKey.split('_')[0];
     const totalSteps = trail.stops.length;
 
     // Stepper pills
@@ -677,7 +911,7 @@ window.MigrationMap = {
       `;
     }).join('');
 
-    // Verified statistics breakdown with dual citations
+    // Statistics breakdown with verified sources
     const statsHtml = (currentStop.stats || []).map(st => `
       <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1 font-sans">
         <div class="flex items-center justify-between text-xs font-mono">
@@ -687,13 +921,13 @@ window.MigrationMap = {
         <p class="text-[11px] text-slate-300 leading-normal">${st.note}</p>
         <div class="pt-1.5 border-t border-white/5 flex flex-wrap items-center gap-1.5 text-[9.5px] font-mono text-slate-400">
           <span class="text-sky-400 font-bold">Verified Sources:</span>
-          ${st.sources.map(src => `<span class="bg-slate-900 px-1.5 py-0.5 rounded border border-white/5 text-slate-300">${src}</span>`).join('')}
+          ${(st.sources || []).map(src => `<span class="bg-slate-900 px-1.5 py-0.5 rounded border border-white/5 text-slate-300">${src}</span>`).join('')}
         </div>
       </div>
     `).join('');
 
     // Mutation evidence cards
-    const mutationCardsHtml = currentStop.mutations.map(pos => {
+    const mutationCardsHtml = (currentStop.mutations || []).map(pos => {
       const evidence = this.MUTATION_MEANINGS[pos] || {
         locus: 'Mitochondrial DNA',
         change: 'Polymorphism',
@@ -717,7 +951,7 @@ window.MigrationMap = {
       <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900 to-slate-950 p-4 space-y-1">
         <div class="flex items-center space-x-2 text-xs font-mono text-sky-400 font-bold uppercase tracking-wider">
           <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-          <span>Geographic &amp; Anthropological Checkpoint</span>
+          <span>Geographic Checkpoint</span>
         </div>
         <h4 class="text-base font-extrabold text-white tracking-tight">${currentStop.name}</h4>
         <div class="text-xs text-slate-400 font-mono">${currentStop.region} • <strong class="text-sky-300">${currentStop.ybp}</strong></div>
@@ -772,7 +1006,7 @@ window.MigrationMap = {
         <!-- Diagnostic Mutations Evidence -->
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center justify-between">
-            <span>Mutation Evidence (${currentStop.mutations.length} Markers):</span>
+            <span>Mutation Evidence (${(currentStop.mutations || []).length} Markers):</span>
             <span class="text-[10px] text-slate-400">Matched in Dataset</span>
           </div>
           <div class="space-y-2">

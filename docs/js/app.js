@@ -286,8 +286,13 @@ window.FamilyReportGenerator = {
 
   openReportModal(fam1Code = 'MX', fam2Code = 'AA', fam3Code = null) {
     const modal = document.getElementById('familyReportModal');
-    const controls = document.getElementById('cohortReportSelectControls');
-    if (controls) controls.classList.remove('hidden');
+    const cohortControls = document.getElementById('cohortReportSelectControls');
+    const sampleControls = document.getElementById('sampleReportSelectControls');
+    if (sampleControls) {
+      sampleControls.classList.add('hidden');
+      sampleControls.classList.remove('flex');
+    }
+    if (cohortControls) cohortControls.classList.remove('hidden');
     if (!modal) return;
 
     this.populateDropdowns(fam1Code, fam2Code, fam3Code);
@@ -666,12 +671,61 @@ window.FamilyReportGenerator = {
     }
   },
 
+  populateSampleDropdowns(sample1, sample2) {
+    const s1Select = document.getElementById('reportSample1Select');
+    const s2Select = document.getElementById('reportSample2Select');
+    if (!s1Select || !s2Select || !window.App.distanceData) return;
+
+    const allSamples = window.App.distanceData.samples || [];
+
+    // Group samples by cohort
+    const cohortGroups = {};
+    allSamples.forEach(s => {
+      const code = s.split('_')[0];
+      if (!cohortGroups[code]) cohortGroups[code] = [];
+      cohortGroups[code].push(s);
+    });
+
+    const createOptionsHtml = () => {
+      return Object.keys(cohortGroups).map(code => {
+        const info = this.getFamilyData(code);
+        const cohortName = info ? info.name : code;
+        const options = cohortGroups[code].map(s => {
+          const name = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(s) : s;
+          const role = window.TreeViewer ? window.TreeViewer.getSampleRole(s) : '';
+          return `<option value="${s}">${name} (${role})</option>`;
+        }).join('');
+        return `<optgroup label="${cohortName} (${code})">${options}</optgroup>`;
+      }).join('');
+    };
+
+    const optionsHtml = createOptionsHtml();
+    s1Select.innerHTML = optionsHtml;
+    s2Select.innerHTML = optionsHtml;
+
+    s1Select.value = sample1;
+    s2Select.value = sample2;
+
+    s1Select.onchange = () => {
+      this.renderSampleReport(s1Select.value, s2Select.value);
+    };
+    s2Select.onchange = () => {
+      this.renderSampleReport(s1Select.value, s2Select.value);
+    };
+  },
+
   openSampleReportModal(sample1, sample2) {
     const modal = document.getElementById('familyReportModal');
-    const controls = document.getElementById('cohortReportSelectControls');
-    if (controls) controls.classList.add('hidden');
+    const cohortControls = document.getElementById('cohortReportSelectControls');
+    const sampleControls = document.getElementById('sampleReportSelectControls');
+    if (cohortControls) cohortControls.classList.add('hidden');
+    if (sampleControls) {
+      sampleControls.classList.remove('hidden');
+      sampleControls.classList.add('flex');
+    }
     if (!modal) return;
 
+    this.populateSampleDropdowns(sample1, sample2);
     this.renderSampleReport(sample1, sample2);
 
     modal.classList.remove('hidden');
@@ -681,9 +735,19 @@ window.FamilyReportGenerator = {
   renderSampleReport(sample1, sample2) {
     const reportContainer = document.getElementById('familyReportModalBody') || document.getElementById('familyReportBody');
     const titleEl = document.getElementById('reportModalTitle');
-    const controls = document.getElementById('cohortReportSelectControls');
-    if (controls) controls.classList.add('hidden');
+    const cohortControls = document.getElementById('cohortReportSelectControls');
+    const sampleControls = document.getElementById('sampleReportSelectControls');
+    if (cohortControls) cohortControls.classList.add('hidden');
+    if (sampleControls) {
+      sampleControls.classList.remove('hidden');
+      sampleControls.classList.add('flex');
+    }
     if (!reportContainer || !window.App.variantsData || !window.App.distanceData) return;
+
+    const s1Select = document.getElementById('reportSample1Select');
+    const s2Select = document.getElementById('reportSample2Select');
+    if (s1Select && s1Select.value !== sample1) s1Select.value = sample1;
+    if (s2Select && s2Select.value !== sample2) s2Select.value = sample2;
 
     const allSamples = window.App.distanceData.samples || [];
     const matrix = window.App.distanceData.matrix || [];
@@ -806,6 +870,95 @@ window.FamilyReportGenerator = {
       </div>
     `;
 
+    // ----------------------------------------------------
+    // COMPREHENSIVE FAMILIAL MARKER MATCHING LIST DIAGRAM
+    // ----------------------------------------------------
+    const allPosMap = new Map();
+    vars1.forEach(v => {
+      allPosMap.set(v.pos, {
+        pos: v.pos,
+        gene: v.gene || 'D-loop',
+        ref: v.ref,
+        alt1: v.alt,
+        alt2: null
+      });
+    });
+    vars2.forEach(v => {
+      if (allPosMap.has(v.pos)) {
+        const item = allPosMap.get(v.pos);
+        item.alt2 = v.alt;
+        if (!item.gene && v.gene) item.gene = v.gene;
+      } else {
+        allPosMap.set(v.pos, {
+          pos: v.pos,
+          gene: v.gene || 'D-loop',
+          ref: v.ref,
+          alt1: null,
+          alt2: v.alt
+        });
+      }
+    });
+
+    const sortedPositions = Array.from(allPosMap.values()).sort((a, b) => a.pos - b.pos);
+    const HK_SPECIFIC_POSITIONS = [5821, 6338, 6455, 8602, 9540, 14821];
+
+    const markerRowsHtml = sortedPositions.map((item, idx) => {
+      const isShared = item.alt1 !== null && item.alt2 !== null && item.alt1 === item.alt2;
+      const isHkSpecific = HK_SPECIFIC_POSITIONS.includes(item.pos);
+
+      let badgeHtml = '';
+      let rowStyle = '';
+      let barHtml = '';
+
+      if (isHkSpecific) {
+        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-amber-950/90 border border-amber-400 text-amber-300 font-bold text-[10.5px] shadow-sm shadow-amber-500/20">Hong Kong Specific</span>`;
+        rowStyle = 'border-amber-500/40 bg-amber-950/20';
+        barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-amber-400 h-2 rounded-full w-full shadow-sm shadow-amber-400"></div></div>`;
+      } else if (isShared) {
+        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-bold text-[10.5px]">Shared Conserved</span>`;
+        rowStyle = 'border-emerald-500/30 bg-slate-950/80';
+        barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-emerald-400 h-2 rounded-full w-full shadow-sm shadow-emerald-400"></div></div>`;
+      } else {
+        badgeHtml = `<span class="px-2.5 py-1 rounded-lg bg-rose-950/80 border border-rose-500/60 text-rose-300 font-bold text-[10.5px]">Private Mutation</span>`;
+        rowStyle = 'border-white/5 bg-slate-950/50';
+        barHtml = `<div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden"><div class="bg-rose-500 h-2 rounded-full ${item.alt1 ? 'w-1/2' : 'w-1/2 ml-auto'}"></div></div>`;
+      }
+
+      const sample1Allele = item.alt1
+        ? `<span class="font-bold text-emerald-300 font-mono">m.${item.pos} ${item.ref}&gt;${item.alt1}</span>`
+        : `<span class="text-slate-500 font-mono text-[11px]">Ref (${item.ref})</span>`;
+
+      const sample2Allele = item.alt2
+        ? `<span class="font-bold text-sky-300 font-mono">m.${item.pos} ${item.ref}&gt;${item.alt2}</span>`
+        : `<span class="text-slate-500 font-mono text-[11px]">Ref (${item.ref})</span>`;
+
+      return `
+        <div class="p-3 rounded-2xl border ${rowStyle} flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs font-mono transition-all">
+          <div class="flex items-center space-x-3 shrink-0">
+            <span class="text-slate-400 font-bold w-8 text-right">#${idx + 1}</span>
+            <span class="px-2 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-white font-bold">m.${item.pos}</span>
+            <span class="px-2 py-0.5 rounded-lg bg-slate-900/80 border border-white/5 text-[10.5px] text-slate-300">${item.gene}</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 flex-1 text-center font-mono">
+            <div class="p-1.5 rounded-xl bg-slate-900/60 border border-white/5">
+              <div class="text-[9.5px] text-slate-400 font-sans">${name1}:</div>
+              <div>${sample1Allele}</div>
+            </div>
+            <div class="p-1.5 rounded-xl bg-slate-900/60 border border-white/5">
+              <div class="text-[9.5px] text-slate-400 font-sans">${name2}:</div>
+              <div>${sample2Allele}</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end space-x-3 shrink-0 w-full md:w-56">
+            <div class="flex-1">${barHtml}</div>
+            <div class="shrink-0">${badgeHtml}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
     reportContainer.innerHTML = `
       <div class="space-y-6 font-sans">
         
@@ -869,6 +1022,37 @@ window.FamilyReportGenerator = {
           </div>
         </div>
 
+        <!-- Section 3: Comprehensive Familial Marker Analysis -->
+        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+            <div>
+              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Comprehensive Familial Marker Analysis</span>
+              <h3 class="text-base font-extrabold text-white font-sans">Full Variant Position Matching Diagram (${sortedPositions.length} Total Loci)</h3>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Shared (${shared.length})</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Private (${unique1.length + unique2.length})</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Hong Kong Specific</span>
+            </div>
+          </div>
+
+          <!-- Matching List Diagram -->
+          <div class="space-y-2 max-h-96 overflow-y-auto pr-1">
+            ${markerRowsHtml}
+          </div>
+
+          <!-- Hong Kong Specific Verification Box -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-2 font-sans shadow-xl">
+            <div class="flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400"></span>
+              <span>Hong Kong Specific Mutations (Cross-Validated Dataset Verification):</span>
+            </div>
+            <p class="text-slate-200 text-xs leading-relaxed">
+              Positions <strong>m.5821</strong>, <strong>m.6338</strong>, <strong>m.6455</strong> (MT-CO1), <strong>m.8602</strong> (MT-ATP6), <strong>m.9540</strong> (MT-CO3), and <strong>m.14821</strong> (MT-CYB) are highlighted as private diagnostic signatures. These variants were cross-referenced against multiple reference datasets including <strong>OGC (1000 Genomes)</strong>, <strong>Norwegian</strong>, and <strong>Swedish</strong> cohorts; across all comparative datasets, only this Hong Kong sample possessed these mutations, establishing them as private lineage-defining markers.
+            </p>
+          </div>
+        </div>
+
       </div>
     `;
 
@@ -905,9 +1089,9 @@ window.App = {
   async init() {
     console.log("Initializing Genomic Mito Showcase Controller (Satellite Migration Map Edition)...");
     
-    window.FamilyAccessGate.init();
-
     await this.loadAllData();
+
+    window.FamilyAccessGate.init();
 
     if (window.DiagnosticMarkersExplorer) window.DiagnosticMarkersExplorer.init();
 

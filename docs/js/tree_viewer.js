@@ -1052,6 +1052,12 @@ window.TreeViewer = {
 
     let pedigreeHtml = '';
     if (ped) {
+      const hasGrandmother = ped.grandmother && uniqueSamplesInCohort.includes(ped.grandmother);
+      const hasAunt = ped.aunt && uniqueSamplesInCohort.includes(ped.aunt);
+      const hasFather = ped.father && (uniqueSamplesInCohort.includes(ped.father) || (Array.isArray(ped.father) && ped.father.some(f => uniqueSamplesInCohort.includes(f))));
+      const existingChildren = (ped.children || []).filter(c => uniqueSamplesInCohort.includes(c));
+      const hasMother = ped.mother && (uniqueSamplesInCohort.includes(ped.mother) || (Array.isArray(ped.mother) && ped.mother.some(m => uniqueSamplesInCohort.includes(m))));
+
       pedigreeHtml = `
         <!-- INTEGRATED MATERNAL PEDIGREE EXPLORER SECTION -->
         <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
@@ -1067,7 +1073,7 @@ window.TreeViewer = {
 
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono text-xs">
             
-            ${ped.grandmother ? `
+            ${hasGrandmother ? `
               <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/50 space-y-1">
                 <div class="flex items-center justify-between text-amber-300 font-bold">
                   <span>Grandmother</span>
@@ -1077,16 +1083,18 @@ window.TreeViewer = {
               </div>
             ` : ''}
 
-            <!-- Mother Node -->
-            <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
-              <div class="flex items-center justify-between text-emerald-300 font-bold">
-                <span>Mother</span>
-                <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% Transmission</span>
+            ${hasMother ? `
+              <!-- Mother Node -->
+              <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
+                <div class="flex items-center justify-between text-emerald-300 font-bold">
+                  <span>Mother</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% Transmission</span>
+                </div>
+                <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
               </div>
-              <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
-            </div>
+            ` : ''}
 
-            ${ped.aunt ? `
+            ${hasAunt ? `
               <div class="p-3 rounded-xl bg-slate-900 border border-emerald-700/70 space-y-1">
                 <div class="flex items-center justify-between text-emerald-400 font-bold">
                   <span>Aunt</span>
@@ -1096,7 +1104,7 @@ window.TreeViewer = {
               </div>
             ` : ''}
 
-            ${ped.father ? `
+            ${hasFather ? `
               <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1 opacity-75">
                 <div class="flex items-center justify-between text-rose-300 font-bold">
                   <span>Father</span>
@@ -1107,12 +1115,13 @@ window.TreeViewer = {
             ` : ''}
 
             <!-- Offspring Nodes -->
-            ${ped.children.map(childSample => {
+            ${existingChildren.map(childSample => {
               const role = this.getSampleRole(childSample);
+              const name = this.getSampleDisplayName(childSample);
               return `
                 <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/50 space-y-1">
                   <div class="flex items-center justify-between text-sky-300 font-bold">
-                    <span>${role}</span>
+                    <span>${name} (${role})</span>
                     <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">Offspring</span>
                   </div>
                   <div class="text-slate-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
@@ -1123,6 +1132,7 @@ window.TreeViewer = {
           </div>
         </div>
       `;
+    }
     }
 
     card.innerHTML = `
