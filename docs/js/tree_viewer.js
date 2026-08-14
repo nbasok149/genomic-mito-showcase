@@ -453,6 +453,7 @@ window.TreeViewer = {
   zoomToFamily(familyCode) {
     this.zoomTier = 1;
     this.selectedEthnicities = [familyCode];
+    this.selectedSamples = [];
     this.renderFamilyGroupButtons();
     this.highlightFamilyCluster();
     this.updateZoomBadge(`Cohort: ${familyCode}`);
@@ -462,6 +463,11 @@ window.TreeViewer = {
     const quickSelect = document.getElementById('quickFamilyEntrySelect');
     if (quickSelect && quickSelect.value !== familyCode) {
       quickSelect.value = familyCode;
+    }
+    const headerBadge = document.getElementById('currentFamilyHeaderBadge');
+    if (headerBadge) {
+      headerBadge.textContent = `Cohort: ${familyCode}`;
+      headerBadge.classList.remove('hidden');
     }
   },
 
@@ -561,7 +567,7 @@ window.TreeViewer = {
       const rawName = d.data.name || '';
       const samples = (d.data.samples || []).map(s => s.toLowerCase());
       
-      const isMatch = lowerKeys.length > 0 && lowerKeys.some(key => name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_'))) && !name.includes('clade');
+      const isMatch = lowerKeys.length > 0 && lowerKeys.some(key => name.startsWith(key + '_') || samples.some(s => s.startsWith(key + '_')) || name === key) && !name.includes('clade');
       const isSampleSelected = selectedSamples.includes(rawName);
 
       d3.select(this)
@@ -582,19 +588,19 @@ window.TreeViewer = {
       const targetName = (d.target.data.name || '').toLowerCase();
       const targetSamples = (d.target.data.samples || []).map(s => s.toLowerCase());
       
-      const isMatch = lowerKeys.length > 0 && lowerKeys.some(key => targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_'))) && !targetName.includes('clade');
+      const isMatch = lowerKeys.length > 0 && lowerKeys.some(key => targetName.startsWith(key + '_') || targetSamples.some(s => s.startsWith(key + '_')) || targetName === key) && !targetName.includes('clade');
       
       d3.select(this).classed('dimmed', !isMatch && lowerKeys.length > 0).classed('family-active', isMatch);
     });
 
-    if (matchedNodes.length > 0 && this.svgG && this.zoomBehavior && this.zoomTier === 1) {
+    if (matchedNodes.length > 0 && this.svgG && this.zoomBehavior) {
       const avgX = d3.mean(matchedNodes, d => d.y);
       const avgY = d3.mean(matchedNodes, d => d.x);
       const width = document.getElementById('treeContainer')?.clientWidth || 900;
-      const height = document.getElementById('treeContainer')?.clientHeight || 520;
-      const scale = selectedCodes.length > 1 ? 0.85 : 1.15;
+      const height = document.getElementById('treeContainer')?.clientHeight || 500;
+      const scale = selectedCodes.length > 1 ? 0.85 : (matchedNodes.length <= 2 ? 1.35 : 1.15);
 
-      svg.transition().duration(650).call(
+      svg.transition().duration(700).ease(d3.easeCubicInOut).call(
         this.zoomBehavior.transform,
         d3.zoomIdentity.translate(width / 2 - avgX * scale, height / 2 - avgY * scale).scale(scale)
       );
@@ -1080,86 +1086,122 @@ window.TreeViewer = {
 
     let pedigreeHtml = '';
     if (ped) {
-      const hasGrandmother = ped.grandmother && uniqueSamplesInCohort.includes(ped.grandmother);
-      const hasAunt = ped.aunt && uniqueSamplesInCohort.includes(ped.aunt);
-      const hasFather = ped.father && (uniqueSamplesInCohort.includes(ped.father) || (Array.isArray(ped.father) && ped.father.some(f => uniqueSamplesInCohort.includes(f))));
-      const existingChildren = (ped.children || []).filter(c => uniqueSamplesInCohort.includes(c));
-      const hasMother = ped.mother && (uniqueSamplesInCohort.includes(ped.mother) || (Array.isArray(ped.mother) && ped.mother.some(m => uniqueSamplesInCohort.includes(m))));
-
-      pedigreeHtml = `
-        <!-- INTEGRATED MATERNAL PEDIGREE EXPLORER SECTION -->
-        <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
-            <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Maternal pedigree and transmission architecture</span>
-              <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
-            </div>
-            <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
-              Verified strict matrilineal inheritance
-            </span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono text-xs">
-            
-            ${hasGrandmother ? `
-              <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/50 space-y-1">
-                <div class="flex items-center justify-between text-amber-300 font-bold">
-                  <span>Grandmother</span>
-                  <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded-lg border border-amber-800">Ancestor</span>
-                </div>
-                <div class="text-slate-300 text-[11px] font-sans">Originating maternal root line.</div>
+      if (ped.individual) {
+        const indName = this.getSampleDisplayName(ped.individual);
+        const indRole = this.getSampleRole(ped.individual);
+        pedigreeHtml = `
+          <!-- INTEGRATED LINEAGE TRANSMISSION PROFILE -->
+          <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
+              <div>
+                <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Founding lineage & transmission architecture</span>
+                <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
               </div>
-            ` : ''}
+              <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
+                Lineage founder checkpoint
+              </span>
+            </div>
 
-            ${hasMother ? `
-              <!-- Mother Node -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
               <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
                 <div class="flex items-center justify-between text-emerald-300 font-bold">
-                  <span>Mother</span>
-                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% transmission</span>
+                  <span>${indName} (${indRole})</span>
+                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">Carrier</span>
                 </div>
-                <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
+                <div class="text-slate-300 text-[11px] font-sans">${ped.desc || 'Founding maternal lineage profile.'}</div>
               </div>
-            ` : ''}
-
-            ${hasAunt ? `
-              <div class="p-3 rounded-xl bg-slate-900 border border-emerald-700/70 space-y-1">
-                <div class="flex items-center justify-between text-emerald-400 font-bold">
-                  <span>Aunt</span>
-                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal sister</span>
+              <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1">
+                <div class="flex items-center justify-between text-sky-300 font-bold">
+                  <span>Haplogroup clade</span>
+                  <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">${ped.haplo}</span>
                 </div>
-                <div class="text-slate-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
+                <div class="text-slate-300 text-[11px] font-sans">Carries characteristic diagnostic polymorphisms defining this regional group.</div>
               </div>
-            ` : ''}
-
-            ${hasFather ? `
-              <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1 opacity-75">
-                <div class="flex items-center justify-between text-rose-300 font-bold">
-                  <span>Father</span>
-                  <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded-lg border border-rose-800">0% transmission</span>
-                </div>
-                <div class="text-slate-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
-              </div>
-            ` : ''}
-
-            <!-- Offspring Nodes -->
-            ${existingChildren.map(childSample => {
-              const role = this.getSampleRole(childSample);
-              const name = this.getSampleDisplayName(childSample);
-              return `
-                <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/50 space-y-1">
-                  <div class="flex items-center justify-between text-sky-300 font-bold">
-                    <span>${name} (${role})</span>
-                    <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">Offspring</span>
-                  </div>
-                  <div class="text-slate-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
-                </div>
-              `;
-            }).join('')}
-
+            </div>
           </div>
-        </div>
-      `;
+        `;
+      } else {
+        const hasGrandmother = ped.grandmother && uniqueSamplesInCohort.includes(ped.grandmother);
+        const hasAunt = ped.aunt && uniqueSamplesInCohort.includes(ped.aunt);
+        const hasFather = ped.father && (uniqueSamplesInCohort.includes(ped.father) || (Array.isArray(ped.father) && ped.father.some(f => uniqueSamplesInCohort.includes(f))));
+        const existingChildren = (ped.children || []).filter(c => uniqueSamplesInCohort.includes(c));
+        const hasMother = ped.mother && (uniqueSamplesInCohort.includes(ped.mother) || (Array.isArray(ped.mother) && ped.mother.some(m => uniqueSamplesInCohort.includes(m))));
+
+        pedigreeHtml = `
+          <!-- INTEGRATED MATERNAL PEDIGREE EXPLORER SECTION -->
+          <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
+              <div>
+                <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Maternal pedigree and transmission architecture</span>
+                <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
+                Verified strict matrilineal inheritance
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono text-xs">
+              
+              ${hasGrandmother ? `
+                <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/50 space-y-1">
+                  <div class="flex items-center justify-between text-amber-300 font-bold">
+                    <span>Grandmother</span>
+                    <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded-lg border border-amber-800">Ancestor</span>
+                  </div>
+                  <div class="text-slate-300 text-[11px] font-sans">Originating maternal root line.</div>
+                </div>
+              ` : ''}
+
+              ${hasMother ? `
+                <!-- Mother Node -->
+                <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
+                  <div class="flex items-center justify-between text-emerald-300 font-bold">
+                    <span>Mother</span>
+                    <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% transmission</span>
+                  </div>
+                  <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
+                </div>
+              ` : ''}
+
+              ${hasAunt ? `
+                <div class="p-3 rounded-xl bg-slate-900 border border-emerald-700/70 space-y-1">
+                  <div class="flex items-center justify-between text-emerald-400 font-bold">
+                    <span>Aunt</span>
+                    <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal sister</span>
+                  </div>
+                  <div class="text-slate-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
+                </div>
+              ` : ''}
+
+              ${hasFather ? `
+                <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1 opacity-75">
+                  <div class="flex items-center justify-between text-rose-300 font-bold">
+                    <span>Father</span>
+                    <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded-lg border border-rose-800">0% transmission</span>
+                  </div>
+                  <div class="text-slate-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
+                </div>
+              ` : ''}
+
+              <!-- Offspring Nodes -->
+              ${existingChildren.map(childSample => {
+                const role = this.getSampleRole(childSample);
+                const name = this.getSampleDisplayName(childSample);
+                return `
+                  <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/50 space-y-1">
+                    <div class="flex items-center justify-between text-sky-300 font-bold">
+                      <span>${name} (${role})</span>
+                      <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">Offspring</span>
+                    </div>
+                    <div class="text-slate-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
+                  </div>
+                `;
+              }).join('')}
+
+            </div>
+          </div>
+        `;
+      }
     }
 
     card.innerHTML = `

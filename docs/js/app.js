@@ -200,7 +200,12 @@ window.DiagnosticMarkersExplorer = {
     const keys = Object.keys(this.FAMILY_MARKERS);
     select.innerHTML = keys.map(k => `<option value="${k}">${this.FAMILY_MARKERS[k].name}</option>`).join('');
 
-    select.onchange = () => this.displayFamily(select.value);
+    select.onchange = () => {
+      this.displayFamily(select.value);
+      if (window.FamilyAccessGate) {
+        window.FamilyAccessGate.applyFamilySelection(select.value, true);
+      }
+    };
     this.displayFamily('IN');
   },
 
@@ -1192,7 +1197,11 @@ window.App = {
     'HK': { name: 'Hong Kong', haplo: 'Haplogroup M7', mother: 'HK_F_JANM', father: 'HK_M_WLL', children: ['HK_F_JAN'] },
     'MX': { name: 'Mexico', haplo: 'Haplogroup B2', mother: 'MX_F_CRY', father: 'MX_M_CRYF', children: ['MX_F_CRYS1'] },
     'KR': { name: 'Korea', haplo: 'Haplogroup D4', mother: 'KR_F_MOO', children: ['KR_F_MOOC1'] },
-    'CL': { name: 'Colombia', haplo: 'Haplogroup C1', mother: 'CL_F_ALJ', children: ['CL_F_ALJC1'] }
+    'CL': { name: 'Colombia', haplo: 'Haplogroup C1', mother: 'CL_F_ALJ', children: ['CL_F_ALJC1'] },
+    'AA': { name: 'Africa', haplo: 'Haplogroup L2', individual: 'AA_F_TON', desc: 'Ancestral root of all modern human maternal lineages.' },
+    'TB': { name: 'Tibet', haplo: 'Haplogroup M9', individual: 'TB_F_BHA', desc: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
+    'CA': { name: 'Canada', haplo: 'Haplogroup H2', individual: 'CA_M_GER', desc: 'Macro-haplogroup H2 lineage.' },
+    'NA': { name: 'Native America', haplo: 'Haplogroup A2', individual: 'NA_F_R3_2_LP5206_mrg', desc: 'Indigenous founding lineage derived from prehistoric Beringian migrations.' }
   },
 
   async init() {
@@ -1274,15 +1283,10 @@ window.App = {
 
       const eth1 = val;
 
-      // Update hero flags immediately
-      if (window.updateHeroCohortFlags) {
-        window.updateHeroCohortFlags(eth1);
-      }
-
-      // 1. Switch to Tree View
+      // 1. Switch to Tree View if on another tab
       switchMainTab('tree');
 
-      // 2. Select this family across the application
+      // 2. Select this family across the application (Tree, Pedigree, Diagnostic, Map, Flags)
       if (window.FamilyAccessGate) {
         window.FamilyAccessGate.applyFamilySelection(eth1, true);
       }
@@ -1293,19 +1297,9 @@ window.App = {
         treeSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
 
-      // 4. Show compare toast
+      // 4. Hide compare toast so user stays focused on their selected family
       const toast = document.getElementById('compareBranchToast');
-      const toastTitle = document.getElementById('compareToastTitle');
-      const toastMsg = document.getElementById('compareToastMsg');
-      const firstBadge = document.getElementById('firstSelectedBadge');
-      if (toast) {
-        if (toastTitle) toastTitle.textContent = `Branch Selected: ${eth1}`;
-        if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
-        if (toastMsg) {
-          toastMsg.innerHTML = `Zoomed to <strong>${eth1}</strong> branch. <strong class="text-sky-400">Click another branch on the tree</strong> (or a cohort button below) to compare!`;
-        }
-        toast.classList.remove('hidden');
-      }
+      if (toast) toast.classList.add('hidden');
     });
 
     // Wire up Compare Toast Buttons
