@@ -12,6 +12,45 @@ window.escapeHtml = function(str) {
     .replace(/'/g, '&#039;');
 };
 
+window.getCohortFlagSvg = function(code) {
+  const flags = {
+    'IN': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#FF9933"/><rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/><rect y="26.66" width="60" height="13.33" fill="#138808"/><circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/><circle cx="30" cy="20" r="1" fill="#000080"/></svg>`,
+    'IS': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#FF9933"/><rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/><rect y="26.66" width="60" height="13.33" fill="#138808"/><circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/><circle cx="30" cy="20" r="1" fill="#000080"/></svg>`,
+    'IW': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#FF9933"/><rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/><rect y="26.66" width="60" height="13.33" fill="#138808"/><circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/><circle cx="30" cy="20" r="1" fill="#000080"/></svg>`,
+    'PK': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="15" height="40" fill="#FFFFFF"/><rect x="15" width="45" height="40" fill="#01411C"/><circle cx="38" cy="20" r="10" fill="#FFFFFF"/><circle cx="41" cy="18" r="8.5" fill="#01411C"/><polygon points="41,13 42.5,17.5 47,17.5 43.5,20 45,24.5 41,22 37,24.5 38.5,20 35,17.5 39.5,17.5" fill="#FFFFFF"/></svg>`,
+    'UK': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="20" fill="#0057B7"/><rect y="20" width="60" height="20" fill="#FFD700"/></svg>`,
+    'KR': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#FFFFFF"/><circle cx="30" cy="20" r="8" fill="#C60C30"/><path d="M 30,12 A 4,4 0 0 0 30,20 A 4,4 0 0 1 30,28 A 8,8 0 0 1 30,12" fill="#003478"/></svg>`,
+    'MX': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="20" height="40" fill="#006847"/><rect x="20" width="20" height="40" fill="#FFFFFF"/><rect x="40" width="20" height="40" fill="#CE1126"/><circle cx="30" cy="20" r="3.5" fill="#8B5A2B"/></svg>`,
+    'HK': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#DE2910"/><circle cx="30" cy="20" r="4.5" fill="#FFFFFF"/></svg>`,
+    'CL': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="20" fill="#FCD116"/><rect y="20" width="60" height="10" fill="#003893"/><rect y="30" width="60" height="10" fill="#CE1126"/></svg>`,
+    'AA': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#E31B23"/><rect y="13.33" width="60" height="13.33" fill="#000000"/><rect y="26.66" width="60" height="13.33" fill="#00853F"/></svg>`,
+    'TB': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#003893"/><polygon points="0,0 60,0 30,22" fill="#E31B23"/><polygon points="15,40 45,40 30,22" fill="#FFFFFF"/><circle cx="30" cy="18" r="3.5" fill="#FCD116"/></svg>`,
+    'CA': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="15" height="40" fill="#FF0000"/><rect x="15" width="30" height="40" fill="#FFFFFF"/><rect x="45" width="15" height="40" fill="#FF0000"/><path d="M 30,12 L 32,16 L 35,15 L 33,19 L 37,21 L 33,23 L 34,27 L 31,25 L 30.5,29 L 29.5,29 L 29,25 L 26,27 L 27,23 L 23,21 L 27,19 L 25,15 L 28,16 Z" fill="#FF0000"/></svg>`,
+    'NA': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#8B4513"/><circle cx="30" cy="20" r="10" fill="#DAA520"/><polygon points="30,12 33,18 39,19 35,23 36,29 30,26 24,29 25,23 21,19 27,18" fill="#FFFFFF"/></svg>`
+  };
+
+  const defaultGlobe = `<svg viewBox="0 0 40 40" class="w-full h-full p-1"><circle cx="20" cy="20" r="16" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5"/><ellipse cx="20" cy="20" rx="8" ry="16" fill="none" stroke="#7dd3fc" stroke-width="1.2"/><line x1="4" y1="20" x2="36" y2="20" stroke="#7dd3fc" stroke-width="1.2"/></svg>`;
+
+  return flags[code] || defaultGlobe;
+};
+
+window.updateHeroCohortFlags = function(code) {
+  const flagLeft = document.getElementById('heroCohortFlagLeft');
+  const flagRight = document.getElementById('heroCohortFlagRight');
+  const svg = window.getCohortFlagSvg(code);
+
+  if (flagLeft) {
+    flagLeft.innerHTML = svg;
+    flagLeft.classList.add('scale-110');
+    setTimeout(() => flagLeft.classList.remove('scale-110'), 250);
+  }
+  if (flagRight) {
+    flagRight.innerHTML = svg;
+    flagRight.classList.add('scale-110');
+    setTimeout(() => flagRight.classList.remove('scale-110'), 250);
+  }
+};
+
 window.FamilyAccessGate = {
   STORAGE_KEY: 'mito_selected_family_v7',
 
@@ -19,6 +58,8 @@ window.FamilyAccessGate = {
     this.bindEvents();
     const stored = localStorage.getItem(this.STORAGE_KEY) || sessionStorage.getItem(this.STORAGE_KEY);
     const modal = document.getElementById('familyWelcomeModal');
+
+    window.updateHeroCohortFlags(stored || 'IN');
 
     if (!stored && modal) {
       modal.classList.remove('hidden');
@@ -76,6 +117,9 @@ window.FamilyAccessGate = {
       modal.classList.add('hidden');
       modal.classList.remove('flex');
     }
+
+    // Update flanking hero flags
+    window.updateHeroCohortFlags(code);
 
     // 1. Zoom into their family on the TreeViewer & highlight that family
     if (window.TreeViewer) {
@@ -233,7 +277,7 @@ window.FamilyReportGenerator = {
     if (!modal) {
       modal = document.createElement('div');
       modal.id = modalId;
-      modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center z-[200] p-4';
+      modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center z-[1100] p-4';
       document.body.appendChild(modal);
     }
 

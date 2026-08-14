@@ -406,29 +406,50 @@
     <!-- ========================================== -->
     <div id="tabContentTree" class="space-y-8">
       
-      <!-- Centered Hero Family Finder Bar (High Emphasis, Clean Apple Liquid Glass) -->
-      <div class="hero-glass-bar p-4 flex items-center justify-center font-mono text-xs shadow-xl">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full max-w-2xl text-center">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse shadow-sm shadow-sky-400"></span>
-            <span class="text-sky-300 font-bold uppercase tracking-wider text-xs">Select Cohort:</span>
+      <!-- Centered Hero Family Finder Bar with Flanking Flags and Glowing Glass Face -->
+      <div class="hero-glass-bar p-3.5 sm:p-4 rounded-3xl bg-gradient-to-r from-slate-950/90 via-slate-900/95 to-slate-950/90 border border-sky-500/40 shadow-2xl relative overflow-hidden flex items-center justify-center font-mono text-xs">
+        <!-- Ambient animated light sheen -->
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-sky-500/5 to-transparent pointer-events-none"></div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 w-full max-w-3xl text-center relative z-10">
+          
+          <!-- Left Flanking Flag -->
+          <div id="heroCohortFlagLeft" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 transition-transform duration-300 hover:scale-110">
+            <!-- Populated dynamically by window.updateHeroCohortFlags() -->
           </div>
-          <select id="quickFamilyEntrySelect" class="w-full sm:w-64 px-4 py-2 text-xs rounded-xl bg-slate-950/90 border border-sky-500/60 text-sky-200 font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 shadow-md transition-all">
-            <option value="">Select Cohort</option>
-            <option value="IN">India</option>
-            <option value="IS">India South</option>
-            <option value="IW">India West</option>
-            <option value="PK">Pakistan</option>
-            <option value="UK">Ukraine</option>
-            <option value="KR">Korea</option>
-            <option value="MX">Mexico</option>
-            <option value="HK">Hong Kong</option>
-            <option value="CL">Colombia</option>
-            <option value="AA">Africa</option>
-            <option value="TB">Tibet</option>
-            <option value="CA">Canada</option>
-            <option value="NA">Native America</option>
-          </select>
+
+          <!-- Central Title & Selector -->
+          <div class="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3.5">
+            <div class="flex items-center space-x-2 shrink-0">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse shadow-sm shadow-sky-400"></span>
+              <span class="text-sky-300 font-extrabold uppercase tracking-wider text-xs">Select Cohort:</span>
+            </div>
+            
+            <div class="relative">
+              <select id="quickFamilyEntrySelect" class="w-full sm:w-64 px-4 py-2 text-xs rounded-xl bg-slate-950 border-2 border-sky-500/70 text-sky-200 font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-300 shadow-xl transition-all cursor-pointer">
+                <option value="">-- Choose Cohort Lineage --</option>
+                <option value="IN">India</option>
+                <option value="IS">India South</option>
+                <option value="IW">India West</option>
+                <option value="PK">Pakistan</option>
+                <option value="UK">Ukraine</option>
+                <option value="KR">Korea</option>
+                <option value="MX">Mexico</option>
+                <option value="HK">Hong Kong</option>
+                <option value="CL">Colombia</option>
+                <option value="AA">Africa</option>
+                <option value="TB">Tibet</option>
+                <option value="CA">Canada</option>
+                <option value="NA">Native America</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Right Flanking Flag -->
+          <div id="heroCohortFlagRight" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 transition-transform duration-300 hover:scale-110">
+            <!-- Populated dynamically by window.updateHeroCohortFlags() -->
+          </div>
+
         </div>
       </div>
 
@@ -525,7 +546,7 @@
             <div id="migrationMapContainer" class="w-full h-full"></div>
             
             <!-- Map Top Overlay Floating Prompt Badge -->
-            <div class="absolute top-4 left-4 z-[400] bg-slate-950/85 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/10 font-mono text-xs text-sky-300 shadow-xl flex items-center gap-2">
+            <div class="absolute top-4 left-4 z-10 pointer-events-none bg-slate-950/85 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/10 font-mono text-xs text-sky-300 shadow-xl flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
               <span>Satellite Basemap • Interactive Out-of-Africa Trail</span>
             </div>
@@ -546,7 +567,7 @@
   </main>
 
   <!-- Interactive Comparison Toast -->
-  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-40 hidden max-w-md w-full p-4 rounded-2xl bg-slate-900/90 backdrop-blur-2xl border border-sky-500/50 shadow-2xl space-y-3 font-mono text-xs transition-all duration-300 ease-out">
+  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-[900] hidden max-w-md w-full p-4 rounded-2xl bg-slate-900/90 backdrop-blur-2xl border border-sky-500/50 shadow-2xl space-y-3 font-mono text-xs transition-all duration-300 ease-out">
     <div class="flex items-center justify-between border-b border-white/10 pb-2">
       <span id="compareToastTitle" class="font-extrabold text-sky-400 text-sm">Branch Selected</span>
       <button id="closeCompareToastBtn" class="text-slate-400 hover:text-white text-base font-bold">✕</button>
@@ -565,7 +586,7 @@
   </div>
 
   <!-- Comparative Lineage Report Modal -->
-  <div id="familyReportModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-50 p-4">
+  <div id="familyReportModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
     <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-slate-900/95 rounded-3xl">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
         <div>
@@ -605,7 +626,7 @@
   </div>
 
   <!-- Ancestral Junction Inspector Modal -->
-  <div id="junctionInspectorModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-50 p-4">
+  <div id="junctionInspectorModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
     <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-slate-900/95 rounded-3xl">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
@@ -623,7 +644,7 @@
   </div>
 
   <!-- Mutation Cladogram Inspector Modal (Interactive Cladogram Pop-Up on Mutation Click) -->
-  <div id="mutationCladogramModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[70] p-4">
+  <div id="mutationCladogramModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
     <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-5 shadow-2xl relative border border-emerald-500/40 bg-slate-900/95 rounded-3xl">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div>

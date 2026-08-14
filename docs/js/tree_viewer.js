@@ -455,6 +455,13 @@ window.TreeViewer = {
     this.renderFamilyGroupButtons();
     this.highlightFamilyCluster();
     this.updateZoomBadge(`Cohort: ${familyCode}`);
+    if (window.updateHeroCohortFlags) {
+      window.updateHeroCohortFlags(familyCode);
+    }
+    const quickSelect = document.getElementById('quickFamilyEntrySelect');
+    if (quickSelect && quickSelect.value !== familyCode) {
+      quickSelect.value = familyCode;
+    }
   },
 
   updateZoomBadge(label) {
