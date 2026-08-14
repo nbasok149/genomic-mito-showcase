@@ -22,7 +22,7 @@
 <body class="bg-[#090a0f] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-sky-500 selection:text-slate-950">
 
   <!-- Opening Welcome & Genomic Education Modal (First Open Prompt) -->
-  <div id="familyWelcomeModal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
+  <div id="familyWelcomeModal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-[1000] flex items-center justify-center p-4">
     <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative border border-white/10 bg-slate-900/95 rounded-3xl">
       
       <!-- Top Title & Simple Mitochondrial Organelle Graphic Banner -->
@@ -413,8 +413,8 @@
 
         <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 w-full max-w-3xl text-center relative z-10">
           
-          <!-- Left Flanking Flag -->
-          <div id="heroCohortFlagLeft" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 transition-transform duration-300 hover:scale-110">
+          <!-- Left Flanking Flag (Hidden until cohort is selected) -->
+          <div id="heroCohortFlagLeft" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 opacity-0 transition-all duration-300 hover:scale-110">
             <!-- Populated dynamically by window.updateHeroCohortFlags() -->
           </div>
 
@@ -445,8 +445,8 @@
             </div>
           </div>
 
-          <!-- Right Flanking Flag -->
-          <div id="heroCohortFlagRight" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 transition-transform duration-300 hover:scale-110">
+          <!-- Right Flanking Flag (Hidden until cohort is selected) -->
+          <div id="heroCohortFlagRight" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 opacity-0 transition-all duration-300 hover:scale-110">
             <!-- Populated dynamically by window.updateHeroCohortFlags() -->
           </div>
 

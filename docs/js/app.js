@@ -13,6 +13,7 @@ window.escapeHtml = function(str) {
 };
 
 window.getCohortFlagSvg = function(code) {
+  if (!code) return '';
   const flags = {
     'IN': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#FF9933"/><rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/><rect y="26.66" width="60" height="13.33" fill="#138808"/><circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/><circle cx="30" cy="20" r="1" fill="#000080"/></svg>`,
     'IS': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#FF9933"/><rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/><rect y="26.66" width="60" height="13.33" fill="#138808"/><circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/><circle cx="30" cy="20" r="1" fill="#000080"/></svg>`,
@@ -29,23 +30,39 @@ window.getCohortFlagSvg = function(code) {
     'NA': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#8B4513"/><circle cx="30" cy="20" r="10" fill="#DAA520"/><polygon points="30,12 33,18 39,19 35,23 36,29 30,26 24,29 25,23 21,19 27,18" fill="#FFFFFF"/></svg>`
   };
 
-  const defaultGlobe = `<svg viewBox="0 0 40 40" class="w-full h-full p-1"><circle cx="20" cy="20" r="16" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5"/><ellipse cx="20" cy="20" rx="8" ry="16" fill="none" stroke="#7dd3fc" stroke-width="1.2"/><line x1="4" y1="20" x2="36" y2="20" stroke="#7dd3fc" stroke-width="1.2"/></svg>`;
-
-  return flags[code] || defaultGlobe;
+  return flags[code] || '';
 };
 
 window.updateHeroCohortFlags = function(code) {
   const flagLeft = document.getElementById('heroCohortFlagLeft');
   const flagRight = document.getElementById('heroCohortFlagRight');
-  const svg = window.getCohortFlagSvg(code);
 
+  if (!code) {
+    if (flagLeft) {
+      flagLeft.innerHTML = '';
+      flagLeft.classList.add('opacity-0');
+      flagLeft.classList.remove('opacity-100');
+    }
+    if (flagRight) {
+      flagRight.innerHTML = '';
+      flagRight.classList.add('opacity-0');
+      flagRight.classList.remove('opacity-100');
+    }
+    return;
+  }
+
+  const svg = window.getCohortFlagSvg(code);
   if (flagLeft) {
     flagLeft.innerHTML = svg;
+    flagLeft.classList.remove('opacity-0');
+    flagLeft.classList.add('opacity-100');
     flagLeft.classList.add('scale-110');
     setTimeout(() => flagLeft.classList.remove('scale-110'), 250);
   }
   if (flagRight) {
     flagRight.innerHTML = svg;
+    flagRight.classList.remove('opacity-0');
+    flagRight.classList.add('opacity-100');
     flagRight.classList.add('scale-110');
     setTimeout(() => flagRight.classList.remove('scale-110'), 250);
   }
@@ -59,16 +76,19 @@ window.FamilyAccessGate = {
     const stored = localStorage.getItem(this.STORAGE_KEY) || sessionStorage.getItem(this.STORAGE_KEY);
     const modal = document.getElementById('familyWelcomeModal');
 
-    window.updateHeroCohortFlags(stored || 'IN');
-
-    if (!stored && modal) {
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    } else if (modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      if (stored) {
-        this.applyFamilySelection(stored, false);
+    if (stored) {
+      window.updateHeroCohortFlags(stored);
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      this.applyFamilySelection(stored, false);
+    } else {
+      // Don't show any country flags until a country has been chosen!
+      window.updateHeroCohortFlags('');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
       }
     }
   },
@@ -1135,13 +1155,13 @@ window.App = {
     
     await this.loadAllData();
 
-    window.FamilyAccessGate.init();
-
-    if (window.DiagnosticMarkersExplorer) window.DiagnosticMarkersExplorer.init();
-
     if (this.treeData && window.TreeViewer) {
       window.TreeViewer.init(this.treeData);
     }
+
+    window.FamilyAccessGate.init();
+
+    if (window.DiagnosticMarkersExplorer) window.DiagnosticMarkersExplorer.init();
 
     if (window.MigrationMap) {
       window.MigrationMap.init();
@@ -1209,6 +1229,11 @@ window.App = {
 
       const eth1 = val;
 
+      // Update hero flags immediately
+      if (window.updateHeroCohortFlags) {
+        window.updateHeroCohortFlags(eth1);
+      }
+
       // 1. Switch to Tree View
       switchMainTab('tree');
 
@@ -1259,14 +1284,18 @@ window.App = {
 
   async loadAllData() {
     const fetchJson = async (filename) => {
-      try {
-        const res = await fetch(`data/${filename}`);
-        if (res.ok) return await res.json();
-      } catch (e) {}
-      try {
-        const res = await fetch(`/data/${filename}`);
-        if (res.ok) return await res.json();
-      } catch (e) {}
+      const paths = [
+        `data/${filename}`,
+        `/data/${filename}`,
+        `./data/${filename}`,
+        `docs/data/${filename}`
+      ];
+      for (const p of paths) {
+        try {
+          const res = await fetch(p);
+          if (res.ok) return await res.json();
+        } catch (e) {}
+      }
       return null;
     };
 

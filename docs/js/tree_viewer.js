@@ -35,7 +35,8 @@ window.TreeViewer = {
   },
 
   init(data) {
-    this.treeData = data;
+    if (data) this.treeData = data;
+    else if (window.App && window.App.treeData) this.treeData = window.App.treeData;
     this.bindEvents();
     this.render();
     this.renderFamilyGroupButtons();
@@ -691,7 +692,16 @@ window.TreeViewer = {
 
   render() {
     const container = document.getElementById('treeContainer');
-    if (!container || !this.treeData) return;
+    if (!container) return;
+
+    if (!this.treeData && window.App && window.App.treeData) {
+      this.treeData = window.App.treeData;
+    }
+
+    if (!this.treeData) {
+      return;
+    }
+
     container.innerHTML = '';
 
     const width = container.clientWidth || 900;
