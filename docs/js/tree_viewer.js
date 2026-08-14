@@ -77,6 +77,63 @@ window.TreeViewer = {
   },
 
   // Kinship-aware role hierarchy across all 43 samples
+  // Direct Human Display Names for all 43 samples
+  getSampleDisplayName(sampleName) {
+    if (!sampleName) return 'Sample';
+    const s = String(sampleName).trim();
+    const map = {
+      'HK_F_JANM': 'Jan Mother',
+      'HK_M_WLL': 'William',
+      'HK_F_JAN': 'Jan',
+      'MX_F_CRY': 'Crystal Mother',
+      'MX_M_CRYF': 'Crystal Father',
+      'MX_F_CRYS1': 'Crystal Daughter',
+      'CL_F_ALJ': 'Alejandra',
+      'CL_F_ALJC1': 'Alejandra Daughter',
+      'KR_F_MOO': 'Cohort Mother',
+      'KR_F_MOOC1': 'Cohort Daughter',
+      'PK_F_WAS': 'Wasim Mother',
+      'PK_M_WASH': 'Wasim Father',
+      'PK_M_WASC1': 'Wasim Son 1',
+      'PK_M_WASC2': 'Wasim Son 2',
+      'UK_F_NIKG': 'Nik Grandmother',
+      'UK_F_NIKM': 'Nik Mother',
+      'UK_F_NIKA': 'Nik Aunt',
+      'UK_M_NIKS1': 'Nik Son 1',
+      'UK_M_NIK': 'Nik Son 2',
+      'UK_M_NIKS2': 'Nik Son 3',
+      'IN_F_RISG': 'Rishi Grandmother',
+      'IN_F_RISM': 'Rishi Mother',
+      'IN_M_RISF': 'Rishi Father',
+      'IN_M_RIS': 'Rishi',
+      'IN_M_RISS1': 'Rishi Son',
+      'IN_F_DPL': 'Deepali',
+      'IN_M_DPLH': 'Deepali Husband',
+      'IS_F_VYSM': 'Vys Mother',
+      'IS_M_RAV': 'Rav',
+      'IS_M_SEL': 'Sel',
+      'IS_F_VYS': 'Vys',
+      'IS_F_VYS2': 'Vys 2',
+      'IS_F_VYSC1': 'Vys Daughter',
+      'IS_M_PRIC1': 'Priya Son',
+      'IW_F_ANJM': 'Anjali Mother',
+      'IW_M_ANJF': 'Raj',
+      'IW_F_ANJS1': 'Anjali Daughter',
+      'IW_F_ANJ': 'Anjali',
+      'CA_M_GER': 'German',
+      'AA_F_TON': 'Toniann',
+      'TB_F_BHA': 'Bharti',
+      'NA_F_R3_2_LP5206_MRG': 'Native America Woman',
+      'NA_F_R3_2_LP5206_mrg': 'Native America Woman',
+      'SA_M_RD_2_LP5205_MRG': 'South America Man',
+      'SA_M_RD_2_LP5205_mrg': 'South America Man'
+    };
+    if (map[s]) return map[s];
+    const upper = s.toUpperCase();
+    if (map[upper]) return map[upper];
+    return s.replace(/_/g, ' ');
+  },
+
   // Adaptable Kinship & Gender Role parser across all 43 samples and generic formats
   getSampleRole(sampleName) {
     if (!sampleName) return 'Lineage Member';
@@ -84,63 +141,44 @@ window.TreeViewer = {
 
     // 1. Explicit verified multi-generational pedigree relationships
     const KNOWN_FAMILY_ROLES = {
-      // UK 3-Generation Pedigree (Grandmother -> Mother -> 3 Sons, Aunt)
       'UK_F_NIKG': 'Grandmother',
       'UK_F_NIKA': 'Aunt',
       'UK_F_NIKM': 'Mother',
-      'UK_M_NIKS1': 'Child 1 (Son)',
-      'UK_M_NIK': 'Child 2 (Son)',
-      'UK_M_NIKS2': 'Child 3 (Son)',
-
-      // IN Cohort (Rishi & Deepali family lines)
+      'UK_M_NIKS1': 'Son 1',
+      'UK_M_NIK': 'Son 2',
+      'UK_M_NIKS2': 'Son 3',
       'IN_F_RISG': 'Grandmother',
-      'IN_F_RISM': 'Mother (Rishi Mother)',
-      'IN_M_RISF': 'Father (Rishi Father)',
-      'IN_M_RIS': 'Child 1 (Son)',
-      'IN_M_RISS1': 'Child 2 (Son)',
-      'IN_F_DPL': 'Mother (Deepali)',
-      'IN_M_DPLH': 'Father (Deepali Husband)',
-
-      // IS Cohort (Vys family pedigree & kin)
-      'IS_F_VYSM': 'Mother (Vys Mother)',
-      'IS_M_RAV': 'Father (Rav)',
-      'IS_M_SEL': 'Father 2 (Sel)',
-      'IS_F_VYS': 'Woman (Kin)',
-      'IS_F_VYS2': 'Woman (Kin)',
-      'IS_F_VYSC1': 'Child 1 (Daughter)',
-      'IS_M_PRIC1': 'Child 2 (Son)',
-
-      // IW Cohort (Anjali family pedigree & kin)
-      'IW_F_ANJM': 'Mother (Anjali Mother)',
-      'IW_M_ANJF': 'Father (Raj / Anjali Father)',
-      'IW_F_ANJS1': 'Child 1 (Daughter)',
-      'IW_F_ANJ': 'Woman (Kin)',
-
-      // PK Cohort (Wasim family pedigree)
-      'PK_F_WAS': 'Mother (Wasim Mother)',
-      'PK_M_WASH': 'Father (Wasim Father)',
-      'PK_M_WASC1': 'Child 1 (Son)',
-      'PK_M_WASC2': 'Child 2 (Son)',
-
-      // HK Cohort (Jan family pedigree)
-      'HK_F_JANM': 'Mother (Jan Mother)',
-      'HK_M_WLL': 'Father (William / Jan Father)',
-      'HK_F_JAN': 'Child 1 (Daughter)',
-
-      // KR Cohort
-      'KR_F_MOO': 'Mother (Cohort Mother)',
-      'KR_F_MOOC1': 'Child 1 (Daughter)',
-
-      // MX Cohort (Crystal family pedigree)
-      'MX_F_CRY': 'Mother (Crystal Mother)',
-      'MX_M_CRYF': 'Father (Crystal Father)',
-      'MX_F_CRYS1': 'Child 1 (Daughter)',
-
-      // CL Cohort
-      'CL_F_ALJ': 'Mother (Alejandra Mother)',
-      'CL_F_ALJC1': 'Child 1 (Daughter)',
-
-      // Solo / Unspecified Cohort Individuals
+      'IN_F_RISM': 'Mother',
+      'IN_M_RISF': 'Father',
+      'IN_M_RIS': 'Son 1',
+      'IN_M_RISS1': 'Son 2',
+      'IN_F_DPL': 'Mother',
+      'IN_M_DPLH': 'Father',
+      'IS_F_VYSM': 'Mother',
+      'IS_M_RAV': 'Father',
+      'IS_M_SEL': 'Father',
+      'IS_F_VYS': 'Woman',
+      'IS_F_VYS2': 'Woman',
+      'IS_F_VYSC1': 'Daughter',
+      'IS_M_PRIC1': 'Son',
+      'IW_F_ANJM': 'Mother',
+      'IW_M_ANJF': 'Father',
+      'IW_F_ANJS1': 'Daughter',
+      'IW_F_ANJ': 'Woman',
+      'PK_F_WAS': 'Mother',
+      'PK_M_WASH': 'Father',
+      'PK_M_WASC1': 'Son 1',
+      'PK_M_WASC2': 'Son 2',
+      'HK_F_JANM': 'Mother',
+      'HK_M_WLL': 'Father',
+      'HK_F_JAN': 'Daughter',
+      'KR_F_MOO': 'Mother',
+      'KR_F_MOOC1': 'Daughter',
+      'MX_F_CRY': 'Mother',
+      'MX_M_CRYF': 'Father',
+      'MX_F_CRYS1': 'Daughter',
+      'CL_F_ALJ': 'Mother',
+      'CL_F_ALJC1': 'Daughter',
       'CA_M_GER': 'Man',
       'AA_F_TON': 'Woman',
       'TB_F_BHA': 'Woman',
@@ -153,9 +191,9 @@ window.TreeViewer = {
     // 2. Structural kinship token matching
     if (s.endsWith('NIKG') || s.endsWith('RISG') || s.endsWith('_G') || s.includes('GRANDMOTHER')) return 'Grandmother';
     if (s.endsWith('NIKA') || s.endsWith('_A') || s.includes('AUNT')) return 'Aunt';
-    if (s.includes('C1') || s.includes('S1') || s.includes('D1')) return s.includes('_F_') ? 'Child 1 (Daughter)' : 'Child 1 (Son)';
-    if (s.includes('C2') || s.includes('S2') || s.includes('D2')) return s.includes('_F_') ? 'Child 2 (Daughter)' : 'Child 2 (Son)';
-    if (s.includes('C3') || s.includes('S3') || s.includes('D3')) return s.includes('_F_') ? 'Child 3 (Daughter)' : 'Child 3 (Son)';
+    if (s.includes('C1') || s.includes('S1') || s.includes('D1')) return s.includes('_F_') ? 'Daughter' : 'Son';
+    if (s.includes('C2') || s.includes('S2') || s.includes('D2')) return s.includes('_F_') ? 'Daughter' : 'Son';
+    if (s.includes('C3') || s.includes('S3') || s.includes('D3')) return s.includes('_F_') ? 'Daughter' : 'Son';
 
     // 3. Adaptable parsing for unspecifiedly related people: Man or Woman depending on F/M gender flag
     const tokens = s.split('_');
@@ -172,7 +210,7 @@ window.TreeViewer = {
 
   getDeidentifiedLabel(sampleName) {
     if (!sampleName || sampleName.includes('Clade')) return '';
-    return this.getSampleRole(sampleName);
+    return this.getSampleDisplayName(sampleName);
   },
 
   getNodeColor(rawName) {
@@ -185,19 +223,19 @@ window.TreeViewer = {
     if (!rawName || rawName.includes('Clade')) return '';
     const parts = rawName.split('_');
     const regionMap = {
-      'IN': 'India (Central/North)',
-      'IS': 'India South (Deccan)',
-      'IW': 'India West (Gujarat)',
-      'PK': 'Pakistan (Indus)',
-      'UK': 'Ukraine (E. Europe)',
-      'KR': 'Korea (NE Asia)',
-      'MX': 'Mexico (Mesoamerica)',
-      'HK': 'Hong Kong (E. Asia)',
-      'CL': 'Colombia (S. America)',
-      'AA': 'African (Cradle)',
-      'TB': 'Tibet (Plateau)',
-      'CA': 'Canada (N. America)',
-      'NA': 'Native N. America'
+      'IN': 'India',
+      'IS': 'India South',
+      'IW': 'India West',
+      'PK': 'Pakistan',
+      'UK': 'Ukraine',
+      'KR': 'Korea',
+      'MX': 'Mexico',
+      'HK': 'Hong Kong',
+      'CL': 'Colombia',
+      'AA': 'Africa',
+      'TB': 'Tibet',
+      'CA': 'Canada',
+      'NA': 'Native America'
     };
     return regionMap[parts[0]] || parts[0];
   },
@@ -461,14 +499,13 @@ window.TreeViewer = {
 
     if (this.selectedSamples.length === 1) {
       const s1 = this.selectedSamples[0];
-      const role1 = this.getSampleRole(s1);
-      const code1 = s1.split('_')[0];
+      const name1 = this.getSampleDisplayName(s1);
 
       if (toast) {
-        if (toastTitle) toastTitle.innerHTML = `<span class="text-emerald-400">Sample 1 Selected: ${role1} (${s1})</span>`;
-        if (firstBadge) firstBadge.innerHTML = `<span class="text-emerald-300 font-bold">1: ${s1} (${role1})</span>`;
+        if (toastTitle) toastTitle.innerHTML = `<span class="text-emerald-400">Selected: ${name1}</span>`;
+        if (firstBadge) firstBadge.innerHTML = `<span class="text-emerald-300 font-bold">${name1}</span>`;
         if (toastMsg) {
-          toastMsg.innerHTML = `Sample 1 is highlighted in <strong class="text-emerald-400">green</strong>. Now <strong class="text-sky-300">click another sample</strong> on the tree (Mother, Father, Child, etc.) to compare!`;
+          toastMsg.innerHTML = `Click any second sample on the tree to compare.`;
         }
         toast.classList.remove('hidden');
       }

@@ -444,8 +444,8 @@ window.MigrationMap = {
     const samples = window.App.distanceData.samples || [];
     select.innerHTML = samples.map(s => {
       const code = s.split('_')[0];
-      const role = window.TreeViewer ? window.TreeViewer.getSampleRole(s) : 'Lineage Member';
-      return `<option value="${s}">[${code}] ${role} (${s})</option>`;
+      const name = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(s) : s;
+      return `<option value="${s}">${name} (${code})</option>`;
     }).join('');
 
     select.value = this.activeSample;

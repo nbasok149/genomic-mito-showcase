@@ -109,19 +109,19 @@ window.FamilyAccessGate = {
 
 window.DiagnosticMarkersExplorer = {
   FAMILY_MARKERS: {
-    'IN': { name: 'India (IN - Deepali & Rishi)', markers: [593, 5075, 6020, 10400, 12792, 14783, 15043, 15692, 15859], mother: 'IN_F_RISM (Rishi Mother) & IN_F_DPL (Deepali Mother)', dadNote: 'IN_M_RISF & IN_M_DPLH (Fathers) do NOT transmit mtDNA markers to children; offspring inherit 100% maternal mitochondrial DNA.' },
-    'IS': { name: 'India South (IS - Vys, Rav & Sel)', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'IS_F_VYSM (Vys Mother)', dadNote: 'IS_M_RAV (Father Rav) & IS_M_SEL (Father Sel) carry non-transmitted paternal lines; children inherit 100% maternal mtDNA from IS_F_VYSM.' },
-    'IW': { name: 'India West (IW - Raj & Anjali)', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'IW_F_ANJM (Anjali Mother)', dadNote: 'IW_M_ANJF (Raj / Father) does NOT carry maternal diagnostic markers; 100% maternal transmission passed to offspring IW_F_ANJS1.' },
-    'PK': { name: 'Pakistan (PK - Wasim)', markers: [511, 3594, 7269, 7805, 13680, 15479], mother: 'PK_F_WAS (Wasim Mother)', dadNote: 'PK_M_WASH (Father) does not transmit familial markers to children; offspring PK_M_WASC1 & PK_M_WASC2 inherit strictly from PK_F_WAS.' },
-    'MX': { name: 'Mexico (MX)', markers: [499, 4823, 6297, 8047, 9039, 13590], mother: 'MX_F_CRY (Mother)', dadNote: 'MX_M_CRYF (Father) carries paternal nuclear DNA only; children inherit 100% of maternal mtDNA from MX_F_CRY.' },
-    'HK': { name: 'Hong Kong (HK)', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'HK_F_JAN (Mother)', dadNote: 'HK_M_WLL (Father) carries non-transmitted paternal line; children inherit 100% of maternal markers from HK_F_JAN.' },
-    'UK': { name: 'Ukraine (UK)', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'UK_F_NIKM (Mother)', aunt: 'UK_F_NIKA (Aunt)', grandmother: 'UK_F_NIKG (Grandmother)', dadNote: 'No father sample collected for Ukraine cohort; maternal inheritance verified through UK_F_NIKG ➔ UK_F_NIKM ➔ offspring.' },
-    'KR': { name: 'Korea (KR)', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'KR_F_MOO (Mother)', dadNote: 'No father sample collected; maternal lineage strictly passed from KR_F_MOO to KR_F_MOOC1.' },
-    'CL': { name: 'Colombia (CL)', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'CL_F_ALJ (Mother)', dadNote: 'Fathers pass 0% mitochondrial DNA or familial diagnostic markers to offspring; passed 100% maternally from CL_F_ALJ to child CL_F_ALJC1.' },
-    'AA': { name: 'African (AA)', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'AA_F_TON (African Woman)', dadNote: 'Deep Sub-Saharan African maternal root lineage (Macro-Haplogroup L2) representing the ancestral root of all modern humans.' },
-    'TB': { name: 'Tibet (TB)', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'TB_F_BHA (Tibetan Woman)', dadNote: 'High-altitude adapted Tibetan Plateau maternal lineage (Haplogroup M9) carrying the m.3394 T>C complex I hypoxia adaptation mutation.' },
-    'CA': { name: 'Canada (CA)', markers: [73, 146, 263, 4769], individual: 'CA_M_GER (Canadian Man)', dadNote: 'Individual sequenced male sample from the Canadian / European macro-haplogroup H2 lineage.' },
-    'NA': { name: 'Native North America (NA)', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'NA_F_R3_2_LP5206_mrg (Indigenous North American Woman)', dadNote: 'Indigenous North American founding maternal lineage (Haplogroup A2) derived from prehistoric Beringian migrations.' }
+    'IN': { name: 'India', markers: [593, 5075, 6020, 10400, 12792, 14783, 15043, 15692, 15859], mother: 'Rishi Mother & Deepali Mother', dadNote: 'Fathers do not transmit mtDNA markers to offspring; passed 100% maternally.' },
+    'IS': { name: 'India South', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'Vys Mother', dadNote: 'Fathers carry independent non-transmitted paternal lines; children inherit 100% maternal mtDNA.' },
+    'IW': { name: 'India West', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'Anjali Mother', dadNote: '100% maternal transmission passed to offspring.' },
+    'PK': { name: 'Pakistan', markers: [511, 3594, 7269, 7805, 13680, 15479], mother: 'Wasim Mother', dadNote: 'Offspring inherit strictly from maternal line.' },
+    'MX': { name: 'Mexico', markers: [499, 4823, 6297, 8047, 9039, 13590], mother: 'Crystal Mother', dadNote: 'Children inherit 100% of maternal mtDNA.' },
+    'HK': { name: 'Hong Kong', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'Jan Mother', dadNote: 'Children inherit 100% of maternal markers.' },
+    'UK': { name: 'Ukraine', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'Nik Mother', aunt: 'Nik Aunt', grandmother: 'Nik Grandmother', dadNote: 'Maternal inheritance verified across three generations.' },
+    'KR': { name: 'Korea', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'Cohort Mother', dadNote: 'Maternal lineage strictly passed to offspring.' },
+    'CL': { name: 'Colombia', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'Alejandra', dadNote: 'Passed 100% maternally to offspring.' },
+    'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'Toniann', dadNote: 'Ancestral root of all modern human maternal lineages.' },
+    'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'Bharti', dadNote: 'High-altitude adapted lineage carrying m.3394 T>C complex I mutation.' },
+    'CA': { name: 'Canada', markers: [73, 146, 263, 4769], individual: 'German', dadNote: 'Macro-haplogroup H2 lineage.' },
+    'NA': { name: 'Native America', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'Native America Woman', dadNote: 'Indigenous founding lineage derived from prehistoric Beringian migrations.' }
   },
 
   init() {
@@ -149,7 +149,7 @@ window.DiagnosticMarkersExplorer = {
     if (data.dadNote) {
       dadHtml = `
         <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-sans">
-          <div class="text-sky-400 font-bold text-xs font-mono">Familial Transmission &amp; Paternal Note:</div>
+          <div class="text-sky-400 font-bold text-xs font-mono">Transmission Note:</div>
           <p class="text-slate-300 leading-relaxed text-[11.5px]">
             ${data.dadNote}
           </p>
@@ -161,7 +161,7 @@ window.DiagnosticMarkersExplorer = {
       <div class="space-y-4 font-mono text-xs">
         <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
           <div class="text-sky-300 font-bold flex items-center justify-between">
-            <span class="text-sm">Familial Diagnostic Position Markers for ${data.name}:</span>
+            <span class="text-sm">Diagnostic Markers: ${data.name}</span>
             <span class="text-[10px] text-slate-400 font-sans font-normal">Maternally Transmitted Polymorphisms</span>
           </div>
           <div class="text-white font-extrabold text-sm tracking-wide pt-1">
@@ -176,19 +176,19 @@ window.DiagnosticMarkersExplorer = {
 
 window.FamilyReportGenerator = {
   REGION_MAP: {
-    'IN': { code: 'IN', name: 'India — Central/North (IN)', region: 'Central/North South Asia', haplo: 'Haplogroup M / R (IN)', history: 'Ancient South Asian maternal lineage derived from the early Southern Coastal out-of-Africa migration wave ~60,000 YBP.' },
-    'IS': { code: 'IS', name: 'India South — Deccan (IS)', region: 'Southern South Asia', haplo: 'Haplogroup M / R (IS / VYS)', history: 'Southern Indian maternal lineage derived from ancient South Asian indigenous Out-of-Africa coastal settlement.' },
-    'IW': { code: 'IW', name: 'India West — Gujarat (IW)', region: 'Western South Asia', haplo: 'Haplogroup M / R (IW)', history: 'Western South Asian regional sub-clade sharing ancient Southern Coastal out-of-Africa founding roots.' },
-    'PK': { code: 'PK', name: 'Pakistan — Indus Valley (PK)', region: 'Indus Valley', haplo: 'Haplogroup M / U (PK)', history: 'Indus Valley regional maternal lineage sharing deep historical trade and migration connections across Central/South Asia.' },
-    'UK': { code: 'UK', name: 'Ukraine — Eastern Europe (UK)', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic Hunter-Gatherers and Neolithic European agricultural expansion.' },
-    'MX': { code: 'MX', name: 'Mexico — Mesoamerica (MX)', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient East Asian ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
-    'HK': { code: 'HK', name: 'Hong Kong — Pearl River (HK)', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China, Hong Kong, and the Japanese Archipelago.' },
-    'KR': { code: 'KR', name: 'Korea — Northeast Asia (KR)', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
-    'CL': { code: 'CL', name: 'Colombia — South America (CL)', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
-    'AA': { code: 'AA', name: 'African — Sub-Saharan Cradle (AA)', region: 'Sub-Saharan Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
-    'TB': { code: 'TB', name: 'Tibet — Himalayan Plateau (TB)', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
-    'CA': { code: 'CA', name: 'Canada — North America (CA)', region: 'North America', haplo: 'Haplogroup H2', history: 'North American / European lineage (Haplogroup H2).' },
-    'NA': { code: 'NA', name: 'Native North America (NA)', region: 'North America', haplo: 'Haplogroup A2', history: 'Indigenous North American maternal lineage (Haplogroup A2) sharing ancient Beringian founder roots.' }
+    'IN': { code: 'IN', name: 'India', region: 'South Asia', haplo: 'Haplogroup M / R', history: 'Ancient South Asian maternal lineage derived from the early Southern Coastal out-of-Africa migration wave ~60,000 YBP.' },
+    'IS': { code: 'IS', name: 'India South', region: 'Southern India', haplo: 'Haplogroup M / R', history: 'Southern Indian maternal lineage derived from ancient South Asian indigenous coastal settlement.' },
+    'IW': { code: 'IW', name: 'India West', region: 'Western India', haplo: 'Haplogroup M / R', history: 'Western South Asian regional sub-clade sharing ancient Southern Coastal out-of-Africa founding roots.' },
+    'PK': { code: 'PK', name: 'Pakistan', region: 'Indus Valley', haplo: 'Haplogroup M / U', history: 'Indus Valley regional maternal lineage sharing deep historical trade and migration connections across Central and South Asia.' },
+    'UK': { code: 'UK', name: 'Ukraine', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic hunter-gatherers and Neolithic European expansion.' },
+    'MX': { code: 'MX', name: 'Mexico', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
+    'HK': { code: 'HK', name: 'Hong Kong', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China and Hong Kong.' },
+    'KR': { code: 'KR', name: 'Korea', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
+    'CL': { code: 'CL', name: 'Colombia', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
+    'AA': { code: 'AA', name: 'Africa', region: 'Sub-Saharan Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
+    'TB': { code: 'TB', name: 'Tibet', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
+    'CA': { code: 'CA', name: 'Canada', region: 'North America', haplo: 'Haplogroup H2', history: 'North American / European lineage (Haplogroup H2).' },
+    'NA': { code: 'NA', name: 'Native America', region: 'North America', haplo: 'Haplogroup A2', history: 'Indigenous North American maternal lineage (Haplogroup A2) sharing ancient Beringian founder roots.' }
   },
 
   getAllFamilies() {
@@ -200,8 +200,8 @@ window.FamilyReportGenerator = {
     const cleanCode = familyCode.replace('Ethnicity ', '').replace('Family ', '').trim();
     return this.REGION_MAP[cleanCode] || {
       code: cleanCode,
-      name: `Cohort ${cleanCode}`,
-      region: `Cohort ${cleanCode}`,
+      name: cleanCode,
+      region: cleanCode,
       haplo: 'Unassigned',
       history: 'Mitochondrial lineage dataset.'
     };
@@ -286,6 +286,8 @@ window.FamilyReportGenerator = {
 
   openReportModal(fam1Code = 'MX', fam2Code = 'AA', fam3Code = null) {
     const modal = document.getElementById('familyReportModal');
+    const controls = document.getElementById('cohortReportSelectControls');
+    if (controls) controls.classList.remove('hidden');
     if (!modal) return;
 
     this.populateDropdowns(fam1Code, fam2Code, fam3Code);
@@ -299,11 +301,13 @@ window.FamilyReportGenerator = {
     const select1 = document.getElementById('reportFamily1Select');
     const select2 = document.getElementById('reportFamily2Select');
     const select3 = document.getElementById('reportFamily3Select');
+    const controls = document.getElementById('cohortReportSelectControls');
+    if (controls) controls.classList.remove('hidden');
     if (!select1 || !select2) return;
 
     const families = this.getAllFamilies();
     const optionsHtml = families.map(f => `<option value="${f.code}">${f.name}</option>`).join('');
-    const optionalOptionsHtml = `<option value="">-- Optional 3rd Cohort --</option>` + optionsHtml;
+    const optionalOptionsHtml = `<option value="">-- 3rd Cohort (Optional) --</option>` + optionsHtml;
 
     select1.innerHTML = optionsHtml;
     select2.innerHTML = optionsHtml;
@@ -664,6 +668,8 @@ window.FamilyReportGenerator = {
 
   openSampleReportModal(sample1, sample2) {
     const modal = document.getElementById('familyReportModal');
+    const controls = document.getElementById('cohortReportSelectControls');
+    if (controls) controls.classList.add('hidden');
     if (!modal) return;
 
     this.renderSampleReport(sample1, sample2);
@@ -675,6 +681,8 @@ window.FamilyReportGenerator = {
   renderSampleReport(sample1, sample2) {
     const reportContainer = document.getElementById('familyReportModalBody') || document.getElementById('familyReportBody');
     const titleEl = document.getElementById('reportModalTitle');
+    const controls = document.getElementById('cohortReportSelectControls');
+    if (controls) controls.classList.add('hidden');
     if (!reportContainer || !window.App.variantsData || !window.App.distanceData) return;
 
     const allSamples = window.App.distanceData.samples || [];
@@ -687,8 +695,10 @@ window.FamilyReportGenerator = {
       ? matrix[idx1][idx2].toFixed(2)
       : '0.00';
 
-    const role1 = window.TreeViewer ? window.TreeViewer.getSampleRole(sample1) : 'Sample 1';
-    const role2 = window.TreeViewer ? window.TreeViewer.getSampleRole(sample2) : 'Sample 2';
+    const name1 = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(sample1) : sample1;
+    const name2 = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(sample2) : sample2;
+    const role1 = window.TreeViewer ? window.TreeViewer.getSampleRole(sample1) : 'Individual';
+    const role2 = window.TreeViewer ? window.TreeViewer.getSampleRole(sample2) : 'Individual';
 
     const code1 = sample1.split('_')[0];
     const code2 = sample2.split('_')[0];
@@ -697,7 +707,7 @@ window.FamilyReportGenerator = {
     const info2 = this.getFamilyData(code2);
 
     if (titleEl) {
-      titleEl.innerHTML = `Sample Comparison: <span class="text-emerald-400">${role1} (${sample1})</span> vs <span class="text-sky-400">${role2} (${sample2})</span>`;
+      titleEl.innerHTML = `<span class="text-emerald-400">${name1}</span> vs <span class="text-sky-400">${name2}</span>`;
     }
 
     // Filter variants for each sample
@@ -719,27 +729,27 @@ window.FamilyReportGenerator = {
     allKeysMap.forEach((v, k) => {
       const in1 = muts1.has(k);
       const in2 = muts2.has(k);
-      if (in1 && in2) shared.push({ ...v, eths: [`${role1} (${sample1})`, `${role2} (${sample2})`] });
-      else if (in1 && !in2) unique1.push({ ...v, eths: [`${role1} (${sample1})`] });
-      else if (in2 && !in1) unique2.push({ ...v, eths: [`${role2} (${sample2})`] });
+      if (in1 && in2) shared.push({ ...v, eths: [name1, name2] });
+      else if (in1 && !in2) unique1.push({ ...v, eths: [name1] });
+      else if (in2 && !in1) unique2.push({ ...v, eths: [name2] });
     });
 
-    const isSameFamily = code1 === code2;
+    const isSameCohort = code1 === code2;
     let inheritanceNote = '';
     let inheritanceBadge = '';
 
-    if (isSameFamily && ((role1.includes('Mother') && role2.includes('Child')) || (role2.includes('Mother') && role1.includes('Child')) || (role1.includes('Child') && role2.includes('Child')))) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">100% Maternal Concordance (0.00 Distance)</span>`;
-      inheritanceNote = `Offspring inherits an exact duplicate of maternal mitochondrial DNA without paternal recombination. The mutational distance between mother and offspring is 0.00.`;
-    } else if (isSameFamily && (role1.includes('Father') || role2.includes('Father'))) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Paternal Divergence (${dist} Distance)</span>`;
-      inheritanceNote = `Fathers do NOT transmit mitochondrial DNA or familial diagnostic markers to offspring. The father belongs to an independent maternal lineage with distinct polymorphisms.`;
-    } else if (isSameFamily) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Familial Lineage Match (${dist} Distance)</span>`;
-      inheritanceNote = `Lineage members within the same cohort sharing conserved ancestral diagnostic mutations.`;
+    if (Number(dist) === 0.00) {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">Identical Maternal Lineage (0.00 Distance)</span>`;
+      inheritanceNote = `Identical mitochondrial DNA sequence with zero mutational differences across all 16,569 base pairs, verifying direct maternal transmission.`;
+    } else if (isSameCohort && (role1.includes('Father') || role2.includes('Father'))) {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Paternal Lineage (${dist} Distance)</span>`;
+      inheritanceNote = `Mitochondrial DNA is inherited strictly maternally. Fathers do not transmit mtDNA to offspring.`;
+    } else if (isSameCohort) {
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Same Cohort (${dist} Distance)</span>`;
+      inheritanceNote = `Both samples originate from the ${info1.name} cohort, separated by ${dist} mutational differences.`;
     } else {
       inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Cross-Cohort Comparison (${dist} Distance)</span>`;
-      inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}) separated by prehistoric migration splits.`;
+      inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}), separated by ${dist} mutational differences.`;
     }
 
     const color1 = '#10b981';
@@ -762,7 +772,7 @@ window.FamilyReportGenerator = {
             class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-emerald-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
-            <title>m.${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click for details</title>
+            <title>m.${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'})</title>
           </circle>
         `;
       });
@@ -773,10 +783,10 @@ window.FamilyReportGenerator = {
       <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
           <div>
-            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Interactive Sample Mutation Venn Diagram</span>
-            <h3 class="text-base font-extrabold text-white font-sans">${role1} (${sample1}) vs ${role2} (${sample2})</h3>
+            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Variant Distribution</span>
+            <h3 class="text-base font-extrabold text-white font-sans">${name1} vs ${name2}</h3>
           </div>
-          <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
+          <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for detail</span>
         </div>
 
         <div class="flex justify-center overflow-x-auto py-2">
@@ -784,9 +794,9 @@ window.FamilyReportGenerator = {
             <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.22" stroke="${color1}" stroke-width="2.5"/>
             <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.22" stroke="${color2}" stroke-width="2.5"/>
 
-            <text x="150" y="90" fill="${color1}" font-weight="800" font-size="11.5" font-family="monospace">${role1} Only (${unique1.length})</text>
-            <text x="450" y="90" fill="${color2}" font-weight="800" font-size="11.5" font-family="monospace">${role2} Only (${unique2.length})</text>
-            <text x="300" y="90" fill="#34d399" font-weight="800" font-size="11.5" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
+            <text x="150" y="90" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${name1} (${unique1.length})</text>
+            <text x="450" y="90" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${name2} (${unique2.length})</text>
+            <text x="300" y="90" fill="#34d399" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
 
             ${placeDots(unique1, 160, 160, color1)}
             ${placeDots(unique2, 440, 160, color2)}
@@ -803,8 +813,8 @@ window.FamilyReportGenerator = {
         <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Individual Sample Pairwise Report</div>
-              <h2 class="text-xl font-extrabold text-white">${role1} <span class="text-slate-500">(${sample1})</span> vs ${role2} <span class="text-slate-500">(${sample2})</span></h2>
+              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Pairwise Sample Report</div>
+              <h2 class="text-xl font-extrabold text-white">${name1} <span class="text-slate-500">vs</span> ${name2}</h2>
             </div>
             ${inheritanceBadge}
           </div>
@@ -813,22 +823,22 @@ window.FamilyReportGenerator = {
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
               <div class="text-slate-400 font-sans">Pairwise Distance:</div>
               <div class="text-xl font-bold text-emerald-300 font-mono">${dist}</div>
-              <div class="text-[10px] text-slate-500 font-sans">Mutation count differences</div>
+              <div class="text-[10px] text-slate-500 font-sans">Mutation differences</div>
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Shared Conserved Mutations:</div>
+              <div class="text-slate-400 font-sans">Shared Mutations:</div>
               <div class="text-xl font-bold text-sky-300 font-mono">${shared.length} Sites</div>
               <div class="text-[10px] text-slate-500 font-sans">Identical in both genomes</div>
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
               <div class="text-slate-400 font-sans">Lineage Transmission:</div>
-              <div class="text-sm font-bold text-slate-200 font-mono">${isSameFamily ? (role1.includes('Father') || role2.includes('Father') ? 'Paternal Split' : 'Strict Maternal') : 'Cross-Cohort'}</div>
-              <div class="text-[10px] text-slate-500 font-sans">Mitochondrial inheritance mode</div>
+              <div class="text-sm font-bold text-slate-200 font-mono">${Number(dist) === 0 ? 'Strict Maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal Line' : (isSameCohort ? 'Intra-Cohort' : 'Cross-Cohort'))}</div>
+              <div class="text-[10px] text-slate-500 font-sans">Inheritance mode</div>
             </div>
           </div>
 
           <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-            <div class="text-emerald-300 font-bold font-mono">Biological &amp; Clinical Context:</div>
+            <div class="text-emerald-300 font-bold font-mono">Biological Context:</div>
             <p class="text-slate-300 leading-relaxed text-[11.5px]">
               ${inheritanceNote}
             </p>
@@ -841,22 +851,20 @@ window.FamilyReportGenerator = {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
           <div class="p-4 rounded-2xl bg-slate-950 border border-emerald-500/30 space-y-2">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
-              <span class="font-bold text-emerald-400 text-sm">Sample 1: ${role1} (${sample1})</span>
-              <span class="text-slate-400 text-[10px]">${info1.name}</span>
+              <span class="font-bold text-emerald-400 text-sm">${name1}</span>
+              <span class="text-slate-400 text-xs">${info1.name}</span>
             </div>
-            <p class="text-slate-300 text-[11.5px] leading-relaxed">
-              <strong>Haplogroup:</strong> ${info1.haplo}<br/>
-              <strong>Total Detected Variants:</strong> ${vars1.length} mutations across 16,569 bp mitochondrial genome.
+            <p class="text-slate-300 text-xs leading-relaxed">
+              <strong>Haplogroup:</strong> ${info1.haplo} &bull; <strong>Variants:</strong> ${vars1.length} mutations across 16,569 bp.
             </p>
           </div>
           <div class="p-4 rounded-2xl bg-slate-950 border border-sky-500/30 space-y-2">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
-              <span class="font-bold text-sky-400 text-sm">Sample 2: ${role2} (${sample2})</span>
-              <span class="text-slate-400 text-[10px]">${info2.name}</span>
+              <span class="font-bold text-sky-400 text-sm">${name2}</span>
+              <span class="text-slate-400 text-xs">${info2.name}</span>
             </div>
-            <p class="text-slate-300 text-[11.5px] leading-relaxed">
-              <strong>Haplogroup:</strong> ${info2.haplo}<br/>
-              <strong>Total Detected Variants:</strong> ${vars2.length} mutations across 16,569 bp mitochondrial genome.
+            <p class="text-slate-300 text-xs leading-relaxed">
+              <strong>Haplogroup:</strong> ${info2.haplo} &bull; <strong>Variants:</strong> ${vars2.length} mutations across 16,569 bp.
             </p>
           </div>
         </div>
@@ -881,6 +889,18 @@ window.App = {
   variantsData: null,
   distanceData: null,
   treeData: null,
+
+  FAMILY_PEDIGREES: {
+    'UK': { name: 'Ukraine', haplo: 'Haplogroup U4 / H', grandmother: 'UK_F_NIKG', mother: 'UK_F_NIKM', aunt: 'UK_F_NIKA', children: ['UK_M_NIKS1', 'UK_M_NIK', 'UK_M_NIKS2'] },
+    'IN': { name: 'India', haplo: 'Haplogroup M / R', grandmother: 'IN_F_RISG', mother: 'IN_F_RISM', father: 'IN_M_RISF', children: ['IN_M_RIS', 'IN_M_RISS1'] },
+    'IS': { name: 'India South', haplo: 'Haplogroup M / R', mother: 'IS_F_VYSM', father: 'IS_M_RAV', children: ['IS_F_VYSC1', 'IS_M_PRIC1'] },
+    'IW': { name: 'India West', haplo: 'Haplogroup M / R', mother: 'IW_F_ANJM', father: 'IW_M_ANJF', children: ['IW_F_ANJS1'] },
+    'PK': { name: 'Pakistan', haplo: 'Haplogroup M / U', mother: 'PK_F_WAS', father: 'PK_M_WASH', children: ['PK_M_WASC1', 'PK_M_WASC2'] },
+    'HK': { name: 'Hong Kong', haplo: 'Haplogroup M7', mother: 'HK_F_JANM', father: 'HK_M_WLL', children: ['HK_F_JAN'] },
+    'MX': { name: 'Mexico', haplo: 'Haplogroup B2', mother: 'MX_F_CRY', father: 'MX_M_CRYF', children: ['MX_F_CRYS1'] },
+    'KR': { name: 'Korea', haplo: 'Haplogroup D4', mother: 'KR_F_MOO', children: ['KR_F_MOOC1'] },
+    'CL': { name: 'Colombia', haplo: 'Haplogroup C1', mother: 'CL_F_ALJ', children: ['CL_F_ALJC1'] }
+  },
 
   async init() {
     console.log("Initializing Genomic Mito Showcase Controller (Satellite Migration Map Edition)...");
