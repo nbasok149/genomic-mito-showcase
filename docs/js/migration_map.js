@@ -638,7 +638,6 @@ window.MigrationMap = {
   init() {
     this.populateAllSamplesSelect();
     this.bindEvents();
-    this.initLeafletMap();
   },
 
   getSampleTrail(sampleKey) {
@@ -687,45 +686,65 @@ window.MigrationMap = {
     const container = document.getElementById('migrationMapContainer');
     if (!container) return;
 
-    if (this.map) {
-      this.map.remove();
-      this.map = null;
+    const tabGlobe = document.getElementById('tabContentGlobe');
+    if (tabGlobe && tabGlobe.classList.contains('hidden')) {
+      return;
     }
 
-    // Initialize Leaflet map with global view
-    this.map = L.map('migrationMapContainer', {
-      center: [25.0, 45.0],
-      zoom: 3,
-      minZoom: 2,
-      maxZoom: 17,
-      zoomControl: true,
-      attributionControl: false
-    });
+    if (this.map) {
+      try {
+        this.map.invalidateSize();
+        this.renderRoute();
+        this.renderDossier();
+        return;
+      } catch (err) {
+        console.warn("Re-creating Leaflet instance:", err);
+        try { this.map.remove(); } catch(e) {}
+        this.map = null;
+      }
+    }
 
-    // High Quality Satellite Basemap (Esri World Imagery)
-    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 18,
-      subdomains: ['server', 'services']
-    });
-    satelliteLayer.addTo(this.map);
+    try {
+      // Initialize Leaflet map with global view
+      this.map = L.map('migrationMapContainer', {
+        center: [25.0, 45.0],
+        zoom: 3,
+        minZoom: 2,
+        maxZoom: 17,
+        zoomControl: true,
+        attributionControl: false
+      });
 
-    // Optional subtle borders overlay
-    const bordersLayer = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 18,
-      opacity: 0.45
-    });
-    bordersLayer.addTo(this.map);
+      // High Quality Satellite Basemap (Esri World Imagery)
+      const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        subdomains: ['server', 'services']
+      });
+      satelliteLayer.addTo(this.map);
 
-    this.polylineLayer = L.layerGroup().addTo(this.map);
-    this.markersLayer = L.layerGroup().addTo(this.map);
+      // Optional subtle borders overlay
+      const bordersLayer = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        opacity: 0.45
+      });
+      bordersLayer.addTo(this.map);
 
-    // Render initial route and dossier
-    this.renderRoute();
-    this.renderDossier();
+      this.polylineLayer = L.layerGroup().addTo(this.map);
+      this.markersLayer = L.layerGroup().addTo(this.map);
 
-    setTimeout(() => {
-      if (this.map) this.map.invalidateSize();
-    }, 150);
+      // Render initial route and dossier
+      this.renderRoute();
+      this.renderDossier();
+
+      setTimeout(() => {
+        if (this.map) this.map.invalidateSize();
+      }, 100);
+      setTimeout(() => {
+        if (this.map) this.map.invalidateSize();
+      }, 300);
+    } catch (e) {
+      console.error("Leaflet map initialization error:", e);
+    }
   },
 
   setSample(sampleOrCode) {
@@ -745,7 +764,7 @@ window.MigrationMap = {
       clearInterval(this.playInterval);
       this.playInterval = null;
       const playBtn = document.getElementById('playMigrationTrailBtn');
-      if (playBtn) playBtn.innerHTML = '<span>▶ Play Migration Trail</span>';
+      if (playBtn) playBtn.innerHTML = '<span>▶ Play migration trail</span>';
     }
 
     const select = document.getElementById('globeSampleSelect');
@@ -753,8 +772,13 @@ window.MigrationMap = {
       select.value = this.activeSample;
     }
 
-    this.renderRoute();
-    this.renderDossier();
+    const tabGlobe = document.getElementById('tabContentGlobe');
+    if (tabGlobe && !tabGlobe.classList.contains('hidden') && this.map) {
+      this.renderRoute();
+      this.renderDossier();
+    } else if (tabGlobe && !tabGlobe.classList.contains('hidden')) {
+      this.initLeafletMap();
+    }
   },
 
   renderRoute() {
@@ -824,11 +848,17 @@ window.MigrationMap = {
       });
     });
 
-    // Fly smoothly to active step coordinates
-    this.map.flyTo(currentStop.latlng, this.activeStepIndex === 0 ? 4 : 5, {
-      duration: 1.2,
-      easeLinearity: 0.25
-    });
+    // Fly smoothly to active step coordinates if map has valid dimensions
+    if (this.map && this.map.getSize && this.map.getSize().x > 0) {
+      try {
+        this.map.flyTo(currentStop.latlng, this.activeStepIndex === 0 ? 4 : 5, {
+          duration: 1.2,
+          easeLinearity: 0.25
+        });
+      } catch (err) {
+        console.warn("Leaflet flyTo skipped:", err);
+      }
+    }
   },
 
   nextStep() {

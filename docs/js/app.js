@@ -1240,28 +1240,43 @@ window.App = {
       const inactiveClass = 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-bold';
 
       if (tab === 'tree') {
-        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all ${activeClass}`;
-        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all ${inactiveClass}`;
+        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${activeClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${inactiveClass}`;
         tabContentTree?.classList.remove('hidden');
         tabContentGlobe?.classList.add('hidden');
         if (window.TreeViewer) window.TreeViewer.render();
       } else if (tab === 'globe') {
-        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all ${activeClass}`;
-        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all ${inactiveClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${activeClass}`;
+        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${inactiveClass}`;
         tabContentTree?.classList.add('hidden');
         tabContentGlobe?.classList.remove('hidden');
         if (window.MigrationMap) {
-          window.MigrationMap.initLeafletMap();
           window.MigrationMap.populateAllSamplesSelect();
+          window.MigrationMap.initLeafletMap();
           setTimeout(() => {
-            if (window.MigrationMap.map) window.MigrationMap.map.invalidateSize();
-          }, 200);
+            if (window.MigrationMap && window.MigrationMap.map) {
+              window.MigrationMap.map.invalidateSize();
+              window.MigrationMap.renderRoute();
+              window.MigrationMap.renderDossier();
+            }
+          }, 100);
+          setTimeout(() => {
+            if (window.MigrationMap && window.MigrationMap.map) {
+              window.MigrationMap.map.invalidateSize();
+            }
+          }, 300);
         }
       }
     };
 
-    mainTabTree?.addEventListener('click', () => switchMainTab('tree'));
-    mainTabGlobe?.addEventListener('click', () => switchMainTab('globe'));
+    mainTabTree?.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchMainTab('tree');
+    });
+    mainTabGlobe?.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchMainTab('globe');
+    });
     window.switchMainTab = switchMainTab;
 
     openCompBtn?.addEventListener('click', () => {

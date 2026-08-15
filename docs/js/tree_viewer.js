@@ -790,7 +790,7 @@ window.TreeViewer = {
 
       const padY = 14;
       const padXLeft = 18;
-      const padXRight = 220;
+      const padXRight = 300;
 
       const overlayG = overlayGroup.append('g')
         .attr('class', `family-overlay-${code}`)
@@ -810,14 +810,31 @@ window.TreeViewer = {
         .attr('stroke-width', 1.6)
         .attr('stroke-opacity', 0.45);
 
-      // Prominent ethnicity overlay banner text
+      // Prominent ethnicity overlay banner text with pill background to avoid label collisions
       const famName = this.getFamilyName(code);
+      const badgeX = maxX + 145;
+      const badgeY = (minY + maxY) / 2;
+      const badgeWidth = Math.max(74, famName.length * 8.5 + 24);
+
+      overlayG.append('rect')
+        .attr('x', badgeX - 8)
+        .attr('y', badgeY - 11)
+        .attr('width', badgeWidth)
+        .attr('height', 22)
+        .attr('rx', 8)
+        .attr('fill', '#090a0f')
+        .attr('fill-opacity', 0.9)
+        .attr('stroke', color)
+        .attr('stroke-width', 1.2)
+        .attr('stroke-opacity', 0.7);
+
       overlayG.append('text')
-        .attr('x', maxX + 18)
-        .attr('y', (minY + maxY) / 2)
+        .attr('x', badgeX - 8 + badgeWidth / 2)
+        .attr('y', badgeY)
         .attr('dy', '0.35em')
+        .attr('text-anchor', 'middle')
         .attr('fill', color)
-        .style('font-size', '13px')
+        .style('font-size', '11.5px')
         .style('font-weight', '800')
         .style('font-family', 'JetBrains Mono, monospace')
         .style('text-shadow', '0 2px 8px rgba(0,0,0,0.8)')

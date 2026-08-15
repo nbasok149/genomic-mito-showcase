@@ -377,10 +377,10 @@
 
       <!-- Center: Tab 1 & Tab 2 on the SAME LINE as Website Title -->
       <div class="flex items-center space-x-1.5 bg-slate-900/90 p-1 rounded-2xl border border-white/10 shadow-inner font-mono text-xs">
-        <button id="mainTabTree" class="px-3.5 py-1.5 rounded-xl font-bold bg-sky-500 text-slate-950 shadow-md transition-all flex items-center gap-1.5">
+        <button id="mainTabTree" onclick="window.switchMainTab('tree')" class="px-3.5 py-1.5 rounded-xl font-bold bg-sky-500 text-slate-950 shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
           <span>Tab 1: Phylogenetic tree</span>
         </button>
-        <button id="mainTabGlobe" class="px-3.5 py-1.5 rounded-xl font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center gap-1.5">
+        <button id="mainTabGlobe" onclick="window.switchMainTab('globe')" class="px-3.5 py-1.5 rounded-xl font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center gap-1.5 cursor-pointer">
           <span>Tab 2: 2D migration map</span>
         </button>
       </div>
