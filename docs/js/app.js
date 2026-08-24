@@ -573,8 +573,7 @@ window.FamilyReportGenerator = {
             <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
               <div class="text-sky-300 font-bold font-mono">What do these numbers mean?</div>
               <p class="text-slate-300 leading-relaxed text-[11.5px]">
-                <strong>Pairwise genetic distance</strong> measures the average number of mitochondrial DNA mutation differences between individuals from two population cohorts.
-                Lower numbers (< 10) indicate close maternal ancestry, while higher numbers (> 18) reflect deep evolutionary divergence over tens of thousands of years.
+                <strong>Pairwise genetic distance</strong> is computed using an ancestry-conditioned GRM distance metric across 280 polymorphic sites. Baseline family and intra-cohort transmissions score ~<strong>0.86</strong>, while deep cross-continental population divergence scores ~<strong>0.94 &ndash; 0.98</strong>.
               </p>
             </div>
           </div>
@@ -696,8 +695,8 @@ window.FamilyReportGenerator = {
             <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
               <div class="text-sky-300 font-bold font-mono">What does pairwise genetic distance mean?</div>
               <p class="text-slate-300 leading-relaxed text-[11.5px]">
-                <strong>Genetic distance (${avgDist})</strong> measures the average number of mitochondrial DNA mutation differences between individuals in ${info1.name} and ${info2.name}.
-                Lower values (< 10) indicate close maternal relationship, while higher values (> 18) reflect deep evolutionary divergence over tens of thousands of years.
+                <strong>Genetic distance (${avgDist})</strong> measures the standardized genomic divergence across 280 polymorphic sites between ${info1.name} and ${info2.name}.
+                Baseline intra-cohort maternal transmissions score ~<strong>0.86</strong>, while deep cross-continental population divergence scores ~<strong>0.94 &ndash; 0.98</strong>.
               </p>
             </div>
 
@@ -880,22 +879,32 @@ window.FamilyReportGenerator = {
       else if (in2 && !in1) unique2.push({ ...v, eths: [name2] });
     });
 
+    const diffCount = unique1.length + unique2.length;
     const isSameCohort = code1 === code2;
     let inheritanceNote = '';
     let inheritanceBadge = '';
+    let categoryLabel = '';
 
-    if (Number(dist) === 0.00) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">Identical maternal lineage (0.00 distance)</span>`;
-      inheritanceNote = `Identical mitochondrial DNA sequence with zero mutational differences across all 16,569 base pairs, verifying direct maternal transmission.`;
+    if (diffCount === 0) {
+      categoryLabel = 'Identical Maternal Lineage';
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">100% Maternal Sequence Identity (0 Differences)</span>`;
+      inheritanceNote = `Direct mother-to-child sequence transmission across all 16,569 base pairs with zero mutational differences.`;
     } else if (isSameCohort && (role1.includes('Father') || role2.includes('Father'))) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Paternal lineage (${dist} distance)</span>`;
-      inheritanceNote = `Mitochondrial DNA is inherited strictly maternally. Fathers do not transmit mtDNA to offspring.`;
-    } else if (isSameCohort) {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Same cohort (${dist} distance)</span>`;
-      inheritanceNote = `Both samples originate from the ${info1.name} cohort, separated by ${dist} mutational differences.`;
+      categoryLabel = 'Independent Paternal Lineage';
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Independent Paternal Lineage (${diffCount} Differences)</span>`;
+      inheritanceNote = `Mitochondrial DNA is inherited strictly through the maternal line. Fathers carry independent paternal lineages and do not transmit mtDNA to offspring (${diffCount} mutation differences).`;
+    } else if (diffCount <= 5) {
+      categoryLabel = 'Close Generational Kinship';
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-teal-950 border border-teal-500 text-teal-300 font-bold text-xs">Close Kinship (${diffCount} Differences)</span>`;
+      inheritanceNote = `Close maternal pedigree relation separated by only ${diffCount} mutation differences across the complete mitochondrial genome.`;
+    } else if (isSameCohort || diffCount <= 14) {
+      categoryLabel = 'Regional Population Cohort';
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Same Cohort (${diffCount} Differences)</span>`;
+      inheritanceNote = `Both samples originate from the ${info1.name} cohort, separated by ${diffCount} mutational differences along regional sub-branches.`;
     } else {
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Cross-cohort comparison (${dist} distance)</span>`;
-      inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}), separated by ${dist} mutational differences.`;
+      categoryLabel = 'Continental Divergence';
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Continental Divergence (${diffCount} Differences)</span>`;
+      inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}), separated by ${diffCount} mutational differences over tens of thousands of years of prehistoric dispersal.`;
     }
 
     const color1 = '#10b981';
@@ -1088,9 +1097,9 @@ window.FamilyReportGenerator = {
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Pairwise distance:</div>
-              <div class="text-xl font-bold text-emerald-300 font-mono">${dist}</div>
-              <div class="text-[10px] text-slate-500 font-sans">Mutation differences</div>
+              <div class="text-slate-400 font-sans">Mutation differences:</div>
+              <div class="text-xl font-bold text-emerald-300 font-mono">${diffCount === 0 ? '0 Sites' : diffCount + ' Sites'}</div>
+              <div class="text-[10px] text-slate-500 font-sans">${diffCount === 0 ? '100% Sequence Identity' : (diffCount <= 5 ? 'Close Kinship' : 'Polymorphic Differences')}</div>
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
               <div class="text-slate-400 font-sans">Shared mutations:</div>
@@ -1098,9 +1107,36 @@ window.FamilyReportGenerator = {
               <div class="text-[10px] text-slate-500 font-sans">Identical in both genomes</div>
             </div>
             <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Lineage transmission:</div>
-              <div class="text-sm font-bold text-slate-200 font-mono">${Number(dist) === 0 ? 'Strict maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal line' : (isSameCohort ? 'Intra-cohort' : 'Cross-cohort'))}</div>
+              <div class="text-slate-400 font-sans">Lineage relationship:</div>
+              <div class="text-sm font-bold text-slate-200 font-mono">${diffCount === 0 ? 'Strict Maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal Line' : (isSameCohort ? 'Intra-Cohort' : 'Cross-Cohort'))}</div>
               <div class="text-[10px] text-slate-500 font-sans">Inheritance mode</div>
+            </div>
+          </div>
+
+          <!-- Relationship Spectrum Reference Scale Bar -->
+          <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2.5 font-mono text-xs">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-400 font-sans">Kinship &amp; divergence scale:</span>
+              <span class="text-sky-300 font-bold">${categoryLabel}</span>
+            </div>
+            
+            <div class="w-full bg-slate-900 rounded-full h-3 relative overflow-hidden border border-white/10 flex shadow-inner">
+              <div class="w-1/4 h-full border-r border-slate-950 transition-all ${diffCount === 0 ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-emerald-950/40'}"></div>
+              <div class="w-1/4 h-full border-r border-slate-950 transition-all ${diffCount > 0 && diffCount <= 5 ? 'bg-teal-400 shadow-sm shadow-teal-400' : 'bg-teal-950/40'}"></div>
+              <div class="w-1/4 h-full border-r border-slate-950 transition-all ${diffCount > 5 && diffCount <= 14 ? 'bg-sky-400 shadow-sm shadow-sky-400' : 'bg-sky-950/40'}"></div>
+              <div class="w-1/4 h-full transition-all ${diffCount >= 15 ? 'bg-violet-400 shadow-sm shadow-violet-400' : 'bg-violet-950/40'}"></div>
+            </div>
+
+            <div class="grid grid-cols-4 text-[10px] text-slate-400 text-center font-sans">
+              <div class="${diffCount === 0 ? 'text-emerald-300 font-bold' : ''}">0: Identical Maternal</div>
+              <div class="${diffCount > 0 && diffCount <= 5 ? 'text-teal-300 font-bold' : ''}">1&ndash;5: Close Kin</div>
+              <div class="${diffCount > 5 && diffCount <= 14 ? 'text-sky-300 font-bold' : ''}">6&ndash;14: Regional Cohort</div>
+              <div class="${diffCount >= 15 ? 'text-violet-300 font-bold' : ''}">15+: Continental Split</div>
+            </div>
+
+            <div class="pt-2 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10.5px] text-slate-500 font-sans">
+              <span>Underlying GRM statistical matrix distance: <strong class="text-slate-300 font-mono">${dist}</strong> (Covariance across 280 polymorphic loci; ~0.86 family baseline, ~0.94 continental baseline)</span>
+              <span class="text-slate-500 font-mono">rCRS (16,569 bp)</span>
             </div>
           </div>
 
