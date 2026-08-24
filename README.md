@@ -71,8 +71,8 @@ flowchart TD
 
 ### 4. Adaptable Kinship & Gender Role Parser
 - Accurately distinguishes multi-generational familial roles (Grandmother, Mother, Father, Aunt, Sons, Daughters) in pedigrees (e.g. Ukraine, India, Pakistan, Mexico, Hong Kong) from single-sample individuals:
-  - `CA_M_GER`: Categorized as **Man** (Canadian individual, not Father).
-  - `AA_F_TON`: Categorized as **Woman** (African root individual).
+  - `CA_M_GER`: **Gerald** (Canadian individual, Man).
+  - `AA_F_TON`: **Tonya** (African root individual, Woman).
   - `TB_F_BHA`: Categorized as **Woman** (Tibetan individual).
   - `NA_F_R3_2_LP5206_mrg`: Categorized as **Woman** (Native North American individual).
   - `SA_M_RD_2_LP5205_mrg`: Categorized as **Man** (South American individual).

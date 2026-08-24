@@ -182,9 +182,9 @@ window.DiagnosticMarkersExplorer = {
     'UK': { name: 'Ukraine', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'Nik Mother', aunt: 'Nik Aunt', grandmother: 'Nik Grandmother', dadNote: 'Maternal inheritance verified across three generations.' },
     'KR': { name: 'Korea', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'Cohort Mother', dadNote: 'Maternal lineage strictly passed to offspring.' },
     'CL': { name: 'Colombia', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'Alejandra', dadNote: 'Passed 100% maternally to offspring.' },
-    'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'Toniann', dadNote: 'Ancestral root of all modern human maternal lineages.' },
+    'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'Tonya', dadNote: 'Ancestral root of all modern human maternal lineages.' },
     'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'Bharti', dadNote: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
-    'CA': { name: 'Canada', markers: [73, 146, 263, 4769], individual: 'German', dadNote: 'Macro-haplogroup H2 lineage.' },
+    'CA': { name: 'Canada', markers: [73, 146, 263, 4769], individual: 'Gerald', dadNote: 'Macro-haplogroup H2 lineage.' },
     'NA': { name: 'Native America', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'Native America Woman', dadNote: 'Indigenous founding lineage derived from prehistoric Beringian migrations.' }
   },
 
