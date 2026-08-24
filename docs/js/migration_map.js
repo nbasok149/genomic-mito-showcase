@@ -799,17 +799,17 @@ window.MigrationMap = {
 
     // Dotted full future trail
     L.polyline(fullLatLngs, {
-      color: '#64748b',
-      weight: 2.5,
+      color: '#52525b',
+      weight: 2.2,
       dashArray: '6 8',
-      opacity: 0.6
+      opacity: 0.5
     }).addTo(this.polylineLayer);
 
-    // Glowing active/completed trail
+    // Glowing active/completed trail (Warm Amber)
     if (completedLatLngs.length > 1) {
       L.polyline(completedLatLngs, {
-        color: '#38bdf8',
-        weight: 4,
+        color: '#f59e0b',
+        weight: 3.8,
         opacity: 0.95
       }).addTo(this.polylineLayer);
     }
@@ -821,8 +821,8 @@ window.MigrationMap = {
       
       const markerHtml = `
         <div class="relative flex items-center justify-center cursor-pointer transition-transform duration-300 ${isCurrent ? 'scale-125' : 'hover:scale-110'}">
-          ${isCurrent ? '<span class="absolute w-8 h-8 rounded-full bg-sky-400/40 animate-ping"></span>' : ''}
-          <div class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] font-mono shadow-xl border-2 ${isCurrent ? 'bg-sky-400 text-slate-950 border-white ring-4 ring-sky-500/50' : (isPast ? 'bg-emerald-500 text-slate-950 border-white' : 'bg-slate-900 text-slate-300 border-slate-600')}">
+          ${isCurrent ? '<span class="absolute w-8 h-8 rounded-full bg-amber-400/40 animate-ping"></span>' : ''}
+          <div class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] font-mono shadow-xl border-2 ${isCurrent ? 'bg-amber-400 text-zinc-950 border-white ring-4 ring-amber-500/40' : (isPast ? 'bg-emerald-600 text-white border-zinc-700' : 'bg-zinc-900 text-zinc-400 border-zinc-700')}">
             ${idx + 1}
           </div>
         </div>
@@ -841,7 +841,7 @@ window.MigrationMap = {
         this.goToStep(idx);
       });
 
-      marker.bindTooltip(`<strong>Step ${idx + 1}: ${stop.name}</strong><br/><span class="text-xs text-sky-400 font-mono">${stop.ybp}</span>`, {
+      marker.bindTooltip(`<strong>Step ${idx + 1}: ${stop.name}</strong><br/><span class="text-xs text-amber-400 font-mono">${stop.ybp}</span>`, {
         direction: 'top',
         className: 'apple-glass-tooltip',
         offset: [0, -12]
@@ -931,7 +931,7 @@ window.MigrationMap = {
       const isCurrent = idx === this.activeStepIndex;
       const isPast = idx < this.activeStepIndex;
       return `
-        <button onclick="window.MigrationMap.goToStep(${idx})" class="p-2 rounded-xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-sky-500 text-slate-950 border-sky-400 font-bold shadow-md shadow-sky-500/25' : (isPast ? 'bg-slate-950 border-emerald-500/50 text-emerald-300' : 'bg-slate-950/80 border-white/10 text-slate-400 hover:border-white/20')}">
+        <button onclick="window.MigrationMap.goToStep(${idx})" class="p-2 rounded-xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-zinc-100 text-zinc-950 border-white font-bold shadow-md' : (isPast ? 'bg-zinc-950 border-emerald-500/40 text-emerald-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700')} cursor-pointer">
           <div class="text-[9.5px] uppercase font-bold flex items-center justify-between">
             <span>Step ${idx + 1}</span>
             <span>${isCurrent ? 'Active' : (isPast ? 'Done' : '')}</span>
@@ -943,15 +943,15 @@ window.MigrationMap = {
 
     // Statistics breakdown with verified sources
     const statsHtml = (currentStop.stats || []).map(st => `
-      <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1 font-sans">
+      <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1 font-sans">
         <div class="flex items-center justify-between text-xs font-mono">
-          <span class="text-slate-400">${st.label}:</span>
-          <span class="text-sky-300 font-bold">${st.val}</span>
+          <span class="text-zinc-400">${st.label}:</span>
+          <span class="text-amber-300 font-bold">${st.val}</span>
         </div>
-        <p class="text-[11px] text-slate-300 leading-normal">${st.note}</p>
-        <div class="pt-1.5 border-t border-white/5 flex flex-wrap items-center gap-1.5 text-[9.5px] font-mono text-slate-400">
-          <span class="text-sky-400 font-bold">Verified sources:</span>
-          ${(st.sources || []).map(src => `<span class="bg-slate-900 px-1.5 py-0.5 rounded border border-white/5 text-slate-300">${src}</span>`).join('')}
+        <p class="text-[11px] text-zinc-300 leading-normal">${st.note}</p>
+        <div class="pt-1.5 border-t border-white/5 flex flex-wrap items-center gap-1.5 text-[9.5px] font-mono text-zinc-400">
+          <span class="text-amber-400 font-bold">Verified sources:</span>
+          ${(st.sources || []).map(src => `<span class="bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800 text-zinc-300">${src}</span>`).join('')}
         </div>
       </div>
     `).join('');
@@ -964,12 +964,12 @@ window.MigrationMap = {
         meaning: `Ancestral mutation at position ${pos} confirming historical migration checkpoint.`
       };
       return `
-        <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1 font-mono text-xs">
+        <div class="p-3 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1 font-mono text-xs">
           <div class="flex items-center justify-between border-b border-white/10 pb-1">
-            <span class="font-extrabold text-sky-400 text-xs">${pos} ${evidence.change}</span>
-            <span class="px-2 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-[9.5px] text-slate-300">${evidence.locus}</span>
+            <span class="font-extrabold text-amber-400 text-xs">${pos} ${evidence.change}</span>
+            <span class="px-2 py-0.5 rounded-lg bg-zinc-900 border border-zinc-800 text-[9.5px] text-zinc-300">${evidence.locus}</span>
           </div>
-          <p class="text-slate-300 font-sans text-[11px] leading-relaxed pt-0.5">
+          <p class="text-zinc-300 font-sans text-[11px] leading-relaxed pt-0.5">
             <strong>Biological proof:</strong> ${evidence.meaning}
           </p>
         </div>
@@ -978,13 +978,13 @@ window.MigrationMap = {
 
     // Visual placeholder / Area illustration banner
     const areaBannerHtml = `
-      <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900 to-slate-950 p-4 space-y-1">
-        <div class="flex items-center space-x-2 text-xs font-mono text-sky-400 font-bold uppercase tracking-wider">
-          <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+      <div class="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/90 p-4 space-y-1">
+        <div class="flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
           <span>Geographic checkpoint</span>
         </div>
         <h4 class="text-base font-extrabold text-white tracking-tight">${currentStop.name}</h4>
-        <div class="text-xs text-slate-400 font-mono">${currentStop.region} • <strong class="text-sky-300">${currentStop.ybp}</strong></div>
+        <div class="text-xs text-zinc-400 font-mono">${currentStop.region} • <strong class="text-amber-300">${currentStop.ybp}</strong></div>
       </div>
     `;
 
@@ -995,14 +995,14 @@ window.MigrationMap = {
         ${areaBannerHtml}
 
         <!-- Interactive Stepper Controls -->
-        <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 shadow-xl">
+        <div class="p-4 rounded-2xl bg-[#121216]/90 border border-white/10 space-y-3 shadow-xl">
           <div class="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
-            <span class="text-slate-300 font-bold">Migration progress: step ${this.activeStepIndex + 1} of ${totalSteps}</span>
+            <span class="text-zinc-300 font-bold">Migration progress: step ${this.activeStepIndex + 1} of ${totalSteps}</span>
             <div class="flex items-center space-x-1.5">
-              <button onclick="window.MigrationMap.prevStep()" ${this.activeStepIndex === 0 ? 'disabled' : ''} class="px-2.5 py-1 rounded-xl bg-slate-950 border border-white/10 text-slate-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs">
+              <button onclick="window.MigrationMap.prevStep()" ${this.activeStepIndex === 0 ? 'disabled' : ''} class="px-2.5 py-1 rounded-xl bg-zinc-950 border border-zinc-700 text-zinc-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs cursor-pointer">
                 Prev
               </button>
-              <button onclick="window.MigrationMap.nextStep()" ${this.activeStepIndex === totalSteps - 1 ? 'disabled' : ''} class="px-3 py-1 rounded-xl bg-sky-500 text-slate-950 hover:bg-sky-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs shadow-sm">
+              <button onclick="window.MigrationMap.nextStep()" ${this.activeStepIndex === totalSteps - 1 ? 'disabled' : ''} class="px-3 py-1 rounded-xl bg-zinc-100 text-zinc-950 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs shadow-sm cursor-pointer">
                 Next step ➔
               </button>
             </div>
@@ -1015,18 +1015,18 @@ window.MigrationMap = {
         </div>
 
         <!-- Area Significance & Description -->
-        <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 space-y-2 shadow-xl">
-          <div class="text-xs text-sky-400 font-mono font-bold uppercase tracking-wider">Significance to humanity:</div>
-          <p class="text-slate-200 text-xs leading-relaxed font-sans">
+        <div class="p-4 rounded-2xl bg-[#121216]/90 border border-white/10 space-y-2 shadow-xl">
+          <div class="text-xs text-amber-400 font-mono font-bold uppercase tracking-wider">Significance to humanity:</div>
+          <p class="text-zinc-300 text-xs leading-relaxed font-sans">
             ${currentStop.desc}
           </p>
         </div>
 
         <!-- Verified Facts & Statistics with 2 Sources -->
         <div class="space-y-2">
-          <div class="text-xs font-mono font-bold text-sky-300 uppercase tracking-wider flex items-center justify-between">
+          <div class="text-xs font-mono font-bold text-zinc-200 uppercase tracking-wider flex items-center justify-between">
             <span>Verified anthropological data:</span>
-            <span class="text-[10px] text-slate-400">2 verified sources per stat</span>
+            <span class="text-[10px] text-zinc-400">2 verified sources per stat</span>
           </div>
           <div class="space-y-2">
             ${statsHtml}
@@ -1037,7 +1037,7 @@ window.MigrationMap = {
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center justify-between">
             <span>Mutation evidence (${(currentStop.mutations || []).length} markers):</span>
-            <span class="text-[10px] text-slate-400">Matched in dataset</span>
+            <span class="text-[10px] text-zinc-400">Matched in dataset</span>
           </div>
           <div class="space-y-2">
             ${mutationCardsHtml}

@@ -17,48 +17,48 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=12.0">
+  <link rel="stylesheet" href="css/styles.css?v=13.0">
 </head>
-<body class="bg-[#090a0f] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-sky-500 selection:text-slate-950">
+<body class="bg-[#09090b] text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
 
   <!-- Opening Welcome Modal (Interactive Cohort Selection & Platform Guide) -->
   <div id="familyWelcomeModal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-[1000] flex items-center justify-center p-4">
-    <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative border border-white/10 bg-slate-900/95 rounded-3xl">
+    <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative border border-white/10 bg-[#121216]/95 rounded-3xl">
       
       <!-- Top Title & Badge -->
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div class="space-y-1">
           <h2 class="text-2xl font-extrabold text-white tracking-tight">Genomic Mito showcase</h2>
-          <p class="text-xs text-sky-400 font-mono">Human mtDNA ancestral lineage visualizer</p>
+          <p class="text-xs text-amber-400 font-mono">Human mtDNA ancestral lineage visualizer</p>
         </div>
-        <span class="px-3 py-1 rounded-xl bg-sky-950/80 border border-sky-500/40 text-[11px] font-mono text-sky-300 font-bold">
+        <span class="px-3 py-1 rounded-xl bg-zinc-900 border border-zinc-700 text-[11px] font-mono text-zinc-300 font-bold">
           43 Genomes &bull; 13 Cohorts
         </span>
       </div>
 
       <!-- Brief Introduction -->
-      <p class="text-xs text-slate-300 leading-relaxed font-sans">
+      <p class="text-xs text-zinc-300 leading-relaxed font-sans">
         This platform visualizes complete human mitochondrial DNA (mtDNA) genomes to explore maternal lineages, generational inheritance, and prehistoric migrations across 200,000 years.
       </p>
 
       <!-- Bullet Notes: Key Platform Features -->
-      <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-3 font-sans text-xs">
-        <div class="text-xs font-mono font-bold text-sky-300 uppercase tracking-wider">Key features of this platform:</div>
-        <ul class="space-y-2 text-slate-300 text-xs">
+      <div class="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-3 font-sans text-xs">
+        <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">Key features of this platform:</div>
+        <ul class="space-y-2 text-zinc-300 text-xs">
           <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-sky-400 mt-1.5 shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
             <div><strong class="text-white font-mono">Tab 1: Phylogenetic tree</strong> &ndash; Interactive tree visualizer with multi-generational pedigree diagrams and maternal inheritance tracking.</div>
           </li>
           <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-sky-400 mt-1.5 shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
             <div><strong class="text-white font-mono">Tab 2: 2D migration map</strong> &ndash; High-resolution satellite basemap stepping through the 200,000-year Out-of-Africa trail with verified anthropological evidence.</div>
           </li>
           <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-sky-400 mt-1.5 shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
             <div><strong class="text-white font-mono">Lineage & sample comparator</strong> &ndash; Compare any two individuals or cohorts side-by-side with interactive Venn diagrams and exact mutation matching.</div>
           </li>
           <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-sky-400 mt-1.5 shrink-0"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
             <div><strong class="text-white font-mono">Diagnostic markers</strong> &ndash; Inspect private and conserved diagnostic mutations defining each global cohort.</div>
           </li>
         </ul>
@@ -67,15 +67,15 @@
       <!-- Cohort Selector Section with Country Flag Overlays -->
       <div class="space-y-3 pt-1 border-t border-white/10">
         <div class="flex items-center justify-between font-mono text-xs">
-          <span class="font-bold text-slate-300 uppercase tracking-wider">Select your family cohort:</span>
-          <span class="text-[11px] text-sky-400">Click any country to explore</span>
+          <span class="font-bold text-zinc-300 uppercase tracking-wider">Select your family cohort:</span>
+          <span class="text-[11px] text-amber-400">Click any country to explore</span>
         </div>
         
         <!-- Cohort Buttons Grid with Flag Overlays -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 text-left font-mono text-xs max-h-56 overflow-y-auto p-1">
           
           <!-- India (IN) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-sky-400 hover:bg-sky-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IN', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="13.33" fill="#FF9933"/>
               <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
@@ -84,13 +84,13 @@
               <circle cx="30" cy="20" r="1" fill="#000080"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-sky-400 group-hover:text-sky-300 text-xs truncate">India</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">South Asia</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">India</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">South Asia</div>
             </div>
           </button>
 
           <!-- India South (IS) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-blue-400 hover:bg-blue-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IS', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="13.33" fill="#FF9933"/>
               <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
@@ -99,13 +99,13 @@
               <circle cx="30" cy="20" r="1" fill="#000080"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-blue-400 group-hover:text-blue-300 text-xs truncate">India South</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Southern India</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">India South</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Southern India</div>
             </div>
           </button>
 
           <!-- India West (IW) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-indigo-400 hover:bg-indigo-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('IW', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="13.33" fill="#FF9933"/>
               <rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/>
@@ -114,13 +114,13 @@
               <circle cx="30" cy="20" r="1" fill="#000080"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-indigo-400 group-hover:text-indigo-300 text-xs truncate">India West</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Western India</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">India West</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Western India</div>
             </div>
           </button>
 
           <!-- Pakistan (PK) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-purple-400 hover:bg-purple-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('PK', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="15" height="40" fill="#FFFFFF"/>
               <rect x="15" width="45" height="40" fill="#01411C"/>
@@ -129,38 +129,38 @@
               <polygon points="41,13 42.5,17.5 47,17.5 43.5,20 45,24.5 41,22 37,24.5 38.5,20 35,17.5 39.5,17.5" fill="#FFFFFF"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-purple-400 group-hover:text-purple-300 text-xs truncate">Pakistan</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Indus Valley</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Pakistan</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Indus Valley</div>
             </div>
           </button>
 
           <!-- Ukraine (UK) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-violet-400 hover:bg-violet-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('UK', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="20" fill="#0057B7"/>
               <rect y="20" width="60" height="20" fill="#FFD700"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-violet-400 group-hover:text-violet-300 text-xs truncate">Ukraine</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Eastern Europe</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Ukraine</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Eastern Europe</div>
             </div>
           </button>
 
           <!-- Korea (KR) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-pink-400 hover:bg-pink-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('KR', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="40" fill="#FFFFFF"/>
               <circle cx="30" cy="20" r="8" fill="#C60C30"/>
               <path d="M 30,12 A 4,4 0 0 0 30,20 A 4,4 0 0 1 30,28 A 8,8 0 0 1 30,12" fill="#003478"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-pink-400 group-hover:text-pink-300 text-xs truncate">Korea</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Northeast Asia</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Korea</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Northeast Asia</div>
             </div>
           </button>
 
           <!-- Mexico (MX) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-emerald-400 hover:bg-emerald-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('MX', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="20" height="40" fill="#006847"/>
               <rect x="20" width="20" height="40" fill="#FFFFFF"/>
@@ -168,51 +168,51 @@
               <circle cx="30" cy="20" r="3.5" fill="#8B5A2B"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-emerald-400 group-hover:text-emerald-300 text-xs truncate">Mexico</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Mesoamerica</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Mexico</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Mesoamerica</div>
             </div>
           </button>
 
           <!-- Hong Kong (HK) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-teal-400 hover:bg-teal-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('HK', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="40" fill="#DE2910"/>
               <circle cx="30" cy="20" r="4.5" fill="#FFFFFF"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-teal-400 group-hover:text-teal-300 text-xs truncate">Hong Kong</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">East Asia</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Hong Kong</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">East Asia</div>
             </div>
           </button>
 
           <!-- Colombia (CL) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-amber-400 hover:bg-amber-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('CL', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="20" fill="#FCD116"/>
               <rect y="20" width="60" height="10" fill="#003893"/>
               <rect y="30" width="60" height="10" fill="#CE1126"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-amber-400 group-hover:text-amber-300 text-xs truncate">Colombia</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">South America</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Colombia</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">South America</div>
             </div>
           </button>
 
           <!-- Africa (AA) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-rose-400 hover:bg-rose-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('AA', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="13.33" fill="#E31B23"/>
               <rect y="13.33" width="60" height="13.33" fill="#000000"/>
               <rect y="26.66" width="60" height="13.33" fill="#00853F"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-rose-400 group-hover:text-rose-300 text-xs truncate">Africa</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Origin cradle</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Africa</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Origin cradle</div>
             </div>
           </button>
 
           <!-- Tibet (TB) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-fuchsia-400 hover:bg-fuchsia-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('TB', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="40" fill="#003893"/>
               <polygon points="0,0 60,0 30,22" fill="#E31B23"/>
@@ -220,13 +220,13 @@
               <circle cx="30" cy="18" r="3.5" fill="#FCD116"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-fuchsia-400 group-hover:text-fuchsia-300 text-xs truncate">Tibet</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Himalayan plateau</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Tibet</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Himalayan plateau</div>
             </div>
           </button>
 
           <!-- Canada (CA) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-slate-300 hover:bg-slate-800/40 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('CA', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="15" height="40" fill="#FF0000"/>
               <rect x="15" width="30" height="40" fill="#FFFFFF"/>
@@ -234,21 +234,21 @@
               <path d="M 30,12 L 32,16 L 35,15 L 33,19 L 37,21 L 33,23 L 34,27 L 31,25 L 30.5,29 L 29.5,29 L 29,25 L 26,27 L 27,23 L 23,21 L 27,19 L 25,15 L 28,16 Z" fill="#FF0000"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-slate-200 group-hover:text-white text-xs truncate">Canada</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">North America</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Canada</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">North America</div>
             </div>
           </button>
 
           <!-- Native America (NA) -->
-          <button onclick="window.FamilyAccessGate.applyFamilySelection('NA', true)" class="p-3 rounded-2xl bg-slate-950 border border-white/10 hover:border-amber-500 hover:bg-amber-950/30 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
+          <button onclick="window.FamilyAccessGate.applyFamilySelection('NA', true)" class="p-3 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-amber-400 hover:bg-zinc-900/60 hover:scale-[1.02] transition-all flex items-center space-x-3 group shadow-md cursor-pointer">
             <svg viewBox="0 0 60 40" class="w-8 h-5 rounded shadow-sm overflow-hidden shrink-0 border border-white/15">
               <rect width="60" height="40" fill="#8B4513"/>
               <circle cx="30" cy="20" r="10" fill="#DAA520"/>
               <polygon points="30,12 33,18 39,19 35,23 36,29 30,26 24,29 25,23 21,19 27,18" fill="#FFFFFF"/>
             </svg>
             <div class="overflow-hidden">
-              <div class="font-bold text-amber-300 group-hover:text-amber-200 text-xs truncate">Native America</div>
-              <div class="text-[10px] text-slate-400 font-sans truncate">Indigenous</div>
+              <div class="font-bold text-zinc-200 group-hover:text-amber-300 text-xs truncate">Native America</div>
+              <div class="text-[10px] text-zinc-400 font-sans truncate">Indigenous</div>
             </div>
           </button>
 
@@ -257,11 +257,11 @@
 
       <!-- Action Controls & Close Prompt -->
       <div class="flex items-center justify-between pt-3 border-t border-white/10 font-mono text-xs">
-        <label class="flex items-center space-x-2 cursor-pointer text-slate-400 text-[11px]">
-          <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-slate-950 border-slate-700 text-sky-500 focus:ring-0">
+        <label class="flex items-center space-x-2 cursor-pointer text-zinc-400 text-[11px]">
+          <input id="rememberWelcomeChk" type="checkbox" checked class="rounded bg-zinc-950 border-zinc-700 text-amber-500 focus:ring-0">
           <span>Remember choice</span>
         </label>
-        <button id="closeWelcomeModalBtn" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 transition-all text-xs font-extrabold shadow-lg shadow-sky-500/25 cursor-pointer">
+        <button id="closeWelcomeModalBtn" class="px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 transition-all text-xs font-extrabold shadow-lg shadow-white/10 cursor-pointer">
           Close / explore all lineages ➔
         </button>
       </div>
@@ -269,36 +269,36 @@
     </div>
   </div>
 
-  <!-- Header & Navigation Bar (Single Consolidated Row, Bigger Font, Max 2/3 Height) -->
-  <header class="border-b border-white/10 bg-slate-950/80 backdrop-blur-2xl sticky top-0 z-50">
+  <!-- Header & Navigation Bar (Single Consolidated Row, Titanium Tone) -->
+  <header class="border-b border-white/10 bg-[#0c0c10]/85 backdrop-blur-2xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16 gap-4">
       
-      <!-- Website Title (Bigger font, no mt logo, no subheading) -->
+      <!-- Website Title -->
       <div class="flex items-center space-x-3 shrink-0">
-        <h1 class="font-extrabold text-xl sm:text-2xl text-white tracking-tight leading-none">
+        <h1 class="font-extrabold text-xl sm:text-2xl text-zinc-100 tracking-tight leading-none">
           Genomic Mito showcase
         </h1>
-        <span id="currentFamilyHeaderBadge" class="hidden md:inline-flex items-center px-2 py-0.5 rounded-lg bg-sky-950/80 border border-sky-500/30 text-[10px] font-mono text-sky-300 font-bold">
+        <span id="currentFamilyHeaderBadge" class="hidden md:inline-flex items-center px-2 py-0.5 rounded-lg bg-zinc-900 border border-zinc-700 text-[10px] font-mono text-amber-300 font-bold">
           Cohort: IN
         </span>
       </div>
 
-      <!-- Center: Tab 1 & Tab 2 on the SAME LINE as Website Title -->
-      <div class="flex items-center space-x-1.5 bg-slate-900/90 p-1 rounded-2xl border border-white/10 shadow-inner font-mono text-xs">
-        <button id="mainTabTree" onclick="window.switchMainTab('tree')" class="px-3.5 py-1.5 rounded-xl font-bold bg-sky-500 text-slate-950 shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
+      <!-- Center: Tab 1 & Tab 2 Segmented Pill -->
+      <div class="flex items-center space-x-1.5 bg-zinc-900/90 p-1 rounded-2xl border border-white/10 shadow-inner font-mono text-xs">
+        <button id="mainTabTree" onclick="window.switchMainTab('tree')" class="px-3.5 py-1.5 rounded-xl font-bold bg-zinc-100 text-zinc-950 shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
           <span>Tab 1: Phylogenetic tree</span>
         </button>
-        <button id="mainTabGlobe" onclick="window.switchMainTab('globe')" class="px-3.5 py-1.5 rounded-xl font-bold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all flex items-center gap-1.5 cursor-pointer">
+        <button id="mainTabGlobe" onclick="window.switchMainTab('globe')" class="px-3.5 py-1.5 rounded-xl font-bold text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all flex items-center gap-1.5 cursor-pointer">
           <span>Tab 2: 2D migration map</span>
         </button>
       </div>
 
       <!-- Right Action Controls -->
       <div class="flex items-center space-x-2 shrink-0">
-        <button id="openWelcomeModalBtn" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-sky-500 text-slate-950 hover:bg-sky-400 shadow-md shadow-sky-500/20 transition-all font-mono">
+        <button id="openWelcomeModalBtn" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-zinc-700 shadow-md transition-all font-mono cursor-pointer">
           Switch family
         </button>
-        <button id="openComparatorBtn" class="hidden sm:inline-flex px-3 py-1.5 text-xs font-bold rounded-xl bg-slate-900 border border-white/10 hover:border-white/20 text-slate-200 transition-all font-mono">
+        <button id="openComparatorBtn" class="hidden sm:inline-flex px-3 py-1.5 text-xs font-bold rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 text-zinc-300 transition-all font-mono cursor-pointer">
           Compare lineages
         </button>
       </div>
@@ -315,26 +315,23 @@
     <div id="tabContentTree" class="space-y-8">
       
       <!-- Centered Hero Family Finder Bar with Flanking Flags and Glowing Glass Face -->
-      <div class="hero-glass-bar p-3.5 sm:p-4 rounded-3xl bg-gradient-to-r from-slate-950/90 via-slate-900/95 to-slate-950/90 border border-sky-500/40 shadow-2xl relative overflow-hidden flex items-center justify-center font-mono text-xs">
-        <!-- Ambient animated light sheen -->
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-sky-500/5 to-transparent pointer-events-none"></div>
-
+      <div class="hero-glass-bar p-3.5 sm:p-4 rounded-3xl bg-zinc-900/90 border border-zinc-800 shadow-2xl relative overflow-hidden flex items-center justify-center font-mono text-xs">
         <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 w-full max-w-3xl text-center relative z-10">
           
           <!-- Left Flanking Flag (Hidden until cohort is selected) -->
-          <div id="heroCohortFlagLeft" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 opacity-0 transition-all duration-300 hover:scale-110">
+          <div id="heroCohortFlagLeft" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-zinc-950 shrink-0 opacity-0 transition-all duration-300 hover:scale-110">
             <!-- Populated dynamically by window.updateHeroCohortFlags() -->
           </div>
 
           <!-- Central Title & Selector -->
           <div class="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3.5">
             <div class="flex items-center space-x-2 shrink-0">
-              <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse shadow-sm shadow-sky-400"></span>
-              <span class="text-sky-300 font-extrabold uppercase tracking-wider text-xs">Select cohort:</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shadow-sm shadow-amber-400"></span>
+              <span class="text-zinc-200 font-extrabold uppercase tracking-wider text-xs">Select cohort:</span>
             </div>
             
             <div class="relative">
-              <select id="quickFamilyEntrySelect" class="w-full sm:w-64 px-4 py-2 text-xs rounded-xl bg-slate-950 border-2 border-sky-500/70 text-sky-200 font-bold focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-300 shadow-xl transition-all cursor-pointer">
+              <select id="quickFamilyEntrySelect" class="w-full sm:w-64 px-4 py-2 text-xs rounded-xl bg-zinc-950 border border-zinc-700 text-zinc-200 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-300 shadow-xl transition-all cursor-pointer">
                 <option value="">-- Choose cohort lineage --</option>
                 <option value="IN">India</option>
                 <option value="IS">India South</option>
@@ -354,7 +351,7 @@
           </div>
 
           <!-- Right Flanking Flag (Hidden until cohort is selected) -->
-          <div id="heroCohortFlagRight" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-slate-950 shrink-0 opacity-0 transition-all duration-300 hover:scale-110">
+          <div id="heroCohortFlagRight" class="w-10 h-7 sm:w-12 sm:h-8 rounded-xl overflow-hidden border border-white/20 shadow-lg flex items-center justify-center bg-zinc-950 shrink-0 opacity-0 transition-all duration-300 hover:scale-110">
             <!-- Populated dynamically by window.updateHeroCohortFlags() -->
           </div>
 
@@ -363,22 +360,22 @@
 
       <!-- Tree Canvas Container with Bottom Translucent Zoom Controls -->
       <div id="treeWrapper" class="w-full relative">
-        <div id="treeContainer" class="w-full overflow-hidden border border-white/10 rounded-3xl min-h-[500px] max-h-[520px] bg-slate-950/90 flex items-center justify-center shadow-2xl relative">
-          <div class="text-slate-500 text-xs animate-pulse font-mono">Initializing lineage tree visualizer...</div>
+        <div id="treeContainer" class="w-full overflow-hidden border border-white/10 rounded-3xl min-h-[500px] max-h-[520px] bg-[#0c0c10]/95 flex items-center justify-center shadow-2xl relative">
+          <div class="text-zinc-500 text-xs animate-pulse font-mono">Initializing lineage tree visualizer...</div>
         </div>
 
         <!-- Floating Zoom Dock at the BOTTOM -->
-        <div class="absolute bottom-4 right-4 z-10 flex items-center space-x-2 bg-slate-900/60 backdrop-blur-2xl p-2 rounded-2xl border border-white/15 shadow-2xl font-mono">
-          <span id="treeZoomBadge" class="text-xs px-3 py-1.5 rounded-xl bg-slate-950/80 border border-white/10 text-sky-300 font-bold shadow-inner">
+        <div class="absolute bottom-4 right-4 z-10 flex items-center space-x-2 bg-zinc-900/80 backdrop-blur-2xl p-2 rounded-2xl border border-white/10 shadow-2xl font-mono">
+          <span id="treeZoomBadge" class="text-xs px-3 py-1.5 rounded-xl bg-zinc-950/80 border border-white/10 text-zinc-300 font-bold shadow-inner">
             Global tree
           </span>
-          <button id="btnTreeZoomIn" title="Zoom in" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-sky-500 hover:text-slate-950 text-slate-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md">
+          <button id="btnTreeZoomIn" title="Zoom in" class="w-9 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md cursor-pointer">
             +
           </button>
-          <button id="btnTreeZoomOut" title="Zoom out (or double-click canvas)" class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-sky-500 hover:text-slate-950 text-slate-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md">
+          <button id="btnTreeZoomOut" title="Zoom out (or double-click canvas)" class="w-9 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-white/10 flex items-center justify-center font-extrabold text-lg transition-all shadow-lg backdrop-blur-md cursor-pointer">
             &minus;
           </button>
-          <button id="btnTreeZoomReset" title="Reset zoom" class="px-3 h-9 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 flex items-center justify-center font-bold text-xs transition-all backdrop-blur-md">
+          <button id="btnTreeZoomReset" title="Reset zoom" class="px-3 h-9 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-white/10 flex items-center justify-center font-bold text-xs transition-all backdrop-blur-md cursor-pointer">
             Reset
           </button>
         </div>
@@ -386,7 +383,7 @@
 
       <!-- Family Groupings Filter Bar -->
       <div class="flex flex-wrap items-center gap-2 pt-1 pb-1 font-mono text-xs">
-        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Family cohorts:</span>
+        <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider mr-2">Family cohorts:</span>
         <div id="familyGroupButtonsContainer" class="flex flex-wrap items-center gap-2">
           <!-- Dynamic Family Buttons Rendered by TreeViewer -->
         </div>
@@ -398,16 +395,16 @@
       </div>
 
       <!-- Specific Familial Diagnostic Markers Table -->
-      <div class="earth-panel p-6 space-y-4 border border-white/10 shadow-2xl bg-slate-900/80 rounded-3xl">
+      <div class="earth-panel p-6 space-y-4 border border-white/10 shadow-2xl bg-[#121216]/90 rounded-3xl">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-3">
           <div>
-            <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1 font-mono">Comprehensive familial marker analysis</div>
+            <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1 font-mono">Comprehensive familial marker analysis</div>
             <h3 class="text-xl font-extrabold text-white flex items-center space-x-2 tracking-tight">
-              <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
               <span>Specific familial diagnostic markers</span>
             </h3>
           </div>
-          <select id="diagnosticFamilySelect" class="bg-slate-950 border border-sky-500/50 rounded-xl text-xs text-sky-300 font-mono px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <select id="diagnosticFamilySelect" class="bg-zinc-950 border border-zinc-700 rounded-xl text-xs text-zinc-200 font-mono px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer">
             <!-- Populated by DiagnosticMarkersExplorer -->
           </select>
         </div>
@@ -420,46 +417,46 @@
       <!-- ==================================================== -->
       <!-- GENOMIC EDUCATION & MITOCHONDRIAL PRIMER SECTION     -->
       <!-- ==================================================== -->
-      <div class="earth-panel p-6 sm:p-8 space-y-6 border border-white/10 shadow-2xl bg-slate-900/80 rounded-3xl">
+      <div class="earth-panel p-6 sm:p-8 space-y-6 border border-white/10 shadow-2xl bg-[#121216]/90 rounded-3xl">
         
         <!-- Header with Mitochondrial Anatomy Graphic -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div>
-            <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1 font-mono">Genomic education &amp; scientific primer</div>
+            <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1 font-mono">Genomic education &amp; scientific primer</div>
             <h3 class="text-xl font-extrabold text-white flex items-center space-x-2 tracking-tight">
-              <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
               <span>Why mitochondrial DNA (mtDNA) is superior for lineage tracing</span>
             </h3>
           </div>
 
           <!-- Mitochondrial Anatomy Vector Graphic -->
-          <div class="flex items-center space-x-3 bg-slate-950/80 p-2.5 sm:p-3 rounded-2xl border border-sky-500/30 shrink-0 shadow-inner">
+          <div class="flex items-center space-x-3 bg-zinc-950/90 p-2.5 sm:p-3 rounded-2xl border border-zinc-800 shrink-0 shadow-inner">
             <svg viewBox="0 0 160 80" class="w-24 sm:w-32 h-auto shrink-0 select-none">
-              <!-- Outer Membrane (Sky Blue) -->
-              <rect x="5" y="10" width="150" height="60" rx="30" fill="#0369a1" fill-opacity="0.25" stroke="#38bdf8" stroke-width="2"/>
+              <!-- Outer Membrane -->
+              <rect x="5" y="10" width="150" height="60" rx="30" fill="#27272a" fill-opacity="0.5" stroke="#71717a" stroke-width="1.8"/>
               <!-- Intermembrane space -->
-              <rect x="12" y="17" width="136" height="46" rx="23" fill="#0c4a6e" fill-opacity="0.45"/>
-              <!-- Inner Folded Cristae (Teal) -->
-              <path d="M 35,17 C 35,32 45,32 45,17 M 55,63 C 55,42 65,42 65,63 M 75,17 C 75,40 85,40 85,17 M 95,63 C 95,35 105,35 105,63 M 115,17 C 115,35 125,35 125,17" fill="none" stroke="#2dd4bf" stroke-width="2.5" stroke-linecap="round"/>
+              <rect x="12" y="17" width="136" height="46" rx="23" fill="#18181b" fill-opacity="0.7"/>
+              <!-- Inner Folded Cristae -->
+              <path d="M 35,17 C 35,32 45,32 45,17 M 55,63 C 55,42 65,42 65,63 M 75,17 C 75,40 85,40 85,17 M 95,63 C 95,35 105,35 105,63 M 115,17 C 115,35 125,35 125,17" fill="none" stroke="#a1a1aa" stroke-width="2" stroke-linecap="round"/>
               <!-- Circular mtDNA plasmid loop (Gold) -->
-              <circle cx="50" cy="48" r="8.5" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="2 1"/>
-              <circle cx="50" cy="48" r="2.5" fill="#fbbf24" fill-opacity="0.7"/>
+              <circle cx="50" cy="48" r="8.5" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="2 1"/>
+              <circle cx="50" cy="48" r="2.5" fill="#f59e0b" fill-opacity="0.8"/>
               <!-- Second Circular mtDNA loop -->
-              <circle cx="110" cy="48" r="6.5" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-dasharray="2 1"/>
+              <circle cx="110" cy="48" r="6.5" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="2 1"/>
               <!-- Matrix Granules -->
-              <circle cx="75" cy="48" r="1.5" fill="#e2e8f0"/>
-              <circle cx="85" cy="52" r="1.5" fill="#e2e8f0"/>
-              <circle cx="30" cy="40" r="1.5" fill="#e2e8f0"/>
+              <circle cx="75" cy="48" r="1.5" fill="#d4d4d8"/>
+              <circle cx="85" cy="52" r="1.5" fill="#d4d4d8"/>
+              <circle cx="30" cy="40" r="1.5" fill="#d4d4d8"/>
             </svg>
             <div class="space-y-0.5 font-mono text-[10px]">
-              <div class="text-sky-300 font-bold flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+              <div class="text-zinc-200 font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                 <span>Mitochondrion</span>
               </div>
-              <div class="text-slate-400 text-[9.5px]">
-                <span class="text-teal-300">Cristae</span> &bull; <strong class="text-amber-400">Circular mtDNA</strong>
+              <div class="text-zinc-400 text-[9.5px]">
+                <span class="text-zinc-300">Cristae</span> &bull; <strong class="text-amber-400">Circular mtDNA</strong>
               </div>
-              <div class="text-slate-400 text-[8.5px] font-sans">
+              <div class="text-zinc-400 text-[8.5px] font-sans">
                 16,569 bp &bull; 100% maternal
               </div>
             </div>
@@ -470,71 +467,71 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
           
           <!-- Mitochondrial DNA (mtDNA) Card -->
-          <div class="p-5 rounded-2xl bg-gradient-to-b from-sky-950/40 to-slate-950 border-2 border-sky-500/60 space-y-3 shadow-lg">
-            <div class="flex items-center justify-between border-b border-sky-500/30 pb-2">
-              <span class="font-extrabold text-sky-300 text-sm">Mitochondrial DNA (mtDNA)</span>
-              <span class="px-2.5 py-0.5 rounded-lg bg-sky-900 text-sky-200 text-[10px] font-bold">Optimal for ancestry</span>
+          <div class="p-5 rounded-2xl bg-zinc-950 border border-zinc-700 space-y-3 shadow-lg">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <span class="font-extrabold text-zinc-100 text-sm">Mitochondrial DNA (mtDNA)</span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-amber-950/80 border border-amber-800 text-amber-300 text-[10px] font-bold">Optimal for ancestry</span>
             </div>
             
-            <div class="space-y-2 text-xs font-sans text-slate-300">
+            <div class="space-y-2 text-xs font-sans text-zinc-300">
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Location:</span>
-                <strong class="text-sky-300 font-mono">Mitochondria (cytoplasm)</strong>
+                <span class="text-zinc-400">Location:</span>
+                <strong class="text-zinc-200 font-mono">Mitochondria (cytoplasm)</strong>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Copies per cell:</span>
-                <strong class="text-sky-300 font-mono">100 &ndash; 10,000 copies</strong>
+                <span class="text-zinc-400">Copies per cell:</span>
+                <strong class="text-zinc-200 font-mono">100 &ndash; 10,000 copies</strong>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Genome size:</span>
-                <strong class="text-sky-300 font-mono">16,569 base pairs</strong>
+                <span class="text-zinc-400">Genome size:</span>
+                <strong class="text-zinc-200 font-mono">16,569 base pairs</strong>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Inheritance mode:</span>
+                <span class="text-zinc-400">Inheritance mode:</span>
                 <strong class="text-emerald-400 font-mono">100% strict maternal</strong>
               </div>
               <div class="flex justify-between py-1">
-                <span class="text-slate-400">Recombination / shuffling:</span>
+                <span class="text-zinc-400">Recombination / shuffling:</span>
                 <strong class="text-emerald-400 font-mono">Zero (none)</strong>
               </div>
             </div>
 
-            <div class="p-3 rounded-xl bg-sky-950/60 border border-sky-800/60 text-xs text-sky-200 font-sans leading-relaxed">
+            <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 font-sans leading-relaxed">
               <strong>Key advantage:</strong> Passed 100% intact from mother to all children without paternal recombination scrambling, creating an unbroken generational record over 200,000 years.
             </div>
           </div>
 
           <!-- Nuclear DNA Card -->
-          <div class="p-5 rounded-2xl bg-slate-950 border border-white/10 space-y-3 opacity-90">
-            <div class="flex items-center justify-between border-b border-white/10 pb-2">
-              <span class="font-extrabold text-slate-300 text-sm">Nuclear DNA</span>
-              <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 text-slate-400 text-[10px]">Nuclear genome</span>
+          <div class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-3 opacity-90">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <span class="font-extrabold text-zinc-300 text-sm">Nuclear DNA</span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-zinc-900 text-zinc-400 text-[10px]">Nuclear genome</span>
             </div>
             
-            <div class="space-y-2 text-xs font-sans text-slate-300">
+            <div class="space-y-2 text-xs font-sans text-zinc-300">
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Location:</span>
-                <strong class="text-slate-300 font-mono">Cell nucleus</strong>
+                <span class="text-zinc-400">Location:</span>
+                <strong class="text-zinc-300 font-mono">Cell nucleus</strong>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Copies per cell:</span>
-                <strong class="text-slate-300 font-mono">2 copies (diploid)</strong>
+                <span class="text-zinc-400">Copies per cell:</span>
+                <strong class="text-zinc-300 font-mono">2 copies (diploid)</strong>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Genome size:</span>
-                <strong class="text-slate-300 font-mono">~3.2 billion base pairs</strong>
+                <span class="text-zinc-400">Genome size:</span>
+                <strong class="text-zinc-300 font-mono">~3.2 billion base pairs</strong>
               </div>
               <div class="flex justify-between py-1 border-b border-white/5">
-                <span class="text-slate-400">Inheritance mode:</span>
-                <strong class="text-slate-300 font-mono">50% maternal + 50% paternal</strong>
+                <span class="text-zinc-400">Inheritance mode:</span>
+                <strong class="text-zinc-300 font-mono">50% maternal + 50% paternal</strong>
               </div>
               <div class="flex justify-between py-1">
-                <span class="text-slate-400">Recombination / shuffling:</span>
+                <span class="text-zinc-400">Recombination / shuffling:</span>
                 <strong class="text-amber-400 font-mono">Frequent (every generation)</strong>
               </div>
             </div>
 
-            <div class="p-3 rounded-xl bg-slate-900 border border-white/10 text-xs text-slate-400 font-sans leading-relaxed">
+            <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-400 font-sans leading-relaxed">
               <strong>Limitation for lineage:</strong> Recombination shuffles alleles each generation, halving ancestral signals every step (e.g. only 3.12% remaining after 5 generations).
             </div>
           </div>
@@ -551,21 +548,21 @@
     <div id="tabContentGlobe" class="space-y-6 hidden">
       
       <!-- Top Cohort Selector & Controls Bar -->
-      <div class="earth-panel p-4 rounded-3xl bg-slate-900/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs shadow-2xl">
+      <div class="earth-panel p-4 rounded-3xl bg-[#121216]/90 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs shadow-2xl">
         <div class="space-y-0.5">
-          <div class="text-sky-400 font-bold uppercase tracking-wider text-xs flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+          <div class="text-amber-400 font-bold uppercase tracking-wider text-xs flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
             <span>Prehistoric 2D satellite migration map</span>
           </div>
-          <p class="text-slate-400 text-xs font-sans">High-resolution satellite imagery tracking maternal Out-of-Africa migrations over 200,000 years.</p>
+          <p class="text-zinc-400 text-xs font-sans">High-resolution satellite imagery tracking maternal Out-of-Africa migrations over 200,000 years.</p>
         </div>
 
         <div class="flex items-center space-x-3 w-full sm:w-auto">
-          <select id="globeSampleSelect" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-slate-950 border border-sky-500/60 text-sky-300 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+          <select id="globeSampleSelect" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-zinc-950 border border-zinc-700 text-zinc-200 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all cursor-pointer">
             <!-- Populated with samples by MigrationMap -->
           </select>
 
-          <button id="playMigrationTrailBtn" class="px-4 py-2 rounded-xl bg-sky-500 text-slate-950 font-extrabold hover:bg-sky-400 shadow-lg shadow-sky-500/25 transition-all shrink-0">
+          <button id="playMigrationTrailBtn" class="px-4 py-2 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-extrabold shadow-lg shadow-white/10 transition-all shrink-0 cursor-pointer">
             Play migration trail
           </button>
         </div>
@@ -576,12 +573,12 @@
         
         <!-- Left: 2D Satellite Migration Map (Majority: 8 cols) -->
         <div class="lg:col-span-8 space-y-3">
-          <div class="w-full overflow-hidden border border-white/10 rounded-3xl min-h-[560px] h-[600px] bg-[#080d1a] relative shadow-2xl">
+          <div class="w-full overflow-hidden border border-white/10 rounded-3xl min-h-[560px] h-[600px] bg-[#0c0c10] relative shadow-2xl">
             <div id="migrationMapContainer" class="w-full h-full"></div>
             
             <!-- Map Top Overlay Floating Prompt Badge -->
-            <div class="absolute top-4 left-4 z-10 pointer-events-none bg-slate-950/85 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/10 font-mono text-xs text-sky-300 shadow-xl flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+            <div class="absolute top-4 left-4 z-10 pointer-events-none bg-zinc-950/90 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/10 font-mono text-xs text-zinc-200 shadow-xl flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
               <span>Satellite basemap • Interactive Out-of-Africa trail</span>
             </div>
           </div>
@@ -589,7 +586,7 @@
 
         <!-- Right: Un-condensed Lineage Evidence & Verified Anthropological Dossier (Minority: 4 cols) -->
         <div class="lg:col-span-4 space-y-4">
-          <div id="migrationDossierPanel" class="earth-panel p-5 rounded-3xl bg-slate-900/80 border border-white/10 shadow-2xl">
+          <div id="migrationDossierPanel" class="earth-panel p-5 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl">
             <!-- Rendered dynamically by MigrationMap.renderDossier() -->
           </div>
         </div>
@@ -601,19 +598,19 @@
   </main>
 
   <!-- Interactive Comparison Toast -->
-  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-[900] hidden max-w-md w-full p-4 rounded-2xl bg-slate-900/90 backdrop-blur-2xl border border-sky-500/50 shadow-2xl space-y-3 font-mono text-xs transition-all duration-300 ease-out">
+  <div id="compareBranchToast" class="fixed bottom-6 right-6 z-[900] hidden max-w-md w-full p-4 rounded-2xl bg-zinc-900/95 backdrop-blur-2xl border border-zinc-700 shadow-2xl space-y-3 font-mono text-xs transition-all duration-300 ease-out">
     <div class="flex items-center justify-between border-b border-white/10 pb-2">
-      <span id="compareToastTitle" class="font-extrabold text-sky-400 text-sm">Branch selected</span>
-      <button id="closeCompareToastBtn" class="text-slate-400 hover:text-white text-base font-bold">✕</button>
+      <span id="compareToastTitle" class="font-extrabold text-amber-300 text-sm">Branch selected</span>
+      <button id="closeCompareToastBtn" class="text-zinc-400 hover:text-white text-base font-bold cursor-pointer">✕</button>
     </div>
-    <p id="compareToastMsg" class="text-slate-300 text-xs font-sans leading-relaxed">
+    <p id="compareToastMsg" class="text-zinc-300 text-xs font-sans leading-relaxed">
       Selected lineage. Click another branch on the tree to compare!
     </p>
     <div class="flex items-center justify-between pt-1">
-      <span id="firstSelectedBadge" class="px-2.5 py-1 rounded-lg bg-slate-950 text-sky-300 border border-white/10 font-bold">
+      <span id="firstSelectedBadge" class="px-2.5 py-1 rounded-lg bg-zinc-950 text-zinc-200 border border-white/10 font-bold">
         Branch 1
       </span>
-      <button id="toastOpenCompareBtn" class="px-3.5 py-1.5 rounded-xl bg-sky-500 text-slate-950 font-extrabold hover:bg-sky-400 shadow-md transition-all">
+      <button id="toastOpenCompareBtn" class="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-extrabold shadow-md transition-all cursor-pointer">
         Open report ➔
       </button>
     </div>
@@ -621,34 +618,34 @@
 
   <!-- Ancestral Junction & Comparative Lineage Report Modal -->
   <div id="familyReportModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
-    <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-slate-900/95 rounded-3xl">
+    <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-[#121216]/95 rounded-3xl">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
         <div>
-          <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Ancestral junction &amp; comparative lineage report</span>
+          <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Ancestral junction &amp; comparative lineage report</span>
           <h3 id="reportModalTitle" class="text-xl font-extrabold text-white tracking-tight">Ancestral variant analysis</h3>
         </div>
         <div class="flex flex-wrap items-center gap-2">
           <div id="cohortReportSelectControls" class="flex flex-wrap items-center gap-2">
-            <select id="reportFamily1Select" class="bg-slate-950 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-sky-300 font-mono">
+            <select id="reportFamily1Select" class="bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-zinc-200 font-mono">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <select id="reportFamily2Select" class="bg-slate-950 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-blue-300 font-mono">
+            <select id="reportFamily2Select" class="bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-zinc-200 font-mono">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <select id="reportFamily3Select" class="bg-slate-950 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-mono">
+            <select id="reportFamily3Select" class="bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-zinc-200 font-mono">
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
           <div id="sampleReportSelectControls" class="hidden flex-wrap items-center gap-2">
-            <select id="reportSample1Select" class="bg-slate-950 border border-emerald-500/60 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+            <select id="reportSample1Select" class="bg-zinc-950 border border-emerald-500/60 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <span class="text-slate-500 text-xs font-mono font-bold">vs</span>
-            <select id="reportSample2Select" class="bg-slate-950 border border-sky-500/60 rounded-xl px-3 py-1.5 text-xs text-sky-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-sky-400 cursor-pointer">
+            <span class="text-zinc-500 text-xs font-mono font-bold">vs</span>
+            <select id="reportSample2Select" class="bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-1.5 text-xs text-zinc-200 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer">
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
-          <button id="closeReportBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer">
+          <button id="closeReportBtn" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer">
             ✕ Close
           </button>
         </div>
@@ -661,13 +658,13 @@
 
   <!-- Mutation Cladogram Inspector Modal (Interactive Cladogram Pop-Up on Mutation Click) -->
   <div id="mutationCladogramModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
-    <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-5 shadow-2xl relative border border-emerald-500/40 bg-slate-900/95 rounded-3xl">
+    <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-5 shadow-2xl relative border border-zinc-700 bg-[#121216]/95 rounded-3xl">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div>
           <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Conserved mutation cladogram</span>
           <h3 id="mutationModalTitle" class="text-xl font-extrabold text-white">750 A&gt;G global lineage distribution</h3>
         </div>
-        <button id="closeMutationModalBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10">
+        <button id="closeMutationModalBtn" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer">
           ✕ Close
         </button>
       </div>
@@ -679,8 +676,9 @@
 
   <!-- Scripts -->
   <script src="js/topojson-client.min.js"></script>
-  <script src="js/tree_viewer.js?v=12.0"></script>
-  <script src="js/migration_map.js?v=12.0"></script>
-  <script src="js/app.js?v=12.0"></script>
+  <script src="js/tree_viewer.js?v=13.0"></script>
+  <script src="js/migration_map.js?v=13.0"></script>
+  <script src="js/app.js?v=13.0"></script>
 </body>
 </html>
+

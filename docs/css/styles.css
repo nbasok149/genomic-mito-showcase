@@ -1,235 +1,269 @@
-/* Apple Liquid Glass & High-Clarity Scientific Aesthetics for Genomic Mito Showcase */
+/* ==========================================================================
+   Genomic Mito Showcase - Editorial Scientific Design System (Obsidian & Titanium)
+   Crafted with Emil Kowalski Design, Taste, and Impeccable Principles
+   ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-    --bg-dark: #090a0f;
-    --bg-canvas: #0c0d14;
-    --glass-bg: rgba(17, 20, 29, 0.72);
-    --glass-bg-hover: rgba(23, 27, 40, 0.82);
-    --glass-bg-subtle: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-border-strong: rgba(255, 255, 255, 0.16);
-    --glass-border-glow: rgba(56, 189, 248, 0.35);
-    
-    --accent-blue: #38bdf8;
-    --accent-indigo: #818cf8;
-    --accent-emerald: #34d399;
-    --accent-amber: #fbbf24;
-    --accent-rose: #f87171;
+  /* Canvas & Surface Tokens */
+  --bg-canvas: #09090b;
+  --bg-subtle: #0f0f12;
+  --surface-card: #131317;
+  --surface-card-hover: #18181e;
+  --surface-overlay: rgba(14, 14, 18, 0.88);
+  
+  /* Precision Hairline Borders */
+  --border-hairline: rgba(255, 255, 255, 0.07);
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --border-gold: rgba(245, 158, 11, 0.35);
+  
+  /* Editorial Palette Accents */
+  --accent-titanium: #fafafa;
+  --accent-gold: #f59e0b;
+  --accent-gold-light: #fbbf24;
+  --accent-cobalt: #3b82f6;
+  --accent-cobalt-light: #60a5fa;
+  --accent-sage: #10b981;
+  --accent-sage-light: #34d399;
+  --accent-crimson: #e11d48;
+  --accent-crimson-light: #f43f5e;
+  --accent-terracotta: #ea580c;
 
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+  /* Typography Hierarchy */
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-dim: #52525b;
+
+  /* Spring Physics Timing */
+  --spring-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Base Document Setup */
+html {
+  background-color: var(--bg-canvas);
+  color-scheme: dark;
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-primary);
-    background-image: 
-        radial-gradient(ellipse 90% 60% at 50% -20%, rgba(56, 189, 248, 0.1) 0px, transparent 65%),
-        radial-gradient(ellipse 60% 50% at 100% 100%, rgba(129, 140, 248, 0.07) 0px, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 0% 80%, rgba(52, 211, 153, 0.05) 0px, transparent 55%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    letter-spacing: -0.01em;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(245, 158, 11, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 0% 90%, rgba(59, 130, 246, 0.02) 0%, transparent 45%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Apple Liquid Glass Container / Panel */
+/* Emil Kowalski Tactile Micro-Interactions */
+button, .btn, [role="button"] {
+  transition: all 0.15s var(--spring-ease);
+}
+
+button:active, .btn:active {
+  transform: scale(0.98);
+}
+
+/* Editorial Titanium Glass Panels */
 .earth-panel, .glass-card, .liquid-glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    box-shadow: 
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.02),
-        0 20px 45px -15px rgba(0, 0, 0, 0.7);
-    border-radius: 1.25rem;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--surface-overlay);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border-hairline);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 16px 36px -10px rgba(0, 0, 0, 0.65);
+  border-radius: 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .earth-panel:hover, .glass-card:hover {
-    border-color: var(--glass-border-strong);
-    box-shadow: 
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
-        0 24px 50px -12px rgba(0, 0, 0, 0.8),
-        0 0 25px 0 rgba(56, 189, 248, 0.08);
+  border-color: var(--border-subtle);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+    0 1px 3px rgba(0, 0, 0, 0.45),
+    0 20px 40px -10px rgba(0, 0, 0, 0.75);
 }
 
-/* Hero Centered Glass Bar for Select Family */
+/* Hero Cohort Bar */
 .hero-glass-bar {
-    background: linear-gradient(135deg, rgba(24, 28, 42, 0.85) 0%, rgba(15, 17, 26, 0.85) 100%);
-    backdrop-filter: blur(24px) saturate(190%);
-    -webkit-backdrop-filter: blur(24px) saturate(190%);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    box-shadow: 
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
-        0 14px 35px -10px rgba(0, 0, 0, 0.7),
-        0 0 20px -3px rgba(56, 189, 248, 0.15);
-    border-radius: 1.25rem;
+  background: linear-gradient(180deg, rgba(24, 24, 30, 0.9) 0%, rgba(16, 16, 20, 0.9) 100%);
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    0 8px 24px -6px rgba(0, 0, 0, 0.6);
+  border-radius: 1.25rem;
 }
 
-/* Gradient Text */
+/* Restrained Scientific Gradient Text */
 .gradient-earth-text, .gradient-brand-text {
-    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #38bdf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #ffffff 0%, #d4d4d8 50%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Tree Styling with Crisp Contrast & Scientific Clarity */
+/* D3 Phylogenetic Tree Styling (High Clarity, No Cartoonish Neon) */
 .tree-link {
-    fill: none;
-    stroke: #475569 !important;
-    stroke-width: 2.2px !important;
-    stroke-opacity: 0.85 !important;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  fill: none;
+  stroke: #3f3f46 !important;
+  stroke-width: 2px !important;
+  stroke-opacity: 0.8 !important;
+  transition: all 0.3s var(--spring-ease);
 }
 
 .tree-link.dimmed {
-    stroke-opacity: 0.18 !important;
-    stroke: #334155 !important;
-    stroke-width: 1.5px !important;
+  stroke-opacity: 0.15 !important;
+  stroke: #27272a !important;
+  stroke-width: 1.4px !important;
 }
 
 .tree-link.family-active {
-    stroke: #38bdf8 !important;
-    stroke-width: 3.8px !important;
-    stroke-opacity: 1 !important;
-    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.85));
+  stroke: var(--accent-gold-light) !important;
+  stroke-width: 3.2px !important;
+  stroke-opacity: 1 !important;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5));
 }
 
 .tree-node {
-    transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .tree-node circle {
-    stroke: #38bdf8 !important;
-    stroke-width: 2.2px !important;
-    fill: #0ea5e9 !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
+  stroke: #52525b !important;
+  stroke-width: 2px !important;
+  fill: #18181b !important;
+  transition: all 0.2s var(--spring-ease);
+  cursor: pointer;
 }
 
 .tree-node circle:hover {
-    r: 9px !important;
-    fill: #ffffff !important;
-    stroke: #38bdf8 !important;
-    filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.95));
+  r: 8.5px !important;
+  fill: #fafafa !important;
+  stroke: var(--accent-gold) !important;
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
 }
 
 .tree-node.dimmed {
-    opacity: 0.3;
-    transition: opacity 0.25s ease;
+  opacity: 0.25;
+  transition: opacity 0.2s ease;
 }
 
 .tree-node.dimmed:hover {
-    opacity: 1 !important;
-    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.6));
+  opacity: 1 !important;
 }
 
 .tree-node.dimmed circle {
-    stroke: #64748b !important;
-    stroke-width: 1.5px !important;
+  stroke: #3f3f46 !important;
+  stroke-width: 1.4px !important;
 }
 
 .tree-node.dimmed text {
-    fill: #64748b !important;
-    font-weight: 400 !important;
+  fill: #52525b !important;
 }
 
 .tree-node text.leaf-role-label {
-    fill: #e2e8f0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    font-weight: 600;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.9);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  fill: #d4d4d8;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+  transition: all 0.25s var(--spring-ease);
 }
 
-/* Green Glow for User-Selected Individual Samples */
+/* User-Selected Individual Samples on Tree */
 .tree-node.sample-selected circle {
-    fill: #10b981 !important;
-    stroke: #34d399 !important;
-    stroke-width: 3.5px !important;
-    filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.95)) !important;
-    r: 8.5px !important;
+  fill: #10b981 !important;
+  stroke: #34d399 !important;
+  stroke-width: 3px !important;
+  r: 8px !important;
+  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.7)) !important;
 }
 
 .tree-node.sample-selected text.leaf-role-label {
-    fill: #34d399 !important;
-    font-weight: 800 !important;
-    opacity: 1 !important;
-    font-size: 12.5px !important;
-    text-shadow: 0 0 12px rgba(16, 185, 129, 0.8) !important;
+  fill: #34d399 !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  font-size: 12px !important;
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.6) !important;
 }
 
-/* Nav Tabs */
+/* Navigation Segmented Tab Pill */
 .nav-tab {
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    border-radius: 0.75rem;
+  transition: all 0.2s var(--spring-ease);
+  border-radius: 0.75rem;
 }
 
 .nav-tab.active {
-    background-color: rgba(56, 189, 248, 0.14);
-    color: #38bdf8;
-    border-color: rgba(56, 189, 248, 0.4);
-    box-shadow: 0 0 16px rgba(56, 189, 248, 0.18);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fafafa;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* Leaflet Satellite Map Custom Styling */
+/* 2D Satellite Migration Map Container */
 #migrationMapContainer {
-    z-index: 1;
-    background: #080d1a;
+  z-index: 1;
+  background: #09090b;
 }
 
 .leaflet-container {
-    background: #090a0f !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
+  background: #09090b !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
 
 .glowing-route-line {
-    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.95)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.5));
+  filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 10px rgba(245, 158, 11, 0.35));
 }
 
 .apple-glass-tooltip {
-    background: rgba(15, 23, 42, 0.9) !important;
-    backdrop-filter: blur(16px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: #f8fafc !important;
-    border-radius: 0.75rem !important;
-    padding: 6px 12px !important;
-    font-size: 11px !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
+  background: rgba(18, 18, 23, 0.92) !important;
+  backdrop-filter: blur(16px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(170%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #fafafa !important;
+  border-radius: 0.75rem !important;
+  padding: 6px 12px !important;
+  font-size: 11px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7) !important;
 }
 
 .apple-glass-tooltip:before {
-    border-top-color: rgba(15, 23, 42, 0.9) !important;
+  border-top-color: rgba(18, 18, 23, 0.92) !important;
 }
 
-/* Custom Sleek Scrollbars */
+/* Crisp Dark Scrollbars */
 ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #090a0f;
+  background: #09090b;
 }
 ::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 9999px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #27272a;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+  background: #3f3f46;
 }
 
 /* Heatmap Tooltip */
 #heatmap-tooltip {
-    position: absolute;
-    pointer-events: none;
-    transition: opacity 0.15s ease;
-    z-index: 100;
+  position: absolute;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 100;
 }

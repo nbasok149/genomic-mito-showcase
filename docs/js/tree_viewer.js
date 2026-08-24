@@ -19,19 +19,19 @@ window.TreeViewer = {
   },
 
   ETHNICITY_COLORS: {
-    'IN': '#38bdf8', // Sky Blue
-    'IS': '#60a5fa', // Blue
-    'IW': '#818cf8', // Indigo
-    'PK': '#a78bfa', // Purple
-    'UK': '#c084fc', // Violet
-    'KR': '#f472b6', // Pink
-    'MX': '#34d399', // Emerald
-    'HK': '#2dd4bf', // Teal
-    'CL': '#fb923c', // Amber
-    'AA': '#f87171', // Coral Red
-    'TB': '#e879f9', // Fuchsia
-    'CA': '#94a3b8', // Slate
-    'NA': '#fbbf24'  // Gold
+    'IN': '#d97706', // Warm Amber
+    'IS': '#b45309', // Deep Amber
+    'IW': '#f59e0b', // Golden Ochre
+    'PK': '#8b5cf6', // Cobalt Violet
+    'UK': '#6366f1', // Indigo Slate
+    'KR': '#ec4899', // Rose Quartz
+    'MX': '#059669', // Sage Emerald
+    'HK': '#0d9488', // Deep Teal
+    'CL': '#ea580c', // Terracotta
+    'AA': '#e11d48', // Crimson Heritage
+    'TB': '#a855f7', // Tibetan Purple
+    'CA': '#71717a', // Titanium Zinc
+    'NA': '#eab308'  // Antique Gold
   },
 
   init(data) {
@@ -215,9 +215,9 @@ window.TreeViewer = {
   },
 
   getNodeColor(rawName) {
-    if (!rawName || rawName.includes('Clade')) return '#64748b';
+    if (!rawName || rawName.includes('Clade')) return '#52525b';
     const code = rawName.split('_')[0];
-    return this.ETHNICITY_COLORS[code] || '#38bdf8';
+    return this.ETHNICITY_COLORS[code] || '#fafafa';
   },
 
   getFamilyName(rawName) {
@@ -272,16 +272,16 @@ window.TreeViewer = {
     const isAll = this.selectedEthnicities.length === 0;
 
     let html = `
-      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3.5 py-1.5 text-xs font-semibold rounded-xl ${isAll ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/25 font-bold' : 'bg-slate-900/80 text-slate-300 hover:bg-slate-800 border border-white/10'} transition-all">
+      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3.5 py-1.5 text-xs rounded-xl ${isAll ? 'bg-zinc-100 text-zinc-950 font-bold shadow-md' : 'bg-zinc-900/90 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'} transition-all cursor-pointer">
         All cohorts (${groupings.length})
       </button>
     `;
 
     groupings.forEach(g => {
       const active = this.selectedEthnicities.includes(g.key);
-      const color = this.ETHNICITY_COLORS[g.key] || '#38bdf8';
+      const color = this.ETHNICITY_COLORS[g.key] || '#fafafa';
       html += `
-        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3 py-1.5 text-xs font-semibold rounded-xl ${active ? 'bg-sky-500 text-slate-950 shadow-md shadow-sky-500/25 font-bold border border-sky-400' : 'bg-slate-900/80 border border-white/10 text-slate-300 hover:border-sky-400/50'}" style="${active ? '' : `border-left: 3px solid ${color};`}">
+        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3 py-1.5 text-xs rounded-xl ${active ? 'bg-zinc-100 text-zinc-950 font-bold border border-white shadow-md' : 'bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:border-zinc-600'} transition-all cursor-pointer" style="${active ? '' : `border-left: 3px solid ${color};`}">
           ${g.key} (${g.samples.length}) ${active ? '(Active)' : ''}
         </button>
       `;
@@ -334,7 +334,7 @@ window.TreeViewer = {
         if (toastTitle) toastTitle.textContent = `Branch selected: ${eth1}`;
         if (firstBadge) firstBadge.textContent = `Branch 1: ${eth1}`;
         if (toastMsg) {
-          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-sky-400">Click another branch on the tree</strong> to compare!`;
+          toastMsg.innerHTML = `Selected <strong>${eth1}</strong> lineage. <strong class="text-amber-400">Click another branch on the tree</strong> to compare!`;
         }
         toast.classList.remove('hidden');
       }
@@ -646,31 +646,31 @@ window.TreeViewer = {
     bodyEl.innerHTML = `
       <div class="space-y-4 font-sans text-xs">
         
-        <!-- Basepair Substitution Explanation (Early Clarification) -->
-        <div class="p-3.5 rounded-2xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 leading-relaxed font-sans space-y-1">
-          <div class="font-bold text-sky-300 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
-          <p class="text-slate-200 text-xs leading-relaxed">
+        <!-- Basepair Substitution Explanation -->
+        <div class="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 text-xs text-zinc-200 leading-relaxed font-sans space-y-1">
+          <div class="font-bold text-amber-400 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
+          <p class="text-zinc-300 text-xs leading-relaxed">
             <strong>${ref}&gt;${alt}</strong> indicates that an ancestral <strong>${refBase}</strong> basepair became a <strong>${altBase}</strong> basepair at position <strong>${pos}</strong>.
           </p>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 flex flex-wrap items-center justify-between gap-3 font-mono">
+        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 flex flex-wrap items-center justify-between gap-3 font-mono">
           <div>
-            <div class="text-[11px] text-slate-400">Total inherited lineages carrying mutation:</div>
+            <div class="text-[11px] text-zinc-400">Total inherited lineages carrying mutation:</div>
             <div class="text-base font-bold text-emerald-400">${carrierSamples.length} sample lines across ${carrierCohorts.length} global cohorts</div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+            <span class="px-3 py-1 rounded-xl bg-emerald-950/80 text-emerald-300 border border-emerald-800 font-bold">
               Conserved founder mutation (high presence)
             </span>
           </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2 font-mono">
-          <div class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Carrying population cohorts:</div>
+        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2 font-mono">
+          <div class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider">Carrying population cohorts:</div>
           <div class="flex flex-wrap gap-2">
             ${carrierCohorts.map(c => `
-              <span class="px-2.5 py-1 rounded-xl bg-slate-900 border border-sky-500/40 text-sky-300 font-bold text-xs">
+              <span class="px-2.5 py-1 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-200 font-bold text-xs">
                 ${this.getFamilyName(c)} (${c})
               </span>
             `).join('')}
@@ -678,20 +678,20 @@ window.TreeViewer = {
         </div>
 
         <!-- Cladogram Visualization for this Specific Mutation -->
-        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2">
-          <div class="text-[11px] text-slate-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
+        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+          <div class="text-[11px] text-zinc-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto p-1 font-mono">
             ${carrierSamples.map(sample => {
               const code = sample.split('_')[0];
               const role = this.getSampleRole(sample);
-              const color = this.ETHNICITY_COLORS[code] || '#38bdf8';
+              const color = this.ETHNICITY_COLORS[code] || '#fafafa';
               return `
-                <div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 flex items-center justify-between">
+                <div class="p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${color}"></span>
-                    <strong class="text-slate-200">${role}</strong>
+                    <strong class="text-zinc-200">${role}</strong>
                   </div>
-                  <span class="px-2 py-0.5 rounded-lg bg-slate-950 border border-white/10 text-[10px] text-slate-400">
+                  <span class="px-2 py-0.5 rounded-lg bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-400">
                     Cohort ${code}
                   </span>
                 </div>
@@ -729,7 +729,7 @@ window.TreeViewer = {
       .append('svg')
       .attr('width', width)
       .attr('height', height)
-      .style('background', '#080a0f')
+      .style('background', '#09090b')
       .style('border-radius', '1.5rem');
 
     const g = svg.append('g')
@@ -782,7 +782,7 @@ window.TreeViewer = {
     });
 
     familyMap.forEach((leaves, code) => {
-      const color = this.ETHNICITY_COLORS[code] || '#38bdf8';
+      const color = this.ETHNICITY_COLORS[code] || '#fafafa';
       const minY = d3.min(leaves, d => d.x);
       const maxY = d3.max(leaves, d => d.x);
       const minX = d3.min(leaves, d => d.y);
@@ -805,10 +805,10 @@ window.TreeViewer = {
         .attr('height', Math.max(28, (maxY - minY) + padY * 2))
         .attr('rx', 14)
         .attr('fill', color)
-        .attr('fill-opacity', 0.12)
+        .attr('fill-opacity', 0.08)
         .attr('stroke', color)
-        .attr('stroke-width', 1.6)
-        .attr('stroke-opacity', 0.45);
+        .attr('stroke-width', 1.4)
+        .attr('stroke-opacity', 0.35);
 
       // Prominent ethnicity overlay banner text with pill background to avoid label collisions
       const famName = this.getFamilyName(code);
@@ -822,11 +822,11 @@ window.TreeViewer = {
         .attr('width', badgeWidth)
         .attr('height', 22)
         .attr('rx', 8)
-        .attr('fill', '#090a0f')
-        .attr('fill-opacity', 0.9)
+        .attr('fill', '#09090b')
+        .attr('fill-opacity', 0.95)
         .attr('stroke', color)
         .attr('stroke-width', 1.2)
-        .attr('stroke-opacity', 0.7);
+        .attr('stroke-opacity', 0.6);
 
       overlayG.append('text')
         .attr('x', badgeX - 8 + badgeWidth / 2)
@@ -835,9 +835,9 @@ window.TreeViewer = {
         .attr('text-anchor', 'middle')
         .attr('fill', color)
         .style('font-size', '11.5px')
-        .style('font-weight', '800')
+        .style('font-weight', '700')
         .style('font-family', 'JetBrains Mono, monospace')
-        .style('text-shadow', '0 2px 8px rgba(0,0,0,0.8)')
+        .style('text-shadow', '0 2px 8px rgba(0,0,0,0.9)')
         .text(`${famName}`);
     });
 
@@ -847,9 +847,9 @@ window.TreeViewer = {
       .enter()
       .append('path')
       .attr('class', 'tree-link')
-      .attr('stroke', '#475569')
-      .attr('stroke-width', '2.2px')
-      .attr('stroke-opacity', '0.85')
+      .attr('stroke', '#3f3f46')
+      .attr('stroke-width', '2px')
+      .attr('stroke-opacity', '0.8')
       .attr('fill', 'none')
       .attr('d', d3.linkHorizontal()
         .x(d => d.y)
@@ -865,9 +865,9 @@ window.TreeViewer = {
       .attr('transform', d => `translate(${d.y},${d.x})`);
 
     node.append('circle')
-      .attr('r', d => d.children ? 6.5 : 6)
-      .style('fill', d => d.children ? '#0ea5e9' : this.getNodeColor(d.data.name))
-      .style('stroke', d => d.children ? '#38bdf8' : this.getNodeColor(d.data.name))
+      .attr('r', d => d.children ? 5.5 : 5.5)
+      .style('fill', d => d.children ? '#27272a' : '#18181b')
+      .style('stroke', d => d.children ? '#52525b' : this.getNodeColor(d.data.name))
       .style('stroke-width', '2px')
       .style('cursor', 'pointer')
       .on('click', (event, d) => this.onNodeClick(d));
@@ -977,31 +977,31 @@ window.TreeViewer = {
         const indRole = this.getSampleRole(ped.individual);
         pedigreeHtml = `
           <!-- INTEGRATED LINEAGE TRANSMISSION PROFILE -->
-          <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
+          <div class="p-5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-4 font-sans shadow-lg">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
               <div>
-                <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Founding lineage & transmission architecture</span>
+                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Founding lineage & transmission architecture</span>
                 <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
               </div>
-              <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
+              <span class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-300 text-[10.5px] font-bold font-mono">
                 Lineage founder checkpoint
               </span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
-              <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
+              <div class="p-3 rounded-xl bg-zinc-900 border border-emerald-500/60 space-y-1">
                 <div class="flex items-center justify-between text-emerald-300 font-bold">
                   <span>${indName} (${indRole})</span>
-                  <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">Carrier</span>
+                  <span class="text-[10px] bg-emerald-950/80 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">Carrier</span>
                 </div>
-                <div class="text-slate-300 text-[11px] font-sans">${ped.desc || 'Founding maternal lineage profile.'}</div>
+                <div class="text-zinc-300 text-[11px] font-sans">${ped.desc || 'Founding maternal lineage profile.'}</div>
               </div>
-              <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1">
-                <div class="flex items-center justify-between text-sky-300 font-bold">
+              <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-1">
+                <div class="flex items-center justify-between text-zinc-200 font-bold">
                   <span>Haplogroup clade</span>
-                  <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">${ped.haplo}</span>
+                  <span class="text-[10px] bg-zinc-950 px-1.5 py-0.5 rounded-lg border border-zinc-700 text-amber-300 font-bold">${ped.haplo}</span>
                 </div>
-                <div class="text-slate-300 text-[11px] font-sans">Carries characteristic diagnostic polymorphisms defining this regional group.</div>
+                <div class="text-zinc-400 text-[11px] font-sans">Carries characteristic diagnostic polymorphisms defining this regional group.</div>
               </div>
             </div>
           </div>
@@ -1015,13 +1015,13 @@ window.TreeViewer = {
 
         pedigreeHtml = `
           <!-- INTEGRATED MATERNAL PEDIGREE EXPLORER SECTION -->
-          <div class="p-5 rounded-2xl bg-slate-950/90 border border-sky-500/30 space-y-4 font-sans shadow-lg">
+          <div class="p-5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-4 font-sans shadow-lg">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2">
               <div>
-                <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Maternal pedigree and transmission architecture</span>
+                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Maternal pedigree and transmission architecture</span>
                 <h5 class="text-sm font-extrabold text-white font-mono">${ped.name} (${ped.haplo})</h5>
               </div>
-              <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800 text-sky-300 text-[10.5px] font-bold font-mono">
+              <span class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-700 text-zinc-300 text-[10.5px] font-bold font-mono">
                 Verified strict matrilineal inheritance
               </span>
             </div>
@@ -1029,43 +1029,43 @@ window.TreeViewer = {
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 font-mono text-xs">
               
               ${hasGrandmother ? `
-                <div class="p-3 rounded-xl bg-slate-900 border border-amber-500/50 space-y-1">
+                <div class="p-3 rounded-xl bg-zinc-900 border border-amber-500/50 space-y-1">
                   <div class="flex items-center justify-between text-amber-300 font-bold">
                     <span>Grandmother</span>
-                    <span class="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded-lg border border-amber-800">Ancestor</span>
+                    <span class="text-[10px] bg-amber-950/80 px-1.5 py-0.5 rounded-lg border border-amber-800">Ancestor</span>
                   </div>
-                  <div class="text-slate-300 text-[11px] font-sans">Originating maternal root line.</div>
+                  <div class="text-zinc-300 text-[11px] font-sans">Originating maternal root line.</div>
                 </div>
               ` : ''}
 
               ${hasMother ? `
                 <!-- Mother Node -->
-                <div class="p-3 rounded-xl bg-slate-900 border-2 border-emerald-500/80 space-y-1">
+                <div class="p-3 rounded-xl bg-zinc-900 border border-emerald-500/80 space-y-1">
                   <div class="flex items-center justify-between text-emerald-300 font-bold">
                     <span>Mother</span>
-                    <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% transmission</span>
+                    <span class="text-[10px] bg-emerald-950/80 px-1.5 py-0.5 rounded-lg border border-emerald-800 font-bold">100% transmission</span>
                   </div>
-                  <div class="text-slate-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
+                  <div class="text-zinc-300 text-[11px] font-sans">Transmits 100% of mitochondrial DNA to all children.</div>
                 </div>
               ` : ''}
 
               ${hasAunt ? `
-                <div class="p-3 rounded-xl bg-slate-900 border border-emerald-700/70 space-y-1">
+                <div class="p-3 rounded-xl bg-zinc-900 border border-emerald-700/70 space-y-1">
                   <div class="flex items-center justify-between text-emerald-400 font-bold">
                     <span>Aunt</span>
-                    <span class="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal sister</span>
+                    <span class="text-[10px] bg-emerald-950/80 px-1.5 py-0.5 rounded-lg border border-emerald-800">Maternal sister</span>
                   </div>
-                  <div class="text-slate-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
+                  <div class="text-zinc-300 text-[11px] font-sans">Carries shared maternal diagnostic markers.</div>
                 </div>
               ` : ''}
 
               ${hasFather ? `
-                <div class="p-3 rounded-xl bg-slate-900 border border-white/10 space-y-1 opacity-75">
+                <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 space-y-1 opacity-75">
                   <div class="flex items-center justify-between text-rose-300 font-bold">
                     <span>Father</span>
-                    <span class="text-[10px] bg-rose-950 px-1.5 py-0.5 rounded-lg border border-rose-800">0% transmission</span>
+                    <span class="text-[10px] bg-rose-950/80 px-1.5 py-0.5 rounded-lg border border-rose-800">0% transmission</span>
                   </div>
-                  <div class="text-slate-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
+                  <div class="text-zinc-400 text-[11px] font-sans">0% paternal mtDNA transmitted to offspring.</div>
                 </div>
               ` : ''}
 
@@ -1074,12 +1074,12 @@ window.TreeViewer = {
                 const role = this.getSampleRole(childSample);
                 const name = this.getSampleDisplayName(childSample);
                 return `
-                  <div class="p-3 rounded-xl bg-slate-900 border border-sky-500/50 space-y-1">
-                    <div class="flex items-center justify-between text-sky-300 font-bold">
+                  <div class="p-3 rounded-xl bg-zinc-900 border border-zinc-700 space-y-1">
+                    <div class="flex items-center justify-between text-zinc-200 font-bold">
                       <span>${name} (${role})</span>
-                      <span class="text-[10px] bg-sky-950 px-1.5 py-0.5 rounded-lg border border-sky-800">Offspring</span>
+                      <span class="text-[10px] bg-zinc-950 px-1.5 py-0.5 rounded-lg border border-zinc-700 text-amber-300 font-bold">Offspring</span>
                     </div>
-                    <div class="text-slate-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
+                    <div class="text-zinc-300 text-[11px] font-sans">Inherits 100% maternal diagnostic markers.</div>
                   </div>
                 `;
               }).join('')}
@@ -1091,21 +1091,21 @@ window.TreeViewer = {
     }
 
     card.innerHTML = `
-      <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-5 font-mono text-xs">
+      <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-5 font-mono text-xs">
         
         <!-- Header Bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
           <div>
-            <div class="text-[11px] text-sky-400 font-bold uppercase tracking-wider">Cohort maternal lineage overview</div>
+            <div class="text-[11px] text-amber-400 font-bold uppercase tracking-wider">Cohort maternal lineage overview</div>
             <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
               <span>Cohort: ${famName} (${primaryCode})</span>
             </h4>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-xl bg-sky-950 text-sky-300 border border-sky-800 font-bold text-xs">
+            <span class="px-3 py-1 rounded-xl bg-zinc-900 text-zinc-200 border border-zinc-700 font-bold text-xs">
               ${uniqueSamplesInCohort.length} lineage members
             </span>
-            <span class="px-3 py-1 rounded-xl bg-slate-950 text-slate-300 border border-white/10 font-bold text-xs">
+            <span class="px-3 py-1 rounded-xl bg-zinc-950 text-zinc-300 border border-white/10 font-bold text-xs">
               ${cohortVariants.length} total variants
             </span>
           </div>
@@ -1115,51 +1115,51 @@ window.TreeViewer = {
         ${pedigreeHtml}
 
         <!-- Section 2: Shared Core Diagnostic Markers -->
-        <div class="p-4 rounded-2xl bg-slate-950/90 border border-emerald-900/40 space-y-2.5 shadow-inner">
+        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
               <span>Conserved diagnostic markers (${uniqueSharedMuts.length} shared across family line)</span>
             </h5>
-            <span class="text-[10px] text-slate-400 font-sans">Click any marker to open cladogram</span>
+            <span class="text-[10px] text-zinc-400 font-sans">Click any marker to open cladogram</span>
           </div>
           ${uniqueSharedMuts.length > 0 ? `
             <div class="flex flex-wrap gap-2 pt-1">
               ${uniqueSharedMuts.slice(0, 12).map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-950/60 border border-emerald-800/60 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
-                  ${m.pos} ${m.ref}&gt;${m.alt} <span class="text-slate-400 text-[10px]">(${m.gene || 'D-loop'})</span>
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
+                  ${m.pos} ${m.ref}&gt;${m.alt} <span class="text-zinc-400 text-[10px]">(${m.gene || 'D-loop'})</span>
                 </button>
               `).join('')}
             </div>
           ` : `
-            <div class="text-slate-400 font-sans text-xs italic">Shared ancestral markers verified at baseline.</div>
+            <div class="text-zinc-400 font-sans text-xs italic">Shared ancestral markers verified at baseline.</div>
           `}
         </div>
 
         <!-- Section 3: Unique Private Mutations -->
-        <div class="p-4 rounded-2xl bg-slate-950/90 border border-white/10 space-y-2.5 shadow-inner">
+        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2.5 shadow-inner">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
               <span>Private maternal mutations (${uniquePrivateMuts.length} lineage specific)</span>
             </h5>
-            <span class="text-[10px] text-slate-400 font-sans">Unique to individual maternal transmissions</span>
+            <span class="text-[10px] text-zinc-400 font-sans">Unique to individual maternal transmissions</span>
           </div>
           ${uniquePrivateMuts.length > 0 ? `
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 pt-1">
               ${uniquePrivateMuts.map(m => `
-                <div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 space-y-1">
+                <div class="p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-1">
                   <div class="flex items-center justify-between text-xs font-bold text-amber-300">
                     <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
-                    <span class="text-slate-400 text-[10px]">High presence</span>
+                    <span class="text-zinc-400 text-[10px]">High presence</span>
                   </div>
-                  <div class="text-[11px] text-slate-400 font-sans flex items-center justify-between">
+                  <div class="text-[11px] text-zinc-400 font-sans flex items-center justify-between">
                     <span>${this.getSampleRole(m.sample)}</span>
-                    <span class="text-slate-300 font-mono">${m.gene || 'D-loop'}</span>
+                    <span class="text-zinc-300 font-mono">${m.gene || 'D-loop'}</span>
                   </div>
                 </div>
               `).join('')}
             </div>
           ` : `
-            <div class="text-xs text-slate-400 font-sans italic pt-1">
+            <div class="text-xs text-zinc-400 font-sans italic pt-1">
               All detected mutations are conserved across the entire cohort line.
             </div>
           `}
@@ -1167,10 +1167,10 @@ window.TreeViewer = {
 
         <!-- Action Bar: Direct to 2D Satellite Map Tab -->
         <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
-          <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-sky-500 text-slate-950 font-bold text-xs hover:bg-sky-400 shadow-md transition-all flex items-center gap-2">
+          <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer">
             <span>Trace ${primaryCode} Out-of-Africa progression on satellite map ➔</span>
           </button>
-          <span class="text-slate-400 text-[11px] font-mono">De-identified genomic data protection active</span>
+          <span class="text-zinc-400 text-[11px] font-mono">De-identified genomic data protection active</span>
         </div>
 
       </div>

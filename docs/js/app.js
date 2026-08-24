@@ -217,9 +217,9 @@ window.DiagnosticMarkersExplorer = {
     let dadHtml = '';
     if (data.dadNote) {
       dadHtml = `
-        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1.5 font-sans">
-          <div class="text-sky-400 font-bold text-xs font-mono">Transmission note:</div>
-          <p class="text-slate-300 leading-relaxed text-[11.5px]">
+        <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1.5 font-sans">
+          <div class="text-amber-400 font-bold text-xs font-mono">Transmission note:</div>
+          <p class="text-zinc-300 leading-relaxed text-[11.5px]">
             ${data.dadNote}
           </p>
         </div>
@@ -228,13 +228,13 @@ window.DiagnosticMarkersExplorer = {
 
     container.innerHTML = `
       <div class="space-y-4 font-mono text-xs">
-        <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2">
-          <div class="text-sky-300 font-bold flex items-center justify-between">
+        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+          <div class="text-zinc-200 font-bold flex items-center justify-between">
             <span class="text-sm">Diagnostic markers: ${data.name}</span>
-            <span class="text-[10px] text-slate-400 font-sans font-normal">Maternally transmitted polymorphisms</span>
+            <span class="text-[10px] text-zinc-400 font-sans font-normal">Maternally transmitted polymorphisms</span>
           </div>
           <div class="text-white font-extrabold text-sm tracking-wide pt-1">
-            ${data.markers.map(m => `<span class="bg-slate-900 text-sky-300 px-3 py-1 rounded-xl border border-sky-500/30 mr-2 inline-block mb-2 shadow-sm font-mono">${m}</span>`).join('')}
+            ${data.markers.map(m => `<span class="bg-zinc-900 text-amber-300 px-3 py-1 rounded-xl border border-zinc-700 mr-2 inline-block mb-2 shadow-sm font-mono">${m}</span>`).join('')}
           </div>
         </div>
         ${dadHtml}
@@ -308,7 +308,7 @@ window.FamilyReportGenerator = {
     }
 
     const ethBadges = (eths || []).map(e => `
-      <span class="px-2.5 py-1 rounded-xl bg-slate-900 text-sky-300 border border-sky-500/30 font-mono font-bold text-xs">
+      <span class="px-2.5 py-1 rounded-xl bg-zinc-900 text-zinc-200 border border-zinc-700 font-mono font-bold text-xs">
         ${e}
       </span>
     `).join(' ');
@@ -318,43 +318,43 @@ window.FamilyReportGenerator = {
     const altBase = baseMap[(v.alt || '').toUpperCase()] || v.alt;
 
     modal.innerHTML = `
-      <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-white/15 bg-slate-900 font-mono text-xs rounded-3xl">
+      <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-zinc-800 bg-zinc-950 font-mono text-xs rounded-3xl">
         <div class="flex items-center justify-between border-b border-white/10 pb-3">
           <div>
-            <span class="text-[10px] text-sky-400 uppercase font-bold tracking-wider">Mutation inspector</span>
+            <span class="text-[10px] text-amber-400 uppercase font-bold tracking-wider">Mutation inspector</span>
             <h3 class="text-base font-extrabold text-white">${v.pos} ${v.ref}&gt;${v.alt}</h3>
           </div>
-          <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all border border-white/10">
+          <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold transition-all border border-zinc-700 cursor-pointer">
             ✕ Close
           </button>
         </div>
 
         <div class="space-y-3 font-sans">
-          <!-- Basepair Substitution Explanation (Early Clarification) -->
-          <div class="p-3.5 rounded-2xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 leading-relaxed font-sans space-y-1">
-            <div class="font-bold text-sky-300 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
-            <p class="text-slate-200 text-xs leading-relaxed">
+          <!-- Basepair Substitution Explanation -->
+          <div class="p-3.5 rounded-2xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 leading-relaxed font-sans space-y-1">
+            <div class="font-bold text-amber-400 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
+            <p class="text-zinc-300 text-xs leading-relaxed">
               <strong>${v.ref}&gt;${v.alt}</strong> means an ancestral <strong>${refBase}</strong> basepair became a <strong>${altBase}</strong> basepair at position <strong>${v.pos}</strong>.
             </p>
           </div>
 
-          <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-            <div class="text-slate-400 text-[11px]">Seen in population cohorts:</div>
+          <div class="p-3 rounded-2xl bg-zinc-900 border border-zinc-800 space-y-1">
+            <div class="text-zinc-400 text-[11px]">Seen in population cohorts:</div>
             <div class="flex flex-wrap gap-1.5 pt-1">${ethBadges}</div>
           </div>
 
           <div class="grid grid-cols-2 gap-2 font-mono text-xs">
-            <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
-              <span class="text-slate-400 text-[10px] block">Gene / region</span>
+            <div class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800">
+              <span class="text-zinc-400 text-[10px] block">Gene / region</span>
               <strong class="text-emerald-400">${v.gene || 'Control region (D-loop)'}</strong>
             </div>
-            <div class="p-2.5 rounded-xl bg-slate-950/80 border border-white/10">
-              <span class="text-slate-400 text-[10px] block">Variant frequency (VAF)</span>
-              <strong class="text-sky-400">${(v.vaf ? (v.vaf * 100).toFixed(1) : 100)}% VAF</strong>
+            <div class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800">
+              <span class="text-zinc-400 text-[10px] block">Variant frequency (VAF)</span>
+              <strong class="text-amber-400">${(v.vaf ? (v.vaf * 100).toFixed(1) : 100)}% VAF</strong>
             </div>
           </div>
 
-          <div class="p-3 rounded-2xl bg-slate-950/80 border border-white/10 text-[11.5px] text-slate-300 leading-relaxed">
+          <div class="p-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-[11.5px] text-zinc-300 leading-relaxed">
             <strong>Biological context:</strong> Polymorphic mitochondrial DNA mutation at position ${v.pos}. Shared presence across populations highlights either deep ancestral lineage motifs or hyper-mutable regional hotspots.
           </div>
         </div>
@@ -427,9 +427,9 @@ window.FamilyReportGenerator = {
     const samples2 = info2 ? (window.App.distanceData?.samples || []).filter(s => s.startsWith(info2.code + '_')) : [];
     const samples3 = info3 ? (window.App.distanceData?.samples || []).filter(s => s.startsWith(info3.code + '_')) : [];
 
-    const color1 = window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info1.code] || '#38bdf8' : '#38bdf8';
-    const color2 = info2 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info2.code] || '#60a5fa' : '#60a5fa';
-    const color3 = info3 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info3.code] || '#34d399' : '#34d399';
+    const color1 = window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info1.code] || '#f59e0b' : '#f59e0b';
+    const color2 = info2 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info2.code] || '#3b82f6' : '#3b82f6';
+    const color3 = info3 && window.TreeViewer ? window.TreeViewer.ETHNICITY_COLORS[info3.code] || '#10b981' : '#10b981';
 
     function placeDots(variantList, centerCX, centerCY, dotColor) {
       let dotsSvg = '';
@@ -444,8 +444,8 @@ window.FamilyReportGenerator = {
         const ethsJson = JSON.stringify(v.eths || []).replace(/"/g, '&quot;');
 
         dotsSvg += `
-          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#090a0f" stroke-width="1.2"
-            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-sky-400 shadow-md"
+          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#09090b" stroke-width="1.2"
+            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-amber-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
             <title>${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click for details</title>
@@ -496,37 +496,37 @@ window.FamilyReportGenerator = {
       });
 
       const vennSvgHtml = `
-        <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
+        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
+              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
               <h3 class="text-base font-extrabold text-white font-sans">3-Way population variant distribution</h3>
             </div>
-            <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
+            <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
 
           <div class="flex justify-center overflow-x-auto py-2">
             <svg width="680" height="420" viewBox="0 0 680 420" class="select-none">
-              <circle cx="260" cy="170" r="135" fill="${color1}" fill-opacity="0.18" stroke="${color1}" stroke-width="2.2"/>
-              <circle cx="420" cy="170" r="135" fill="${color2}" fill-opacity="0.18" stroke="${color2}" stroke-width="2.2"/>
-              <circle cx="340" cy="270" r="135" fill="${color3}" fill-opacity="0.18" stroke="${color3}" stroke-width="2.2"/>
+              <circle cx="260" cy="170" r="135" fill="${color1}" fill-opacity="0.14" stroke="${color1}" stroke-width="2"/>
+              <circle cx="420" cy="170" r="135" fill="${color2}" fill-opacity="0.14" stroke="${color2}" stroke-width="2"/>
+              <circle cx="340" cy="270" r="135" fill="${color3}" fill-opacity="0.14" stroke="${color3}" stroke-width="2"/>
 
               <text x="175" y="105" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} only (${unique1.length})</text>
               <text x="505" y="105" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} only (${unique2.length})</text>
               <text x="340" y="380" fill="${color3}" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">${info3.code} only (${unique3.length})</text>
 
-              <text x="340" y="100" fill="#38bdf8" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info2.code} (${shared12.length})</text>
+              <text x="340" y="100" fill="#f59e0b" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info2.code} (${shared12.length})</text>
               <text x="230" y="270" fill="#a78bfa" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info1.code}+${info3.code} (${shared13.length})</text>
               <text x="450" y="270" fill="#2dd4bf" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">${info2.code}+${info3.code} (${shared23.length})</text>
-              <text x="340" y="225" fill="#34d399" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">All 3 (${sharedAll.length})</text>
+              <text x="340" y="225" fill="#10b981" font-weight="800" font-size="11" font-family="monospace" text-anchor="middle">All 3 (${sharedAll.length})</text>
 
               ${placeDots(unique1, 185, 150, color1)}
               ${placeDots(unique2, 495, 150, color2)}
               ${placeDots(unique3, 340, 335, color3)}
-              ${placeDots(shared12, 340, 130, '#38bdf8')}
+              ${placeDots(shared12, 340, 130, '#f59e0b')}
               ${placeDots(shared13, 255, 240, '#a78bfa')}
               ${placeDots(shared23, 425, 240, '#2dd4bf')}
-              ${placeDots(sharedAll, 340, 195, '#34d399')}
+              ${placeDots(sharedAll, 340, 195, '#10b981')}
             </svg>
           </div>
         </div>
@@ -535,44 +535,44 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
-          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
+          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
-                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">3-Way multi-population comparative report</div>
-                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-slate-500">vs</span> ${info2.name} <span class="text-slate-500">vs</span> ${info3.name}</h2>
+                <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">3-Way multi-population comparative report</div>
+                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name} <span class="text-zinc-500">vs</span> ${info3.name}</h2>
               </div>
-              <div class="px-3 py-1.5 rounded-xl bg-sky-950/80 border border-sky-800 text-xs text-sky-300 font-bold">
+              <div class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 font-bold">
                 3-Way triangulation mode
               </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-slate-400 font-sans">${info1.code} vs ${info2.code}:</span>
-                  <span class="text-base font-bold text-sky-300">${dist12}</span>
+                  <span class="text-zinc-400 font-sans">${info1.code} vs ${info2.code}:</span>
+                  <span class="text-base font-bold text-amber-300">${dist12}</span>
                 </div>
-                <div class="text-[10.5px] text-slate-500 font-sans">Mutational distance rating</div>
+                <div class="text-[10.5px] text-zinc-500 font-sans">Mutational distance rating</div>
               </div>
-              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-slate-400 font-sans">${info1.code} vs ${info3.code}:</span>
-                  <span class="text-base font-bold text-sky-300">${dist13}</span>
+                  <span class="text-zinc-400 font-sans">${info1.code} vs ${info3.code}:</span>
+                  <span class="text-base font-bold text-amber-300">${dist13}</span>
                 </div>
-                <div class="text-[10.5px] text-slate-500 font-sans">Mutational distance rating</div>
+                <div class="text-[10.5px] text-zinc-500 font-sans">Mutational distance rating</div>
               </div>
-              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-slate-400 font-sans">${info2.code} vs ${info3.code}:</span>
-                  <span class="text-base font-bold text-sky-300">${dist23}</span>
+                  <span class="text-zinc-400 font-sans">${info2.code} vs ${info3.code}:</span>
+                  <span class="text-base font-bold text-amber-300">${dist23}</span>
                 </div>
-                <div class="text-[10.5px] text-slate-500 font-sans">Mutational distance rating</div>
+                <div class="text-[10.5px] text-zinc-500 font-sans">Mutational distance rating</div>
               </div>
             </div>
 
-            <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-              <div class="text-sky-300 font-bold font-mono">What do these numbers mean?</div>
-              <p class="text-slate-300 leading-relaxed text-[11.5px]">
+            <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 text-xs space-y-1.5 font-sans">
+              <div class="text-amber-300 font-bold font-mono">What do these numbers mean?</div>
+              <p class="text-zinc-300 leading-relaxed text-[11.5px]">
                 <strong>Pairwise genetic distance</strong> is computed using an ancestry-conditioned GRM distance metric across 280 polymorphic sites. Baseline family and intra-cohort transmissions score ~<strong>0.86</strong>, while deep cross-continental population divergence scores ~<strong>0.94 &ndash; 0.98</strong>.
               </p>
             </div>
@@ -580,29 +580,29 @@ window.FamilyReportGenerator = {
 
           ${vennSvgHtml}
 
-          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-5 text-xs text-slate-300 leading-relaxed shadow-2xl">
+          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-5 text-xs text-zinc-300 leading-relaxed shadow-2xl">
             <div class="border-b border-white/10 pb-3">
-              <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
+              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
                 <span>Population breakdown</span>
               </h4>
-              <p class="text-slate-400 text-[11px] mt-0.5">Triangulated evolutionary and geographic lineage analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
+              <p class="text-zinc-400 text-[11px] mt-0.5">Triangulated evolutionary and geographic lineage analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-[11.5px]">
-              <div class="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
-                <div class="font-mono font-bold text-sky-300 text-sm">${info1.name}</div>
-                <div class="text-slate-400 text-[11px]"><strong class="text-slate-200">Haplogroup:</strong> ${info1.haplo}</div>
-                <p class="text-slate-300 leading-relaxed">${info1.history}</p>
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+                <div class="font-mono font-bold text-amber-300 text-sm">${info1.name}</div>
+                <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info1.haplo}</div>
+                <p class="text-zinc-300 leading-relaxed">${info1.history}</p>
               </div>
-              <div class="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
                 <div class="font-mono font-bold text-blue-300 text-sm">${info2.name}</div>
-                <div class="text-slate-400 text-[11px]"><strong class="text-slate-200">Haplogroup:</strong> ${info2.haplo}</div>
-                <p class="text-slate-300 leading-relaxed">${info2.history}</p>
+                <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info2.haplo}</div>
+                <p class="text-zinc-300 leading-relaxed">${info2.history}</p>
               </div>
-              <div class="p-3.5 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
                 <div class="font-mono font-bold text-emerald-300 text-sm">${info3.name}</div>
-                <div class="text-slate-400 text-[11px]"><strong class="text-slate-200">Haplogroup:</strong> ${info3.haplo}</div>
-                <p class="text-slate-300 leading-relaxed">${info3.history}</p>
+                <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info3.haplo}</div>
+                <p class="text-zinc-300 leading-relaxed">${info3.history}</p>
               </div>
             </div>
           </div>
@@ -651,27 +651,27 @@ window.FamilyReportGenerator = {
       });
 
       const vennSvgHtml2Way = `
-        <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
+        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
+              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
               <h3 class="text-base font-extrabold text-white font-sans">2-Way pairwise variant distribution</h3>
             </div>
-            <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
+            <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
 
           <div class="flex justify-center overflow-x-auto py-2">
             <svg width="600" height="320" viewBox="0 0 600 320" class="select-none">
-              <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.18" stroke="${color1}" stroke-width="2.2"/>
-              <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.18" stroke="${color2}" stroke-width="2.2"/>
+              <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.14" stroke="${color1}" stroke-width="2"/>
+              <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.14" stroke="${color2}" stroke-width="2"/>
 
               <text x="150" y="90" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${info1.code} only (${unique1.length})</text>
               <text x="450" y="90" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${info2.code} only (${unique2.length})</text>
-              <text x="300" y="90" fill="#34d399" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
+              <text x="300" y="90" fill="#10b981" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
 
               ${placeDots(unique1, 160, 160, color1)}
               ${placeDots(unique2, 440, 160, color2)}
-              ${placeDots(shared, 300, 160, '#34d399')}
+              ${placeDots(shared, 300, 160, '#10b981')}
             </svg>
           </div>
         </div>
@@ -680,58 +680,58 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
-          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
+          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
-                <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Pairwise cohort comparative report</div>
-                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-slate-500">vs</span> ${info2.name}</h2>
+                <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Pairwise cohort comparative report</div>
+                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name}</h2>
               </div>
-              <div class="flex items-center space-x-3 bg-slate-950/80 px-4 py-2 rounded-2xl border border-white/10">
-                <span class="text-xs text-slate-400">Pairwise genetic distance:</span>
-                <span class="text-lg font-bold text-sky-300">${avgDist}</span>
+              <div class="flex items-center space-x-3 bg-zinc-950/90 px-4 py-2 rounded-2xl border border-zinc-800">
+                <span class="text-xs text-zinc-400">Pairwise genetic distance:</span>
+                <span class="text-lg font-bold text-amber-300">${avgDist}</span>
               </div>
             </div>
 
-            <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
-              <div class="text-sky-300 font-bold font-mono">What does pairwise genetic distance mean?</div>
-              <p class="text-slate-300 leading-relaxed text-[11.5px]">
+            <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 text-xs space-y-1.5 font-sans">
+              <div class="text-amber-300 font-bold font-mono">What does pairwise genetic distance mean?</div>
+              <p class="text-zinc-300 leading-relaxed text-[11.5px]">
                 <strong>Genetic distance (${avgDist})</strong> measures the standardized genomic divergence across 280 polymorphic sites between ${info1.name} and ${info2.name}.
                 Baseline intra-cohort maternal transmissions score ~<strong>0.86</strong>, while deep cross-continental population divergence scores ~<strong>0.94 &ndash; 0.98</strong>.
               </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-              <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-white/10 space-y-1">
-                <div class="font-bold text-sky-300 font-mono">${info1.name} (${info1.region})</div>
-                <div class="text-slate-400"><strong class="text-slate-300">Lineage:</strong> ${info1.haplo}</div>
-                <p class="text-[11px] text-slate-400 leading-relaxed pt-1">${info1.history}</p>
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
+                <div class="font-bold text-amber-300 font-mono">${info1.name} (${info1.region})</div>
+                <div class="text-zinc-400"><strong class="text-zinc-300">Lineage:</strong> ${info1.haplo}</div>
+                <p class="text-[11px] text-zinc-400 leading-relaxed pt-1">${info1.history}</p>
               </div>
-              <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-white/10 space-y-1">
+              <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
                 <div class="font-bold text-blue-300 font-mono">${info2.name} (${info2.region})</div>
-                <div class="text-slate-400"><strong class="text-slate-300">Lineage:</strong> ${info2.haplo}</div>
-                <p class="text-[11px] text-slate-400 leading-relaxed pt-1">${info2.history}</p>
+                <div class="text-zinc-400"><strong class="text-zinc-300">Lineage:</strong> ${info2.haplo}</div>
+                <p class="text-[11px] text-zinc-400 leading-relaxed pt-1">${info2.history}</p>
               </div>
             </div>
           </div>
 
           ${vennSvgHtml2Way}
 
-          <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 space-y-4 text-xs text-slate-300 shadow-2xl">
+          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 text-xs text-zinc-300 shadow-2xl">
             <div class="border-b border-white/10 pb-3">
-              <h4 class="font-bold text-sky-400 font-mono text-base flex items-center gap-2">
+              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
                 <span>Population breakdown</span>
               </h4>
-              <p class="text-slate-400 text-[11px] mt-0.5">Evolutionary lineage and migration analysis between ${info1.code} and ${info2.code}</p>
+              <p class="text-zinc-400 text-[11px] mt-0.5">Evolutionary lineage and migration analysis between ${info1.code} and ${info2.code}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
-                <div class="font-mono font-bold text-sky-300 text-sm">${info1.name} breakdown</div>
-                <p class="text-slate-300 text-[11.5px] leading-relaxed">${info1.history}</p>
+              <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+                <div class="font-mono font-bold text-amber-300 text-sm">${info1.name} breakdown</div>
+                <p class="text-zinc-300 text-[11.5px] leading-relaxed">${info1.history}</p>
               </div>
-              <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 space-y-2">
+              <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
                 <div class="font-mono font-bold text-blue-300 text-sm">${info2.name} breakdown</div>
-                <p class="text-slate-300 text-[11.5px] leading-relaxed">${info2.history}</p>
+                <p class="text-zinc-300 text-[11.5px] leading-relaxed">${info2.history}</p>
               </div>
             </div>
           </div>
@@ -852,7 +852,7 @@ window.FamilyReportGenerator = {
     const info2 = this.getFamilyData(code2);
 
     if (titleEl) {
-      titleEl.innerHTML = `<span class="text-emerald-400">${name1}</span> vs <span class="text-sky-400">${name2}</span>`;
+      titleEl.innerHTML = `<span class="text-emerald-400">${name1}</span> vs <span class="text-amber-400">${name2}</span>`;
     }
 
     // Filter variants for each sample
@@ -887,28 +887,28 @@ window.FamilyReportGenerator = {
 
     if (diffCount === 0) {
       categoryLabel = 'Identical Maternal Lineage';
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 font-bold text-xs">100% Maternal Sequence Identity (0 Differences)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-emerald-950/80 border border-emerald-500/80 text-emerald-300 font-bold text-xs">100% Maternal Sequence Identity (0 Differences)</span>`;
       inheritanceNote = `Direct mother-to-child sequence transmission across all 16,569 base pairs with zero mutational differences.`;
     } else if (isSameCohort && (role1.includes('Father') || role2.includes('Father'))) {
       categoryLabel = 'Independent Paternal Lineage';
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950 border border-amber-500 text-amber-300 font-bold text-xs">Independent Paternal Lineage (${diffCount} Differences)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-amber-950/80 border border-amber-500/80 text-amber-300 font-bold text-xs">Independent Paternal Lineage (${diffCount} Differences)</span>`;
       inheritanceNote = `Mitochondrial DNA is inherited strictly through the maternal line. Fathers carry independent paternal lineages and do not transmit mtDNA to offspring (${diffCount} mutation differences).`;
     } else if (diffCount <= 5) {
       categoryLabel = 'Close Generational Kinship';
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-teal-950 border border-teal-500 text-teal-300 font-bold text-xs">Close Kinship (${diffCount} Differences)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-teal-950/80 border border-teal-500/80 text-teal-300 font-bold text-xs">Close Kinship (${diffCount} Differences)</span>`;
       inheritanceNote = `Close maternal pedigree relation separated by only ${diffCount} mutation differences across the complete mitochondrial genome.`;
     } else if (isSameCohort || diffCount <= 14) {
       categoryLabel = 'Regional Population Cohort';
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-sky-950 border border-sky-500 text-sky-300 font-bold text-xs">Same Cohort (${diffCount} Differences)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-200 font-bold text-xs">Same Cohort (${diffCount} Differences)</span>`;
       inheritanceNote = `Both samples originate from the ${info1.name} cohort, separated by ${diffCount} mutational differences along regional sub-branches.`;
     } else {
       categoryLabel = 'Continental Divergence';
-      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-violet-950 border border-violet-500 text-violet-300 font-bold text-xs">Continental Divergence (${diffCount} Differences)</span>`;
+      inheritanceBadge = `<span class="px-3 py-1 rounded-xl bg-purple-950/80 border border-purple-500/80 text-purple-300 font-bold text-xs">Continental Divergence (${diffCount} Differences)</span>`;
       inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}), separated by ${diffCount} mutational differences over tens of thousands of years of prehistoric dispersal.`;
     }
 
     const color1 = '#10b981';
-    const color2 = '#38bdf8';
+    const color2 = '#f59e0b';
 
     function placeDots(variantList, centerCX, centerCY, dotColor) {
       let dotsSvg = '';
@@ -923,8 +923,8 @@ window.FamilyReportGenerator = {
         const ethsJson = JSON.stringify(v.eths || []).replace(/"/g, '&quot;');
 
         dotsSvg += `
-          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#090a0f" stroke-width="1.2"
-            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-emerald-400 shadow-md"
+          <circle cx="${x}" cy="${y}" r="5.5" fill="${dotColor}" stroke="#09090b" stroke-width="1.2"
+            class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-amber-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
             <title>${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'})</title>
@@ -935,27 +935,27 @@ window.FamilyReportGenerator = {
     }
 
     const vennSvgHtml = `
-      <div class="p-6 rounded-3xl bg-slate-950/90 border border-white/10 space-y-4 shadow-2xl">
+      <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
           <div>
-            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">Variant distribution</span>
+            <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Variant distribution</span>
             <h3 class="text-base font-extrabold text-white font-sans">${name1} vs ${name2}</h3>
           </div>
-          <span class="text-slate-400 text-xs font-mono">Hover over dots to view positions; click dot for detail</span>
+          <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot for detail</span>
         </div>
 
         <div class="flex justify-center overflow-x-auto py-2">
           <svg width="600" height="320" viewBox="0 0 600 320" class="select-none">
-            <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.22" stroke="${color1}" stroke-width="2.5"/>
-            <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.22" stroke="${color2}" stroke-width="2.5"/>
+            <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.14" stroke="${color1}" stroke-width="2"/>
+            <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.14" stroke="${color2}" stroke-width="2"/>
 
             <text x="150" y="90" fill="${color1}" font-weight="800" font-size="12" font-family="monospace">${name1} (${unique1.length})</text>
             <text x="450" y="90" fill="${color2}" font-weight="800" font-size="12" font-family="monospace">${name2} (${unique2.length})</text>
-            <text x="300" y="90" fill="#34d399" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
+            <text x="300" y="90" fill="#10b981" font-weight="800" font-size="12" font-family="monospace" text-anchor="middle">Shared (${shared.length})</text>
 
             ${placeDots(unique1, 160, 160, color1)}
             ${placeDots(unique2, 440, 160, color2)}
-            ${placeDots(shared, 300, 160, '#34d399')}
+            ${placeDots(shared, 300, 160, '#10b981')}
           </svg>
         </div>
       </div>
@@ -1047,16 +1047,16 @@ window.FamilyReportGenerator = {
       let s1Text = '';
       if (item.alt1 !== null) {
         if (isSpecific) {
-          s1BoxClass = 'bg-yellow-950/80 border border-yellow-400 text-yellow-300 shadow-sm shadow-yellow-500/20';
+          s1BoxClass = 'bg-amber-950/80 border border-amber-500/80 text-amber-300 shadow-sm';
         } else if (isShared) {
-          s1BoxClass = 'bg-emerald-950/80 border border-emerald-500 text-emerald-300 shadow-sm shadow-emerald-500/20';
+          s1BoxClass = 'bg-emerald-950/80 border border-emerald-500/80 text-emerald-300 shadow-sm';
         } else {
-          s1BoxClass = 'bg-rose-950/80 border border-rose-500 text-rose-300 shadow-sm shadow-rose-500/20';
+          s1BoxClass = 'bg-rose-950/80 border border-rose-500/80 text-rose-300 shadow-sm';
         }
         s1Text = `<span class="font-mono font-bold text-xs">${item.pos} ${item.ref}&gt;${item.alt1}</span>`;
       } else {
-        s1BoxClass = 'bg-slate-900/60 border border-white/5 text-slate-500';
-        s1Text = `<span class="font-mono text-slate-500 text-[11px]">Ref (${item.ref})</span>`;
+        s1BoxClass = 'bg-zinc-900/60 border border-white/5 text-zinc-500';
+        s1Text = `<span class="font-mono text-zinc-500 text-[11px]">Ref (${item.ref})</span>`;
       }
 
       // Right Box: Sample 2 number/allele
@@ -1064,47 +1064,47 @@ window.FamilyReportGenerator = {
       let s2Text = '';
       if (item.alt2 !== null) {
         if (isSpecific) {
-          s2BoxClass = 'bg-yellow-950/80 border border-yellow-400 text-yellow-300 shadow-sm shadow-yellow-500/20';
+          s2BoxClass = 'bg-amber-950/80 border border-amber-500/80 text-amber-300 shadow-sm';
         } else if (isShared) {
-          s2BoxClass = 'bg-emerald-950/80 border border-emerald-500 text-emerald-300 shadow-sm shadow-emerald-500/20';
+          s2BoxClass = 'bg-emerald-950/80 border border-emerald-500/80 text-emerald-300 shadow-sm';
         } else {
-          s2BoxClass = 'bg-rose-950/80 border border-rose-500 text-rose-300 shadow-sm shadow-rose-500/20';
+          s2BoxClass = 'bg-rose-950/80 border border-rose-500/80 text-rose-300 shadow-sm';
         }
         s2Text = `<span class="font-mono font-bold text-xs">${item.pos} ${item.ref}&gt;${item.alt2}</span>`;
       } else {
-        s2BoxClass = 'bg-slate-900/60 border border-white/5 text-slate-500';
-        s2Text = `<span class="font-mono text-slate-500 text-[11px]">Ref (${item.ref})</span>`;
+        s2BoxClass = 'bg-zinc-900/60 border border-white/5 text-zinc-500';
+        s2Text = `<span class="font-mono text-zinc-500 text-[11px]">Ref (${item.ref})</span>`;
       }
 
       // Status Badge
       let badgeHtml = '';
       if (isSpecific) {
-        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-yellow-950/90 border border-yellow-400 text-yellow-300 font-bold text-[10px] shadow-sm shadow-yellow-500/20">${isHkSpecific ? 'Hong Kong specific' : 'Ethnic specific'}</span>`;
+        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-amber-950/90 border border-amber-500/80 text-amber-300 font-bold text-[10px] shadow-sm">${isHkSpecific ? 'Hong Kong specific' : 'Ethnic specific'}</span>`;
       } else if (isShared) {
-        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 border border-emerald-500 text-emerald-300 font-bold text-[10px]">Shared conserved</span>`;
+        badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-emerald-950/80 border border-emerald-500/80 text-emerald-300 font-bold text-[10px]">Shared conserved</span>`;
       } else {
         badgeHtml = `<span class="px-2.5 py-0.5 rounded-lg bg-rose-950/80 border border-rose-500/60 text-rose-300 font-bold text-[10px]">Private mutation</span>`;
       }
 
       return `
-        <div class="p-3 rounded-2xl border border-white/10 bg-slate-950/70 grid grid-cols-1 md:grid-cols-12 items-center gap-2.5 text-xs font-mono transition-all hover:bg-slate-950/90">
+        <div class="p-3 rounded-2xl border border-white/10 bg-zinc-950/80 grid grid-cols-1 md:grid-cols-12 items-center gap-2.5 text-xs font-mono transition-all hover:bg-zinc-950">
           
           <!-- Sample 1 Side (Left) -->
           <div class="md:col-span-4 p-2.5 rounded-xl border ${s1BoxClass} flex items-center justify-between">
-            <span class="text-[10px] text-slate-400 font-sans truncate mr-2">${name1}:</span>
+            <span class="text-[10px] text-zinc-400 font-sans truncate mr-2">${name1}:</span>
             <div>${s1Text}</div>
           </div>
 
           <!-- Middle Section: Position info & Green bar in the middle -->
           <div class="md:col-span-4 flex flex-col items-center justify-center space-y-1.5 px-2">
             <div class="flex items-center space-x-2">
-              <span class="text-slate-400 font-bold text-[11px]">#${idx + 1}</span>
-              <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 border border-white/10 text-white font-bold text-xs">${item.pos}</span>
-              <span class="px-2 py-0.5 rounded-lg bg-slate-900/80 border border-white/5 text-[10px] text-slate-300">${item.gene}</span>
+              <span class="text-zinc-400 font-bold text-[11px]">#${idx + 1}</span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-zinc-900 border border-zinc-700 text-white font-bold text-xs">${item.pos}</span>
+              <span class="px-2 py-0.5 rounded-lg bg-zinc-900/80 border border-zinc-800 text-[10px] text-zinc-300">${item.gene}</span>
             </div>
             <!-- Green Bar in the Middle -->
-            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-white/10">
-              <div class="bg-emerald-400 h-2 rounded-full w-full shadow-sm shadow-emerald-400/60"></div>
+            <div class="w-full bg-zinc-900 rounded-full h-2 overflow-hidden border border-zinc-800">
+              <div class="bg-emerald-400 h-2 rounded-full w-full"></div>
             </div>
             <div class="shrink-0">${badgeHtml}</div>
           </div>
@@ -1112,7 +1112,7 @@ window.FamilyReportGenerator = {
           <!-- Sample 2 Side (Right) -->
           <div class="md:col-span-4 p-2.5 rounded-xl border ${s2BoxClass} flex items-center justify-between">
             <div>${s2Text}</div>
-            <span class="text-[10px] text-slate-400 font-sans truncate ml-2 text-right">:${name2}</span>
+            <span class="text-[10px] text-zinc-400 font-sans truncate ml-2 text-right">:${name2}</span>
           </div>
 
         </div>
@@ -1123,63 +1123,63 @@ window.FamilyReportGenerator = {
       <div class="space-y-6 font-sans">
         
         <!-- Summary Header Card -->
-        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
+        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Comparative lineage &amp; ancestral junction report</div>
-              <h2 class="text-xl font-extrabold text-white">${name1} <span class="text-slate-500">vs</span> ${name2}</h2>
+              <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Comparative lineage &amp; ancestral junction report</div>
+              <h2 class="text-xl font-extrabold text-white">${name1} <span class="text-zinc-500">vs</span> ${name2}</h2>
             </div>
             ${inheritanceBadge}
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Mutation differences:</div>
+            <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
+              <div class="text-zinc-400 font-sans">Mutation differences:</div>
               <div class="text-xl font-bold text-emerald-300 font-mono">${diffCount === 0 ? '0 Sites' : diffCount + ' Sites'}</div>
-              <div class="text-[10px] text-slate-500 font-sans">${diffCount === 0 ? '100% Sequence Identity' : (diffCount <= 5 ? 'Close Kinship' : 'Polymorphic Differences')}</div>
+              <div class="text-[10px] text-zinc-500 font-sans">${diffCount === 0 ? '100% Sequence Identity' : (diffCount <= 5 ? 'Close Kinship' : 'Polymorphic Differences')}</div>
             </div>
-            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Shared mutations:</div>
-              <div class="text-xl font-bold text-sky-300 font-mono">${shared.length} Sites</div>
-              <div class="text-[10px] text-slate-500 font-sans">Identical in both genomes</div>
+            <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
+              <div class="text-zinc-400 font-sans">Shared mutations:</div>
+              <div class="text-xl font-bold text-amber-300 font-mono">${shared.length} Sites</div>
+              <div class="text-[10px] text-zinc-500 font-sans">Identical in both genomes</div>
             </div>
-            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-1">
-              <div class="text-slate-400 font-sans">Lineage relationship:</div>
-              <div class="text-sm font-bold text-slate-200 font-mono">${diffCount === 0 ? 'Strict Maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal Line' : (isSameCohort ? 'Intra-Cohort' : 'Cross-Cohort'))}</div>
-              <div class="text-[10px] text-slate-500 font-sans">Inheritance mode</div>
+            <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
+              <div class="text-zinc-400 font-sans">Lineage relationship:</div>
+              <div class="text-sm font-bold text-zinc-200 font-mono">${diffCount === 0 ? 'Strict Maternal' : (isSameCohort && (role1.includes('Father') || role2.includes('Father')) ? 'Paternal Line' : (isSameCohort ? 'Intra-Cohort' : 'Cross-Cohort'))}</div>
+              <div class="text-[10px] text-zinc-500 font-sans">Inheritance mode</div>
             </div>
           </div>
 
           <!-- Relationship Spectrum Reference Scale Bar -->
-          <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 space-y-2.5 font-mono text-xs">
+          <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2.5 font-mono text-xs">
             <div class="flex items-center justify-between text-xs">
-              <span class="text-slate-400 font-sans">Kinship &amp; divergence scale:</span>
-              <span class="text-sky-300 font-bold">${categoryLabel}</span>
+              <span class="text-zinc-400 font-sans">Kinship &amp; divergence scale:</span>
+              <span class="text-amber-300 font-bold">${categoryLabel}</span>
             </div>
             
-            <div class="w-full bg-slate-900 rounded-full h-3 relative overflow-hidden border border-white/10 flex shadow-inner">
-              <div class="w-1/4 h-full border-r border-slate-950 transition-all ${diffCount === 0 ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-emerald-950/40'}"></div>
-              <div class="w-1/4 h-full border-r border-slate-950 transition-all ${diffCount > 0 && diffCount <= 5 ? 'bg-teal-400 shadow-sm shadow-teal-400' : 'bg-teal-950/40'}"></div>
-              <div class="w-1/4 h-full border-r border-slate-950 transition-all ${diffCount > 5 && diffCount <= 14 ? 'bg-sky-400 shadow-sm shadow-sky-400' : 'bg-sky-950/40'}"></div>
-              <div class="w-1/4 h-full transition-all ${diffCount >= 15 ? 'bg-violet-400 shadow-sm shadow-violet-400' : 'bg-violet-950/40'}"></div>
+            <div class="w-full bg-zinc-900 rounded-full h-3 relative overflow-hidden border border-zinc-800 flex shadow-inner">
+              <div class="w-1/4 h-full border-r border-zinc-950 transition-all ${diffCount === 0 ? 'bg-emerald-400' : 'bg-emerald-950/40'}"></div>
+              <div class="w-1/4 h-full border-r border-zinc-950 transition-all ${diffCount > 0 && diffCount <= 5 ? 'bg-teal-400' : 'bg-teal-950/40'}"></div>
+              <div class="w-1/4 h-full border-r border-zinc-950 transition-all ${diffCount > 5 && diffCount <= 14 ? 'bg-amber-400' : 'bg-amber-950/40'}"></div>
+              <div class="w-1/4 h-full transition-all ${diffCount >= 15 ? 'bg-purple-400' : 'bg-purple-950/40'}"></div>
             </div>
 
-            <div class="grid grid-cols-4 text-[10px] text-slate-400 text-center font-sans">
+            <div class="grid grid-cols-4 text-[10px] text-zinc-400 text-center font-sans">
               <div class="${diffCount === 0 ? 'text-emerald-300 font-bold' : ''}">0: Identical Maternal</div>
               <div class="${diffCount > 0 && diffCount <= 5 ? 'text-teal-300 font-bold' : ''}">1&ndash;5: Close Kin</div>
-              <div class="${diffCount > 5 && diffCount <= 14 ? 'text-sky-300 font-bold' : ''}">6&ndash;14: Regional Cohort</div>
-              <div class="${diffCount >= 15 ? 'text-violet-300 font-bold' : ''}">15+: Continental Split</div>
+              <div class="${diffCount > 5 && diffCount <= 14 ? 'text-amber-300 font-bold' : ''}">6&ndash;14: Regional Cohort</div>
+              <div class="${diffCount >= 15 ? 'text-purple-300 font-bold' : ''}">15+: Continental Split</div>
             </div>
 
-            <div class="pt-2 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10.5px] text-slate-500 font-sans">
-              <span>Underlying GRM statistical matrix distance: <strong class="text-slate-300 font-mono">${dist}</strong> (Covariance across 280 polymorphic loci; ~0.86 family baseline, ~0.94 continental baseline)</span>
-              <span class="text-slate-500 font-mono">rCRS (16,569 bp)</span>
+            <div class="pt-2 border-t border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10.5px] text-zinc-500 font-sans">
+              <span>Underlying GRM statistical matrix distance: <strong class="text-zinc-300 font-mono">${dist}</strong> (Covariance across 280 polymorphic loci; ~0.86 family baseline, ~0.94 continental baseline)</span>
+              <span class="text-zinc-500 font-mono">rCRS (16,569 bp)</span>
             </div>
           </div>
 
-          <div class="p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-xs space-y-1.5 font-sans">
+          <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 text-xs space-y-1.5 font-sans">
             <div class="text-emerald-300 font-bold font-mono">Biological context:</div>
-            <p class="text-slate-300 leading-relaxed text-[11.5px]">
+            <p class="text-zinc-300 leading-relaxed text-[11.5px]">
               ${inheritanceNote}
             </p>
           </div>
@@ -1188,41 +1188,41 @@ window.FamilyReportGenerator = {
         ${vennSvgHtml}
 
         <!-- Section: Conserved Ancestral Mutations (Branch Junction Triangulation) -->
-        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
+        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Ancestral junction triangulation</span>
+              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Ancestral junction triangulation</span>
               <h3 class="text-base font-extrabold text-white font-sans">Conserved ancestral mutations (${sharedHigh.length})</h3>
             </div>
-            <span class="text-slate-400 font-sans text-xs">Click any mutation to inspect its global cladogram</span>
+            <span class="text-zinc-400 font-sans text-xs">Click any mutation to inspect its global cladogram</span>
           </div>
 
           ${sharedHigh.length > 0 ? `
             <div class="flex flex-wrap gap-2.5 pt-1">
               ${sharedHigh.map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-950/60 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-2 group cursor-pointer">
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-900 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-2 group cursor-pointer">
                   <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
-                  <span class="text-slate-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded-lg border border-white/10 group-hover:border-emerald-600 group-hover:text-emerald-300">
+                  <span class="text-zinc-400 text-[10px] bg-zinc-900 px-1.5 py-0.5 rounded-lg border border-zinc-700 group-hover:border-emerald-600 group-hover:text-emerald-300">
                     ${m.gene || 'Locus'} &bull; High (100%)
                   </span>
                 </button>
               `).join('')}
             </div>
           ` : `
-            <div class="text-slate-400 italic text-xs font-sans p-3 bg-slate-950 rounded-xl border border-white/5">
+            <div class="text-zinc-400 italic text-xs font-sans p-3 bg-zinc-950 rounded-xl border border-zinc-800">
               No shared high-presence variants unique to this specific pairwise comparison.
             </div>
           `}
         </div>
 
         <!-- Section: Low-VAF Muted / Trace Heteroplasmy Analysis -->
-        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
+        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
               <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Detection threshold inspection</span>
               <h3 class="text-base font-extrabold text-white font-sans">Trace mutations (&lt;3% frequency)</h3>
             </div>
-            <span class="text-slate-400 font-sans text-xs">Heteroplasmy &amp; low-frequency transitions</span>
+            <span class="text-zinc-400 font-sans text-xs">Heteroplasmy &amp; low-frequency transitions</span>
           </div>
 
           ${lowVafMuted.length > 0 ? `
@@ -1233,7 +1233,7 @@ window.FamilyReportGenerator = {
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr class="border-b border-white/10 text-slate-400">
+                  <tr class="border-b border-white/10 text-zinc-400">
                     <th class="p-2.5">Position</th>
                     <th class="p-2.5">Mutation</th>
                     <th class="p-2.5">Sample / role</th>
@@ -1243,10 +1243,10 @@ window.FamilyReportGenerator = {
                 </thead>
                 <tbody class="divide-y divide-white/5">
                   ${lowVafMuted.map(m => `
-                    <tr class="hover:bg-slate-800/40">
+                    <tr class="hover:bg-zinc-800/40">
                       <td class="p-2.5 text-amber-400 font-bold">${m.pos}</td>
-                      <td class="p-2.5 font-bold text-slate-200">${m.ref} &gt; ${m.alt}</td>
-                      <td class="p-2.5 text-sky-300 font-sans">${window.TreeViewer ? window.TreeViewer.getSampleDisplayName(m.sample) : m.sample}</td>
+                      <td class="p-2.5 font-bold text-zinc-200">${m.ref} &gt; ${m.alt}</td>
+                      <td class="p-2.5 text-zinc-300 font-sans">${window.TreeViewer ? window.TreeViewer.getSampleDisplayName(m.sample) : m.sample}</td>
                       <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% frequency</td>
                       <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-800 text-[10px]">Unverified trace</span></td>
                     </tr>
@@ -1255,8 +1255,8 @@ window.FamilyReportGenerator = {
               </table>
             </div>
           ` : `
-            <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 text-xs font-mono text-slate-400 flex items-center gap-2.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400 shrink-0"></span>
+            <div class="p-4 rounded-2xl bg-zinc-950 border border-zinc-800 text-xs font-mono text-zinc-400 flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
               <span>Zero trace mutations (&lt;3%) detected along this comparison &mdash; all reported substitutions represent high-confidence germline homoplasmy (100% VAF).</span>
             </div>
           `}
@@ -1264,37 +1264,37 @@ window.FamilyReportGenerator = {
 
         <!-- Sample Details Breakdown -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-          <div class="p-4 rounded-2xl bg-slate-950 border border-emerald-500/30 space-y-2">
+          <div class="p-4 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
               <span class="font-bold text-emerald-400 text-sm">${name1}</span>
-              <span class="text-slate-400 text-xs">${info1.name}</span>
+              <span class="text-zinc-400 text-xs">${info1.name}</span>
             </div>
-            <p class="text-slate-300 text-xs leading-relaxed">
+            <p class="text-zinc-300 text-xs leading-relaxed">
               <strong>Haplogroup:</strong> ${info1.haplo} &bull; <strong>Variants:</strong> ${vars1.length} mutations across 16,569 bp.
             </p>
           </div>
-          <div class="p-4 rounded-2xl bg-slate-950 border border-sky-500/30 space-y-2">
+          <div class="p-4 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
-              <span class="font-bold text-sky-400 text-sm">${name2}</span>
-              <span class="text-slate-400 text-xs">${info2.name}</span>
+              <span class="font-bold text-amber-400 text-sm">${name2}</span>
+              <span class="text-zinc-400 text-xs">${info2.name}</span>
             </div>
-            <p class="text-slate-300 text-xs leading-relaxed">
+            <p class="text-zinc-300 text-xs leading-relaxed">
               <strong>Haplogroup:</strong> ${info2.haplo} &bull; <strong>Variants:</strong> ${vars2.length} mutations across 16,569 bp.
             </p>
           </div>
         </div>
 
         <!-- Section 3: Comprehensive Familial Marker Analysis -->
-        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4">
+        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
-              <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Comprehensive familial marker analysis</span>
+              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Comprehensive familial marker analysis</span>
               <h3 class="text-base font-extrabold text-white font-sans">Full variant position matching diagram (${sortedPositions.length} total loci)</h3>
             </div>
             <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span> Shared (${shared.length})</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm shadow-rose-500"></span> Private (${unique1.length + unique2.length})</span>
-              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-yellow-400 shadow-sm shadow-yellow-400"></span> Ethnic specific</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Shared (${shared.length})</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Private (${unique1.length + unique2.length})</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Ethnic specific</span>
             </div>
           </div>
 
@@ -1304,12 +1304,12 @@ window.FamilyReportGenerator = {
           </div>
 
           <!-- Hong Kong Specific Verification Box -->
-          <div class="p-4 rounded-2xl bg-slate-950 border border-amber-500/40 space-y-2 font-sans shadow-xl">
+          <div class="p-4 rounded-2xl bg-zinc-950 border border-amber-500/40 space-y-2 font-sans shadow-xl">
             <div class="flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
               <span>Hong Kong specific mutations (cross-validated dataset verification):</span>
             </div>
-            <p class="text-slate-200 text-xs leading-relaxed">
+            <p class="text-zinc-200 text-xs leading-relaxed">
               Positions <strong>m.5821</strong>, <strong>m.6338</strong>, <strong>m.6455</strong> (MT-CO1), <strong>m.8602</strong> (MT-ATP6), <strong>m.9540</strong> (MT-CO3), and <strong>m.14821</strong> (MT-CYB) are highlighted as private diagnostic signatures. These variants were cross-referenced against multiple reference datasets including <strong>OGC (1000 Genomes)</strong>, <strong>Norwegian</strong>, and <strong>Swedish</strong> cohorts; across all comparative datasets, only this Hong Kong sample possessed these mutations, establishing them as private lineage-defining markers.
             </p>
           </div>
@@ -1384,8 +1384,8 @@ window.App = {
     const tabContentGlobe = document.getElementById('tabContentGlobe');
 
     const switchMainTab = (tab) => {
-      const activeClass = 'bg-sky-500 text-slate-950 shadow-md font-bold';
-      const inactiveClass = 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 font-bold';
+      const activeClass = 'bg-zinc-100 text-zinc-950 shadow-md font-bold';
+      const inactiveClass = 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 font-medium';
 
       if (tab === 'tree') {
         if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${activeClass}`;
