@@ -962,6 +962,43 @@ window.FamilyReportGenerator = {
     `;
 
     // ----------------------------------------------------
+    // ANCESTRAL JUNCTION MUTATIONS & TRACE HETEROPLASMY
+    // ----------------------------------------------------
+    const sharedHigh = [];
+    const lowVafMuted = [];
+
+    muts1.forEach((vA, key) => {
+      if (muts2.has(key)) {
+        const vB = muts2.get(key);
+        const vafA = (vA.vaf !== undefined && vA.vaf !== null) ? vA.vaf : 1.0;
+        const vafB = (vB.vaf !== undefined && vB.vaf !== null) ? vB.vaf : 1.0;
+        if (vafA >= 0.03 && vafB >= 0.03) {
+          sharedHigh.push(vA);
+        } else {
+          lowVafMuted.push(vA);
+        }
+      }
+    });
+
+    vars1.forEach(v => {
+      if (v.vaf !== undefined && v.vaf !== null && v.vaf < 0.03) {
+        if (!lowVafMuted.some(m => m.pos === v.pos && m.sample === v.sample)) {
+          lowVafMuted.push(v);
+        }
+      }
+    });
+    vars2.forEach(v => {
+      if (v.vaf !== undefined && v.vaf !== null && v.vaf < 0.03) {
+        if (!lowVafMuted.some(m => m.pos === v.pos && m.sample === v.sample)) {
+          lowVafMuted.push(v);
+        }
+      }
+    });
+
+    sharedHigh.sort((a, b) => a.pos - b.pos);
+    lowVafMuted.sort((a, b) => a.pos - b.pos);
+
+    // ----------------------------------------------------
     // COMPREHENSIVE FAMILIAL MARKER MATCHING LIST DIAGRAM
     // ----------------------------------------------------
     const allPosMap = new Map();
@@ -1089,7 +1126,7 @@ window.FamilyReportGenerator = {
         <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-xl space-y-4 font-mono">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Pairwise sample report</div>
+              <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Comparative lineage &amp; ancestral junction report</div>
               <h2 class="text-xl font-extrabold text-white">${name1} <span class="text-slate-500">vs</span> ${name2}</h2>
             </div>
             ${inheritanceBadge}
@@ -1149,6 +1186,81 @@ window.FamilyReportGenerator = {
         </div>
 
         ${vennSvgHtml}
+
+        <!-- Section: Conserved Ancestral Mutations (Branch Junction Triangulation) -->
+        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+            <div>
+              <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Ancestral junction triangulation</span>
+              <h3 class="text-base font-extrabold text-white font-sans">Conserved ancestral mutations (${sharedHigh.length})</h3>
+            </div>
+            <span class="text-slate-400 font-sans text-xs">Click any mutation to inspect its global cladogram</span>
+          </div>
+
+          ${sharedHigh.length > 0 ? `
+            <div class="flex flex-wrap gap-2.5 pt-1">
+              ${sharedHigh.map(m => `
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-950/60 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-2 group cursor-pointer">
+                  <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
+                  <span class="text-slate-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded-lg border border-white/10 group-hover:border-emerald-600 group-hover:text-emerald-300">
+                    ${m.gene || 'Locus'} &bull; High (100%)
+                  </span>
+                </button>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="text-slate-400 italic text-xs font-sans p-3 bg-slate-950 rounded-xl border border-white/5">
+              No shared high-presence variants unique to this specific pairwise comparison.
+            </div>
+          `}
+        </div>
+
+        <!-- Section: Low-VAF Muted / Trace Heteroplasmy Analysis -->
+        <div class="p-6 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+            <div>
+              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Detection threshold inspection</span>
+              <h3 class="text-base font-extrabold text-white font-sans">Trace mutations (&lt;3% frequency)</h3>
+            </div>
+            <span class="text-slate-400 font-sans text-xs">Heteroplasmy &amp; low-frequency transitions</span>
+          </div>
+
+          ${lowVafMuted.length > 0 ? `
+            <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-amber-200 text-xs font-sans">
+              <strong>Trace mutation warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`${m.pos} ${m.ref}&gt;${m.alt}`).join(', ')}) are based on isolated sequencing reads and cannot be trusted as fixed ancestral markers.
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-white/10 text-slate-400">
+                    <th class="p-2.5">Position</th>
+                    <th class="p-2.5">Mutation</th>
+                    <th class="p-2.5">Sample / role</th>
+                    <th class="p-2.5">Detection level</th>
+                    <th class="p-2.5">Confidence note</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                  ${lowVafMuted.map(m => `
+                    <tr class="hover:bg-slate-800/40">
+                      <td class="p-2.5 text-amber-400 font-bold">${m.pos}</td>
+                      <td class="p-2.5 font-bold text-slate-200">${m.ref} &gt; ${m.alt}</td>
+                      <td class="p-2.5 text-sky-300 font-sans">${window.TreeViewer ? window.TreeViewer.getSampleDisplayName(m.sample) : m.sample}</td>
+                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% frequency</td>
+                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-800 text-[10px]">Unverified trace</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <div class="p-4 rounded-2xl bg-slate-950 border border-white/10 text-xs font-mono text-slate-400 flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400 shrink-0"></span>
+              <span>Zero trace mutations (&lt;3%) detected along this comparison &mdash; all reported substitutions represent high-confidence germline homoplasmy (100% VAF).</span>
+            </div>
+          `}
+        </div>
 
         <!-- Sample Details Breakdown -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">

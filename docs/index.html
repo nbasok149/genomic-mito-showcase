@@ -619,12 +619,12 @@
     </div>
   </div>
 
-  <!-- Comparative Lineage Report Modal -->
+  <!-- Ancestral Junction & Comparative Lineage Report Modal -->
   <div id="familyReportModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
     <div class="earth-panel max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-slate-900/95 rounded-3xl">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
         <div>
-          <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Comparative lineage report</span>
+          <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Ancestral junction &amp; comparative lineage report</span>
           <h3 id="reportModalTitle" class="text-xl font-extrabold text-white tracking-tight">Ancestral variant analysis</h3>
         </div>
         <div class="flex flex-wrap items-center gap-2">
@@ -640,39 +640,21 @@
             </select>
           </div>
           <div id="sampleReportSelectControls" class="hidden flex-wrap items-center gap-2">
-            <select id="reportSample1Select" class="bg-slate-950 border border-emerald-500/60 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <select id="reportSample1Select" class="bg-slate-950 border border-emerald-500/60 rounded-xl px-3 py-1.5 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
               <!-- Populated by FamilyReportGenerator -->
             </select>
             <span class="text-slate-500 text-xs font-mono font-bold">vs</span>
-            <select id="reportSample2Select" class="bg-slate-950 border border-sky-500/60 rounded-xl px-3 py-1.5 text-xs text-sky-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-sky-400">
+            <select id="reportSample2Select" class="bg-slate-950 border border-sky-500/60 rounded-xl px-3 py-1.5 text-xs text-sky-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-sky-400 cursor-pointer">
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
-          <button id="closeReportBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10">
+          <button id="closeReportBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer">
             ✕ Close
           </button>
         </div>
       </div>
       <div id="familyReportModalBody">
         <!-- Rendered dynamically by FamilyReportGenerator -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Ancestral Junction Inspector Modal -->
-  <div id="junctionInspectorModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-4">
-    <div class="earth-panel max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl relative border border-white/15 bg-slate-900/95 rounded-3xl">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <span class="text-xs text-sky-400 font-bold uppercase tracking-wider font-mono">Ancestral junction inspector</span>
-          <h3 id="junctionModalTitle" class="text-xl font-extrabold text-white tracking-tight">Branch node triangulation</h3>
-        </div>
-        <button id="closeJunctionModalBtn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition-all border border-white/10">
-          ✕ Close
-        </button>
-      </div>
-      <div id="junctionModalBody">
-        <!-- Rendered dynamically by onInternalNodeClick -->
       </div>
     </div>
   </div>

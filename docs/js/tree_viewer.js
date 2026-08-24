@@ -909,12 +909,7 @@ window.TreeViewer = {
   },
 
   onInternalNodeClick(d) {
-    const modal = document.getElementById('junctionInspectorModal');
-    const titleEl = document.getElementById('junctionModalTitle');
-    const bodyEl = document.getElementById('junctionModalBody');
-    const closeBtn = document.getElementById('closeJunctionModalBtn');
-
-    if (!modal || !bodyEl || !window.App.variantsData) return;
+    if (!window.App.variantsData) return;
 
     const leaves = d.leaves().map(leaf => leaf.data.name).filter(Boolean);
     if (leaves.length < 1) return;
@@ -922,135 +917,9 @@ window.TreeViewer = {
     let sampleA = leaves[0];
     let sampleB = leaves.length > 1 ? leaves[leaves.length - 1] : sampleA;
 
-    const roleA = this.getSampleRole(sampleA);
-    const roleB = this.getSampleRole(sampleB);
-    const codeA = sampleA.split('_')[0];
-    const codeB = sampleB.split('_')[0];
-
-    const deidentifiedA = `${codeA} (${roleA})`;
-    const deidentifiedB = `${codeB} (${roleB})`;
-
-    if (titleEl) {
-      titleEl.innerHTML = `Ancestral junction inspector: <span class="text-sky-400">${deidentifiedA}</span> &amp; <span class="text-blue-400">${deidentifiedB}</span> (${leaves.length} descendant lineages)`;
+    if (window.FamilyReportGenerator) {
+      window.FamilyReportGenerator.openSampleReportModal(sampleA, sampleB);
     }
-
-    const sampleAVars = window.App.variantsData.variants.filter(v => v.sample === sampleA);
-    const sampleBVars = window.App.variantsData.variants.filter(v => v.sample === sampleB);
-
-    const aMap = new Map(sampleAVars.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
-    const bMap = new Map(sampleBVars.map(v => [`${v.pos}_${v.ref}_${v.alt}`, v]));
-
-    const sharedHigh = [];
-    const lowVafMuted = [];
-
-    aMap.forEach((vA, key) => {
-      if (bMap.has(key)) {
-        const vB = bMap.get(key);
-        if (vA.vaf >= 0.03 && vB.vaf >= 0.03) {
-          sharedHigh.push(vA);
-        } else if (vA.vaf < 0.03 || vB.vaf < 0.03) {
-          lowVafMuted.push(vA);
-        }
-      }
-    });
-
-    bodyEl.innerHTML = `
-      <div class="space-y-6 font-sans">
-        
-        <div class="p-5 rounded-2xl bg-slate-900/90 border border-sky-500/30 shadow-xl space-y-2 font-mono">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
-            <div>
-              <div class="text-xs text-sky-400 font-bold uppercase tracking-wider mb-1">Branch node triangulation</div>
-              <h4 class="text-lg font-extrabold text-white">${deidentifiedA} <span class="text-slate-500">&amp;</span> ${deidentifiedB}</h4>
-            </div>
-            <span class="px-3 py-1.5 rounded-xl bg-sky-950/80 border border-sky-700/80 text-xs text-sky-300 font-bold">
-              Ancestral junction node
-            </span>
-          </div>
-          <p class="text-slate-300 text-xs leading-relaxed font-sans">
-            Inspecting shared high-presence variants along ancestral branches. Click any mutation below to open the global cladogram highlighting all carrying lineages.
-          </p>
-        </div>
-
-        <!-- 1. CONSERVED ANCESTRAL MUTATIONS -->
-        <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-white/10 pb-2">
-            <h4 class="font-bold text-emerald-400 text-sm flex items-center gap-2">
-              <span>Conserved ancestral mutations (${sharedHigh.length})</span>
-            </h4>
-            <span class="text-slate-400 font-sans text-[11px]">Click mutation to pop up global distribution</span>
-          </div>
-          ${sharedHigh.length > 0 ? `
-            <div class="flex flex-wrap gap-2.5 pt-1">
-              ${sharedHigh.map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-950/60 border border-emerald-800/80 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-1.5 group cursor-pointer">
-                  <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
-                  <span class="text-slate-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded-lg border border-white/10 group-hover:border-emerald-600 group-hover:text-emerald-300">
-                    High (100%)
-                  </span>
-                </button>
-              `).join('')}
-            </div>
-          ` : `
-            <div class="text-slate-400 italic text-xs font-sans">No deeply shared high-presence variants unique to this specific internal pair.</div>
-          `}
-        </div>
-
-        <!-- 2. LOW-VAF MUTED / TRACE MUTATIONS -->
-        <div class="p-5 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3 font-mono text-xs shadow-xl">
-          <div class="flex items-center justify-between border-b border-white/10 pb-2">
-            <h4 class="font-bold text-amber-400 text-sm flex items-center gap-2">
-              <span>Trace mutations (&lt;3% detection)</span>
-            </h4>
-            <span class="text-slate-400 font-sans text-[11px]">Trace heteroplasmy</span>
-          </div>
-
-          ${lowVafMuted.length > 0 ? `
-            <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/50 text-amber-200 text-xs font-sans">
-              <strong>Trace mutation warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`${m.pos}`).join(', ')}) are based on only a few instances and cannot be trusted.
-            </div>
-
-            <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs font-mono">
-                <thead>
-                  <tr class="border-b border-white/10 text-slate-400">
-                    <th class="p-2.5">Position</th>
-                    <th class="p-2.5">Mutation</th>
-                    <th class="p-2.5">Role</th>
-                    <th class="p-2.5">Detection level</th>
-                    <th class="p-2.5">Confidence note</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-white/5">
-                  ${lowVafMuted.map(m => `
-                    <tr class="hover:bg-slate-800/40">
-                      <td class="p-2.5 text-amber-400 font-bold">${m.pos}</td>
-                      <td class="p-2.5 font-bold text-slate-200">${m.ref} &gt; ${m.alt}</td>
-                      <td class="p-2.5 text-sky-300 font-sans">${this.getSampleRole(m.sample)}</td>
-                      <td class="p-2.5 text-rose-400 font-bold">${(m.vaf * 100).toFixed(1)}% frequency</td>
-                      <td class="p-2.5"><span class="bg-amber-950/80 text-amber-300 px-2 py-0.5 rounded-lg border border-amber-800 text-[10px]">Unverified trace</span></td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          ` : `
-            <div class="p-3.5 rounded-xl bg-slate-950 border border-white/10 text-xs font-mono text-slate-400">
-              Zero trace mutations (&lt;3%) along this branch junction.
-            </div>
-          `}
-        </div>
-
-      </div>
-    `;
-
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-
-    closeBtn?.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    });
   },
 
   // Single Unified Cohort Mutation & Integrated Maternal Pedigree Card
