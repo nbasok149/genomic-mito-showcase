@@ -15,7 +15,7 @@ window.TreeViewer = {
   macroSections: {
     'AA': 1, 'UK': 1, 'CA': 1,
     'IN': 2, 'IS': 2, 'IW': 2, 'PK': 2,
-    'KR': 3, 'HK': 3, 'TB': 3, 'NA': 3, 'MX': 3, 'CL': 3
+    /* TEMPORARY HOLD: 'KR': 3, */ 'HK': 3, 'TB': 3, 'NA': 3, 'MX': 3, 'CL': 3
   },
 
   ETHNICITY_COLORS: {
@@ -24,7 +24,7 @@ window.TreeViewer = {
     'IW': '#f59e0b', // Golden Ochre
     'PK': '#8b5cf6', // Cobalt Violet
     'UK': '#6366f1', // Indigo Slate
-    'KR': '#ec4899', // Rose Quartz
+    // TEMPORARY HOLD: 'KR': '#ec4899', // Rose Quartz
     'MX': '#059669', // Sage Emerald
     'HK': '#0d9488', // Deep Teal
     'CL': '#ea580c', // Terracotta
@@ -91,8 +91,8 @@ window.TreeViewer = {
       'MX_F_CRYS1': 'Crystal Daughter',
       'CL_F_ALJ': 'Alejandra',
       'CL_F_ALJC1': 'Alejandra Daughter',
-      'KR_F_MOO': 'Cohort Mother',
-      'KR_F_MOOC1': 'Cohort Daughter',
+      // TEMPORARY HOLD: 'KR_F_MOO': 'Cohort Mother',
+      // TEMPORARY HOLD: 'KR_F_MOOC1': 'Cohort Daughter',
       'PK_F_WAS': 'Wasim Mother',
       'PK_M_WASH': 'Wasim Father',
       'PK_M_WASC1': 'Wasim Son 1',
@@ -173,8 +173,8 @@ window.TreeViewer = {
       'HK_F_JANM': 'Mother',
       'HK_M_WLL': 'Father',
       'HK_F_JAN': 'Daughter',
-      'KR_F_MOO': 'Mother',
-      'KR_F_MOOC1': 'Daughter',
+      // TEMPORARY HOLD: 'KR_F_MOO': 'Mother',
+      // TEMPORARY HOLD: 'KR_F_MOOC1': 'Daughter',
       'MX_F_CRY': 'Mother',
       'MX_M_CRYF': 'Father',
       'MX_F_CRYS1': 'Daughter',
@@ -229,7 +229,7 @@ window.TreeViewer = {
       'IW': 'India West',
       'PK': 'Pakistan',
       'UK': 'Ukraine',
-      'KR': 'Korea',
+      // TEMPORARY HOLD: 'KR': 'Korea',
       'MX': 'Mexico',
       'HK': 'Hong Kong',
       'CL': 'Colombia',

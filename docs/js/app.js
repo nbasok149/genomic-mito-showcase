@@ -20,7 +20,7 @@ window.getCohortFlagSvg = function(code) {
     'IW': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="13.33" fill="#FF9933"/><rect y="13.33" width="60" height="13.33" fill="#FFFFFF"/><rect y="26.66" width="60" height="13.33" fill="#138808"/><circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="0.9"/><circle cx="30" cy="20" r="1" fill="#000080"/></svg>`,
     'PK': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="15" height="40" fill="#FFFFFF"/><rect x="15" width="45" height="40" fill="#01411C"/><circle cx="38" cy="20" r="10" fill="#FFFFFF"/><circle cx="41" cy="18" r="8.5" fill="#01411C"/><polygon points="41,13 42.5,17.5 47,17.5 43.5,20 45,24.5 41,22 37,24.5 38.5,20 35,17.5 39.5,17.5" fill="#FFFFFF"/></svg>`,
     'UK': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="20" fill="#0057B7"/><rect y="20" width="60" height="20" fill="#FFD700"/></svg>`,
-    'KR': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#FFFFFF"/><circle cx="30" cy="20" r="8" fill="#C60C30"/><path d="M 30,12 A 4,4 0 0 0 30,20 A 4,4 0 0 1 30,28 A 8,8 0 0 1 30,12" fill="#003478"/></svg>`,
+    // TEMPORARY HOLD: 'KR': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#FFFFFF"/><circle cx="30" cy="20" r="8" fill="#C60C30"/><path d="M 30,12 A 4,4 0 0 0 30,20 A 4,4 0 0 1 30,28 A 8,8 0 0 1 30,12" fill="#003478"/></svg>`,
     'MX': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="20" height="40" fill="#006847"/><rect x="20" width="20" height="40" fill="#FFFFFF"/><rect x="40" width="20" height="40" fill="#CE1126"/><circle cx="30" cy="20" r="3.5" fill="#8B5A2B"/></svg>`,
     'HK': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="40" fill="#DE2910"/><circle cx="30" cy="20" r="4.5" fill="#FFFFFF"/></svg>`,
     'CL': `<svg viewBox="0 0 60 40" class="w-full h-full"><rect width="60" height="20" fill="#FCD116"/><rect y="20" width="60" height="10" fill="#003893"/><rect y="30" width="60" height="10" fill="#CE1126"/></svg>`,
@@ -180,7 +180,7 @@ window.DiagnosticMarkersExplorer = {
     'MX': { name: 'Mexico', markers: [499, 4823, 6297, 8047, 9039, 13590], mother: 'Crystal Mother', dadNote: 'Children inherit 100% of maternal mtDNA.' },
     'HK': { name: 'Hong Kong', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'Jan Mother', dadNote: 'Children inherit 100% of maternal markers.' },
     'UK': { name: 'Ukraine', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'Nik Mother', aunt: 'Nik Aunt', grandmother: 'Nik Grandmother', dadNote: 'Maternal inheritance verified across three generations.' },
-    'KR': { name: 'Korea', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'Cohort Mother', dadNote: 'Maternal lineage strictly passed to offspring.' },
+    // TEMPORARY HOLD: 'KR': { name: 'Korea', markers: [63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669], mother: 'Cohort Mother', dadNote: 'Maternal lineage strictly passed to offspring.' },
     'CL': { name: 'Colombia', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'Alejandra', dadNote: 'Passed 100% maternally to offspring.' },
     'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'Tonya', dadNote: 'Ancestral root of all modern human maternal lineages.' },
     'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'Bharti', dadNote: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
@@ -252,7 +252,7 @@ window.FamilyReportGenerator = {
     'UK': { code: 'UK', name: 'Ukraine', region: 'Eastern Europe', haplo: 'Haplogroup U4 / H', history: 'Eastern European maternal lineage (Haplogroup U4/H) rooted in ancient Mesolithic hunter-gatherers and Neolithic European expansion.' },
     'MX': { code: 'MX', name: 'Mexico', region: 'Mesoamerica', haplo: 'Haplogroup B2', history: 'Primary founding Native American lineage (Haplogroup B2) originating from ancient ancestors crossing Beringia ~15,000–25,000 YBP during the LGM.' },
     'HK': { code: 'HK', name: 'Hong Kong', region: 'East Asia', haplo: 'Haplogroup M7', history: 'Ancient East Asian coastal lineage (Haplogroup M7) prevalent across Southern China and Hong Kong.' },
-    'KR': { code: 'KR', name: 'Korea', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
+    // TEMPORARY HOLD: 'KR': { code: 'KR', name: 'Korea', region: 'Northeast Asia', haplo: 'Haplogroup D4', history: 'Northeastern East Asian maternal lineage (Haplogroup D4) common across Korea, Manchuria, and Siberia.' },
     'CL': { code: 'CL', name: 'Colombia', region: 'South America', haplo: 'Haplogroup C1', history: 'Colombian Native American maternal lineage (Haplogroup C1) stemming from early Paleo-Indian expansion in South America.' },
     'AA': { code: 'AA', name: 'Africa', region: 'Sub-Saharan Africa', haplo: 'Haplogroup L2', history: 'Deep African maternal lineage (Haplogroup L2), representing the ancestral root of all modern human mtDNA.' },
     'TB': { code: 'TB', name: 'Tibet', region: 'Himalayan Plateau', haplo: 'Haplogroup M9', history: 'High-altitude adapted Central Asian Tibetan lineage (Haplogroup M9) with deep Himalayan ancestral continuity.' },
@@ -1439,7 +1439,7 @@ window.App = {
     'PK': { name: 'Pakistan', haplo: 'Haplogroup M / U', mother: 'PK_F_WAS', father: 'PK_M_WASH', children: ['PK_M_WASC1', 'PK_M_WASC2'] },
     'HK': { name: 'Hong Kong', haplo: 'Haplogroup M7', mother: 'HK_F_JANM', father: 'HK_M_WLL', children: ['HK_F_JAN'] },
     'MX': { name: 'Mexico', haplo: 'Haplogroup B2', mother: 'MX_F_CRY', father: 'MX_M_CRYF', children: ['MX_F_CRYS1'] },
-    'KR': { name: 'Korea', haplo: 'Haplogroup D4', mother: 'KR_F_MOO', children: ['KR_F_MOOC1'] },
+    // TEMPORARY HOLD: 'KR': { name: 'Korea', haplo: 'Haplogroup D4', mother: 'KR_F_MOO', children: ['KR_F_MOOC1'] },
     'CL': { name: 'Colombia', haplo: 'Haplogroup C1', mother: 'CL_F_ALJ', children: ['CL_F_ALJC1'] },
     'AA': { name: 'Africa', haplo: 'Haplogroup L2', individual: 'AA_F_TON', desc: 'Ancestral root of all modern human maternal lineages.' },
     'TB': { name: 'Tibet', haplo: 'Haplogroup M9', individual: 'TB_F_BHA', desc: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
@@ -1571,7 +1571,7 @@ window.App = {
 
     toastCompareBtn?.addEventListener('click', () => {
       const eth1 = window.TreeViewer?.selectedEthnicities?.[0] || 'UK';
-      const eth2 = eth1 === 'AA' ? 'CL' : (eth1 === 'MX' ? 'KR' : 'AA');
+      const eth2 = eth1 === 'AA' ? 'CL' : (eth1 === 'MX' ? 'CL' : 'AA');
       if (window.FamilyReportGenerator) {
         window.FamilyReportGenerator.openReportModal(eth1, eth2, null);
       }

@@ -1,6 +1,6 @@
 {
-  "name": "Clade_84",
-  "height": 0.6425,
+  "name": "Clade_80",
+  "height": 0.6567,
   "children": [
     {
       "name": "SA_M_RD_2_LP5205_mrg",
@@ -9,16 +9,26 @@
       "samples": [
         "SA_M_RD_2_LP5205_mrg"
       ],
-      "branch_length": 0.6425,
+      "branch_length": 0.6567,
       "haplogroup": "H1a"
     },
     {
-      "name": "Clade_83",
-      "height": 0.5028,
+      "name": "Clade_79",
+      "height": 0.5272,
       "children": [
         {
-          "name": "Clade_81",
-          "height": 0.4734,
+          "name": "NA_F_R3_2_LP5206_mrg",
+          "size": 1,
+          "height": 0.0,
+          "samples": [
+            "NA_F_R3_2_LP5206_mrg"
+          ],
+          "branch_length": 0.5272,
+          "haplogroup": "A2"
+        },
+        {
+          "name": "Clade_78",
+          "height": 0.4839,
           "children": [
             {
               "name": "AA_F_TON",
@@ -27,16 +37,16 @@
               "samples": [
                 "AA_F_TON"
               ],
-              "branch_length": 0.4734,
+              "branch_length": 0.4839,
               "haplogroup": "L2"
             },
             {
-              "name": "Clade_80",
-              "height": 0.4713,
+              "name": "Clade_77",
+              "height": 0.4818,
               "children": [
                 {
-                  "name": "Clade_59",
-                  "height": 0.4314,
+                  "name": "Clade_57",
+                  "height": 0.4412,
                   "children": [
                     {
                       "name": "IN_M_DPLH",
@@ -45,12 +55,12 @@
                       "samples": [
                         "IN_M_DPLH"
                       ],
-                      "branch_length": 0.4314,
+                      "branch_length": 0.4412,
                       "haplogroup": "M/R (IN)"
                     },
                     {
-                      "name": "Clade_58",
-                      "height": 0.4314,
+                      "name": "Clade_56",
+                      "height": 0.4411,
                       "children": [
                         {
                           "name": "IN_F_DPL",
@@ -59,16 +69,16 @@
                           "samples": [
                             "IN_F_DPL"
                           ],
-                          "branch_length": 0.4314,
+                          "branch_length": 0.4411,
                           "haplogroup": "M/R (IN)"
                         },
                         {
-                          "name": "Clade_57",
-                          "height": 0.4313,
+                          "name": "Clade_55",
+                          "height": 0.441,
                           "children": [
                             {
-                              "name": "Clade_43",
-                              "height": 0.4156,
+                              "name": "Clade_41",
+                              "height": 0.4251,
                               "children": [
                                 {
                                   "name": "IN_F_RISM",
@@ -77,7 +87,7 @@
                                   "samples": [
                                     "IN_F_RISM"
                                   ],
-                                  "branch_length": 0.4156,
+                                  "branch_length": 0.4251,
                                   "haplogroup": "M/R (IN)"
                                 },
                                 {
@@ -87,7 +97,7 @@
                                   "samples": [
                                     "IN_M_RISF"
                                   ],
-                                  "branch_length": 0.4156,
+                                  "branch_length": 0.4251,
                                   "haplogroup": "M/R (IN)"
                                 }
                               ],
@@ -96,11 +106,11 @@
                                 "IN_M_RISF"
                               ],
                               "size": 2,
-                              "branch_length": 0.0157
+                              "branch_length": 0.0159
                             },
                             {
-                              "name": "Clade_56",
-                              "height": 0.4313,
+                              "name": "Clade_54",
+                              "height": 0.441,
                               "children": [
                                 {
                                   "name": "IN_M_RIS",
@@ -109,12 +119,12 @@
                                   "samples": [
                                     "IN_M_RIS"
                                   ],
-                                  "branch_length": 0.4313,
+                                  "branch_length": 0.441,
                                   "haplogroup": "M/R (IN)"
                                 },
                                 {
-                                  "name": "Clade_55",
-                                  "height": 0.4312,
+                                  "name": "Clade_53",
+                                  "height": 0.4409,
                                   "children": [
                                     {
                                       "name": "IN_F_RISG",
@@ -123,7 +133,7 @@
                                       "samples": [
                                         "IN_F_RISG"
                                       ],
-                                      "branch_length": 0.4312,
+                                      "branch_length": 0.4409,
                                       "haplogroup": "M/R (IN)"
                                     },
                                     {
@@ -133,7 +143,7 @@
                                       "samples": [
                                         "IN_M_RISS1"
                                       ],
-                                      "branch_length": 0.4312,
+                                      "branch_length": 0.4409,
                                       "haplogroup": "M/R (IN)"
                                     }
                                   ],
@@ -187,19 +197,19 @@
                     "IN_M_RISS1"
                   ],
                   "size": 7,
-                  "branch_length": 0.0399
+                  "branch_length": 0.0406
                 },
                 {
-                  "name": "Clade_79",
-                  "height": 0.471,
+                  "name": "Clade_76",
+                  "height": 0.4814,
                   "children": [
                     {
-                      "name": "Clade_46",
-                      "height": 0.4298,
+                      "name": "Clade_44",
+                      "height": 0.4394,
                       "children": [
                         {
-                          "name": "Clade_44",
-                          "height": 0.4226,
+                          "name": "Clade_42",
+                          "height": 0.432,
                           "children": [
                             {
                               "name": "IW_F_ANJM",
@@ -208,7 +218,7 @@
                               "samples": [
                                 "IW_F_ANJM"
                               ],
-                              "branch_length": 0.4226,
+                              "branch_length": 0.432,
                               "haplogroup": "M/R (IW)"
                             },
                             {
@@ -218,7 +228,7 @@
                               "samples": [
                                 "IW_M_ANJF"
                               ],
-                              "branch_length": 0.4226,
+                              "branch_length": 0.432,
                               "haplogroup": "M/R (IW)"
                             }
                           ],
@@ -227,11 +237,11 @@
                             "IW_M_ANJF"
                           ],
                           "size": 2,
-                          "branch_length": 0.0072
+                          "branch_length": 0.0074
                         },
                         {
-                          "name": "Clade_45",
-                          "height": 0.4295,
+                          "name": "Clade_43",
+                          "height": 0.4391,
                           "children": [
                             {
                               "name": "IW_F_ANJ",
@@ -240,7 +250,7 @@
                               "samples": [
                                 "IW_F_ANJ"
                               ],
-                              "branch_length": 0.4295,
+                              "branch_length": 0.4391,
                               "haplogroup": "M/R (IW)"
                             },
                             {
@@ -250,7 +260,7 @@
                               "samples": [
                                 "IW_F_ANJS1"
                               ],
-                              "branch_length": 0.4295,
+                              "branch_length": 0.4391,
                               "haplogroup": "M/R (IW)"
                             }
                           ],
@@ -269,15 +279,15 @@
                         "IW_F_ANJS1"
                       ],
                       "size": 4,
-                      "branch_length": 0.0412
+                      "branch_length": 0.042
                     },
                     {
-                      "name": "Clade_78",
-                      "height": 0.4707,
+                      "name": "Clade_75",
+                      "height": 0.4811,
                       "children": [
                         {
-                          "name": "Clade_54",
-                          "height": 0.4302,
+                          "name": "Clade_52",
+                          "height": 0.4398,
                           "children": [
                             {
                               "name": "CL_F_ALJ",
@@ -286,7 +296,7 @@
                               "samples": [
                                 "CL_F_ALJ"
                               ],
-                              "branch_length": 0.4302,
+                              "branch_length": 0.4398,
                               "haplogroup": "C1"
                             },
                             {
@@ -296,7 +306,7 @@
                               "samples": [
                                 "CL_F_ALJC1"
                               ],
-                              "branch_length": 0.4302,
+                              "branch_length": 0.4398,
                               "haplogroup": "C1"
                             }
                           ],
@@ -305,15 +315,15 @@
                             "CL_F_ALJC1"
                           ],
                           "size": 2,
-                          "branch_length": 0.0405
+                          "branch_length": 0.0413
                         },
                         {
-                          "name": "Clade_77",
-                          "height": 0.4701,
+                          "name": "Clade_74",
+                          "height": 0.4805,
                           "children": [
                             {
-                              "name": "Clade_52",
-                              "height": 0.43,
+                              "name": "Clade_50",
+                              "height": 0.4396,
                               "children": [
                                 {
                                   "name": "MX_M_CRYF",
@@ -322,12 +332,12 @@
                                   "samples": [
                                     "MX_M_CRYF"
                                   ],
-                                  "branch_length": 0.43,
+                                  "branch_length": 0.4396,
                                   "haplogroup": "B2"
                                 },
                                 {
-                                  "name": "Clade_51",
-                                  "height": 0.43,
+                                  "name": "Clade_49",
+                                  "height": 0.4396,
                                   "children": [
                                     {
                                       "name": "MX_F_CRY",
@@ -336,7 +346,7 @@
                                       "samples": [
                                         "MX_F_CRY"
                                       ],
-                                      "branch_length": 0.43,
+                                      "branch_length": 0.4396,
                                       "haplogroup": "B2"
                                     },
                                     {
@@ -346,7 +356,7 @@
                                       "samples": [
                                         "MX_F_CRYS1"
                                       ],
-                                      "branch_length": 0.43,
+                                      "branch_length": 0.4396,
                                       "haplogroup": "B2"
                                     }
                                   ],
@@ -364,15 +374,15 @@
                                 "MX_F_CRYS1"
                               ],
                               "size": 3,
-                              "branch_length": 0.0401
+                              "branch_length": 0.0409
                             },
                             {
-                              "name": "Clade_76",
-                              "height": 0.4691,
+                              "name": "Clade_73",
+                              "height": 0.4793,
                               "children": [
                                 {
-                                  "name": "Clade_71",
-                                  "height": 0.4593,
+                                  "name": "Clade_69",
+                                  "height": 0.4695,
                                   "children": [
                                     {
                                       "name": "IS_F_VYS",
@@ -381,12 +391,12 @@
                                       "samples": [
                                         "IS_F_VYS"
                                       ],
-                                      "branch_length": 0.4593,
+                                      "branch_length": 0.4695,
                                       "haplogroup": "M/R (IS)"
                                     },
                                     {
-                                      "name": "Clade_69",
-                                      "height": 0.4354,
+                                      "name": "Clade_67",
+                                      "height": 0.4453,
                                       "children": [
                                         {
                                           "name": "IS_M_PRIC1",
@@ -395,12 +405,12 @@
                                           "samples": [
                                             "IS_M_PRIC1"
                                           ],
-                                          "branch_length": 0.4354,
+                                          "branch_length": 0.4453,
                                           "haplogroup": "M/R (IS)"
                                         },
                                         {
-                                          "name": "Clade_68",
-                                          "height": 0.4354,
+                                          "name": "Clade_66",
+                                          "height": 0.4453,
                                           "children": [
                                             {
                                               "name": "IS_M_RAV",
@@ -409,12 +419,12 @@
                                               "samples": [
                                                 "IS_M_RAV"
                                               ],
-                                              "branch_length": 0.4354,
+                                              "branch_length": 0.4453,
                                               "haplogroup": "M/R (IS)"
                                             },
                                             {
-                                              "name": "Clade_67",
-                                              "height": 0.4353,
+                                              "name": "Clade_65",
+                                              "height": 0.4452,
                                               "children": [
                                                 {
                                                   "name": "IS_M_SEL",
@@ -423,12 +433,12 @@
                                                   "samples": [
                                                     "IS_M_SEL"
                                                   ],
-                                                  "branch_length": 0.4353,
+                                                  "branch_length": 0.4452,
                                                   "haplogroup": "M/R (IS)"
                                                 },
                                                 {
-                                                  "name": "Clade_66",
-                                                  "height": 0.4352,
+                                                  "name": "Clade_64",
+                                                  "height": 0.4451,
                                                   "children": [
                                                     {
                                                       "name": "IS_F_VYSC1",
@@ -437,12 +447,12 @@
                                                       "samples": [
                                                         "IS_F_VYSC1"
                                                       ],
-                                                      "branch_length": 0.4352,
+                                                      "branch_length": 0.4451,
                                                       "haplogroup": "M/R (IS)"
                                                     },
                                                     {
-                                                      "name": "Clade_65",
-                                                      "height": 0.4351,
+                                                      "name": "Clade_63",
+                                                      "height": 0.445,
                                                       "children": [
                                                         {
                                                           "name": "IS_F_VYS2",
@@ -451,7 +461,7 @@
                                                           "samples": [
                                                             "IS_F_VYS2"
                                                           ],
-                                                          "branch_length": 0.4351,
+                                                          "branch_length": 0.445,
                                                           "haplogroup": "M/R (IS)"
                                                         },
                                                         {
@@ -461,7 +471,7 @@
                                                           "samples": [
                                                             "IS_F_VYSM"
                                                           ],
-                                                          "branch_length": 0.4351,
+                                                          "branch_length": 0.445,
                                                           "haplogroup": "M/R (IS)"
                                                         }
                                                       ],
@@ -512,7 +522,7 @@
                                         "IS_F_VYSM"
                                       ],
                                       "size": 6,
-                                      "branch_length": 0.0239
+                                      "branch_length": 0.0242
                                     }
                                   ],
                                   "samples": [
@@ -528,357 +538,125 @@
                                   "branch_length": 0.0098
                                 },
                                 {
-                                  "name": "Clade_75",
-                                  "height": 0.4689,
+                                  "name": "Clade_72",
+                                  "height": 0.4773,
                                   "children": [
                                     {
-                                      "name": "KR_F_MOO",
-                                      "size": 1,
-                                      "height": 0.0,
-                                      "samples": [
-                                        "KR_F_MOO"
-                                      ],
-                                      "branch_length": 0.4689,
-                                      "haplogroup": "D4"
-                                    },
-                                    {
-                                      "name": "Clade_74",
-                                      "height": 0.467,
+                                      "name": "Clade_51",
+                                      "height": 0.4397,
                                       "children": [
                                         {
-                                          "name": "Clade_53",
-                                          "height": 0.4301,
+                                          "name": "UK_F_NIKM",
+                                          "size": 1,
+                                          "height": 0.0,
+                                          "samples": [
+                                            "UK_F_NIKM"
+                                          ],
+                                          "branch_length": 0.4397,
+                                          "haplogroup": "U4/H"
+                                        },
+                                        {
+                                          "name": "Clade_48",
+                                          "height": 0.4396,
                                           "children": [
                                             {
-                                              "name": "UK_F_NIKM",
+                                              "name": "UK_F_NIKG",
                                               "size": 1,
                                               "height": 0.0,
                                               "samples": [
-                                                "UK_F_NIKM"
+                                                "UK_F_NIKG"
                                               ],
-                                              "branch_length": 0.4301,
+                                              "branch_length": 0.4396,
                                               "haplogroup": "U4/H"
                                             },
                                             {
-                                              "name": "Clade_50",
-                                              "height": 0.43,
+                                              "name": "Clade_47",
+                                              "height": 0.4396,
                                               "children": [
                                                 {
-                                                  "name": "UK_F_NIKG",
+                                                  "name": "UK_M_NIK",
                                                   "size": 1,
                                                   "height": 0.0,
                                                   "samples": [
-                                                    "UK_F_NIKG"
+                                                    "UK_M_NIK"
                                                   ],
-                                                  "branch_length": 0.43,
+                                                  "branch_length": 0.4396,
                                                   "haplogroup": "U4/H"
                                                 },
                                                 {
-                                                  "name": "Clade_49",
-                                                  "height": 0.43,
+                                                  "name": "Clade_46",
+                                                  "height": 0.4395,
                                                   "children": [
                                                     {
-                                                      "name": "UK_M_NIK",
+                                                      "name": "UK_M_NIKS2",
                                                       "size": 1,
                                                       "height": 0.0,
                                                       "samples": [
-                                                        "UK_M_NIK"
+                                                        "UK_M_NIKS2"
                                                       ],
-                                                      "branch_length": 0.43,
+                                                      "branch_length": 0.4395,
                                                       "haplogroup": "U4/H"
                                                     },
                                                     {
-                                                      "name": "Clade_48",
-                                                      "height": 0.4299,
+                                                      "name": "Clade_45",
+                                                      "height": 0.4395,
                                                       "children": [
                                                         {
-                                                          "name": "UK_M_NIKS2",
+                                                          "name": "UK_F_NIKA",
                                                           "size": 1,
                                                           "height": 0.0,
                                                           "samples": [
-                                                            "UK_M_NIKS2"
+                                                            "UK_F_NIKA"
                                                           ],
-                                                          "branch_length": 0.4299,
+                                                          "branch_length": 0.4395,
                                                           "haplogroup": "U4/H"
                                                         },
                                                         {
-                                                          "name": "Clade_47",
-                                                          "height": 0.4299,
-                                                          "children": [
-                                                            {
-                                                              "name": "UK_F_NIKA",
-                                                              "size": 1,
-                                                              "height": 0.0,
-                                                              "samples": [
-                                                                "UK_F_NIKA"
-                                                              ],
-                                                              "branch_length": 0.4299,
-                                                              "haplogroup": "U4/H"
-                                                            },
-                                                            {
-                                                              "name": "UK_M_NIKS1",
-                                                              "size": 1,
-                                                              "height": 0.0,
-                                                              "samples": [
-                                                                "UK_M_NIKS1"
-                                                              ],
-                                                              "branch_length": 0.4299,
-                                                              "haplogroup": "U4/H"
-                                                            }
-                                                          ],
+                                                          "name": "UK_M_NIKS1",
+                                                          "size": 1,
+                                                          "height": 0.0,
                                                           "samples": [
-                                                            "UK_F_NIKA",
                                                             "UK_M_NIKS1"
                                                           ],
-                                                          "size": 2,
-                                                          "branch_length": 0.001
+                                                          "branch_length": 0.4395,
+                                                          "haplogroup": "U4/H"
                                                         }
                                                       ],
                                                       "samples": [
-                                                        "UK_M_NIKS2",
                                                         "UK_F_NIKA",
                                                         "UK_M_NIKS1"
-                                                      ],
-                                                      "size": 3,
-                                                      "branch_length": 0.001
-                                                    }
-                                                  ],
-                                                  "samples": [
-                                                    "UK_M_NIK",
-                                                    "UK_M_NIKS2",
-                                                    "UK_F_NIKA",
-                                                    "UK_M_NIKS1"
-                                                  ],
-                                                  "size": 4,
-                                                  "branch_length": 0.001
-                                                }
-                                              ],
-                                              "samples": [
-                                                "UK_F_NIKG",
-                                                "UK_M_NIK",
-                                                "UK_M_NIKS2",
-                                                "UK_F_NIKA",
-                                                "UK_M_NIKS1"
-                                              ],
-                                              "size": 5,
-                                              "branch_length": 0.001
-                                            }
-                                          ],
-                                          "samples": [
-                                            "UK_F_NIKM",
-                                            "UK_F_NIKG",
-                                            "UK_M_NIK",
-                                            "UK_M_NIKS2",
-                                            "UK_F_NIKA",
-                                            "UK_M_NIKS1"
-                                          ],
-                                          "size": 6,
-                                          "branch_length": 0.0369
-                                        },
-                                        {
-                                          "name": "Clade_73",
-                                          "height": 0.466,
-                                          "children": [
-                                            {
-                                              "name": "TB_F_BHA",
-                                              "size": 1,
-                                              "height": 0.0,
-                                              "samples": [
-                                                "TB_F_BHA"
-                                              ],
-                                              "branch_length": 0.466,
-                                              "haplogroup": "M9"
-                                            },
-                                            {
-                                              "name": "Clade_72",
-                                              "height": 0.463,
-                                              "children": [
-                                                {
-                                                  "name": "Clade_64",
-                                                  "height": 0.4341,
-                                                  "children": [
-                                                    {
-                                                      "name": "HK_M_WLL",
-                                                      "size": 1,
-                                                      "height": 0.0,
-                                                      "samples": [
-                                                        "HK_M_WLL"
-                                                      ],
-                                                      "branch_length": 0.4341,
-                                                      "haplogroup": "M7"
-                                                    },
-                                                    {
-                                                      "name": "Clade_63",
-                                                      "height": 0.4338,
-                                                      "children": [
-                                                        {
-                                                          "name": "HK_F_JAN",
-                                                          "size": 1,
-                                                          "height": 0.0,
-                                                          "samples": [
-                                                            "HK_F_JAN"
-                                                          ],
-                                                          "branch_length": 0.4338,
-                                                          "haplogroup": "M7"
-                                                        },
-                                                        {
-                                                          "name": "HK_F_JANM",
-                                                          "size": 1,
-                                                          "height": 0.0,
-                                                          "samples": [
-                                                            "HK_F_JANM"
-                                                          ],
-                                                          "branch_length": 0.4338,
-                                                          "haplogroup": "M7"
-                                                        }
-                                                      ],
-                                                      "samples": [
-                                                        "HK_F_JAN",
-                                                        "HK_F_JANM"
                                                       ],
                                                       "size": 2,
                                                       "branch_length": 0.001
                                                     }
                                                   ],
                                                   "samples": [
-                                                    "HK_M_WLL",
-                                                    "HK_F_JAN",
-                                                    "HK_F_JANM"
+                                                    "UK_M_NIKS2",
+                                                    "UK_F_NIKA",
+                                                    "UK_M_NIKS1"
                                                   ],
                                                   "size": 3,
-                                                  "branch_length": 0.0289
-                                                },
-                                                {
-                                                  "name": "Clade_70",
-                                                  "height": 0.4559,
-                                                  "children": [
-                                                    {
-                                                      "name": "CA_M_GER",
-                                                      "size": 1,
-                                                      "height": 0.0,
-                                                      "samples": [
-                                                        "CA_M_GER"
-                                                      ],
-                                                      "branch_length": 0.4559,
-                                                      "haplogroup": "H2"
-                                                    },
-                                                    {
-                                                      "name": "Clade_62",
-                                                      "height": 0.4338,
-                                                      "children": [
-                                                        {
-                                                          "name": "PK_M_WASC2",
-                                                          "size": 1,
-                                                          "height": 0.0,
-                                                          "samples": [
-                                                            "PK_M_WASC2"
-                                                          ],
-                                                          "branch_length": 0.4338,
-                                                          "haplogroup": "M/U (PK)"
-                                                        },
-                                                        {
-                                                          "name": "Clade_61",
-                                                          "height": 0.4337,
-                                                          "children": [
-                                                            {
-                                                              "name": "PK_M_WASH",
-                                                              "size": 1,
-                                                              "height": 0.0,
-                                                              "samples": [
-                                                                "PK_M_WASH"
-                                                              ],
-                                                              "branch_length": 0.4337,
-                                                              "haplogroup": "M/U (PK)"
-                                                            },
-                                                            {
-                                                              "name": "Clade_60",
-                                                              "height": 0.4337,
-                                                              "children": [
-                                                                {
-                                                                  "name": "PK_F_WAS",
-                                                                  "size": 1,
-                                                                  "height": 0.0,
-                                                                  "samples": [
-                                                                    "PK_F_WAS"
-                                                                  ],
-                                                                  "branch_length": 0.4337,
-                                                                  "haplogroup": "M/U (PK)"
-                                                                },
-                                                                {
-                                                                  "name": "PK_M_WASC1",
-                                                                  "size": 1,
-                                                                  "height": 0.0,
-                                                                  "samples": [
-                                                                    "PK_M_WASC1"
-                                                                  ],
-                                                                  "branch_length": 0.4337,
-                                                                  "haplogroup": "M/U (PK)"
-                                                                }
-                                                              ],
-                                                              "samples": [
-                                                                "PK_F_WAS",
-                                                                "PK_M_WASC1"
-                                                              ],
-                                                              "size": 2,
-                                                              "branch_length": 0.001
-                                                            }
-                                                          ],
-                                                          "samples": [
-                                                            "PK_M_WASH",
-                                                            "PK_F_WAS",
-                                                            "PK_M_WASC1"
-                                                          ],
-                                                          "size": 3,
-                                                          "branch_length": 0.001
-                                                        }
-                                                      ],
-                                                      "samples": [
-                                                        "PK_M_WASC2",
-                                                        "PK_M_WASH",
-                                                        "PK_F_WAS",
-                                                        "PK_M_WASC1"
-                                                      ],
-                                                      "size": 4,
-                                                      "branch_length": 0.0221
-                                                    }
-                                                  ],
-                                                  "samples": [
-                                                    "CA_M_GER",
-                                                    "PK_M_WASC2",
-                                                    "PK_M_WASH",
-                                                    "PK_F_WAS",
-                                                    "PK_M_WASC1"
-                                                  ],
-                                                  "size": 5,
-                                                  "branch_length": 0.0071
+                                                  "branch_length": 0.001
                                                 }
                                               ],
                                               "samples": [
-                                                "HK_M_WLL",
-                                                "HK_F_JAN",
-                                                "HK_F_JANM",
-                                                "CA_M_GER",
-                                                "PK_M_WASC2",
-                                                "PK_M_WASH",
-                                                "PK_F_WAS",
-                                                "PK_M_WASC1"
+                                                "UK_M_NIK",
+                                                "UK_M_NIKS2",
+                                                "UK_F_NIKA",
+                                                "UK_M_NIKS1"
                                               ],
-                                              "size": 8,
-                                              "branch_length": 0.003
+                                              "size": 4,
+                                              "branch_length": 0.001
                                             }
                                           ],
                                           "samples": [
-                                            "TB_F_BHA",
-                                            "HK_M_WLL",
-                                            "HK_F_JAN",
-                                            "HK_F_JANM",
-                                            "CA_M_GER",
-                                            "PK_M_WASC2",
-                                            "PK_M_WASH",
-                                            "PK_F_WAS",
-                                            "PK_M_WASC1"
+                                            "UK_F_NIKG",
+                                            "UK_M_NIK",
+                                            "UK_M_NIKS2",
+                                            "UK_F_NIKA",
+                                            "UK_M_NIKS1"
                                           ],
-                                          "size": 9,
+                                          "size": 5,
                                           "branch_length": 0.001
                                         }
                                       ],
@@ -888,7 +666,204 @@
                                         "UK_M_NIK",
                                         "UK_M_NIKS2",
                                         "UK_F_NIKA",
-                                        "UK_M_NIKS1",
+                                        "UK_M_NIKS1"
+                                      ],
+                                      "size": 6,
+                                      "branch_length": 0.0376
+                                    },
+                                    {
+                                      "name": "Clade_71",
+                                      "height": 0.4763,
+                                      "children": [
+                                        {
+                                          "name": "TB_F_BHA",
+                                          "size": 1,
+                                          "height": 0.0,
+                                          "samples": [
+                                            "TB_F_BHA"
+                                          ],
+                                          "branch_length": 0.4763,
+                                          "haplogroup": "M9"
+                                        },
+                                        {
+                                          "name": "Clade_70",
+                                          "height": 0.4733,
+                                          "children": [
+                                            {
+                                              "name": "Clade_62",
+                                              "height": 0.4439,
+                                              "children": [
+                                                {
+                                                  "name": "HK_M_WLL",
+                                                  "size": 1,
+                                                  "height": 0.0,
+                                                  "samples": [
+                                                    "HK_M_WLL"
+                                                  ],
+                                                  "branch_length": 0.4439,
+                                                  "haplogroup": "M7"
+                                                },
+                                                {
+                                                  "name": "Clade_61",
+                                                  "height": 0.4436,
+                                                  "children": [
+                                                    {
+                                                      "name": "HK_F_JAN",
+                                                      "size": 1,
+                                                      "height": 0.0,
+                                                      "samples": [
+                                                        "HK_F_JAN"
+                                                      ],
+                                                      "branch_length": 0.4436,
+                                                      "haplogroup": "M7"
+                                                    },
+                                                    {
+                                                      "name": "HK_F_JANM",
+                                                      "size": 1,
+                                                      "height": 0.0,
+                                                      "samples": [
+                                                        "HK_F_JANM"
+                                                      ],
+                                                      "branch_length": 0.4436,
+                                                      "haplogroup": "M7"
+                                                    }
+                                                  ],
+                                                  "samples": [
+                                                    "HK_F_JAN",
+                                                    "HK_F_JANM"
+                                                  ],
+                                                  "size": 2,
+                                                  "branch_length": 0.001
+                                                }
+                                              ],
+                                              "samples": [
+                                                "HK_M_WLL",
+                                                "HK_F_JAN",
+                                                "HK_F_JANM"
+                                              ],
+                                              "size": 3,
+                                              "branch_length": 0.0294
+                                            },
+                                            {
+                                              "name": "Clade_68",
+                                              "height": 0.466,
+                                              "children": [
+                                                {
+                                                  "name": "CA_M_GER",
+                                                  "size": 1,
+                                                  "height": 0.0,
+                                                  "samples": [
+                                                    "CA_M_GER"
+                                                  ],
+                                                  "branch_length": 0.466,
+                                                  "haplogroup": "H2"
+                                                },
+                                                {
+                                                  "name": "Clade_60",
+                                                  "height": 0.4434,
+                                                  "children": [
+                                                    {
+                                                      "name": "PK_M_WASC2",
+                                                      "size": 1,
+                                                      "height": 0.0,
+                                                      "samples": [
+                                                        "PK_M_WASC2"
+                                                      ],
+                                                      "branch_length": 0.4434,
+                                                      "haplogroup": "M/U (PK)"
+                                                    },
+                                                    {
+                                                      "name": "Clade_59",
+                                                      "height": 0.4434,
+                                                      "children": [
+                                                        {
+                                                          "name": "PK_M_WASH",
+                                                          "size": 1,
+                                                          "height": 0.0,
+                                                          "samples": [
+                                                            "PK_M_WASH"
+                                                          ],
+                                                          "branch_length": 0.4434,
+                                                          "haplogroup": "M/U (PK)"
+                                                        },
+                                                        {
+                                                          "name": "Clade_58",
+                                                          "height": 0.4434,
+                                                          "children": [
+                                                            {
+                                                              "name": "PK_F_WAS",
+                                                              "size": 1,
+                                                              "height": 0.0,
+                                                              "samples": [
+                                                                "PK_F_WAS"
+                                                              ],
+                                                              "branch_length": 0.4434,
+                                                              "haplogroup": "M/U (PK)"
+                                                            },
+                                                            {
+                                                              "name": "PK_M_WASC1",
+                                                              "size": 1,
+                                                              "height": 0.0,
+                                                              "samples": [
+                                                                "PK_M_WASC1"
+                                                              ],
+                                                              "branch_length": 0.4434,
+                                                              "haplogroup": "M/U (PK)"
+                                                            }
+                                                          ],
+                                                          "samples": [
+                                                            "PK_F_WAS",
+                                                            "PK_M_WASC1"
+                                                          ],
+                                                          "size": 2,
+                                                          "branch_length": 0.001
+                                                        }
+                                                      ],
+                                                      "samples": [
+                                                        "PK_M_WASH",
+                                                        "PK_F_WAS",
+                                                        "PK_M_WASC1"
+                                                      ],
+                                                      "size": 3,
+                                                      "branch_length": 0.001
+                                                    }
+                                                  ],
+                                                  "samples": [
+                                                    "PK_M_WASC2",
+                                                    "PK_M_WASH",
+                                                    "PK_F_WAS",
+                                                    "PK_M_WASC1"
+                                                  ],
+                                                  "size": 4,
+                                                  "branch_length": 0.0226
+                                                }
+                                              ],
+                                              "samples": [
+                                                "CA_M_GER",
+                                                "PK_M_WASC2",
+                                                "PK_M_WASH",
+                                                "PK_F_WAS",
+                                                "PK_M_WASC1"
+                                              ],
+                                              "size": 5,
+                                              "branch_length": 0.0073
+                                            }
+                                          ],
+                                          "samples": [
+                                            "HK_M_WLL",
+                                            "HK_F_JAN",
+                                            "HK_F_JANM",
+                                            "CA_M_GER",
+                                            "PK_M_WASC2",
+                                            "PK_M_WASH",
+                                            "PK_F_WAS",
+                                            "PK_M_WASC1"
+                                          ],
+                                          "size": 8,
+                                          "branch_length": 0.003
+                                        }
+                                      ],
+                                      "samples": [
                                         "TB_F_BHA",
                                         "HK_M_WLL",
                                         "HK_F_JAN",
@@ -899,12 +874,11 @@
                                         "PK_F_WAS",
                                         "PK_M_WASC1"
                                       ],
-                                      "size": 15,
-                                      "branch_length": 0.0019
+                                      "size": 9,
+                                      "branch_length": 0.001
                                     }
                                   ],
                                   "samples": [
-                                    "KR_F_MOO",
                                     "UK_F_NIKM",
                                     "UK_F_NIKG",
                                     "UK_M_NIK",
@@ -921,8 +895,8 @@
                                     "PK_F_WAS",
                                     "PK_M_WASC1"
                                   ],
-                                  "size": 16,
-                                  "branch_length": 0.001
+                                  "size": 15,
+                                  "branch_length": 0.002
                                 }
                               ],
                               "samples": [
@@ -933,7 +907,6 @@
                                 "IS_F_VYSC1",
                                 "IS_F_VYS2",
                                 "IS_F_VYSM",
-                                "KR_F_MOO",
                                 "UK_F_NIKM",
                                 "UK_F_NIKG",
                                 "UK_M_NIK",
@@ -950,8 +923,8 @@
                                 "PK_F_WAS",
                                 "PK_M_WASC1"
                               ],
-                              "size": 23,
-                              "branch_length": 0.001
+                              "size": 22,
+                              "branch_length": 0.0012
                             }
                           ],
                           "samples": [
@@ -965,7 +938,6 @@
                             "IS_F_VYSC1",
                             "IS_F_VYS2",
                             "IS_F_VYSM",
-                            "KR_F_MOO",
                             "UK_F_NIKM",
                             "UK_F_NIKG",
                             "UK_M_NIK",
@@ -982,7 +954,7 @@
                             "PK_F_WAS",
                             "PK_M_WASC1"
                           ],
-                          "size": 26,
+                          "size": 25,
                           "branch_length": 0.001
                         }
                       ],
@@ -999,7 +971,6 @@
                         "IS_F_VYSC1",
                         "IS_F_VYS2",
                         "IS_F_VYSM",
-                        "KR_F_MOO",
                         "UK_F_NIKM",
                         "UK_F_NIKG",
                         "UK_M_NIK",
@@ -1016,7 +987,7 @@
                         "PK_F_WAS",
                         "PK_M_WASC1"
                       ],
-                      "size": 28,
+                      "size": 27,
                       "branch_length": 0.001
                     }
                   ],
@@ -1037,7 +1008,6 @@
                     "IS_F_VYSC1",
                     "IS_F_VYS2",
                     "IS_F_VYSM",
-                    "KR_F_MOO",
                     "UK_F_NIKM",
                     "UK_F_NIKG",
                     "UK_M_NIK",
@@ -1054,7 +1024,7 @@
                     "PK_F_WAS",
                     "PK_M_WASC1"
                   ],
-                  "size": 32,
+                  "size": 31,
                   "branch_length": 0.001
                 }
               ],
@@ -1082,7 +1052,6 @@
                 "IS_F_VYSC1",
                 "IS_F_VYS2",
                 "IS_F_VYSM",
-                "KR_F_MOO",
                 "UK_F_NIKM",
                 "UK_F_NIKG",
                 "UK_M_NIK",
@@ -1099,7 +1068,7 @@
                 "PK_F_WAS",
                 "PK_M_WASC1"
               ],
-              "size": 39,
+              "size": 38,
               "branch_length": 0.0021
             }
           ],
@@ -1128,7 +1097,6 @@
             "IS_F_VYSC1",
             "IS_F_VYS2",
             "IS_F_VYSM",
-            "KR_F_MOO",
             "UK_F_NIKM",
             "UK_F_NIKG",
             "UK_M_NIK",
@@ -1145,43 +1113,12 @@
             "PK_F_WAS",
             "PK_M_WASC1"
           ],
-          "size": 40,
-          "branch_length": 0.0294
-        },
-        {
-          "name": "Clade_82",
-          "height": 0.4739,
-          "children": [
-            {
-              "name": "KR_F_MOOC1",
-              "size": 1,
-              "height": 0.0,
-              "samples": [
-                "KR_F_MOOC1"
-              ],
-              "branch_length": 0.4739,
-              "haplogroup": "D4"
-            },
-            {
-              "name": "NA_F_R3_2_LP5206_mrg",
-              "size": 1,
-              "height": 0.0,
-              "samples": [
-                "NA_F_R3_2_LP5206_mrg"
-              ],
-              "branch_length": 0.4739,
-              "haplogroup": "A2"
-            }
-          ],
-          "samples": [
-            "KR_F_MOOC1",
-            "NA_F_R3_2_LP5206_mrg"
-          ],
-          "size": 2,
-          "branch_length": 0.0289
+          "size": 39,
+          "branch_length": 0.0433
         }
       ],
       "samples": [
+        "NA_F_R3_2_LP5206_mrg",
         "AA_F_TON",
         "IN_M_DPLH",
         "IN_F_DPL",
@@ -1206,7 +1143,6 @@
         "IS_F_VYSC1",
         "IS_F_VYS2",
         "IS_F_VYSM",
-        "KR_F_MOO",
         "UK_F_NIKM",
         "UK_F_NIKG",
         "UK_M_NIK",
@@ -1221,16 +1157,15 @@
         "PK_M_WASC2",
         "PK_M_WASH",
         "PK_F_WAS",
-        "PK_M_WASC1",
-        "KR_F_MOOC1",
-        "NA_F_R3_2_LP5206_mrg"
+        "PK_M_WASC1"
       ],
-      "size": 42,
-      "branch_length": 0.1397
+      "size": 40,
+      "branch_length": 0.1295
     }
   ],
   "samples": [
     "SA_M_RD_2_LP5205_mrg",
+    "NA_F_R3_2_LP5206_mrg",
     "AA_F_TON",
     "IN_M_DPLH",
     "IN_F_DPL",
@@ -1255,7 +1190,6 @@
     "IS_F_VYSC1",
     "IS_F_VYS2",
     "IS_F_VYSM",
-    "KR_F_MOO",
     "UK_F_NIKM",
     "UK_F_NIKG",
     "UK_M_NIK",
@@ -1270,9 +1204,7 @@
     "PK_M_WASC2",
     "PK_M_WASH",
     "PK_F_WAS",
-    "PK_M_WASC1",
-    "KR_F_MOOC1",
-    "NA_F_R3_2_LP5206_mrg"
+    "PK_M_WASC1"
   ],
-  "size": 43
+  "size": 41
 }

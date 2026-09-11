@@ -109,7 +109,8 @@ def export_all(lambda_param=0.5):
         "AA_F_TON", "CA_M_GER", "CL_F_ALJ", "CL_F_ALJC1", "HK_F_JAN", "HK_F_JANM", "HK_M_WLL",
         "IN_F_DPL", "IN_F_RISG", "IN_F_RISM", "IN_M_DPLH", "IN_M_RIS", "IN_M_RISF", "IN_M_RISS1",
         "IS_F_VYS", "IS_F_VYS2", "IS_F_VYSC1", "IS_F_VYSM", "IS_M_PRIC1", "IS_M_RAV", "IS_M_SEL",
-        "IW_F_ANJ", "IW_F_ANJM", "IW_F_ANJS1", "IW_M_ANJF", "KR_F_MOO", "KR_F_MOOC1",
+        "IW_F_ANJ", "IW_F_ANJM", "IW_F_ANJS1", "IW_M_ANJF",
+        # TEMPORARY HOLD: "KR_F_MOO", "KR_F_MOOC1", (Korean samples on hold; restore when requested)
         "MX_F_CRY", "MX_F_CRYS1", "MX_M_CRYF", "PK_F_WAS", "PK_M_WASC1", "PK_M_WASC2", "PK_M_WASH",
         "TB_F_BHA", "UK_F_NIKA", "UK_F_NIKG", "UK_F_NIKM", "UK_M_NIK",
         "UK_M_NIKS1", "UK_M_NIKS2", "NA_F_R3_2_LP5206_mrg"
@@ -125,6 +126,9 @@ def export_all(lambda_param=0.5):
                     if fname == "distance_matrix.csv":
                         continue
                     sname = fname.replace(".csv", "").replace(".var", "").replace(".mut", "").replace("_filtered", "")
+                    # TEMPORARY HOLD: Skip Korean samples
+                    if sname.startswith("KR_") or sname in ("KR_F_MOO", "KR_F_MOOC1"):
+                        continue
                     if sname not in sample_vaf_data:
                         sample_vaf_data[sname] = {}
                     
@@ -158,7 +162,7 @@ def export_all(lambda_param=0.5):
         "IS": [(5186, 0.95), (9094, 0.97), (9614, 0.94), (12793, 0.96), (13194, 0.93), (13656, 0.97), (15930, 0.92)],
         "IW": [(5508, 0.94), (8594, 0.96), (10084, 0.92), (10754, 0.97), (11293, 0.95), (13635, 0.93), (13971, 0.96), (14990, 0.94), (15385, 0.97)],
         "HK": [(5821, 0.96), (6338, 0.94), (6455, 0.92), (8602, 0.97), (9540, 0.93), (14821, 0.95), (16223, 0.91)],
-        "KR": [(63, 0.95), (1709, 0.97), (2882, 0.94), (3010, 0.92), (8414, 0.96), (9817, 0.95), (13544, 0.93), (14668, 0.97), (15565, 0.94), (15669, 0.96), (16362, 0.90)],
+        # TEMPORARY HOLD: "KR": [(63, 0.95), (1709, 0.97), (2882, 0.94), (3010, 0.92), (8414, 0.96), (9817, 0.95), (13544, 0.93), (14668, 0.97), (15565, 0.94), (15669, 0.96), (16362, 0.90)],
         "PK": [(511, 0.96), (3594, 0.93), (7269, 0.95), (7805, 0.97), (13680, 0.92), (15479, 0.96)],
         "CL": [(114, 0.97), (3552, 0.94), (8545, 0.96), (9545, 0.92), (11914, 0.95), (13263, 0.93), (15323, 0.97), (16298, 0.91), (16327, 0.89)],
         "AA": [(183, 0.98), (2758, 0.95), (5581, 0.97), (7175, 0.94), (9128, 0.96), (11338, 0.95), (13803, 0.92), (14308, 0.96), (15784, 0.93), (16278, 0.90)],

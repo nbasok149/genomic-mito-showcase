@@ -59,6 +59,7 @@ window.MigrationMap = {
     11566: { locus: 'MT-ND4', change: 'G>A', meaning: 'Conserved Eastern European regional lineage marker.' },
     14467: { locus: 'MT-ND6', change: 'A>G', meaning: 'Diagnostic maternal variant in NADH dehydrogenase subunit 6 for Ukraine cohort.' },
     16356: { locus: 'Control Region (D-loop)', change: 'T>C', meaning: 'Private maternal hypervariable signature for Ukraine family lines.' },
+    /* TEMPORARY HOLD: Korean cohort markers (63, 1709, 2882, 3010, 8414, 9817, 13544, 15565, 15669)
     63: { locus: 'Control Region (D-loop)', change: 'C>T', meaning: 'Northeast Asian / Korean Peninsula diagnostic founder; proves ancient habitation across Manchuria & Korea.' },
     1709: { locus: 'MT-RNR2 (16S rRNA)', change: 'G>A', meaning: 'Haplogroup D4 Korean founder marker in 16S ribosomal RNA.' },
     2882: { locus: 'MT-RNR2 (16S rRNA)', change: 'C>T', meaning: 'Diagnostic Korean Peninsula maternal lineage variant.' },
@@ -68,6 +69,7 @@ window.MigrationMap = {
     13544: { locus: 'MT-ND5', change: 'A>G', meaning: 'High-confidence maternal variant for Korea cohort.' },
     15565: { locus: 'MT-CYB', change: 'C>T', meaning: 'Conserved Korean maternal cytochrome b signature.' },
     15669: { locus: 'MT-CYB', change: 'G>A', meaning: 'Private diagnostic marker for Korea family line.' },
+    */
     499: { locus: 'Control Region (D-loop)', change: 'G>A', meaning: 'Ancient Beringian transit marker; carried by founding ancestors entering North & Central America.' },
     4823: { locus: 'MT-ND2', change: 'C>T', meaning: 'Pre-Clovis Mesoamerican founder variant in complex I.' },
     6297: { locus: 'MT-CO1', change: 'T>C', meaning: 'Diagnostic Mesoamerican / Mexican Haplogroup B2 founder; proves ancestral lineage in Central America.' },
@@ -377,6 +379,7 @@ window.MigrationMap = {
         }
       ]
     },
+    /* TEMPORARY HOLD: Korea (KR) Migration Route - Restore when requested
     'KR': {
       name: 'Korea',
       stops: [
@@ -415,6 +418,7 @@ window.MigrationMap = {
         }
       ]
     },
+    */
     'MX': {
       name: 'Mexico',
       stops: [
