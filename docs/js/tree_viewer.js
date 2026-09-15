@@ -52,7 +52,7 @@ window.TreeViewer = {
     });
 
     document.getElementById('btnTreeZoomReset')?.addEventListener('click', () => {
-      this.zoomToGlobal();
+      this.clearEthnicitySelection();
     });
 
     // Close modals when clicking backdrop or close buttons
@@ -292,6 +292,7 @@ window.TreeViewer = {
 
   clearEthnicitySelection() {
     this.selectedEthnicities = [];
+    this.selectedSamples = [];
     this.renderFamilyGroupButtons();
     this.highlightFamilyCluster();
     this.zoomToGlobal();
@@ -300,6 +301,26 @@ window.TreeViewer = {
     if (modal) {
       modal.classList.add('hidden');
       modal.classList.remove('flex');
+    }
+
+    const toast = document.getElementById('compareBranchToast');
+    if (toast) {
+      toast.classList.add('hidden');
+    }
+
+    const headerBadge = document.getElementById('currentFamilyHeaderBadge');
+    if (headerBadge) {
+      headerBadge.textContent = '';
+      headerBadge.classList.add('hidden');
+    }
+
+    const quickSelect = document.getElementById('quickFamilyEntrySelect');
+    if (quickSelect) {
+      quickSelect.value = '';
+    }
+
+    if (window.updateHeroCohortFlags) {
+      window.updateHeroCohortFlags('');
     }
   },
 
@@ -354,6 +375,16 @@ window.TreeViewer = {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
       }
+      const headerBadge = document.getElementById('currentFamilyHeaderBadge');
+      if (headerBadge) {
+        headerBadge.textContent = '';
+        headerBadge.classList.add('hidden');
+      }
+      const quickSelect = document.getElementById('quickFamilyEntrySelect');
+      if (quickSelect) quickSelect.value = '';
+      if (window.updateHeroCohortFlags) {
+        window.updateHeroCohortFlags('');
+      }
     }
 
     if (this.selectedEthnicities.length > 0 && window.DiagnosticMarkersExplorer) {
@@ -398,7 +429,11 @@ window.TreeViewer = {
       const currentCode = this.selectedEthnicities[0] || 'IN';
       this.zoomToMacroSection(this.macroSections[currentCode] || 2);
     } else if (this.zoomTier === 2) {
-      this.zoomToGlobal();
+      if ((this.selectedEthnicities && this.selectedEthnicities.length > 0) || (this.selectedSamples && this.selectedSamples.length > 0)) {
+        this.clearEthnicitySelection();
+      } else {
+        this.zoomToGlobal();
+      }
     } else if (this.zoomBehavior && svg.node()) {
       svg.transition().duration(500).call(this.zoomBehavior.scaleBy, 0.7);
     }
@@ -743,14 +778,113 @@ window.TreeViewer = {
         this.updateLabelVisibility(event.transform.k);
       });
     
+    if (!container._dblclickResetBound) {
+      container._dblclickResetBound = true;
+      container.addEventListener('dblclick', (event) => {
+        if (event.target === container) {
+          event.preventDefault();
+          event.stopPropagation();
+          const hasBranch = (this.selectedEthnicities && this.selectedEthnicities.length > 0) ||
+                            (this.selectedSamples && this.selectedSamples.length > 0);
+          if (hasBranch) {
+            this.clearEthnicitySelection();
+          } else {
+            this.zoomOut();
+          }
+        }
+      });
+    }
+
     // Disable D3 default double-click zoom-in behavior
     svg.call(this.zoomBehavior)
        .on('dblclick.zoom', null);
 
-    // Double clicking the phylogenetic tree canvas (not on any button/node) zooms out
+    // Double clicking the phylogenetic tree canvas resets to global tree view if a branch is selected
+    // (unless double clicking directly within the active colored region for that branch)
     svg.on('dblclick', (event) => {
+      // Ignore clicks on control buttons or select dropdowns
+      if (event.target.closest('button') || event.target.closest('select')) {
+        return;
+      }
+
+      const selectedCodes = (this.selectedEthnicities || []).map(c => c.toUpperCase());
+      const selectedSamples = (this.selectedSamples || []);
+      const hasBranchSelected = selectedCodes.length > 0 || selectedSamples.length > 0;
+
+      if (hasBranchSelected) {
+        // Determine whether the double-click occurred within the colored region for the selected branch
+        let isInsideActiveBranch = false;
+
+        // 1. Check family overlay bounding box / squircle / banner elements
+        for (const code of selectedCodes) {
+          if (event.target.closest(`.family-overlay-${code}`) ||
+              event.target.closest(`.family-overlay-${code.toLowerCase()}`) ||
+              event.target.closest(`[data-cohort="${code}"]`)) {
+            isInsideActiveBranch = true;
+            break;
+          }
+        }
+
+        // 2. Check if clicked element is a tree node belonging to the selected branch
+        if (!isInsideActiveBranch) {
+          const nodeEl = event.target.closest('.tree-node');
+          if (nodeEl) {
+            const cohortAttr = (nodeEl.getAttribute('data-cohort') || '').toUpperCase();
+            if (cohortAttr && selectedCodes.includes(cohortAttr)) {
+              isInsideActiveBranch = true;
+            } else if (nodeEl.__data__ && nodeEl.__data__.data) {
+              const rawName = nodeEl.__data__.data.name || '';
+              const upperName = rawName.toUpperCase();
+              const nodeCohort = upperName.includes('_') ? upperName.split('_')[0] : upperName;
+              if (selectedCodes.includes(nodeCohort) || selectedSamples.includes(rawName)) {
+                isInsideActiveBranch = true;
+              }
+            }
+          }
+        }
+
+        // 3. Check if clicked element is a link belonging to the selected branch
+        if (!isInsideActiveBranch) {
+          const linkEl = event.target.closest('.tree-link');
+          if (linkEl) {
+            if (linkEl.classList.contains('family-active')) {
+              isInsideActiveBranch = true;
+            } else {
+              const linkCohort = (linkEl.getAttribute('data-cohort') || '').toUpperCase();
+              if (linkCohort && selectedCodes.includes(linkCohort)) {
+                isInsideActiveBranch = true;
+              } else if (linkEl.__data__ && linkEl.__data__.target && linkEl.__data__.target.data) {
+                const targetName = (linkEl.__data__.target.data.name || '').toUpperCase();
+                const nodeCohort = targetName.includes('_') ? targetName.split('_')[0] : targetName;
+                if (selectedCodes.includes(nodeCohort)) {
+                  isInsideActiveBranch = true;
+                }
+              }
+            }
+          }
+        }
+
+        // If double clicked anywhere but the colored region for that branch, reset to global tree view!
+        if (!isInsideActiveBranch) {
+          event.preventDefault();
+          event.stopPropagation();
+          this.clearEthnicitySelection();
+          return;
+        } else {
+          // Double clicked inside the active branch's colored region: retain focus on that branch
+          event.preventDefault();
+          event.stopPropagation();
+          const primaryCode = selectedCodes[0];
+          if (primaryCode) {
+            this.zoomToFamily(primaryCode);
+          }
+          return;
+        }
+      }
+
+      // No branch selected: standard double-click zoom out (unless clicking directly on a sample node circle)
       const tag = event.target.tagName ? event.target.tagName.toLowerCase() : '';
-      if (tag === 'circle' || tag === 'button' || event.target.closest('button') || event.target.closest('select')) {
+      if (tag === 'circle') {
         return;
       }
       event.preventDefault();
@@ -794,6 +928,7 @@ window.TreeViewer = {
 
       const overlayG = overlayGroup.append('g')
         .attr('class', `family-overlay-${code}`)
+        .attr('data-cohort', code)
         .style('cursor', 'pointer')
         .on('click', () => this.toggleEthnicitySelection(code));
 
@@ -847,6 +982,10 @@ window.TreeViewer = {
       .enter()
       .append('path')
       .attr('class', 'tree-link')
+      .attr('data-cohort', d => {
+        const targetName = (d.target && d.target.data && d.target.data.name) ? d.target.data.name : '';
+        return targetName.includes('_') ? targetName.split('_')[0] : '';
+      })
       .attr('stroke', '#3f3f46')
       .attr('stroke-width', '2px')
       .attr('stroke-opacity', '0.8')
@@ -862,6 +1001,10 @@ window.TreeViewer = {
       .enter()
       .append('g')
       .attr('class', 'tree-node')
+      .attr('data-cohort', d => {
+        const name = (d.data && d.data.name) ? d.data.name : '';
+        return name.includes('_') ? name.split('_')[0] : (name || '');
+      })
       .attr('transform', d => `translate(${d.y},${d.x})`);
 
     node.append('circle')
