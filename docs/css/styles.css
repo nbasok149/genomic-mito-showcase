@@ -113,26 +113,26 @@ button:active, .btn:active {
   -webkit-text-fill-color: transparent;
 }
 
-/* D3 Phylogenetic Tree Styling (High Clarity, No Cartoonish Neon) */
+/* D3 Phylogenetic Tree Styling (High Clarity, Amber-400 Line Accent) */
 .tree-link {
   fill: none;
-  stroke: #3f3f46 !important;
+  stroke: var(--accent-gold-light, #fbbf24) !important;
   stroke-width: 2px !important;
-  stroke-opacity: 0.8 !important;
+  stroke-opacity: 0.85 !important;
   transition: all 0.3s var(--spring-ease);
 }
 
 .tree-link.dimmed {
-  stroke-opacity: 0.15 !important;
-  stroke: #27272a !important;
+  stroke-opacity: 0.22 !important;
+  stroke: #78350f !important;
   stroke-width: 1.4px !important;
 }
 
 .tree-link.family-active {
-  stroke: var(--accent-gold-light) !important;
-  stroke-width: 3.2px !important;
+  stroke: var(--accent-gold-light, #fbbf24) !important;
+  stroke-width: 3.4px !important;
   stroke-opacity: 1 !important;
-  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5));
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.75));
 }
 
 .tree-node {

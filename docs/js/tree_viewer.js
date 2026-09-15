@@ -986,9 +986,9 @@ window.TreeViewer = {
         const targetName = (d.target && d.target.data && d.target.data.name) ? d.target.data.name : '';
         return targetName.includes('_') ? targetName.split('_')[0] : '';
       })
-      .attr('stroke', '#3f3f46')
+      .attr('stroke', '#fbbf24')
       .attr('stroke-width', '2px')
-      .attr('stroke-opacity', '0.8')
+      .attr('stroke-opacity', '0.85')
       .attr('fill', 'none')
       .attr('d', d3.linkHorizontal()
         .x(d => d.y)
