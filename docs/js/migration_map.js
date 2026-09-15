@@ -746,6 +746,17 @@ window.MigrationMap = {
       setTimeout(() => {
         if (this.map) this.map.invalidateSize();
       }, 300);
+
+      if (!window._mapResizeBound) {
+        window._mapResizeBound = true;
+        let mapResizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(mapResizeTimer);
+          mapResizeTimer = setTimeout(() => {
+            if (this.map) this.map.invalidateSize();
+          }, 200);
+        });
+      }
     } catch (e) {
       console.error("Leaflet map initialization error:", e);
     }
@@ -935,7 +946,7 @@ window.MigrationMap = {
       const isCurrent = idx === this.activeStepIndex;
       const isPast = idx < this.activeStepIndex;
       return `
-        <button onclick="window.MigrationMap.goToStep(${idx})" class="p-2 rounded-xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-zinc-100 text-zinc-950 border-white font-bold shadow-md' : (isPast ? 'bg-zinc-950 border-emerald-500/40 text-emerald-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700')} cursor-pointer">
+        <button onclick="window.MigrationMap.goToStep(${idx})" class="min-h-[44px] p-2.5 rounded-xl text-left font-mono text-xs transition-all border ${isCurrent ? 'bg-zinc-100 text-zinc-950 border-white font-bold shadow-md' : (isPast ? 'bg-zinc-950 border-emerald-500/40 text-emerald-300' : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:border-zinc-700')} cursor-pointer">
           <div class="text-[9.5px] uppercase font-bold flex items-center justify-between">
             <span>Step ${idx + 1}</span>
             <span>${isCurrent ? 'Active' : (isPast ? 'Done' : '')}</span>
@@ -1003,10 +1014,10 @@ window.MigrationMap = {
           <div class="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
             <span class="text-zinc-300 font-bold">Migration progress: step ${this.activeStepIndex + 1} of ${totalSteps}</span>
             <div class="flex items-center space-x-1.5">
-              <button onclick="window.MigrationMap.prevStep()" ${this.activeStepIndex === 0 ? 'disabled' : ''} class="px-2.5 py-1 rounded-xl bg-zinc-950 border border-zinc-700 text-zinc-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs cursor-pointer">
+              <button onclick="window.MigrationMap.prevStep()" ${this.activeStepIndex === 0 ? 'disabled' : ''} class="min-h-[44px] min-w-[44px] px-3.5 py-2 rounded-xl bg-zinc-950 border border-zinc-700 text-zinc-300 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs cursor-pointer flex items-center justify-center">
                 Prev
               </button>
-              <button onclick="window.MigrationMap.nextStep()" ${this.activeStepIndex === totalSteps - 1 ? 'disabled' : ''} class="px-3 py-1 rounded-xl bg-zinc-100 text-zinc-950 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs shadow-sm cursor-pointer">
+              <button onclick="window.MigrationMap.nextStep()" ${this.activeStepIndex === totalSteps - 1 ? 'disabled' : ''} class="min-h-[44px] px-3.5 py-2 rounded-xl bg-zinc-100 text-zinc-950 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all font-mono font-bold text-xs shadow-sm cursor-pointer flex items-center justify-center">
                 Next step ➔
               </button>
             </div>

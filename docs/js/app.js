@@ -331,13 +331,13 @@ window.FamilyReportGenerator = {
     const altBase = baseMap[(v.alt || '').toUpperCase()] || v.alt;
 
     modal.innerHTML = `
-      <div class="earth-panel max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-zinc-800 bg-zinc-950 font-mono text-xs rounded-3xl">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+      <div class="earth-panel max-w-md w-full p-4 sm:p-6 space-y-4 shadow-2xl relative border border-zinc-800 bg-zinc-950 font-mono text-xs rounded-2xl sm:rounded-3xl">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 gap-2">
           <div>
             <span class="text-[10px] text-amber-400 uppercase font-bold tracking-wider">Mutation inspector</span>
             <h3 class="text-base font-extrabold text-white">${v.pos} ${v.ref}&gt;${v.alt}</h3>
           </div>
-          <button onclick="document.getElementById('${modalId}').remove()" class="px-3 py-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold transition-all border border-zinc-700 cursor-pointer">
+          <button onclick="document.getElementById('${modalId}').remove()" class="min-h-[44px] min-w-[44px] px-3.5 py-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl text-xs font-bold transition-all border border-zinc-700 cursor-pointer flex items-center justify-center shrink-0">
             ✕ Close
           </button>
         </div>
@@ -356,7 +356,7 @@ window.FamilyReportGenerator = {
             <div class="flex flex-wrap gap-1.5 pt-1">${ethBadges}</div>
           </div>
 
-          <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-xs">
             <div class="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800">
               <span class="text-zinc-400 text-[10px] block">Gene / region</span>
               <strong class="text-emerald-400">${v.gene || 'Control region (D-loop)'}</strong>
@@ -509,7 +509,7 @@ window.FamilyReportGenerator = {
       });
 
       const vennSvgHtml = `
-        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
+        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
               <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
@@ -518,8 +518,8 @@ window.FamilyReportGenerator = {
             <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
 
-          <div class="flex justify-center overflow-x-auto py-2">
-            <svg width="680" height="420" viewBox="0 0 680 420" class="select-none">
+          <div class="w-full flex justify-start sm:justify-center overflow-x-auto py-2">
+            <svg width="680" height="420" viewBox="0 0 680 420" class="select-none shrink-0">
               <circle cx="260" cy="170" r="135" fill="${color1}" fill-opacity="0.14" stroke="${color1}" stroke-width="2"/>
               <circle cx="420" cy="170" r="135" fill="${color2}" fill-opacity="0.14" stroke="${color2}" stroke-width="2"/>
               <circle cx="340" cy="270" r="135" fill="${color3}" fill-opacity="0.14" stroke="${color3}" stroke-width="2"/>
@@ -548,13 +548,13 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
-          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
+          <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
                 <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">3-Way multi-population comparative report</div>
-                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name} <span class="text-zinc-500">vs</span> ${info3.name}</h2>
+                <h2 class="text-lg sm:text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name} <span class="text-zinc-500">vs</span> ${info3.name}</h2>
               </div>
-              <div class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 font-bold">
+              <div class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 font-bold w-fit">
                 3-Way triangulation mode
               </div>
             </div>
@@ -593,15 +593,15 @@ window.FamilyReportGenerator = {
 
           ${vennSvgHtml}
 
-          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-5 text-xs text-zinc-300 leading-relaxed shadow-2xl">
+          <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 sm:space-y-5 text-xs text-zinc-300 leading-relaxed shadow-2xl">
             <div class="border-b border-white/10 pb-3">
-              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
+              <h4 class="font-bold text-amber-400 font-mono text-sm sm:text-base flex items-center gap-2">
                 <span>Population breakdown</span>
               </h4>
               <p class="text-zinc-400 text-[11px] mt-0.5">Triangulated evolutionary and geographic lineage analysis across ${info1.code}, ${info2.code}, and ${info3.code}</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-[11.5px]">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-[11.5px]">
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
                 <div class="font-mono font-bold text-amber-300 text-sm">${info1.name}</div>
                 <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info1.haplo}</div>
@@ -664,7 +664,7 @@ window.FamilyReportGenerator = {
       });
 
       const vennSvgHtml2Way = `
-        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
+        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 shadow-2xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
               <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Interactive mutational Venn diagram</span>
@@ -673,8 +673,8 @@ window.FamilyReportGenerator = {
             <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot for full detail</span>
           </div>
 
-          <div class="flex justify-center overflow-x-auto py-2">
-            <svg width="600" height="320" viewBox="0 0 600 320" class="select-none">
+          <div class="w-full flex justify-start sm:justify-center overflow-x-auto py-2">
+            <svg width="600" height="320" viewBox="0 0 600 320" class="select-none shrink-0">
               <circle cx="230" cy="160" r="125" fill="${color1}" fill-opacity="0.14" stroke="${color1}" stroke-width="2"/>
               <circle cx="370" cy="160" r="125" fill="${color2}" fill-opacity="0.14" stroke="${color2}" stroke-width="2"/>
 
@@ -693,13 +693,13 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
-          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
+          <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
                 <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Pairwise cohort comparative report</div>
-                <h2 class="text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name}</h2>
+                <h2 class="text-lg sm:text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name}</h2>
               </div>
-              <div class="flex items-center space-x-3 bg-zinc-950/90 px-4 py-2 rounded-2xl border border-zinc-800">
+              <div class="flex items-center space-x-3 bg-zinc-950/90 px-4 py-2 rounded-2xl border border-zinc-800 w-fit">
                 <span class="text-xs text-zinc-400">Pairwise genetic distance:</span>
                 <span class="text-lg font-bold text-amber-300">${avgDist}</span>
               </div>
@@ -713,7 +713,7 @@ window.FamilyReportGenerator = {
               </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs font-sans">
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
                 <div class="font-bold text-amber-300 font-mono">${info1.name} (${info1.region})</div>
                 <div class="text-zinc-400"><strong class="text-zinc-300">Lineage:</strong> ${info1.haplo}</div>
@@ -729,15 +729,15 @@ window.FamilyReportGenerator = {
 
           ${vennSvgHtml2Way}
 
-          <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 text-xs text-zinc-300 shadow-2xl">
+          <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 text-xs text-zinc-300 shadow-2xl">
             <div class="border-b border-white/10 pb-3">
-              <h4 class="font-bold text-amber-400 font-mono text-base flex items-center gap-2">
+              <h4 class="font-bold text-amber-400 font-mono text-sm sm:text-base flex items-center gap-2">
                 <span>Population breakdown</span>
               </h4>
               <p class="text-zinc-400 text-[11px] mt-0.5">Evolutionary lineage and migration analysis between ${info1.code} and ${info2.code}</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
                 <div class="font-mono font-bold text-amber-300 text-sm">${info1.name} breakdown</div>
                 <p class="text-zinc-300 text-[11.5px] leading-relaxed">${info1.history}</p>
@@ -1239,11 +1239,11 @@ window.FamilyReportGenerator = {
       <div class="space-y-6 font-sans">
         
         <!-- Summary Header Card -->
-        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
+        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
               <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Comparative lineage &amp; ancestral junction report</div>
-              <h2 class="text-xl font-extrabold text-white">${name1} <span class="text-zinc-500">vs</span> ${name2}</h2>
+              <h2 class="text-lg sm:text-xl font-extrabold text-white">${name1} <span class="text-zinc-500">vs</span> ${name2}</h2>
             </div>
             ${inheritanceBadge}
           </div>
@@ -1280,7 +1280,7 @@ window.FamilyReportGenerator = {
               <div class="w-1/4 h-full transition-all ${diffCount >= 15 ? 'bg-purple-400' : 'bg-purple-950/40'}"></div>
             </div>
 
-            <div class="grid grid-cols-4 text-[10px] text-zinc-400 text-center font-sans">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 text-[10px] text-zinc-400 text-center font-sans">
               <div class="${diffCount === 0 ? 'text-emerald-300 font-bold' : ''}">0: Identical Maternal</div>
               <div class="${diffCount > 0 && diffCount <= 5 ? 'text-teal-300 font-bold' : ''}">1&ndash;5: Close Kin</div>
               <div class="${diffCount > 5 && diffCount <= 14 ? 'text-amber-300 font-bold' : ''}">6&ndash;14: Regional Cohort</div>
@@ -1304,7 +1304,7 @@ window.FamilyReportGenerator = {
         ${vennSvgHtml}
 
         <!-- Section: Conserved Ancestral Mutations (Branch Junction Triangulation) -->
-        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
+        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
               <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Ancestral junction triangulation</span>
@@ -1316,7 +1316,7 @@ window.FamilyReportGenerator = {
           ${sharedHigh.length > 0 ? `
             <div class="flex flex-wrap gap-2.5 pt-1">
               ${sharedHigh.map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-3 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-900 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-2 group cursor-pointer">
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="min-h-[44px] px-3.5 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-900 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-2 group cursor-pointer">
                   <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
                   <span class="text-zinc-400 text-[10px] bg-zinc-900 px-1.5 py-0.5 rounded-lg border border-zinc-700 group-hover:border-emerald-600 group-hover:text-emerald-300">
                     ${m.gene || 'Locus'} &bull; High (100%)
@@ -1332,7 +1332,7 @@ window.FamilyReportGenerator = {
         </div>
 
         <!-- Section: Low-VAF Muted / Trace Heteroplasmy Analysis -->
-        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
+        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
               <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Detection threshold inspection</span>
@@ -1346,7 +1346,7 @@ window.FamilyReportGenerator = {
               <strong>Trace mutation warning:</strong> Variants with detection lower than 3% (e.g. ${lowVafMuted.slice(0, 5).map(m=>`${m.pos} ${m.ref}&gt;${m.alt}`).join(', ')}) are based on isolated sequencing reads and cannot be trusted as fixed ancestral markers.
             </div>
 
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto w-full">
               <table class="w-full text-left text-xs font-mono">
                 <thead>
                   <tr class="border-b border-white/10 text-zinc-400">
@@ -1379,7 +1379,7 @@ window.FamilyReportGenerator = {
         </div>
 
         <!-- Sample Details Breakdown -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs font-sans">
           <div class="p-4 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-2">
             <div class="flex items-center justify-between border-b border-white/10 pb-1.5 font-mono">
               <span class="font-bold text-emerald-400 text-sm">${name1}</span>
@@ -1401,7 +1401,7 @@ window.FamilyReportGenerator = {
         </div>
 
         <!-- Section 3: Comprehensive Familial Marker Analysis -->
-        <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4">
+        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
             <div>
               <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Comprehensive familial marker analysis</span>
@@ -1415,7 +1415,7 @@ window.FamilyReportGenerator = {
           </div>
 
           <!-- Matching List Diagram -->
-          <div class="space-y-2 max-h-96 overflow-y-auto pr-1">
+          <div class="space-y-2 max-h-96 overflow-y-auto overflow-x-auto pr-1 w-full">
             ${markerRowsHtml}
           </div>
 
@@ -1492,18 +1492,18 @@ window.App = {
     const tabContentGlobe = document.getElementById('tabContentGlobe');
 
     const switchMainTab = (tab) => {
-      const activeClass = 'bg-zinc-100 text-zinc-950 shadow-md font-bold';
-      const inactiveClass = 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 font-medium';
+      const activeClass = 'bg-zinc-100 text-zinc-950 shadow-md font-bold min-h-[44px] flex items-center justify-center';
+      const inactiveClass = 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 font-medium min-h-[44px] flex items-center justify-center';
 
       if (tab === 'tree') {
-        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${activeClass}`;
-        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${inactiveClass}`;
+        if (mainTabTree) mainTabTree.className = `flex-1 md:flex-initial px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `flex-1 md:flex-initial px-3.5 py-2 rounded-xl transition-all cursor-pointer ${inactiveClass}`;
         tabContentTree?.classList.remove('hidden');
         tabContentGlobe?.classList.add('hidden');
         if (window.TreeViewer) window.TreeViewer.render();
       } else if (tab === 'globe') {
-        if (mainTabGlobe) mainTabGlobe.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${activeClass}`;
-        if (mainTabTree) mainTabTree.className = `px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${inactiveClass}`;
+        if (mainTabGlobe) mainTabGlobe.className = `flex-1 md:flex-initial px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeClass}`;
+        if (mainTabTree) mainTabTree.className = `flex-1 md:flex-initial px-3.5 py-2 rounded-xl transition-all cursor-pointer ${inactiveClass}`;
         tabContentTree?.classList.add('hidden');
         tabContentGlobe?.classList.remove('hidden');
         if (window.MigrationMap) {

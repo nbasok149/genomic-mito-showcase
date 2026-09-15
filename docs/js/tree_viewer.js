@@ -272,7 +272,7 @@ window.TreeViewer = {
     const isAll = this.selectedEthnicities.length === 0;
 
     let html = `
-      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn px-3.5 py-1.5 text-xs rounded-xl ${isAll ? 'bg-zinc-100 text-zinc-950 font-bold shadow-md' : 'bg-zinc-900/90 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'} transition-all cursor-pointer">
+      <button onclick="window.TreeViewer.clearEthnicitySelection()" class="family-btn min-h-[44px] px-3.5 py-2 text-xs rounded-xl inline-flex items-center justify-center ${isAll ? 'bg-zinc-100 text-zinc-950 font-bold shadow-md' : 'bg-zinc-900/90 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'} transition-all cursor-pointer">
         All cohorts (${groupings.length})
       </button>
     `;
@@ -281,7 +281,7 @@ window.TreeViewer = {
       const active = this.selectedEthnicities.includes(g.key);
       const color = this.ETHNICITY_COLORS[g.key] || '#fafafa';
       html += `
-        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn px-3 py-1.5 text-xs rounded-xl ${active ? 'bg-zinc-100 text-zinc-950 font-bold border border-white shadow-md' : 'bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:border-zinc-600'} transition-all cursor-pointer" style="${active ? '' : `border-left: 3px solid ${color};`}">
+        <button onclick="window.TreeViewer.toggleEthnicitySelection('${g.key}')" class="family-btn min-h-[44px] px-3 py-2 text-xs rounded-xl inline-flex items-center justify-center ${active ? 'bg-zinc-100 text-zinc-950 font-bold border border-white shadow-md' : 'bg-zinc-900/90 border border-zinc-800 text-zinc-300 hover:border-zinc-600'} transition-all cursor-pointer" style="${active ? '' : `border-left: 3px solid ${color};`}">
           ${g.key} (${g.samples.length}) ${active ? '(Active)' : ''}
         </button>
       `;
@@ -698,7 +698,7 @@ window.TreeViewer = {
           </p>
         </div>
 
-        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 flex flex-wrap items-center justify-between gap-3 font-mono">
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono">
           <div>
             <div class="text-[11px] text-zinc-400">Total inherited lineages carrying mutation:</div>
             <div class="text-base font-bold text-emerald-400">${carrierSamples.length} sample lines across ${carrierCohorts.length} global cohorts</div>
@@ -710,7 +710,7 @@ window.TreeViewer = {
           </div>
         </div>
 
-        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2 font-mono">
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2 font-mono">
           <div class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider">Carrying population cohorts:</div>
           <div class="flex flex-wrap gap-2">
             ${carrierCohorts.map(c => `
@@ -722,15 +722,15 @@ window.TreeViewer = {
         </div>
 
         <!-- Cladogram Visualization for this Specific Mutation -->
-        <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
           <div class="text-[11px] text-zinc-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto p-1 font-mono">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto overflow-x-auto p-1 font-mono">
             ${carrierSamples.map(sample => {
               const code = sample.split('_')[0];
               const role = this.getSampleRole(sample);
               const color = this.ETHNICITY_COLORS[code] || '#fafafa';
               return `
-                <div class="p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between">
+                <div class="min-h-[44px] p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between">
                   <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${color}"></span>
                     <strong class="text-zinc-200">${role}</strong>
@@ -767,14 +767,31 @@ window.TreeViewer = {
 
     const width = container.clientWidth || 900;
     const height = 500;
-    const margin = { top: 25, right: 280, bottom: 25, left: 40 };
+    const margin = { top: 25, right: width < 640 ? 180 : 280, bottom: 25, left: width < 640 ? 20 : 40 };
 
     const svg = d3.select(container)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('max-width', '100%')
       .style('background', '#09090b')
       .style('border-radius', '1.5rem');
+
+    if (!window._treeResizeBound) {
+      window._treeResizeBound = true;
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          const tc = document.getElementById('treeContainer');
+          if (tc && tc.clientWidth && !tc.closest('.hidden')) {
+            window.TreeViewer.render();
+          }
+        }, 200);
+      });
+    }
 
     const g = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -1243,17 +1260,17 @@ window.TreeViewer = {
     }
 
     card.innerHTML = `
-      <div class="p-6 rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-5 font-mono text-xs">
+      <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 sm:space-y-5 font-mono text-xs">
         
         <!-- Header Bar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
           <div>
             <div class="text-[11px] text-amber-400 font-bold uppercase tracking-wider">Cohort maternal lineage overview</div>
-            <h4 class="text-lg font-extrabold text-white flex items-center gap-2">
+            <h4 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
               <span>Cohort: ${famName} (${primaryCode})</span>
             </h4>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="px-3 py-1 rounded-xl bg-zinc-900 text-zinc-200 border border-zinc-700 font-bold text-xs">
               ${uniqueSamplesInCohort.length} lineage members
             </span>
@@ -1268,7 +1285,7 @@ window.TreeViewer = {
 
         <!-- Section 2: Shared Core Diagnostic Markers -->
         <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2.5 shadow-inner">
-          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
               <span>Conserved diagnostic markers (${uniqueSharedMuts.length} shared across family line)</span>
             </h5>
@@ -1277,8 +1294,8 @@ window.TreeViewer = {
           ${uniqueSharedMuts.length > 0 ? `
             <div class="flex flex-wrap gap-2 pt-1">
               ${uniqueSharedMuts.slice(0, 12).map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer">
-                  ${m.pos} ${m.ref}&gt;${m.alt} <span class="text-zinc-400 text-[10px]">(${m.gene || 'D-loop'})</span>
+                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="min-h-[44px] px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs transition-all cursor-pointer inline-flex items-center">
+                  ${m.pos} ${m.ref}&gt;${m.alt} <span class="text-zinc-400 text-[10px] ml-1">(${m.gene || 'D-loop'})</span>
                 </button>
               `).join('')}
             </div>
@@ -1289,7 +1306,7 @@ window.TreeViewer = {
 
         <!-- Section 3: Unique Private Mutations -->
         <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2.5 shadow-inner">
-          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-1.5">
             <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wide flex items-center gap-2">
               <span>Private maternal mutations (${uniquePrivateMuts.length} lineage specific)</span>
             </h5>
@@ -1318,11 +1335,11 @@ window.TreeViewer = {
         </div>
 
         <!-- Action Bar: Direct to 2D Satellite Map Tab -->
-        <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
-          <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer">
+        <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <button onclick="window.switchMainTab('globe'); window.MigrationMap.setSample('${primaryCode}')" class="w-full sm:w-auto min-h-[44px] px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
             <span>Trace ${primaryCode} Out-of-Africa progression on satellite map ➔</span>
           </button>
-          <span class="text-zinc-400 text-[11px] font-mono">De-identified genomic data protection active</span>
+          <span class="text-zinc-400 text-[11px] font-mono text-center sm:text-right">De-identified genomic data protection active</span>
         </div>
 
       </div>
