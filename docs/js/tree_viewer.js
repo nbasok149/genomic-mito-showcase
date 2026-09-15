@@ -312,6 +312,7 @@ window.TreeViewer = {
     if (headerBadge) {
       headerBadge.textContent = '';
       headerBadge.classList.add('hidden');
+      headerBadge.style.display = 'none';
     }
 
     const quickSelect = document.getElementById('quickFamilyEntrySelect');
@@ -379,6 +380,7 @@ window.TreeViewer = {
       if (headerBadge) {
         headerBadge.textContent = '';
         headerBadge.classList.add('hidden');
+        headerBadge.style.display = 'none';
       }
       const quickSelect = document.getElementById('quickFamilyEntrySelect');
       if (quickSelect) quickSelect.value = '';
@@ -501,8 +503,15 @@ window.TreeViewer = {
     }
     const headerBadge = document.getElementById('currentFamilyHeaderBadge');
     if (headerBadge) {
-      headerBadge.textContent = `Cohort: ${familyCode}`;
-      headerBadge.classList.remove('hidden');
+      if (familyCode) {
+        headerBadge.textContent = `Cohort: ${familyCode}`;
+        headerBadge.classList.remove('hidden');
+        headerBadge.style.display = 'inline-flex';
+      } else {
+        headerBadge.textContent = '';
+        headerBadge.classList.add('hidden');
+        headerBadge.style.display = 'none';
+      }
     }
   },
 

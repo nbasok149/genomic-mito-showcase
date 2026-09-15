@@ -41,17 +41,116 @@
         This platform visualizes complete human mitochondrial DNA (mtDNA) genomes to explore maternal lineages, generational inheritance, and prehistoric migrations across 200,000 years.
       </p>
 
+      <!-- Ancestry-Conditioned Weighting Formula & Kinship Metric Card -->
+      <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/90 border border-amber-500/30 shadow-xl space-y-4 font-sans">
+        
+        <!-- Header & Metric Badges -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-white/10 pb-3">
+          <div>
+            <div class="text-[10px] text-amber-400 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span>Weighting Formula &bull; mtDNA Kinship Metric</span>
+            </div>
+            <h3 class="text-sm sm:text-base font-bold text-white">Ancestry-Conditioned Rare Mutation Weighting</h3>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 font-mono text-[10px]">
+            <span class="px-2 py-0.5 rounded-md bg-amber-950/60 border border-amber-800/60 text-amber-300 font-semibold">
+              &lambda; = 0.50
+            </span>
+            <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-700 text-zinc-300 font-semibold">
+              Polymorphic Sites V = 274
+            </span>
+            <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-700 text-emerald-400 font-semibold">
+              Monomorphic Filter Active
+            </span>
+          </div>
+        </div>
+
+        <!-- Formula Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          
+          <!-- Card 1: GRM Similarity Score K(i, j) -->
+          <div class="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2.5 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold font-mono text-amber-300">1. GRM Similarity Score K(i, j)</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-950 text-zinc-400 border border-zinc-800 font-mono">Rare Variant</span>
+              </div>
+
+              <!-- Typeset Fraction Equation -->
+              <div class="py-2.5 px-3 rounded-lg bg-zinc-950 border border-amber-900/30 flex items-center justify-center overflow-x-auto shadow-inner">
+                <div class="inline-flex items-center text-zinc-100 font-serif text-sm sm:text-base select-none">
+                  <span class="italic font-bold text-amber-400 mr-2">K(i, j)</span>
+                  <span class="mx-1 text-zinc-400">=</span>
+                  <div class="inline-flex flex-col items-center mx-2 text-xs sm:text-sm">
+                    <span class="border-b border-zinc-600 px-2 pb-0.5 text-zinc-200">1</span>
+                    <span class="pt-0.5 font-sans font-bold text-amber-300">V</span>
+                  </div>
+                  <span class="text-lg sm:text-xl mx-1 font-sans text-zinc-300">&sum;</span>
+                  <div class="inline-flex flex-col items-center mx-2 text-xs sm:text-sm">
+                    <span class="border-b border-zinc-600 px-2.5 pb-0.5 italic text-zinc-200">
+                      (VAF<sub class="text-[9px]">i, v</sub> &minus; p<sub class="text-[9px]">v</sub>)(VAF<sub class="text-[9px]">j, v</sub> &minus; p<sub class="text-[9px]">v</sub>)
+                    </span>
+                    <span class="pt-0.5 italic text-zinc-300">
+                      p<sub class="text-[9px]">v</sub> (1 &minus; p<sub class="text-[9px]">v</sub>)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-[11px] text-zinc-300 leading-relaxed font-sans">
+                <strong class="text-amber-400 font-mono">Rare-Variant Upweighting:</strong> Dividing by the binomial variance <span class="font-mono text-amber-300 text-[10.5px]">p_v(1 - p_v)</span> magnifies shared rare heteroplasmic alleles while downweighting ubiquitous background variants.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Haplogroup Conditioning & Distance Metric -->
+          <div class="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2.5 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold font-mono text-amber-300">2. Haplogroup Conditioning &amp; Distance</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-950 text-zinc-400 border border-zinc-800 font-mono">Background Linear Mixture</span>
+              </div>
+
+              <!-- Typeset Linear Mixture & Distance Equations -->
+              <div class="py-2.5 px-3 rounded-lg bg-zinc-950 border border-amber-900/30 flex flex-col items-center justify-center gap-1.5 overflow-x-auto shadow-inner">
+                <div class="inline-flex items-center text-zinc-100 font-serif text-sm sm:text-base select-none">
+                  <span class="italic font-bold text-amber-400 mr-2">p&#770;<sub class="text-[9px]">v</sub><sup class="text-[9px]">(g)</sup></span>
+                  <span class="mx-1 text-zinc-400">=</span>
+                  <span class="italic text-amber-300 font-bold mx-1">&lambda;</span>
+                  <span class="italic mr-1 text-zinc-200">p<sub class="text-[9px]">v</sub><sup class="text-[9px]">(g)</sup></span>
+                  <span class="mx-1 text-zinc-400">+</span>
+                  <span class="mx-1 text-xs text-zinc-300">(1 &minus; <span class="italic text-amber-300 font-bold">&lambda;</span>)</span>
+                  <span class="italic ml-1 text-zinc-200">p<sub class="text-[9px]">v</sub><sup class="text-[9px]">global</sup></span>
+                </div>
+                <div class="text-[11px] font-mono text-zinc-400 flex items-center gap-2 border-t border-zinc-800/80 pt-1 w-full justify-center">
+                  <span>D(i, j) = max(K) &minus; K(i, j)</span>
+                  <span class="text-zinc-600">&bull;</span>
+                  <span class="text-zinc-400">D(i, i) = 0</span>
+                </div>
+              </div>
+
+              <p class="text-[11px] text-zinc-300 leading-relaxed font-sans">
+                <strong class="text-amber-400 font-mono">Lineage Calibration:</strong> Prevents clade-defining variants from masquerading as close kinship. Families are averaged once to eliminate sampling bias, and pairwise distances are computed for UPGMA trees.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
       <!-- Bullet Notes: Key Platform Features -->
       <div class="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-3 font-sans text-xs">
         <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">Key features of this platform:</div>
         <ul class="space-y-2 text-zinc-300 text-xs">
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Tab 1: Phylogenetic tree</strong> &ndash; Interactive tree visualizer with multi-generational pedigree diagrams and maternal inheritance tracking.</div>
+            <div><strong class="text-white font-mono">Phylogenetic tree</strong> &ndash; Interactive tree visualizer with multi-generational pedigree diagrams and maternal inheritance tracking.</div>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Tab 2: 2D migration map</strong> &ndash; High-resolution satellite basemap stepping through the 200,000-year Out-of-Africa trail with verified anthropological evidence.</div>
+            <div><strong class="text-white font-mono">2D migration map</strong> &ndash; High-resolution satellite basemap stepping through the 200,000-year Out-of-Africa trail with verified anthropological evidence.</div>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
@@ -279,18 +378,16 @@
         <h1 class="font-extrabold text-xl sm:text-2xl text-zinc-100 tracking-tight leading-none">
           Genomic Mito showcase
         </h1>
-        <span id="currentFamilyHeaderBadge" class="hidden md:inline-flex items-center px-2 py-0.5 rounded-lg bg-zinc-900 border border-zinc-700 text-[10px] font-mono text-amber-300 font-bold">
-          Cohort: IN
-        </span>
+        <span id="currentFamilyHeaderBadge" class="hidden items-center px-2 py-0.5 rounded-lg bg-zinc-900 border border-zinc-700 text-[10px] font-mono text-amber-300 font-bold" style="display: none;"></span>
       </div>
 
-      <!-- Center: Tab 1 & Tab 2 Segmented Pill -->
+      <!-- Center: Main Navigation Segmented Pill -->
       <div class="flex items-center space-x-1.5 bg-zinc-900/90 p-1 rounded-2xl border border-white/10 shadow-inner font-mono text-xs">
         <button id="mainTabTree" onclick="window.switchMainTab('tree')" class="px-3.5 py-1.5 rounded-xl font-bold bg-zinc-100 text-zinc-950 shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
-          <span>Tab 1: Phylogenetic tree</span>
+          <span>Phylogenetic tree</span>
         </button>
         <button id="mainTabGlobe" onclick="window.switchMainTab('globe')" class="px-3.5 py-1.5 rounded-xl font-bold text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all flex items-center gap-1.5 cursor-pointer">
-          <span>Tab 2: 2D migration map</span>
+          <span>2D migration map</span>
         </button>
       </div>
 
@@ -677,9 +774,9 @@
 
   <!-- Scripts -->
   <script src="js/topojson-client.min.js"></script>
-  <script src="js/tree_viewer.js?v=13.0"></script>
-  <script src="js/migration_map.js?v=13.0"></script>
-  <script src="js/app.js?v=13.0"></script>
+  <script src="js/tree_viewer.js?v=14.0"></script>
+  <script src="js/migration_map.js?v=14.0"></script>
+  <script src="js/app.js?v=14.0"></script>
 </body>
 </html>
 

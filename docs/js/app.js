@@ -86,6 +86,12 @@ window.FamilyAccessGate = {
     } else {
       // Don't show any country flags until a country has been chosen!
       window.updateHeroCohortFlags('');
+      const headerBadge = document.getElementById('currentFamilyHeaderBadge');
+      if (headerBadge) {
+        headerBadge.textContent = '';
+        headerBadge.classList.add('hidden');
+        headerBadge.style.display = 'none';
+      }
       if (modal) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -165,8 +171,15 @@ window.FamilyAccessGate = {
     // 5. Update header current family badge
     const headerBadge = document.getElementById('currentFamilyHeaderBadge');
     if (headerBadge) {
-      headerBadge.textContent = `Cohort: ${code}`;
-      headerBadge.classList.remove('hidden');
+      if (code) {
+        headerBadge.textContent = `Cohort: ${code}`;
+        headerBadge.classList.remove('hidden');
+        headerBadge.style.display = 'inline-flex';
+      } else {
+        headerBadge.textContent = '';
+        headerBadge.classList.add('hidden');
+        headerBadge.style.display = 'none';
+      }
     }
   }
 };
