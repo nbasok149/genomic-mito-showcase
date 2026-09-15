@@ -665,8 +665,8 @@ window.TreeViewer = {
           if (!d.children && carrierSamples.includes(d.data.name)) return '#34d399';
           return d.children ? '#64748b' : window.TreeViewer.getNodeColor(d.data.name);
         })
-        .style('stroke-width', d => (!d.children && carrierSamples.includes(d.data.name)) ? '3.5px' : '2px')
-        .style('r', d => (!d.children && carrierSamples.includes(d.data.name)) ? 9 : (d.children ? 6.5 : 6));
+        .style('stroke-width', d => (!d.children && carrierSamples.includes(d.data.name)) ? '3.5px' : (d.children ? '1.5px' : '2.5px'))
+        .style('r', d => (!d.children && carrierSamples.includes(d.data.name)) ? 9.5 : (d.children ? 4.5 : 7));
     }
 
     if (titleEl) {
@@ -1000,7 +1000,7 @@ window.TreeViewer = {
       .data(root.descendants())
       .enter()
       .append('g')
-      .attr('class', 'tree-node')
+      .attr('class', d => `tree-node ${d.children ? 'internal-node' : 'sample-node leaf-node'}`)
       .attr('data-cohort', d => {
         const name = (d.data && d.data.name) ? d.data.name : '';
         return name.includes('_') ? name.split('_')[0] : (name || '');
@@ -1008,10 +1008,10 @@ window.TreeViewer = {
       .attr('transform', d => `translate(${d.y},${d.x})`);
 
     node.append('circle')
-      .attr('r', d => d.children ? 5.5 : 5.5)
-      .style('fill', d => d.children ? '#27272a' : '#18181b')
-      .style('stroke', d => d.children ? '#52525b' : this.getNodeColor(d.data.name))
-      .style('stroke-width', '2px')
+      .attr('r', d => d.children ? 4.5 : 7)
+      .style('fill', d => d.children ? '#18181b' : '#ffffff')
+      .style('stroke', d => d.children ? '#71717a' : this.getNodeColor(d.data.name))
+      .style('stroke-width', d => d.children ? '1.5px' : '2.5px')
       .style('cursor', 'pointer')
       .on('click', (event, d) => this.onNodeClick(d));
 
@@ -1020,7 +1020,7 @@ window.TreeViewer = {
     node.filter(d => !d.children)
       .append('text')
       .attr('class', 'leaf-role-label')
-      .attr('dx', 12)
+      .attr('dx', 14)
       .attr('dy', '0.32em')
       .attr('fill', '#e2e8f0')
       .style('font-size', '11.5px')

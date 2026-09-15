@@ -140,22 +140,43 @@ button:active, .btn:active {
 }
 
 .tree-node circle {
-  stroke: #52525b !important;
-  stroke-width: 2px !important;
-  fill: #18181b !important;
   transition: all 0.2s var(--spring-ease);
   cursor: pointer;
 }
 
-.tree-node circle:hover {
-  r: 8.5px !important;
-  fill: #fafafa !important;
+/* Internal structural clade junctions (subtle) */
+.tree-node.internal-node circle {
+  fill: #18181b;
+  stroke: #71717a;
+  stroke-width: 1.5px;
+}
+
+.tree-node.internal-node circle:hover {
+  r: 6px !important;
+  fill: #27272a !important;
+  stroke: #e4e4e7 !important;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4)) !important;
+}
+
+/* Individual Sample Nodes (Bright, High-Contrast Clickable Targets) */
+.tree-node.sample-node circle,
+.tree-node:not(.internal-node) circle {
+  fill: #ffffff !important;
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+}
+
+.tree-node.sample-node circle:hover,
+.tree-node:not(.internal-node) circle:hover {
+  r: 9.5px !important;
+  fill: #ffffff !important;
   stroke: var(--accent-gold) !important;
-  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.95)) drop-shadow(0 0 6px #ffffff) !important;
 }
 
 .tree-node.dimmed {
-  opacity: 0.25;
+  opacity: 0.35;
   transition: opacity 0.2s ease;
 }
 
@@ -163,13 +184,22 @@ button:active, .btn:active {
   opacity: 1 !important;
 }
 
-.tree-node.dimmed circle {
+.tree-node.dimmed.sample-node circle,
+.tree-node.dimmed:not(.internal-node) circle {
+  fill: #a1a1aa !important;
+  stroke: #52525b !important;
+  stroke-width: 1.8px !important;
+  filter: none !important;
+}
+
+.tree-node.dimmed.internal-node circle {
   stroke: #3f3f46 !important;
-  stroke-width: 1.4px !important;
+  fill: #121215 !important;
+  filter: none !important;
 }
 
 .tree-node.dimmed text {
-  fill: #52525b !important;
+  fill: #71717a !important;
 }
 
 .tree-node text.leaf-role-label {
@@ -184,10 +214,10 @@ button:active, .btn:active {
 /* User-Selected Individual Samples on Tree */
 .tree-node.sample-selected circle {
   fill: #10b981 !important;
-  stroke: #34d399 !important;
+  stroke: #ffffff !important;
   stroke-width: 3px !important;
-  r: 8px !important;
-  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.7)) !important;
+  r: 9px !important;
+  filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.9)) drop-shadow(0 0 5px #ffffff) !important;
 }
 
 .tree-node.sample-selected text.leaf-role-label {
