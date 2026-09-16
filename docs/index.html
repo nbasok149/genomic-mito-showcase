@@ -38,8 +38,8 @@
           <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Genomic Mito showcase</h2>
           <p class="text-xs text-amber-400 font-mono">Human mtDNA ancestral lineage visualizer</p>
         </div>
-        <div class="p-2.5 px-3.5 rounded-2xl bg-zinc-900/90 border border-zinc-800 text-xs text-zinc-400 sm:text-right font-sans leading-relaxed sm:max-w-sm shadow-md">
-          Website made by <a href="https://www.linkedin.com/in/nikita-basok/" target="_blank" rel="noopener noreferrer" class="text-zinc-100 hover:text-amber-400 font-semibold underline decoration-zinc-600 hover:decoration-amber-400 underline-offset-2 transition-colors">Nikita Basok</a> in conjunction with <a href="https://scholar.google.com/citations?user=1HfM8IYAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="text-zinc-100 hover:text-amber-400 font-semibold underline decoration-zinc-600 hover:decoration-amber-400 underline-offset-2 transition-colors">Research Mentor</a> at <a href="#" target="_blank" rel="noopener noreferrer" class="text-zinc-100 hover:text-amber-400 font-semibold underline decoration-zinc-600 hover:decoration-amber-400 underline-offset-2 transition-colors">Genomics Research Facility</a>
+        <div class="px-3 py-1.5 rounded-xl bg-zinc-900/90 border border-zinc-800 text-[11px] sm:text-xs text-zinc-400 font-sans shadow-sm shrink-0">
+          By <a href="https://www.linkedin.com/in/nikita-basok/" target="_blank" rel="noopener noreferrer" class="text-zinc-200 hover:text-amber-400 font-semibold transition-colors">Nikita Basok</a> &amp; <a href="https://scholar.google.com/citations?user=1HfM8IYAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="text-zinc-200 hover:text-amber-400 font-semibold transition-colors">Research Mentor</a> (<a href="#" target="_blank" rel="noopener noreferrer" class="text-zinc-300 hover:text-amber-400 transition-colors">Genomics Lab</a>)
         </div>
       </div>
 
@@ -48,98 +48,72 @@
         This platform visualizes complete human mitochondrial DNA (mtDNA) genomes to explore maternal lineages, generational inheritance, and prehistoric migrations across 200,000 years.
       </p>
 
-      <!-- Ancestry-Conditioned Weighting Formula & Kinship Metric Card -->
-      <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/90 border border-amber-500/30 shadow-xl space-y-4 font-sans">
+      <!-- Similarity Score Formula Card -->
+      <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/90 border border-amber-500/30 shadow-xl space-y-3.5 font-sans">
         
-        <!-- Header & Metric Badges -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-white/10 pb-3">
-          <div>
-            <div class="text-[10px] text-amber-400 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              <span>Weighting Formula &bull; mtDNA Kinship Metric</span>
-            </div>
-            <h3 class="text-sm sm:text-base font-bold text-white">Ancestry-Conditioned Rare Mutation Weighting</h3>
+        <!-- Header -->
+        <div class="border-b border-white/10 pb-2.5">
+          <div class="text-[10px] text-amber-400 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span>mtDNA Kinship Metric</span>
           </div>
-          <div class="flex flex-wrap items-center gap-1.5 font-mono text-[10px]">
-            <span class="px-2 py-0.5 rounded-md bg-amber-950/60 border border-amber-800/60 text-amber-300 font-semibold">
-              &lambda; = 0.50
-            </span>
-            <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-700 text-zinc-300 font-semibold">
-              Polymorphic Sites V = 274
-            </span>
-            <span class="px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-700 text-emerald-400 font-semibold">
-              Monomorphic Filter Active
-            </span>
-          </div>
+          <h3 class="text-sm sm:text-base font-bold text-white">Similarity Score Formula</h3>
         </div>
 
-        <!-- Formula Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <!-- Formula Box -->
+        <div class="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-3">
           
-          <!-- Card 1: GRM Similarity Score K(i, j) -->
-          <div class="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2.5 flex flex-col justify-between">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold font-mono text-amber-300">1. GRM Similarity Score K(i, j)</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-950 text-zinc-400 border border-zinc-800 font-mono">Rare Variant</span>
+          <!-- Typeset Fraction Equation -->
+          <div class="py-3 px-4 rounded-lg bg-zinc-950 border border-amber-900/30 flex items-center justify-center overflow-x-auto shadow-inner">
+            <div class="inline-flex items-center text-zinc-100 font-serif text-sm sm:text-base select-none">
+              <span class="italic font-bold text-amber-400 mr-2">K(i, j)</span>
+              <span class="mx-1 text-zinc-400">=</span>
+              <div class="inline-flex flex-col items-center mx-2 text-xs sm:text-sm">
+                <span class="border-b border-zinc-600 px-2 pb-0.5 text-zinc-200">1</span>
+                <span class="pt-0.5 font-sans font-bold text-amber-300">V</span>
               </div>
-
-              <!-- Typeset Fraction Equation -->
-              <div class="py-2.5 px-3 rounded-lg bg-zinc-950 border border-amber-900/30 flex items-center justify-center overflow-x-auto shadow-inner">
-                <div class="inline-flex items-center text-zinc-100 font-serif text-sm sm:text-base select-none">
-                  <span class="italic font-bold text-amber-400 mr-2">K(i, j)</span>
-                  <span class="mx-1 text-zinc-400">=</span>
-                  <div class="inline-flex flex-col items-center mx-2 text-xs sm:text-sm">
-                    <span class="border-b border-zinc-600 px-2 pb-0.5 text-zinc-200">1</span>
-                    <span class="pt-0.5 font-sans font-bold text-amber-300">V</span>
-                  </div>
-                  <span class="text-lg sm:text-xl mx-1 font-sans text-zinc-300">&sum;</span>
-                  <div class="inline-flex flex-col items-center mx-2 text-xs sm:text-sm">
-                    <span class="border-b border-zinc-600 px-2.5 pb-0.5 italic text-zinc-200">
-                      (VAF<sub class="text-[9px]">i, v</sub> &minus; p<sub class="text-[9px]">v</sub>)(VAF<sub class="text-[9px]">j, v</sub> &minus; p<sub class="text-[9px]">v</sub>)
-                    </span>
-                    <span class="pt-0.5 italic text-zinc-300">
-                      p<sub class="text-[9px]">v</sub> (1 &minus; p<sub class="text-[9px]">v</sub>)
-                    </span>
-                  </div>
-                </div>
+              <span class="text-lg sm:text-xl mx-1 font-sans text-zinc-300">&sum;</span>
+              <div class="inline-flex flex-col items-center mx-2 text-xs sm:text-sm">
+                <span class="border-b border-zinc-600 px-2.5 pb-0.5 italic text-zinc-200">
+                  (VAF<sub class="text-[9px]">i, v</sub> &minus; p<sub class="text-[9px]">v</sub>)(VAF<sub class="text-[9px]">j, v</sub> &minus; p<sub class="text-[9px]">v</sub>)
+                </span>
+                <span class="pt-0.5 italic text-zinc-300">
+                  p<sub class="text-[9px]">v</sub> (1 &minus; p<sub class="text-[9px]">v</sub>)
+                </span>
               </div>
-
-              <p class="text-[11px] text-zinc-300 leading-relaxed font-sans">
-                <strong class="text-amber-400 font-mono">Rare-Variant Upweighting:</strong> Dividing by the binomial variance <span class="font-mono text-amber-300 text-[10.5px]">p_v(1 - p_v)</span> magnifies shared rare heteroplasmic alleles while downweighting ubiquitous background variants.
-              </p>
             </div>
           </div>
 
-          <!-- Card 2: Haplogroup Conditioning & Distance Metric -->
-          <div class="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800 space-y-2.5 flex flex-col justify-between">
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold font-mono text-amber-300">2. Haplogroup Conditioning &amp; Distance</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-950 text-zinc-400 border border-zinc-800 font-mono">Background Linear Mixture</span>
-              </div>
+          <!-- Quick-Glance Simplified Explanation -->
+          <p class="text-xs text-zinc-300 leading-relaxed font-sans">
+            Compares mitochondrial mutations between two individuals. Rare shared mutations receive high weight, while common background variants are downweighted.
+          </p>
 
-              <!-- Typeset Linear Mixture & Distance Equations -->
-              <div class="py-2.5 px-3 rounded-lg bg-zinc-950 border border-amber-900/30 flex flex-col items-center justify-center gap-1.5 overflow-x-auto shadow-inner">
-                <div class="inline-flex items-center text-zinc-100 font-serif text-sm sm:text-base select-none">
-                  <span class="italic font-bold text-amber-400 mr-2">p&#770;<sub class="text-[9px]">v</sub><sup class="text-[9px]">(g)</sup></span>
-                  <span class="mx-1 text-zinc-400">=</span>
-                  <span class="italic text-amber-300 font-bold mx-1">&lambda;</span>
-                  <span class="italic mr-1 text-zinc-200">p<sub class="text-[9px]">v</sub><sup class="text-[9px]">(g)</sup></span>
-                  <span class="mx-1 text-zinc-400">+</span>
-                  <span class="mx-1 text-xs text-zinc-300">(1 &minus; <span class="italic text-amber-300 font-bold">&lambda;</span>)</span>
-                  <span class="italic ml-1 text-zinc-200">p<sub class="text-[9px]">v</sub><sup class="text-[9px]">global</sup></span>
-                </div>
-                <div class="text-[11px] font-mono text-zinc-400 flex items-center gap-2 border-t border-zinc-800/80 pt-1 w-full justify-center">
-                  <span>D(i, j) = max(K) &minus; K(i, j)</span>
-                  <span class="text-zinc-600">&bull;</span>
-                  <span class="text-zinc-400">D(i, i) = 0</span>
-                </div>
-              </div>
-
-              <p class="text-[11px] text-zinc-300 leading-relaxed font-sans">
-                <strong class="text-amber-400 font-mono">Lineage Calibration:</strong> Prevents clade-defining variants from masquerading as close kinship. Families are averaged once to eliminate sampling bias, and pairwise distances are computed for UPGMA trees.
-              </p>
+          <!-- Variable Explanations (Every variable stated, 1-5 words each) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 pt-2.5 border-t border-zinc-800/80 text-xs font-mono">
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-bold font-serif italic text-sm shrink-0">K(i, j)</span>
+              <span class="text-zinc-400 text-[11px]">&ndash; Genetic similarity score</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-300 font-bold shrink-0">V</span>
+              <span class="text-zinc-400 text-[11px]">&ndash; Total analyzed mutation sites</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-zinc-200 italic font-serif shrink-0">VAF<sub class="text-[9px]">i, v</sub></span>
+              <span class="text-zinc-400 text-[11px]">&ndash; Mutation frequency, individual i</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-zinc-200 italic font-serif shrink-0">VAF<sub class="text-[9px]">j, v</sub></span>
+              <span class="text-zinc-400 text-[11px]">&ndash; Mutation frequency, individual j</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-zinc-200 italic font-serif shrink-0">p<sub class="text-[9px]">v</sub></span>
+              <span class="text-zinc-400 text-[11px]">&ndash; Background population mutation frequency</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-zinc-400 italic font-serif shrink-0">i, j</span>
+              <span class="text-zinc-400 text-[11px]">&ndash; Two compared individuals</span>
             </div>
           </div>
 
