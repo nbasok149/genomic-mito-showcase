@@ -7,3 +7,5 @@ node_modules/
 # Temporary Local Backups
 data_backup/
 brain_dump_raw.txt
+.vercel
+.env*
