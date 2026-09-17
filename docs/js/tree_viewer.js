@@ -111,7 +111,7 @@ window.TreeViewer = {
       'IN_F_DPL': 'Deepali',
       'IN_M_DPLH': 'Deepali Husband',
       'IS_F_VYSM': 'Vys Mother',
-      'IS_M_RAV': 'Rav',
+      'IS_M_RAV': 'Ravi',
       'IS_M_SEL': 'Sel',
       'IS_F_VYS': 'Vys',
       'IS_F_VYS2': 'Vys 2',
