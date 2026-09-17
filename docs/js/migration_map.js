@@ -836,7 +836,6 @@ window.MigrationMap = {
       
       const markerHtml = `
         <div class="relative flex items-center justify-center cursor-pointer transition-transform duration-300 ${isCurrent ? 'scale-125' : 'hover:scale-110'}">
-          ${isCurrent ? '<span class="absolute w-8 h-8 rounded-full bg-amber-400/40 animate-ping"></span>' : ''}
           <div class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] font-mono shadow-xl border-2 ${isCurrent ? 'bg-amber-400 text-zinc-950 border-white ring-4 ring-amber-500/40' : (isPast ? 'bg-emerald-600 text-white border-zinc-700' : 'bg-zinc-900 text-zinc-400 border-zinc-700')}">
             ${idx + 1}
           </div>
