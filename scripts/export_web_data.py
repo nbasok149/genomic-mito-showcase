@@ -246,6 +246,7 @@ def export_all(lambda_param=0.5):
     print("[OK] Exported docs/data/phylo_tree.json (Weighted UPGMA Tree)")
 
     # 5. Build Complete Variants Dataset
+    random.seed(42)
     variants = []
     var_id_counter = 1
     seen_keys = set()

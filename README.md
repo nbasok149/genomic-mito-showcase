@@ -1,14 +1,15 @@
-# Genomic Mito Showcase
+# mtDNA Variant Visualizer
 
 **Human Mitochondrial DNA (mtDNA) Ancestral Lineage Visualizer & Phylogenetic Engine**
 
-[![Live on Vercel](https://img.shields.io/badge/Live%20Website-mtdna--visualizer.vercel.app-sky?logo=vercel)](https://mtdna-visualizer.vercel.app/)
+[![Live on Vercel](https://img.shields.io/badge/Live%20Website-variant--viz.vercel.app-sky?logo=vercel)](https://variant-viz.vercel.app/)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnbasok149%2Fgenomic-mito-showcase)
 [![Python Tests](https://img.shields.io/badge/Tests-11%2F11%20Passing-emerald?logo=python)](https://github.com/nbasok149/genomic-mito-showcase)
-[![Platform](https://img.shields.io/badge/Platform-Vercel%20Edge%20Network-black?logo=vercel)](https://mtdna-visualizer.vercel.app/)
+[![Platform](https://img.shields.io/badge/Platform-Vercel%20Edge%20Network-black?logo=vercel)](https://variant-viz.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**Production Application**: [https://mtdna-visualizer.vercel.app/](https://mtdna-visualizer.vercel.app/)
+**Production Application**: [https://variant-viz.vercel.app/](https://variant-viz.vercel.app/) | [https://variantvisualizer.vercel.app/](https://variantvisualizer.vercel.app/)
+*(Custom domain `https://variant-visualizer.js.org` pending DNS propagation)*
 
 ---
 
