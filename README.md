@@ -158,13 +158,25 @@ Open `http://localhost:3000` in your web browser.
 
 ---
 
-## Continuous Deployment on Vercel
+## Deployment & Hosting Options
 
-The live web application is continuously deployed on **Vercel**:
-[https://mtdna-visualizer.vercel.app/](https://mtdna-visualizer.vercel.app/)
+The application is structured for universal zero-cost static hosting with edge security headers and automated CI/CD across multiple platforms:
 
-- **Automated CI/CD**: Every push to `main` triggers Vercel's edge builder to execute `python3 scripts/export_web_data.py` and deploy the static showcase in `docs/`.
-- **Edge Performance**: Clean URLs, security headers (`HSTS`, `X-Content-Type-Options`, `Content-Security-Policy`), and 24-hour cache-revalidation for all JSON endpoints are configured in [`vercel.json`](vercel.json).
+### 1. Cloudflare Pages (Recommended - Unlimited Bandwidth & Free Custom Subdomain)
+- **Edge Routing & Headers**: Configured via [`docs/_headers`](docs/_headers) and [`docs/_redirects`](docs/_redirects) for HSTS, CSP, and CORS caching.
+- **Build Configuration**:
+  - **Framework Preset**: `None`
+  - **Build Command**: `python3 scripts/export_web_data.py`
+  - **Build Output Directory**: `docs`
+- **Domain**: Instant zero-approval free domain at `*.pages.dev` (e.g. `https://variant-viz.pages.dev`).
+- **Free Custom Subdomain**: Connect `variant-viz.is-a.dev` via [is-a.dev](https://github.com/is-a-dev/register) using [`config/is-a-dev-registration.json`](config/is-a-dev-registration.json).
+
+### 2. GitHub Pages (Native Repository Hosting)
+- **Automated Workflow**: Configured via [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+- **Public Showcase**: Deploys automatically on every push to `main` at `https://nbasok149.github.io/genomic-mito-showcase/`.
+
+### 3. Vercel
+- **Edge Configuration**: Configured via [`vercel.json`](vercel.json) deploying from `docs/`. Live at [https://variant-viz.vercel.app/](https://variant-viz.vercel.app/).
 
 ---
 

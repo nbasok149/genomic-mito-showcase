@@ -1,0 +1,4 @@
+/api/variants      /data/variants_dataset.json      200
+/api/matrix        /data/distance_matrix.json       200
+/api/tree          /data/phylo_tree.json            200
+/api/annotations   /data/genome_annotations.json   200

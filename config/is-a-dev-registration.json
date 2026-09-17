@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/is-a-dev/register/main/schema.json",
+  "description": "mtDNA Ancestral Variant Visualizer & Phylogenetic Engine",
+  "repo": "https://github.com/nbasok149/genomic-mito-showcase",
+  "owner": {
+    "username": "nbasok149",
+    "email": "nibasok@gmail.com"
+  },
+  "record": {
+    "CNAME": "nbasok149.github.io"
+  }
+}
