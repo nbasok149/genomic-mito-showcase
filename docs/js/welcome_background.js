@@ -795,7 +795,7 @@
       const cardHalfW = cardWidth / 2;
       const flankSpace = Math.max(0, (w - cardWidth) / 2);
 
-      let posX = cardHalfW + flankSpace * 0.52;
+      let posX = cardHalfW + flankSpace * 0.50;
       let scale = 1.0;
 
       if (flankSpace < 160) {
