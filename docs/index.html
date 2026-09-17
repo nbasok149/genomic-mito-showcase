@@ -29,8 +29,26 @@
 <body class="bg-[#09090b] text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
 
   <!-- Opening Welcome Modal (Interactive Cohort Selection & Platform Guide) -->
-  <div id="familyWelcomeModal" class="fixed inset-0 bg-black/85 backdrop-blur-2xl z-[1000] flex items-center justify-center p-3 sm:p-4">
-    <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-7 md:p-8 space-y-4 sm:space-y-6 shadow-2xl relative border border-white/10 bg-[#121216]/95 rounded-2xl sm:rounded-3xl">
+  <div id="familyWelcomeModal" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-[1000] flex items-center justify-center p-3 sm:p-4 overflow-hidden">
+    
+    <!-- Decorative WebGL Background Canvas (Codrops Decorative Backgrounds & Gradient Topography) -->
+    <canvas id="welcomeModalBgCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Center Focus Vignette (Keeps center text crystal-clear while framing edges) -->
+    <div class="absolute inset-0 pointer-events-none z-[1] bg-[radial-gradient(ellipse_at_center,rgba(18,18,22,0.65)_0%,rgba(9,9,11,0.25)_55%,rgba(9,9,11,0.05)_100%)]"></div>
+
+    <!-- Modal Layout Wrapper with Flanking Visual Anchors -->
+    <div id="welcomeModalWrapper" class="relative z-10 flex items-center justify-center w-full max-w-6xl mx-auto pointer-events-none">
+
+      <!-- Left Flank Focus Guide (Visible on wide screens) -->
+      <div class="hidden xl:flex flex-col items-center justify-center text-zinc-500 font-mono text-[10px] tracking-widest uppercase select-none pointer-events-none opacity-60 space-y-4 mr-6 shrink-0 w-8">
+        <div class="h-16 w-px bg-gradient-to-b from-transparent via-amber-500/50 to-transparent"></div>
+        <span class="[writing-mode:vertical-lr] rotate-180 text-amber-400/80 font-bold tracking-widest text-[11px]">200,000 YBP &bull; Prehistoric Lineage</span>
+        <div class="h-16 w-px bg-gradient-to-b from-amber-500/50 via-amber-500/10 to-transparent"></div>
+      </div>
+
+      <!-- Main Modal Card -->
+      <div class="earth-panel max-w-3xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-7 md:p-8 space-y-4 sm:space-y-6 shadow-2xl relative border border-white/10 bg-[#121216]/95 rounded-2xl sm:rounded-3xl pointer-events-auto">
       
       <!-- Top Title & Attribution -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-4">
@@ -127,23 +145,23 @@
 
       <!-- Bullet Notes: Key Platform Features -->
       <div class="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-3 font-sans text-xs">
-        <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">Key features of this platform:</div>
+        <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">Key features breakdown:</div>
         <ul class="space-y-2 text-zinc-300 text-xs">
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Phylogenetic tree</strong> &ndash; Interactive tree visualizer with multi-generational pedigree diagrams and maternal inheritance tracking.</div>
+            <div><strong class="text-white font-mono">Phylogenetic tree</strong> &ndash; Interactive tree visualizer tracking maternal pedigree lineages.</div>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">2D migration map</strong> &ndash; High-resolution satellite basemap stepping through the 200,000-year Out-of-Africa trail with verified anthropological evidence.</div>
+            <div><strong class="text-white font-mono">2D migration map</strong> &ndash; Satellite basemap tracking the 200,000-year Out-of-Africa trail.</div>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Lineage & sample comparator</strong> &ndash; Compare any two individuals or cohorts side-by-side with interactive Venn diagrams and exact mutation matching.</div>
+            <div><strong class="text-white font-mono">Lineage & sample comparator</strong> &ndash; Side-by-side comparison with interactive Venn diagrams.</div>
           </li>
           <li class="flex items-start gap-2.5">
             <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Diagnostic markers</strong> &ndash; Inspect private and conserved diagnostic mutations defining each global cohort.</div>
+            <div><strong class="text-white font-mono">Diagnostic markers</strong> &ndash; Private and conserved diagnostic mutations across global cohorts.</div>
           </li>
         </ul>
       </div>
@@ -349,6 +367,15 @@
         <button id="closeWelcomeModalBtn" class="w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 transition-all text-xs font-extrabold shadow-lg shadow-white/10 cursor-pointer flex items-center justify-center">
           Close / explore all lineages ➔
         </button>
+      </div>
+
+      </div>
+
+      <!-- Right Flank Focus Guide (Visible on wide screens) -->
+      <div class="hidden xl:flex flex-col items-center justify-center text-zinc-500 font-mono text-[10px] tracking-widest uppercase select-none pointer-events-none opacity-60 space-y-4 ml-6 shrink-0 w-8">
+        <div class="h-16 w-px bg-gradient-to-b from-transparent via-sky-500/50 to-transparent"></div>
+        <span class="[writing-mode:vertical-lr] text-sky-400/80 font-bold tracking-widest text-[11px]">16,569 bp &bull; Strict Maternal mtDNA</span>
+        <div class="h-16 w-px bg-gradient-to-b from-sky-500/50 via-sky-500/10 to-transparent"></div>
       </div>
 
     </div>
@@ -772,6 +799,9 @@
   </div>
 
   <!-- Scripts -->
+  <script src="js/three.min.js"></script>
+  <script src="js/perlin.js"></script>
+  <script src="js/welcome_background.js?v=1.0"></script>
   <script src="js/topojson-client.min.js"></script>
   <script src="js/tree_viewer.js?v=15.0"></script>
   <script src="js/migration_map.js?v=16.0"></script>

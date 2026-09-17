@@ -9,7 +9,6 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **Production Application**: [https://variant-viz.vercel.app/](https://variant-viz.vercel.app/) | [https://variantvisualizer.vercel.app/](https://variantvisualizer.vercel.app/)
-*(Custom domain `https://variant-visualizer.js.org` pending DNS propagation)*
 
 ---
 
