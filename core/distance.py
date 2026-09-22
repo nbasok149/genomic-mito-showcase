@@ -328,7 +328,7 @@ def build_weighted_upgma_tree(samples, dist_matrix, haplogroup_map=None):
         return {}
 
     default_haplogroups = {
-        "IS": "M/R (IS)", "CL": "C1", # "KR": "D4",
+        "IS": "M/R (IS)", "CL": "C1",
         "HK": "M7",
         "IN": "M/R (IN)", "IW": "M/R (IW)", "MX": "B2", "PK": "M/U (PK)",
         "TB": "M9", "UK": "U4/H", "AA": "L2", "CA": "H2", "NA": "A2"

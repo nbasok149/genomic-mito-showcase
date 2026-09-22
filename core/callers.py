@@ -69,7 +69,6 @@ def load_fasta(fasta_path):
     paths_to_try = [
         fasta_path,
         os.path.join("data", "reference", "mtdna.fa"),
-        "data/reference/mtdna.fa",
         "mtdna.fa"
     ]
     actual_path = None
