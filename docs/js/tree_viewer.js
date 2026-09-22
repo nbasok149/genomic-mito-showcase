@@ -77,60 +77,10 @@ window.TreeViewer = {
     });
   },
 
-  // Kinship-aware role hierarchy across all 43 samples
-  // Direct Human Display Names for all 43 samples
+  // Direct Sample Display Codes (all capitals, e.g. AA_F_TON instead of Tonya)
   getSampleDisplayName(sampleName) {
-    if (!sampleName) return 'Sample';
-    const s = String(sampleName).trim();
-    const map = {
-      'HK_F_JANM': 'Hong Kong Mother',
-      'HK_M_WLL': 'Hong Kong Father',
-      'HK_F_JAN': 'Hong Kong Daughter',
-      'MX_F_CRY': 'Mexico Mother',
-      'MX_M_CRYF': 'Mexico Father',
-      'MX_F_CRYS1': 'Mexico Daughter',
-      'CL_F_ALJ': 'Colombia Mother',
-      'CL_F_ALJC1': 'Colombia Daughter',
-      'PK_F_WAS': 'Pakistan Mother',
-      'PK_M_WASH': 'Pakistan Father',
-      'PK_M_WASC1': 'Pakistan Son 1',
-      'PK_M_WASC2': 'Pakistan Son 2',
-      'UK_F_NIKG': 'Ukraine Grandmother',
-      'UK_F_NIKM': 'Ukraine Mother',
-      'UK_F_NIKA': 'Ukraine Aunt',
-      'UK_M_NIKS1': 'Ukraine Son 1',
-      'UK_M_NIK': 'Ukraine Son 2',
-      'UK_M_NIKS2': 'Ukraine Son 3',
-      'IN_F_RISG': 'India Grandmother',
-      'IN_F_RISM': 'India Mother',
-      'IN_M_RISF': 'India Father',
-      'IN_M_RIS': 'India Son 1',
-      'IN_M_RISS1': 'India Son 2',
-      'IN_F_DPL': 'India Mother 2',
-      'IN_M_DPLH': 'India Father 2',
-      'IS_F_VYSM': 'India South Mother',
-      'IS_M_RAV': 'India South Father 1',
-      'IS_M_SEL': 'India South Father 2',
-      'IS_F_VYS': 'India South Female 1',
-      'IS_F_VYS2': 'India South Female 2',
-      'IS_F_VYSC1': 'India South Daughter',
-      'IS_M_PRIC1': 'India South Son',
-      'IW_F_ANJM': 'India West Mother',
-      'IW_M_ANJF': 'India West Father',
-      'IW_F_ANJS1': 'India West Daughter',
-      'IW_F_ANJ': 'India West Female 1',
-      'CA_M_GER': 'Canada Male',
-      'AA_F_TON': 'Africa Female',
-      'TB_F_BHA': 'Tibet Female',
-      'NA_F_R3_2_LP5206_MRG': 'Native America Female',
-      'NA_F_R3_2_LP5206_mrg': 'Native America Female',
-      'SA_M_RD_2_LP5205_MRG': 'South America Male',
-      'SA_M_RD_2_LP5205_mrg': 'South America Male'
-    };
-    if (map[s]) return map[s];
-    const upper = s.toUpperCase();
-    if (map[upper]) return map[upper];
-    return s.replace(/_/g, ' ');
+    if (!sampleName) return 'SAMPLE';
+    return String(sampleName).trim().toUpperCase();
   },
 
   // Adaptable Kinship & Gender Role parser across all 43 samples and generic formats

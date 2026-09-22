@@ -186,18 +186,18 @@ window.FamilyAccessGate = {
 
 window.DiagnosticMarkersExplorer = {
   FAMILY_MARKERS: {
-    'IN': { name: 'India', markers: [593, 5075, 6020, 10400, 12792, 14783, 15043, 15692, 15859], mother: 'India Mother', dadNote: 'Fathers do not transmit mtDNA markers to offspring; passed 100% maternally.' },
-    'IS': { name: 'India South', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'India South Mother', dadNote: 'Fathers carry independent non-transmitted paternal lines; children inherit 100% maternal mtDNA.' },
-    'IW': { name: 'India West', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'India West Mother', dadNote: '100% maternal transmission passed to offspring.' },
-    'PK': { name: 'Pakistan', markers: [511, 3594, 7269, 7805, 13680, 15479], mother: 'Pakistan Mother', dadNote: 'Offspring inherit strictly from maternal line.' },
-    'MX': { name: 'Mexico', markers: [499, 4823, 6297, 8047, 9039, 13590], mother: 'Mexico Mother', dadNote: 'Children inherit 100% of maternal mtDNA.' },
-    'HK': { name: 'Hong Kong', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'Hong Kong Mother', dadNote: 'Children inherit 100% of maternal markers.' },
-    'UK': { name: 'Ukraine', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'Ukraine Mother', aunt: 'Ukraine Aunt', grandmother: 'Ukraine Grandmother', dadNote: 'Maternal inheritance verified across three generations.' },
-    'CL': { name: 'Colombia', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'Colombia Mother', dadNote: 'Passed 100% maternally to offspring.' },
-    'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'African Lineage Individual', dadNote: 'Ancestral root of all modern human maternal lineages.' },
-    'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'Tibetan Lineage Individual', dadNote: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
-    'CA': { name: 'Canada', markers: [73, 146, 263, 4769], individual: 'Canadian Lineage Individual', dadNote: 'Macro-haplogroup H2 lineage.' },
-    'NA': { name: 'Native America', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'Native America Woman', dadNote: 'Indigenous founding lineage derived from prehistoric Beringian migrations.' }
+    'IN': { name: 'India', markers: [593, 5075, 6020, 10400, 12792, 14783, 15043, 15692, 15859], mother: 'IN_F_RISM & IN_F_DPL', dadNote: 'Fathers do not transmit mtDNA markers to offspring; passed 100% maternally.' },
+    'IS': { name: 'India South', markers: [5186, 9094, 9614, 12793, 13194, 13656, 15930], mother: 'IS_F_VYSM', dadNote: 'Fathers carry independent non-transmitted paternal lines; children inherit 100% maternal mtDNA.' },
+    'IW': { name: 'India West', markers: [5508, 8594, 10084, 10754, 11293, 13635, 13971, 14990, 15385], mother: 'IW_F_ANJM', dadNote: '100% maternal transmission passed to offspring.' },
+    'PK': { name: 'Pakistan', markers: [511, 3594, 7269, 7805, 13680, 15479], mother: 'PK_F_WAS', dadNote: 'Offspring inherit strictly from maternal line.' },
+    'MX': { name: 'Mexico', markers: [499, 4823, 6297, 8047, 9039, 13590], mother: 'MX_F_CRY', dadNote: 'Children inherit 100% of maternal mtDNA.' },
+    'HK': { name: 'Hong Kong', markers: [5821, 6338, 6455, 8602, 9540, 14821], mother: 'HK_F_JANM', dadNote: 'Children inherit 100% of maternal markers.' },
+    'UK': { name: 'Ukraine', markers: [650, 8395, 10885, 11566, 14467, 16356], mother: 'UK_F_NIKM', aunt: 'UK_F_NIKA', grandmother: 'UK_F_NIKG', dadNote: 'Maternal inheritance verified across three generations.' },
+    'CL': { name: 'Colombia', markers: [114, 3552, 8545, 9545, 11914, 13263, 15323], mother: 'CL_F_ALJ', dadNote: 'Passed 100% maternally to offspring.' },
+    'AA': { name: 'Africa', markers: [183, 2758, 5581, 7175, 9128, 11338, 13803, 14308, 15784], individual: 'AA_F_TON', dadNote: 'Ancestral root of all modern human maternal lineages.' },
+    'TB': { name: 'Tibet', markers: [3394, 4491, 8784, 12950, 14305, 15535, 16048], individual: 'TB_F_BHA', dadNote: 'High-altitude adapted lineage carrying 3394 T>C complex I mutation.' },
+    'CA': { name: 'Canada', markers: [73, 146, 263, 4769], individual: 'CA_M_GER', dadNote: 'Macro-haplogroup H2 lineage.' },
+    'NA': { name: 'Native America', markers: [64, 152, 235, 663, 1736, 4248, 4824, 8027, 8794, 12007, 16111, 16290, 16319], individual: 'NA_F_R3_2_LP5206_MRG', dadNote: 'Indigenous founding lineage derived from prehistoric Beringian migrations.' }
   },
 
   init() {
