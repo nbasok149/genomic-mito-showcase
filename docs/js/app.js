@@ -488,6 +488,38 @@ window.FamilyReportGenerator = {
     modal.classList.add('flex');
   },
 
+  updateDropdownStyles(fam1Code, fam2Code, fam3Code = null) {
+    const s1 = document.getElementById('reportFamily1Select');
+    const s2 = document.getElementById('reportFamily2Select');
+    const s3 = document.getElementById('reportFamily3Select');
+    const colors = window.TreeViewer?.ETHNICITY_COLORS || {};
+
+    if (s1 && fam1Code) {
+      const c1 = colors[fam1Code] || '#f59e0b';
+      s1.style.borderColor = c1;
+      s1.style.color = c1;
+      s1.style.boxShadow = `0 0 14px ${c1}33`;
+    }
+    if (s2 && fam2Code) {
+      const c2 = colors[fam2Code] || '#3b82f6';
+      s2.style.borderColor = c2;
+      s2.style.color = c2;
+      s2.style.boxShadow = `0 0 14px ${c2}33`;
+    }
+    if (s3) {
+      if (fam3Code && fam3Code.trim() !== '') {
+        const c3 = colors[fam3Code] || '#10b981';
+        s3.style.borderColor = c3;
+        s3.style.color = c3;
+        s3.style.boxShadow = `0 0 14px ${c3}33`;
+      } else {
+        s3.style.borderColor = '#3f3f46';
+        s3.style.color = '#a1a1aa';
+        s3.style.boxShadow = 'none';
+      }
+    }
+  },
+
   populateDropdowns(fam1Code, fam2Code, fam3Code = null) {
     const select1 = document.getElementById('reportFamily1Select');
     const select2 = document.getElementById('reportFamily2Select');
@@ -497,18 +529,25 @@ window.FamilyReportGenerator = {
     if (!select1 || !select2) return;
 
     const families = this.getAllFamilies();
-    const optionsHtml = families.map(f => `<option value="${f.code}">${f.name}</option>`).join('');
-    const optionalOptionsHtml = `<option value="">-- 3rd Cohort (Optional) --</option>` + optionsHtml;
+    const optionsHtml = families.map(f => `<option value="${f.code}" class="bg-zinc-950 text-zinc-200">${f.name}</option>`).join('');
+    const optionalOptionsHtml = `<option value="" class="bg-zinc-950 text-zinc-400">-- 3rd Cohort --</option>` + optionsHtml;
 
     select1.innerHTML = optionsHtml;
     select2.innerHTML = optionsHtml;
     if (select3) select3.innerHTML = optionalOptionsHtml;
 
-    select1.value = (fam1Code || 'MX').replace('Ethnicity ', '').replace('Family ', '').trim();
-    select2.value = (fam2Code || 'AA').replace('Ethnicity ', '').replace('Family ', '').trim();
-    if (select3) select3.value = fam3Code ? fam3Code.replace('Ethnicity ', '').replace('Family ', '').trim() : '';
+    const v1 = (fam1Code || 'MX').replace('Ethnicity ', '').replace('Family ', '').trim();
+    const v2 = (fam2Code || 'AA').replace('Ethnicity ', '').replace('Family ', '').trim();
+    const v3 = fam3Code ? fam3Code.replace('Ethnicity ', '').replace('Family ', '').trim() : '';
+
+    select1.value = v1;
+    select2.value = v2;
+    if (select3) select3.value = v3;
+
+    this.updateDropdownStyles(v1, v2, v3);
 
     const onChangeHandler = () => {
+      this.updateDropdownStyles(select1.value, select2.value, select3?.value || null);
       this.renderReport(select1.value, select2.value, select3?.value || null);
     };
 
@@ -526,6 +565,8 @@ window.FamilyReportGenerator = {
     const info3 = f3Key ? this.getFamilyData(f3Key) : null;
 
     if (!info1) return;
+
+    this.updateDropdownStyles(info1.code, info2 ? info2.code : null, info3 ? info3.code : null);
 
     const samples1 = (window.App.distanceData?.samples || []).filter(s => s.startsWith(info1.code + '_'));
     const samples2 = info2 ? (window.App.distanceData?.samples || []).filter(s => s.startsWith(info2.code + '_')) : [];
@@ -639,11 +680,13 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
+          ${vennSvgHtml}
+
           <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
                 <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">3-Way multi-population comparative report</div>
-                <h2 class="text-lg sm:text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name} <span class="text-zinc-500">vs</span> ${info3.name}</h2>
+                <h3 class="text-base sm:text-lg font-extrabold text-white">Triangulated mutational divergence &amp; distance</h3>
               </div>
               <div class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 font-bold w-fit">
                 3-Way triangulation mode
@@ -682,8 +725,6 @@ window.FamilyReportGenerator = {
             </div>
           </div>
 
-          ${vennSvgHtml}
-
           <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 sm:space-y-5 text-xs text-zinc-300 leading-relaxed shadow-2xl">
             <div class="border-b border-white/10 pb-3">
               <h4 class="font-bold text-amber-400 font-mono text-sm sm:text-base flex items-center gap-2">
@@ -694,17 +735,17 @@ window.FamilyReportGenerator = {
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-[11.5px]">
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
-                <div class="font-mono font-bold text-amber-300 text-sm">${info1.name}</div>
+                <div class="font-mono font-bold text-sm" style="color: ${color1};">${info1.name}</div>
                 <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info1.haplo}</div>
                 <p class="text-zinc-300 leading-relaxed">${info1.history}</p>
               </div>
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
-                <div class="font-mono font-bold text-blue-300 text-sm">${info2.name}</div>
+                <div class="font-mono font-bold text-sm" style="color: ${color2};">${info2.name}</div>
                 <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info2.haplo}</div>
                 <p class="text-zinc-300 leading-relaxed">${info2.history}</p>
               </div>
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
-                <div class="font-mono font-bold text-emerald-300 text-sm">${info3.name}</div>
+                <div class="font-mono font-bold text-sm" style="color: ${color3};">${info3.name}</div>
                 <div class="text-zinc-400 text-[11px]"><strong class="text-zinc-200">Haplogroup:</strong> ${info3.haplo}</div>
                 <p class="text-zinc-300 leading-relaxed">${info3.history}</p>
               </div>
@@ -784,11 +825,13 @@ window.FamilyReportGenerator = {
       reportContainer.innerHTML = `
         <div class="space-y-6 font-sans">
           
+          ${vennSvgHtml2Way}
+
           <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div>
                 <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Pairwise cohort comparative report</div>
-                <h2 class="text-lg sm:text-xl font-extrabold text-white">${info1.name} <span class="text-zinc-500">vs</span> ${info2.name}</h2>
+                <h3 class="text-base sm:text-lg font-extrabold text-white">Pairwise mutational divergence &amp; distance</h3>
               </div>
               <div class="flex items-center space-x-3 bg-zinc-950/90 px-4 py-2 rounded-2xl border border-zinc-800 w-fit">
                 <span class="text-xs text-zinc-400">Pairwise genetic distance:</span>
@@ -806,19 +849,17 @@ window.FamilyReportGenerator = {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs font-sans">
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
-                <div class="font-bold text-amber-300 font-mono">${info1.name} (${info1.region})</div>
+                <div class="font-bold font-mono" style="color: ${color1};">${info1.name} (${info1.region})</div>
                 <div class="text-zinc-400"><strong class="text-zinc-300">Lineage:</strong> ${info1.haplo}</div>
                 <p class="text-[11px] text-zinc-400 leading-relaxed pt-1">${info1.history}</p>
               </div>
               <div class="p-3.5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-1">
-                <div class="font-bold text-blue-300 font-mono">${info2.name} (${info2.region})</div>
+                <div class="font-bold font-mono" style="color: ${color2};">${info2.name} (${info2.region})</div>
                 <div class="text-zinc-400"><strong class="text-zinc-300">Lineage:</strong> ${info2.haplo}</div>
                 <p class="text-[11px] text-zinc-400 leading-relaxed pt-1">${info2.history}</p>
               </div>
             </div>
           </div>
-
-          ${vennSvgHtml2Way}
 
           <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 space-y-4 text-xs text-zinc-300 shadow-2xl">
             <div class="border-b border-white/10 pb-3">
@@ -830,11 +871,11 @@ window.FamilyReportGenerator = {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
-                <div class="font-mono font-bold text-amber-300 text-sm">${info1.name} breakdown</div>
+                <div class="font-mono font-bold text-sm" style="color: ${color1};">${info1.name} breakdown</div>
                 <p class="text-zinc-300 text-[11.5px] leading-relaxed">${info1.history}</p>
               </div>
               <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
-                <div class="font-mono font-bold text-blue-300 text-sm">${info2.name} breakdown</div>
+                <div class="font-mono font-bold text-sm" style="color: ${color2};">${info2.name} breakdown</div>
                 <p class="text-zinc-300 text-[11.5px] leading-relaxed">${info2.history}</p>
               </div>
             </div>
@@ -853,6 +894,31 @@ window.FamilyReportGenerator = {
           } catch(err) {}
         });
       });
+    }
+  },
+
+  updateSampleDropdownStyles(sample1, sample2) {
+    const s1 = document.getElementById('reportSample1Select');
+    const s2 = document.getElementById('reportSample2Select');
+    const colors = window.TreeViewer?.ETHNICITY_COLORS || {};
+
+    const code1 = sample1 ? sample1.split('_')[0] : null;
+    const code2 = sample2 ? sample2.split('_')[0] : null;
+
+    if (s1 && code1) {
+      const c1 = colors[code1] || '#10b981';
+      s1.style.borderColor = c1;
+      s1.style.color = c1;
+      s1.style.boxShadow = `0 0 14px ${c1}33`;
+    }
+    if (s2 && code2) {
+      let c2 = colors[code2] || '#f59e0b';
+      if (code1 === code2) {
+        c2 = '#f59e0b';
+      }
+      s2.style.borderColor = c2;
+      s2.style.color = c2;
+      s2.style.boxShadow = `0 0 14px ${c2}33`;
     }
   },
 
@@ -878,9 +944,9 @@ window.FamilyReportGenerator = {
         const options = cohortGroups[code].map(s => {
           const name = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(s) : s;
           const role = window.TreeViewer ? window.TreeViewer.getSampleRole(s) : '';
-          return `<option value="${s}">${name} (${role})</option>`;
+          return `<option value="${s}" class="bg-zinc-950 text-zinc-200">${name} (${role})</option>`;
         }).join('');
-        return `<optgroup label="${cohortName} (${code})">${options}</optgroup>`;
+        return `<optgroup label="${cohortName} (${code})" class="bg-zinc-900 text-zinc-400 font-bold">${options}</optgroup>`;
       }).join('');
     };
 
@@ -891,10 +957,14 @@ window.FamilyReportGenerator = {
     s1Select.value = sample1;
     s2Select.value = sample2;
 
+    this.updateSampleDropdownStyles(sample1, sample2);
+
     s1Select.onchange = () => {
+      this.updateSampleDropdownStyles(s1Select.value, s2Select.value);
       this.renderSampleReport(s1Select.value, s2Select.value);
     };
     s2Select.onchange = () => {
+      this.updateSampleDropdownStyles(s1Select.value, s2Select.value);
       this.renderSampleReport(s1Select.value, s2Select.value);
     };
   },
@@ -942,6 +1012,8 @@ window.FamilyReportGenerator = {
       sampleControls.classList.add('flex');
     }
     if (!reportContainer || !window.App.variantsData || !window.App.distanceData) return;
+
+    this.updateSampleDropdownStyles(sample1, sample2);
 
     const s1Select = document.getElementById('reportSample1Select');
     const s2Select = document.getElementById('reportSample2Select');
@@ -1026,8 +1098,11 @@ window.FamilyReportGenerator = {
       inheritanceNote = `Comparing individuals across two distinct global populations (${info1.name} vs ${info2.name}), separated by ${diffCount} mutational differences over tens of thousands of years of prehistoric dispersal.`;
     }
 
-    const color1 = '#10b981';
-    const color2 = '#f59e0b';
+    const color1 = window.TreeViewer?.ETHNICITY_COLORS[code1] || '#10b981';
+    let color2 = window.TreeViewer?.ETHNICITY_COLORS[code2] || '#f59e0b';
+    if (code1 === code2) {
+      color2 = '#f59e0b';
+    }
 
     function placeDots(variantList, centerCX, centerCY, dotColor) {
       let dotsSvg = '';
@@ -1344,12 +1419,14 @@ window.FamilyReportGenerator = {
     reportContainer.innerHTML = `
       <div class="space-y-6 font-sans">
         
+        ${vennSvgHtml}
+
         <!-- Summary Header Card -->
         <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-xl space-y-4 font-mono">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
               <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Comparative lineage &amp; ancestral junction report</div>
-              <h2 class="text-lg sm:text-xl font-extrabold text-white">${name1} <span class="text-zinc-500">vs</span> ${name2}</h2>
+              <h3 class="text-base sm:text-lg font-extrabold text-white">Comparative lineage &amp; kinship assessment</h3>
             </div>
             ${inheritanceBadge}
           </div>
@@ -1406,8 +1483,6 @@ window.FamilyReportGenerator = {
             </p>
           </div>
         </div>
-
-        ${vennSvgHtml}
 
         <!-- Section: Low-VAF Muted / Trace Heteroplasmy Analysis -->
         <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">

@@ -812,24 +812,24 @@
           <h3 id="reportModalTitle" class="hidden"></h3>
         </div>
 
-        <!-- Centered Dropdown Menus: Only the dropdown menus, no extra text saying sample 1 vs sample 2 -->
+        <!-- Centered Dropdown Menus: Only the dropdown menus, equal widths, styled dynamically with cohort colors -->
         <div class="flex items-center justify-center w-full">
-          <div id="cohortReportSelectControls" class="flex flex-wrap items-center justify-center gap-2 w-full">
-            <select id="reportFamily1Select" class="min-h-[44px] bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono">
+          <div id="cohortReportSelectControls" class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 w-full">
+            <select id="reportFamily1Select" class="w-full sm:w-52 min-h-[44px] bg-zinc-950 border-2 border-zinc-700 rounded-xl px-3.5 py-2 text-xs font-mono font-bold cursor-pointer transition-all shadow-sm focus:outline-none">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <select id="reportFamily2Select" class="min-h-[44px] bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono">
+            <select id="reportFamily2Select" class="w-full sm:w-52 min-h-[44px] bg-zinc-950 border-2 border-zinc-700 rounded-xl px-3.5 py-2 text-xs font-mono font-bold cursor-pointer transition-all shadow-sm focus:outline-none">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <select id="reportFamily3Select" class="min-h-[44px] bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono">
+            <select id="reportFamily3Select" class="w-full sm:w-52 min-h-[44px] bg-zinc-950 border-2 border-zinc-700 rounded-xl px-3.5 py-2 text-xs font-mono font-bold cursor-pointer transition-all shadow-sm focus:outline-none">
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
-          <div id="sampleReportSelectControls" class="hidden flex-wrap items-center justify-center gap-2.5 sm:gap-3 w-full">
-            <select id="reportSample1Select" class="min-h-[44px] bg-zinc-950 border border-emerald-500/80 rounded-xl px-3.5 py-2 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer shadow-sm">
+          <div id="sampleReportSelectControls" class="hidden flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 w-full">
+            <select id="reportSample1Select" class="w-full sm:w-56 min-h-[44px] bg-zinc-950 border-2 border-emerald-500/80 rounded-xl px-3.5 py-2 text-xs text-emerald-300 font-bold font-mono focus:outline-none cursor-pointer shadow-sm">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <select id="reportSample2Select" class="min-h-[44px] bg-zinc-950 border border-amber-500/80 rounded-xl px-3.5 py-2 text-xs text-amber-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer shadow-sm">
+            <select id="reportSample2Select" class="w-full sm:w-56 min-h-[44px] bg-zinc-950 border-2 border-amber-500/80 rounded-xl px-3.5 py-2 text-xs text-amber-300 font-bold font-mono focus:outline-none cursor-pointer shadow-sm">
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
