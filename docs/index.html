@@ -156,26 +156,14 @@
       </div>
 
       <!-- Bullet Notes: Key Platform Features -->
-      <div class="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-3 font-sans text-xs">
-        <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">Key features breakdown:</div>
-        <ul class="space-y-2 text-zinc-300 text-xs">
-          <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Phylogenetic Tree</strong> &ndash; Interactive tree visualizer tracking maternal pedigree lineages.</div>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Migration Map</strong> &ndash; Satellite basemap tracking the 200,000-year Out-of-Africa trail.</div>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Lineage & sample comparator</strong> &ndash; Side-by-side comparison with interactive Venn diagrams.</div>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>
-            <div><strong class="text-white font-mono">Diagnostic markers</strong> &ndash; Private and conserved diagnostic mutations across global cohorts.</div>
-          </li>
-        </ul>
+      <div class="p-4 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-3 font-sans text-xs text-center">
+        <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider text-center">Key features breakdown:</div>
+        <div class="space-y-2 text-zinc-300 text-xs max-w-xl mx-auto text-center">
+          <div><strong class="text-white font-mono">Phylogenetic Tree</strong> &ndash; Interactive tree visualizer tracking maternal pedigree lineages.</div>
+          <div><strong class="text-white font-mono">Migration Map</strong> &ndash; Satellite basemap tracking the 200,000-year Out-of-Africa trail.</div>
+          <div><strong class="text-white font-mono">Lineage &amp; sample comparator</strong> &ndash; Side-by-side comparison with interactive Venn diagrams.</div>
+          <div><strong class="text-white font-mono">Diagnostic markers</strong> &ndash; Private and conserved diagnostic mutations across global cohorts.</div>
+        </div>
       </div>
 
       <!-- Cohort Selector Section with Country Flag Overlays -->
@@ -764,16 +752,69 @@
     </div>
   </div>
 
+  <!-- 25% Transparent Popup Window: Prompt User to Pick Two Samples to Compare -->
+  <div id="samplePickerPromptModal" class="fixed inset-0 bg-black/25 backdrop-blur-sm hidden items-center justify-center z-[1050] p-3 sm:p-4">
+    <div class="earth-panel max-w-lg w-full p-5 sm:p-6 space-y-4 shadow-2xl relative border border-white/20 bg-[#121216]/75 backdrop-blur-xl rounded-2xl sm:rounded-3xl">
+      <!-- Close Button Top Right -->
+      <button id="closeSamplePromptBtn" class="absolute top-4 right-4 min-h-[36px] min-w-[36px] px-2.5 py-1 bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer flex items-center justify-center z-10" aria-label="Close Prompt">
+        ✕
+      </button>
+
+      <div class="pr-10">
+        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Comparative Lineage Analysis</span>
+        <h3 id="samplePromptTitle" class="text-base sm:text-lg font-extrabold text-white tracking-tight mt-0.5">Pick two samples to compare</h3>
+      </div>
+
+      <p class="text-xs text-zinc-300 font-sans leading-relaxed">
+        Select two individuals to compare their maternal lineage, ancestral junctions, and variant distributions:
+      </p>
+
+      <!-- Dropdown selectors -->
+      <div class="space-y-3 pt-1">
+        <div class="space-y-1">
+          <label class="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">Sample 1 (Reference Lineage)</label>
+          <select id="promptSample1Select" class="w-full min-h-[44px] bg-zinc-950/90 border border-emerald-500/80 text-emerald-300 rounded-xl px-3.5 py-2 text-xs font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer shadow-sm">
+          </select>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider block">Sample 2 (Compared Lineage)</label>
+          <select id="promptSample2Select" class="w-full min-h-[44px] bg-zinc-950/90 border border-amber-500/80 text-amber-300 rounded-xl px-3.5 py-2 text-xs font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer shadow-sm">
+          </select>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button id="openReportFromPromptBtn" class="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-xs shadow-lg transition-all cursor-pointer font-mono flex items-center justify-center gap-2">
+          <span>Compare lineages ➔</span>
+        </button>
+      </div>
+
+      <div class="text-center pt-2 border-t border-white/10">
+        <span class="text-[11px] text-zinc-400 font-sans">
+          Tip: You can also click any two sample nodes directly on the tree.
+        </span>
+      </div>
+    </div>
+  </div>
+
   <!-- Ancestral Junction & Comparative Lineage Report Modal -->
   <div id="familyReportModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-2 sm:p-4">
     <div class="earth-panel max-w-5xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 shadow-2xl relative border border-white/15 bg-[#121216]/95 rounded-2xl sm:rounded-3xl">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-4">
+      <!-- Close button positioned at top right -->
+      <button id="closeReportBtn" class="absolute top-4 right-4 sm:top-6 sm:right-6 min-h-[44px] min-w-[44px] px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer flex items-center justify-center z-20">
+        ✕ Close
+      </button>
+
+      <div class="border-b border-white/10 pb-4 flex flex-col items-center justify-center text-center space-y-3 pr-14 sm:pr-0">
         <div>
           <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Ancestral junction &amp; comparative lineage report</span>
-          <h3 id="reportModalTitle" class="text-lg sm:text-xl font-extrabold text-white tracking-tight">Ancestral variant analysis</h3>
+          <h3 id="reportModalTitle" class="hidden"></h3>
         </div>
-        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          <div id="cohortReportSelectControls" class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+
+        <!-- Centered Dropdown Menus: Only the dropdown menus, no extra text saying sample 1 vs sample 2 -->
+        <div class="flex items-center justify-center w-full">
+          <div id="cohortReportSelectControls" class="flex flex-wrap items-center justify-center gap-2 w-full">
             <select id="reportFamily1Select" class="min-h-[44px] bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-200 font-mono">
               <!-- Populated by FamilyReportGenerator -->
             </select>
@@ -784,18 +825,14 @@
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
-          <div id="sampleReportSelectControls" class="hidden flex-wrap items-center gap-2 w-full sm:w-auto">
-            <select id="reportSample1Select" class="min-h-[44px] bg-zinc-950 border border-emerald-500/60 rounded-xl px-3 py-2 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer">
+          <div id="sampleReportSelectControls" class="hidden flex-wrap items-center justify-center gap-2.5 sm:gap-3 w-full">
+            <select id="reportSample1Select" class="min-h-[44px] bg-zinc-950 border border-emerald-500/80 rounded-xl px-3.5 py-2 text-xs text-emerald-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-emerald-400 cursor-pointer shadow-sm">
               <!-- Populated by FamilyReportGenerator -->
             </select>
-            <span class="text-zinc-500 text-xs font-mono font-bold">vs</span>
-            <select id="reportSample2Select" class="min-h-[44px] bg-zinc-950 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-zinc-200 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer">
+            <select id="reportSample2Select" class="min-h-[44px] bg-zinc-950 border border-amber-500/80 rounded-xl px-3.5 py-2 text-xs text-amber-300 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer shadow-sm">
               <!-- Populated by FamilyReportGenerator -->
             </select>
           </div>
-          <button id="closeReportBtn" class="min-h-[44px] min-w-[44px] px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl text-xs font-bold transition-all font-mono border border-white/10 cursor-pointer flex items-center justify-center">
-            ✕ Close
-          </button>
         </div>
       </div>
       <div id="familyReportModalBody" class="w-full overflow-x-auto">
@@ -805,7 +842,7 @@
   </div>
 
   <!-- Mutation Cladogram Inspector Modal (Interactive Cladogram Pop-Up on Mutation Click) -->
-  <div id="mutationCladogramModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1000] p-2 sm:p-4">
+  <div id="mutationCladogramModal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-[1100] p-2 sm:p-4">
     <div class="earth-panel max-w-4xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl relative border border-zinc-700 bg-[#121216]/95 rounded-2xl sm:rounded-3xl">
       <div class="flex items-center justify-between border-b border-white/10 pb-3 gap-2">
         <div>
@@ -827,9 +864,9 @@
   <script src="js/perlin.js"></script>
   <script src="js/welcome_background.js?v=1.0"></script>
   <script src="js/topojson-client.min.js"></script>
-  <script src="js/tree_viewer.js?v=15.0"></script>
+  <script src="js/tree_viewer.js?v=16.0"></script>
   <script src="js/migration_map.js?v=16.0"></script>
-  <script src="js/app.js?v=16.0"></script>
+  <script src="js/app.js?v=17.0"></script>
 </body>
 </html>
 

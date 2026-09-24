@@ -633,6 +633,62 @@ window.TreeViewer = {
     const refBase = baseMap[(ref || '').toUpperCase()] || ref;
     const altBase = baseMap[(alt || '').toUpperCase()] || alt;
 
+    const totalCarriers = carrierSamples.length;
+    const cohortCounts = {};
+    carrierSamples.forEach(s => {
+      const code = s.split('_')[0];
+      cohortCounts[code] = (cohortCounts[code] || 0) + 1;
+    });
+
+    const cohortList = Object.keys(cohortCounts).map(code => {
+      return {
+        code,
+        name: this.getFamilyName(code),
+        count: cohortCounts[code],
+        color: this.ETHNICITY_COLORS[code] || '#fafafa',
+        pct: totalCarriers > 0 ? (cohortCounts[code] / totalCarriers) * 100 : 0
+      };
+    }).sort((a, b) => b.count - a.count);
+
+    let pieSvg = '';
+    if (cohortList.length === 1) {
+      const c = cohortList[0];
+      pieSvg = `
+        <svg width="180" height="180" viewBox="0 0 180 180" class="shrink-0 select-none filter drop-shadow-md">
+          <circle cx="90" cy="90" r="75" fill="${c.color}" stroke="#09090b" stroke-width="2"/>
+          <text x="90" y="95" text-anchor="middle" fill="#ffffff" font-weight="800" font-family="monospace" font-size="13">100%</text>
+        </svg>
+      `;
+    } else if (cohortList.length > 1) {
+      let currentAngle = -Math.PI / 2;
+      let slicesSvg = '';
+      cohortList.forEach(item => {
+        const sliceAngle = (item.count / totalCarriers) * 2 * Math.PI;
+        const endAngle = currentAngle + sliceAngle;
+
+        const x1 = 90 + 75 * Math.cos(currentAngle);
+        const y1 = 90 + 75 * Math.sin(currentAngle);
+        const x2 = 90 + 75 * Math.cos(endAngle);
+        const y2 = 90 + 75 * Math.sin(endAngle);
+
+        const largeArc = sliceAngle > Math.PI ? 1 : 0;
+        const pathData = `M 90 90 L ${x1.toFixed(2)} ${y1.toFixed(2)} A 75 75 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+
+        slicesSvg += `
+          <path d="${pathData}" fill="${item.color}" stroke="#09090b" stroke-width="1.5" class="transition-all hover:opacity-85">
+            <title>${item.name} (${item.code}): ${item.count} / ${totalCarriers} (${item.pct.toFixed(1)}%)</title>
+          </path>
+        `;
+        currentAngle = endAngle;
+      });
+
+      pieSvg = `
+        <svg width="180" height="180" viewBox="0 0 180 180" class="shrink-0 select-none filter drop-shadow-md">
+          ${slicesSvg}
+        </svg>
+      `;
+    }
+
     bodyEl.innerHTML = `
       <div class="space-y-4 font-sans text-xs">
         
@@ -667,26 +723,45 @@ window.TreeViewer = {
           </div>
         </div>
 
-        <!-- Cladogram Visualization for this Specific Mutation -->
-        <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2">
-          <div class="text-[11px] text-zinc-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto overflow-x-auto p-1 font-mono">
-            ${carrierSamples.map(sample => {
-              const code = sample.split('_')[0];
-              const role = this.getSampleRole(sample);
-              const color = this.ETHNICITY_COLORS[code] || '#fafafa';
-              return `
-                <div class="min-h-[44px] p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between">
-                  <div class="flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${color}"></span>
-                    <strong class="text-zinc-200">${role}</strong>
+        <!-- Cohort Cladogram Visualization: Focus on Cohorts with Pie Chart -->
+        <div class="p-3.5 sm:p-5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-3 font-mono">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-2">
+            <div>
+              <div class="text-[11px] text-zinc-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
+              <div class="text-[11px] text-zinc-400 font-sans mt-0.5">Cohort distribution of individuals carrying this mutation</div>
+            </div>
+            <span class="text-xs font-bold text-emerald-400">${totalCarriers} total individuals</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-6 py-2">
+            <div class="shrink-0 flex flex-col items-center">
+              ${pieSvg}
+              <span class="text-[10px] text-zinc-400 mt-1.5 font-sans">Cohort proportion</span>
+            </div>
+
+            <div class="flex-grow w-full max-w-md space-y-2">
+              <div class="text-[11px] text-zinc-300 font-sans mb-1">
+                Out of people with this mutation:
+              </div>
+              <div class="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto pr-1">
+                ${cohortList.map(item => `
+                  <div class="p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between gap-2">
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                      <span class="w-3.5 h-3.5 rounded-full shrink-0 shadow-sm" style="background-color: ${item.color}"></span>
+                      <span class="font-bold text-zinc-200 truncate text-xs">${item.name} <span class="text-zinc-400 font-normal">(${item.code})</span></span>
+                    </div>
+                    <div class="flex items-center space-x-2 shrink-0">
+                      <span class="px-2.5 py-0.5 rounded-lg bg-zinc-950 border border-zinc-700 text-amber-300 font-bold text-xs">
+                        ${item.count} / ${totalCarriers}
+                      </span>
+                      <span class="text-zinc-400 text-[11px] w-12 text-right font-sans">
+                        ${item.pct.toFixed(1)}%
+                      </span>
+                    </div>
                   </div>
-                  <span class="px-2 py-0.5 rounded-lg bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-400">
-                    Cohort ${code}
-                  </span>
-                </div>
-              `;
-            }).join('')}
+                `).join('')}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1043,12 +1118,7 @@ window.TreeViewer = {
     if (!card) return;
 
     if (!selectedCodes || selectedCodes.length === 0) {
-      card.innerHTML = `
-        <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 text-xs text-slate-300 font-mono flex items-center justify-between">
-          <span>Click any cohort button or sample node on the phylogram to zoom in and inspect maternal pedigree.</span>
-          <span class="text-slate-400 text-[11px]">Global phylogram view</span>
-        </div>
-      `;
+      card.innerHTML = '';
       return;
     }
 

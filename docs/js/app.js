@@ -181,6 +181,87 @@ window.FamilyAccessGate = {
         headerBadge.style.display = 'none';
       }
     }
+
+    // 6. Show 25% transparent prompt to pick two samples if user hasn't seen it yet
+    if (shouldSave && window.SamplePickerPrompt) {
+      window.SamplePickerPrompt.show(code);
+    }
+  }
+};
+
+window.SamplePickerPrompt = {
+  STORAGE_KEY: 'mito_sample_compare_prompt_seen_v1',
+
+  show(cohortCode) {
+    if (localStorage.getItem(this.STORAGE_KEY) === 'true') {
+      return;
+    }
+    const modal = document.getElementById('samplePickerPromptModal');
+    if (!modal) return;
+
+    this.populateDropdowns(cohortCode);
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  },
+
+  close() {
+    const modal = document.getElementById('samplePickerPromptModal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    localStorage.setItem(this.STORAGE_KEY, 'true');
+  },
+
+  populateDropdowns(cohortCode) {
+    const s1Select = document.getElementById('promptSample1Select');
+    const s2Select = document.getElementById('promptSample2Select');
+    if (!s1Select || !s2Select) return;
+
+    const allSamples = (window.App && window.App.distanceData?.samples) || [];
+    let cohortSamples = allSamples.filter(s => s.startsWith(cohortCode + '_'));
+    if (cohortSamples.length === 0) {
+      cohortSamples = allSamples;
+    }
+
+    const optionsHtml = cohortSamples.map(s => {
+      const name = window.TreeViewer ? window.TreeViewer.getSampleDisplayName(s) : s;
+      const role = window.TreeViewer ? window.TreeViewer.getSampleRole(s) : '';
+      return `<option value="${s}">${name} (${role || s})</option>`;
+    }).join('');
+
+    s1Select.innerHTML = optionsHtml;
+    s2Select.innerHTML = optionsHtml;
+
+    if (cohortSamples.length > 0) {
+      s1Select.value = cohortSamples[0];
+      s2Select.value = cohortSamples.length > 1 ? cohortSamples[1] : cohortSamples[0];
+    }
+  },
+
+  init() {
+    const closeBtn = document.getElementById('closeSamplePromptBtn');
+    const openBtn = document.getElementById('openReportFromPromptBtn');
+    const modal = document.getElementById('samplePickerPromptModal');
+
+    closeBtn?.addEventListener('click', () => {
+      this.close();
+    });
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        this.close();
+      }
+    });
+
+    openBtn?.addEventListener('click', () => {
+      const s1 = document.getElementById('promptSample1Select')?.value;
+      const s2 = document.getElementById('promptSample2Select')?.value;
+      if (s1 && s2 && window.FamilyReportGenerator) {
+        this.close();
+        window.FamilyReportGenerator.openSampleReportModal(s1, s2);
+      }
+    });
   }
 };
 
@@ -379,14 +460,25 @@ window.FamilyReportGenerator = {
   },
 
   openReportModal(fam1Code = 'MX', fam2Code = 'AA', fam3Code = null) {
+    if (window.SamplePickerPrompt) {
+      window.SamplePickerPrompt.close();
+    }
     const modal = document.getElementById('familyReportModal');
     const cohortControls = document.getElementById('cohortReportSelectControls');
     const sampleControls = document.getElementById('sampleReportSelectControls');
+    const titleEl = document.getElementById('reportModalTitle');
+    if (titleEl) {
+      titleEl.innerHTML = '';
+      titleEl.classList.add('hidden');
+    }
     if (sampleControls) {
       sampleControls.classList.add('hidden');
       sampleControls.classList.remove('flex');
     }
-    if (cohortControls) cohortControls.classList.remove('hidden');
+    if (cohortControls) {
+      cohortControls.classList.remove('hidden');
+      cohortControls.classList.add('flex');
+    }
     if (!modal) return;
 
     this.populateDropdowns(fam1Code, fam2Code, fam3Code);
@@ -808,10 +900,21 @@ window.FamilyReportGenerator = {
   },
 
   openSampleReportModal(sample1, sample2) {
+    if (window.SamplePickerPrompt) {
+      window.SamplePickerPrompt.close();
+    }
     const modal = document.getElementById('familyReportModal');
     const cohortControls = document.getElementById('cohortReportSelectControls');
     const sampleControls = document.getElementById('sampleReportSelectControls');
-    if (cohortControls) cohortControls.classList.add('hidden');
+    const titleEl = document.getElementById('reportModalTitle');
+    if (titleEl) {
+      titleEl.innerHTML = '';
+      titleEl.classList.add('hidden');
+    }
+    if (cohortControls) {
+      cohortControls.classList.add('hidden');
+      cohortControls.classList.remove('flex');
+    }
     if (sampleControls) {
       sampleControls.classList.remove('hidden');
       sampleControls.classList.add('flex');
@@ -830,7 +933,10 @@ window.FamilyReportGenerator = {
     const titleEl = document.getElementById('reportModalTitle');
     const cohortControls = document.getElementById('cohortReportSelectControls');
     const sampleControls = document.getElementById('sampleReportSelectControls');
-    if (cohortControls) cohortControls.classList.add('hidden');
+    if (cohortControls) {
+      cohortControls.classList.add('hidden');
+      cohortControls.classList.remove('flex');
+    }
     if (sampleControls) {
       sampleControls.classList.remove('hidden');
       sampleControls.classList.add('flex');
@@ -864,7 +970,8 @@ window.FamilyReportGenerator = {
     const info2 = this.getFamilyData(code2);
 
     if (titleEl) {
-      titleEl.innerHTML = `<span class="text-emerald-400">${name1}</span> vs <span class="text-amber-400">${name2}</span>`;
+      titleEl.innerHTML = '';
+      titleEl.classList.add('hidden');
     }
 
     // Filter variants for each sample
@@ -939,7 +1046,7 @@ window.FamilyReportGenerator = {
             class="venn-variant-dot cursor-pointer transition-all duration-200 hover:r-9 hover:fill-white hover:stroke-amber-400 shadow-md"
             data-variant="${vJson}"
             data-eths="${ethsJson}">
-            <title>${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'})</title>
+            <title>${v.pos} ${v.ref}>${v.alt} (${v.gene || 'D-loop'}) — Click to open conserved mutation cladogram</title>
           </circle>
         `;
       });
@@ -953,7 +1060,7 @@ window.FamilyReportGenerator = {
             <span class="text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">Variant distribution</span>
             <h3 class="text-base font-extrabold text-white font-sans">${name1} vs ${name2}</h3>
           </div>
-          <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot for detail</span>
+          <span class="text-zinc-400 text-xs font-mono">Hover over dots to view positions; click dot to open conserved mutation cladogram</span>
         </div>
 
         <div class="flex justify-center overflow-x-auto py-2">
@@ -1302,34 +1409,6 @@ window.FamilyReportGenerator = {
 
         ${vennSvgHtml}
 
-        <!-- Section: Conserved Ancestral Mutations (Branch Junction Triangulation) -->
-        <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-            <div>
-              <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Ancestral junction triangulation</span>
-              <h3 class="text-base font-extrabold text-white font-sans">Conserved ancestral mutations (${sharedHigh.length})</h3>
-            </div>
-            <span class="text-zinc-400 font-sans text-xs">Click any mutation to inspect its global cladogram</span>
-          </div>
-
-          ${sharedHigh.length > 0 ? `
-            <div class="flex flex-wrap gap-2.5 pt-1">
-              ${sharedHigh.map(m => `
-                <button onclick="window.TreeViewer.inspectMutationCladogram('${m.pos}', '${m.ref}', '${m.alt}', '${m.gene || ''}')" class="min-h-[44px] px-3.5 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-900 border border-zinc-700 hover:border-emerald-500 text-emerald-300 font-mono font-bold text-xs shadow-md transition-all flex items-center gap-2 group cursor-pointer">
-                  <span>${m.pos} ${m.ref}&gt;${m.alt}</span>
-                  <span class="text-zinc-400 text-[10px] bg-zinc-900 px-1.5 py-0.5 rounded-lg border border-zinc-700 group-hover:border-emerald-600 group-hover:text-emerald-300">
-                    ${m.gene || 'Locus'} &bull; High (100%)
-                  </span>
-                </button>
-              `).join('')}
-            </div>
-          ` : `
-            <div class="text-zinc-400 italic text-xs font-sans p-3 bg-zinc-950 rounded-xl border border-zinc-800">
-              No shared high-presence variants unique to this specific pairwise comparison.
-            </div>
-          `}
-        </div>
-
         <!-- Section: Low-VAF Muted / Trace Heteroplasmy Analysis -->
         <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 font-mono text-xs">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
@@ -1430,9 +1509,12 @@ window.FamilyReportGenerator = {
         e.stopPropagation();
         try {
           const v = JSON.parse(dot.getAttribute('data-variant'));
-          const eths = JSON.parse(dot.getAttribute('data-eths'));
-          this.showVariantModal(v, eths);
-        } catch(err) {}
+          if (window.TreeViewer && window.TreeViewer.inspectMutationCladogram) {
+            window.TreeViewer.inspectMutationCladogram(v.pos, v.ref, v.alt, v.gene || '');
+          }
+        } catch(err) {
+          console.error("Error opening mutation cladogram from venn dot:", err);
+        }
       });
     });
   }
@@ -1468,6 +1550,10 @@ window.App = {
     }
 
     window.FamilyAccessGate.init();
+
+    if (window.SamplePickerPrompt) {
+      window.SamplePickerPrompt.init();
+    }
 
     if (window.DiagnosticMarkersExplorer) window.DiagnosticMarkersExplorer.init();
 
