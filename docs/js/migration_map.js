@@ -990,7 +990,7 @@ window.MigrationMap = {
     const areaBannerHtml = `
       <div class="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/90 p-4 space-y-1">
         <div class="flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">
-          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0"></span>
           <span>Geographic checkpoint</span>
         </div>
         <h4 class="text-base sm:text-lg font-extrabold text-white tracking-tight">${currentStop.name}</h4>
@@ -1022,7 +1022,10 @@ window.MigrationMap = {
 
         <!-- Area Significance & Description -->
         <div class="p-4 rounded-2xl bg-[#121216]/90 border border-white/10 space-y-2 shadow-xl">
-          <div class="text-xs text-amber-400 font-mono font-bold uppercase tracking-wider">Significance to humanity:</div>
+          <div class="flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold uppercase tracking-wider mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0"></span>
+            <span>Significance to humanity:</span>
+          </div>
           <p class="text-zinc-300 text-xs leading-relaxed font-sans">
             ${currentStop.desc}
           </p>
@@ -1031,37 +1034,25 @@ window.MigrationMap = {
       </div>
     `;
 
-    // Render Bottom Panel (Diagnostic Mutation Evidence - Full Width + 5 Spatial Analysis Sections)
+    // Render Bottom Panel:
+    // 1. Geospatial Migration Trajectory (former Section 5, moved to top)
+    // 2. Diagnostic Mutation Evidence (Verified Checkpoint Markers)
+    // 3. 16,569 bp Genome Coordinate Architecture & Organellar Localization (Integrated Section 2 + 1)
     const evidencePanel = document.getElementById('migrationEvidencePanel');
     if (evidencePanel) {
-      const spatialSectionsHtml = this.buildSpatialSectionsHtml(currentStop);
+      const trajectoryHtml = this.buildGeospatialTrajectoryHtml(currentStop);
+      const diagnosticHtml = this.buildDiagnosticEvidenceHtml(currentStop, mutationCardsHtml);
+      const genomeArchitectureHtml = this.buildGenomeArchitectureHtml(currentStop);
+
       evidencePanel.innerHTML = `
         <div class="space-y-6 w-full font-sans text-xs">
-          
-          <!-- Diagnostic Mutations Evidence (Takes Up All Horizontal Space) -->
-          <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-              <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span>
-                <span class="text-sm font-extrabold text-white">Diagnostic Mutation Evidence (${(currentStop.mutations || []).length} Verified Checkpoint Markers)</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">100% Maternal Inheritance</span>
-                <span class="text-[10px] font-mono text-emerald-400 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/60 font-semibold">Matched in Cohort</span>
-              </div>
-            </div>
-
-            <!-- Full-Width Responsive Grid for Mutation Evidence Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5">
-              ${mutationCardsHtml || '<div class="col-span-full py-4 text-center text-zinc-500 font-mono text-xs">No private mutations mapped at this step.</div>'}
-            </div>
-          </div>
-
-          <!-- 5 Comprehensive Spatial Information Sections -->
-          ${spatialSectionsHtml}
-
+          ${trajectoryHtml}
+          ${diagnosticHtml}
+          ${genomeArchitectureHtml}
         </div>
       `;
+
+      this.attachGenomeTrackInteractions(currentStop);
     }
   },
 
@@ -1080,12 +1071,212 @@ window.MigrationMap = {
     return Math.round(6371 * c);
   },
 
-  // Build 5 Comprehensive Spatial Information Sections
-  buildSpatialSectionsHtml(currentStop) {
+  // 7 Major Functional Genomic Regions across all 16,569 bp
+  GENOME_REGIONS: [
+    {
+      id: 'hv2',
+      name: 'HV2',
+      fullName: 'D-Loop Hypervariable Region 2 & Promoters',
+      start: 1,
+      end: 576,
+      color: '#f43f5e',
+      borderClass: 'border-rose-500/40',
+      bgClass: 'bg-rose-950/50',
+      compartment: 'Mitochondrial Matrix Core',
+      compartmentDepth: 'Catalytic Interior Matrix Core (0 nm distance from nucleoid)',
+      compartmentId: 'matrix',
+      complex: 'Non-Coding Regulatory & Replication Origin',
+      role: 'Controls transcription initiation (LSP/HSP promoters) and bidirectional heavy-strand DNA replication primer synthesis.',
+      educationalSummary: 'The displacement loop (D-loop) is the primary non-coding control center of human mitochondrial DNA. Region HV2 contains conserved sequence blocks (CSB I–III) and the Light-Strand Promoter (LSP). It acts as the biochemical docking site where mitochondrial RNA polymerase (POLRMT) synthesizes primers for DNA Polymerase Gamma (POLG).'
+    },
+    {
+      id: 'rnr',
+      name: '12S/16S rRNA',
+      fullName: 'Mitochondrial Ribosomal RNAs (MT-RNR1 & MT-RNR2)',
+      start: 577,
+      end: 3306,
+      color: '#818cf8',
+      borderClass: 'border-indigo-500/40',
+      bgClass: 'bg-indigo-950/50',
+      compartment: 'Mitochondrial Matrix Core',
+      compartmentDepth: 'Matrix Ribosomal Assembly Pool',
+      compartmentId: 'matrix',
+      complex: '55S Mitoribosome Catalytic Core',
+      role: 'Forms the structural RNA scaffolds for the 28S small (12S rRNA) and 39S large (16S rRNA) mitoribosomal subunits.',
+      educationalSummary: 'Mitochondria utilize their own specialized 55S ribosomes located inside the matrix. MT-RNR1 (12S) and MT-RNR2 (16S) provide the catalytic peptide transferase and decoding centers, dedicated exclusively to synthesizing the 13 hydrophobic transmembrane core proteins of oxidative phosphorylation.'
+    },
+    {
+      id: 'nd1_2',
+      name: 'ND1/2',
+      fullName: 'Complex I Hydrophobic Core (MT-ND1 & MT-ND2)',
+      start: 3307,
+      end: 5511,
+      color: '#fbbf24',
+      borderClass: 'border-amber-500/40',
+      bgClass: 'bg-amber-950/50',
+      compartment: 'Inner Cristae Membrane (IMM)',
+      compartmentDepth: '15–30 nm Bilayer Hydrophobic Core',
+      compartmentId: 'imm',
+      complex: 'Complex I (NADH:Ubiquinone Oxidoreductase)',
+      role: 'Pumps protons (H⁺) from the matrix into the intermembrane space, contributing directly to the electrochemical proton gradient (Δp).',
+      educationalSummary: 'Subunits ND1 and ND2 form the proximal membrane-embedded arm of respiratory Complex I. As electrons shuttle through iron-sulfur clusters, electrostatic conformational waves drive proton translocation across the cristae bilayer into the intermembrane space reservoir.'
+    },
+    {
+      id: 'cox_atp',
+      name: 'COX / ATP',
+      fullName: 'Complex IV & V (MT-CO1, CO2, CO3 & MT-ATP6, ATP8)',
+      start: 5512,
+      end: 10058,
+      color: '#34d399',
+      borderClass: 'border-emerald-500/40',
+      bgClass: 'bg-emerald-950/50',
+      compartment: 'Inner Cristae Membrane (IMM)',
+      compartmentDepth: 'Transmembrane Cristae Bilayer Sheets',
+      compartmentId: 'imm',
+      complex: 'Complex IV (Terminal Oxidase) & Complex V (ATP Synthase)',
+      role: 'Catalyzes terminal four-electron reduction of O₂ to H₂O (Complex IV) and synthesizes cellular ATP via the F₀ rotary proton turbine (Complex V).',
+      educationalSummary: 'This cluster contains the catalytic bioenergetic engines of aerobic metabolism. COX1, COX2, and COX3 house the heme a₃-CuB centers reducing 95% of inhaled oxygen to water. MT-ATP6 and MT-ATP8 form the membrane proton rotor channel converting the protonmotive force into mechanical torque to generate ATP.'
+    },
+    {
+      id: 'nd3_6',
+      name: 'ND4/5/6',
+      fullName: 'Complex I Distal Piston Arm (MT-ND3, ND4L, ND4, ND5, ND6)',
+      start: 10059,
+      end: 14746,
+      color: '#22d3ee',
+      borderClass: 'border-cyan-500/40',
+      bgClass: 'bg-cyan-950/50',
+      compartment: 'Inner Cristae Membrane (IMM)',
+      compartmentDepth: '15–30 nm Distal Cristae Bilayer',
+      compartmentId: 'imm',
+      complex: 'Complex I Distal Transmembrane Modules',
+      role: 'Houses the lateral coupling piston and antiporter-like channels (ND4, ND5) responsible for pumping 2 of the 4 protons per electron pair.',
+      educationalSummary: 'Subunits ND4 and ND5 are homologous to bacterial cation/proton antiporters, featuring discontinuous transmembrane helices that tilt dynamically during catalytic turnover. ND6 provides the critical structural hinge coordinating the redox status of the ubiquinone pocket with the distal proton channels.'
+    },
+    {
+      id: 'cytb',
+      name: 'CYTB',
+      fullName: 'Complex III Cytochrome b (MT-CYB)',
+      start: 14747,
+      end: 15887,
+      color: '#e879f9',
+      borderClass: 'border-fuchsia-500/40',
+      bgClass: 'bg-fuchsia-950/50',
+      compartment: 'Inner Cristae Membrane (IMM)',
+      compartmentDepth: 'Spans Inner Membrane with 8 Helices',
+      compartmentId: 'imm',
+      complex: 'Complex III (Cytochrome bc₁ Complex)',
+      role: 'Catalyzes the Q-cycle, shuttling electrons between ubiquinol (QH₂) and cytochrome c while translocating 4 protons into the IMS.',
+      educationalSummary: 'Cytochrome b is the sole mitochondrial DNA-encoded protein of Complex III. Spanning the cristae membrane with 8 transmembrane α-helices and housing two distinct b-type hemes (bL and bH), it performs bifurcated electron transfer, doubling the energy conservation efficiency of the respiratory chain.'
+    },
+    {
+      id: 'hv1',
+      name: 'HV1',
+      fullName: 'D-Loop Hypervariable Region 1 & Termination Sequence',
+      start: 15888,
+      end: 16569,
+      color: '#f43f5e',
+      borderClass: 'border-rose-500/40',
+      bgClass: 'bg-rose-950/50',
+      compartment: 'Mitochondrial Matrix Core',
+      compartmentDepth: 'Matrix Triplex D-Loop Domain',
+      compartmentId: 'matrix',
+      complex: 'Non-Coding Regulatory & Termination (TAS)',
+      role: 'Houses termination-associated sequences (TAS) regulating 7S DNA synthesis and the heavy-strand origin of replication (OH).',
+      educationalSummary: 'Region HV1 exhibits the highest neutral mutation rate in the human genome. Because substitutions here do not compromise peptide structure, they have accumulated faithfully along maternal lineages for over 200,000 years, providing the primary chronological clock for tracking global human migrations.'
+    }
+  ],
+
+  // 1. Geospatial Migration Trajectory & Continental Locus Coordinates (Top Section)
+  buildGeospatialTrajectoryHtml(currentStop) {
+    const [lat, lng] = currentStop.latlng || [8.9806, 38.7578];
+    const distKm = this.getDistanceFromAfrica(lat, lng);
+    const parsedYbp = parseInt(currentStop.ybp) || 50000;
+    const estGen = Math.round(parsedYbp / 25);
+
+    return `
+      <!-- Geospatial Migration Trajectory & Continental Locus Coordinates -->
+      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+          <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0"></span>
+            <span class="text-sm font-extrabold text-white">Geospatial Migration Trajectory &amp; Continental Coordinates</span>
+          </div>
+          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Planetary Coordinates &amp; Great-Circle Vector</span>
+        </div>
+
+        <p class="text-xs text-zinc-300 leading-relaxed font-sans">
+          Every human mitochondrial mutation emerged at a precise geospatial coordinate on Earth. As small founder populations dispersed across continents along the Out-of-Africa trail, genetic drift and geographic barriers fixed unique regional haplogroup variants.
+        </p>
+
+        <!-- Geospatial Dashboard Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 font-mono text-xs">
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1 hover:border-amber-500/30 transition-colors shadow-sm">
+            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Geographic Checkpoint:</div>
+            <div class="text-amber-300 font-bold text-sm truncate">${currentStop.name}</div>
+            <div class="text-zinc-400 text-[11px] font-sans mt-0.5">${currentStop.region}</div>
+          </div>
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1 hover:border-amber-500/30 transition-colors shadow-sm">
+            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Continental Coordinates:</div>
+            <div class="text-white font-bold text-sm">${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'}, ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}</div>
+            <div class="text-zinc-400 text-[11px] font-sans mt-0.5">Precision WGS84 Geodetic Datum</div>
+          </div>
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1 hover:border-amber-500/30 transition-colors shadow-sm">
+            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Distance From East Africa:</div>
+            <div class="text-amber-400 font-bold text-sm">${distKm.toLocaleString()} Kilometers</div>
+            <div class="text-zinc-400 text-[11px] font-sans mt-0.5">Direct Great-Circle Trajectory</div>
+          </div>
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1 hover:border-amber-500/30 transition-colors shadow-sm">
+            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Prehistoric Generations:</div>
+            <div class="text-white font-bold text-sm">~${estGen.toLocaleString()} Maternal Generations</div>
+            <div class="text-zinc-400 text-[11px] font-sans mt-0.5">Calculated at 25 yrs/generation</div>
+          </div>
+        </div>
+
+        <!-- Climatic & Thermal Environmental Adaptation -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/90 border border-amber-500/30 space-y-1.5 font-sans text-xs shadow-inner">
+          <div class="flex items-center gap-2 text-amber-400 font-mono font-bold text-xs uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>Geographic Climatic &amp; Thermal Selective Pressures</span>
+          </div>
+          <p class="text-zinc-300 text-xs sm:text-sm leading-relaxed">
+            Populations colonizing high-latitude or high-altitude ecosystems experienced strong selective pressures on mitochondrial bioenergetics. For example, mutations in ATP6 and ND genes uncoupled oxidative phosphorylation to generate endogenous heat (thermogenesis) in glacial Eurasian climates, while high-plateau populations (such as Tibetans) acquired variants in ND1 and ND6 optimizing oxygen affinity under hypobaric hypoxia.
+          </p>
+        </div>
+      </div>
+    `;
+  },
+
+  // 2. Diagnostic Mutation Evidence Section (Full Width)
+  buildDiagnosticEvidenceHtml(currentStop, mutationCardsHtml) {
+    const mutations = currentStop.mutations || [];
+    return `
+      <!-- Diagnostic Mutations Evidence (Takes Up All Horizontal Space) -->
+      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+          <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0"></span>
+            <span class="text-sm font-extrabold text-white">Diagnostic Mutation Evidence (${mutations.length} Verified Checkpoint Markers)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">100% Maternal Inheritance</span>
+            <span class="text-[10px] font-mono text-emerald-400 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/60 font-semibold">Matched in Cohort</span>
+          </div>
+        </div>
+
+        <!-- Full-Width Responsive Grid for Mutation Evidence Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5">
+          ${mutationCardsHtml || '<div class="col-span-full py-4 text-center text-zinc-500 font-mono text-xs">No private mutations mapped at this step.</div>'}
+        </div>
+      </div>
+    `;
+  },
+
+  // 3. Integrated 16,569 bp Genome Coordinate Architecture & Organellar Localization (Sections 2 + 1)
+  buildGenomeArchitectureHtml(currentStop) {
     const mutations = currentStop.mutations || [];
     const meanings = this.MUTATION_MEANINGS || {};
 
-    // 1. Organellar Sub-Compartment Counts & Mapping
     let matrixCount = 0;
     let immCount = 0;
     mutations.forEach(pos => {
@@ -1098,12 +1289,12 @@ window.MigrationMap = {
       }
     });
 
-    // 2. 16,569 bp Genomic Coordinate Markers
+    // 16,569 bp Coordinate Markers Badges
     const coordinateMarkersHtml = mutations.map(pos => {
       const pct = ((pos / 16569) * 100).toFixed(1);
       const info = meanings[pos] || {};
       return `
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-950/90 border border-zinc-800 font-mono text-xs shadow-sm">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-950/90 border border-zinc-800 font-mono text-xs shadow-sm hover:border-amber-500/40 transition-colors">
           <span class="w-2 h-2 rounded-full bg-amber-400"></span>
           <span class="text-amber-300 font-bold">${pos} bp</span>
           <span class="text-zinc-400 text-[11px]">(${pct}%)</span>
@@ -1114,311 +1305,399 @@ window.MigrationMap = {
       `;
     }).join('');
 
-    // 3. Respiratory Chain Complex Grouping
-    const complexGroups = [
-      {
-        name: 'Complex I (NADH:Ubiquinone Oxidoreductase)',
-        badge: 'Transmembrane Proton Arm',
-        genes: 'MT-ND1, ND2, ND3, ND4, ND4L, ND5, ND6',
-        desc: '7 hydrophobic subunits embedded in the cristae bilayer. Drives 4 H⁺ across the inner membrane per 2 electrons.',
-        markers: []
-      },
-      {
-        name: 'Complex III (Cytochrome bc₁ Complex)',
-        badge: 'Q-Cycle Dimer Core',
-        genes: 'MT-CYB (Cytochrome b)',
-        desc: 'Spans the inner membrane with 8 transmembrane helices. Coordinates the Q-cycle between Qo (IMS) and Qi (Matrix) pockets.',
-        markers: []
-      },
-      {
-        name: 'Complex IV (Cytochrome c Oxidase)',
-        badge: 'Terminal O₂ Reduction Center',
-        genes: 'MT-CO1, MT-CO2, MT-CO3',
-        desc: 'Traverses the bilayer with 12 transmembrane helices, housing the heme a₃-CuB center where oxygen is reduced to water.',
-        markers: []
-      },
-      {
-        name: 'Complex V (ATP Synthase)',
-        badge: 'F₀ Membrane Proton Turbine',
-        genes: 'MT-ATP6, MT-ATP8',
-        desc: 'Forms the transmembrane proton-translocating channel of the F₀ rotor, coupling proton flow to catalytic ATP synthesis in F₁.',
-        markers: []
-      },
-      {
-        name: 'Non-Coding Core & Structural RNAs',
-        badge: 'Matrix Nucleoid & Ribosome',
-        genes: 'D-Loop (Control Region), 12S/16S rRNA, 22 tRNAs',
-        desc: 'Controls mtDNA replication initiation, transcriptional promoters (HSP/LSP), and mitochondrial protein translation.',
-        markers: []
-      }
-    ];
+    // Track Segments HTML across all 16,569 bp
+    const trackSegmentsHtml = this.GENOME_REGIONS.map((reg, idx) => {
+      const span = reg.end - reg.start + 1;
+      const widthPct = ((span / 16569) * 100).toFixed(2);
+      const regMutations = mutations.filter(pos => pos >= reg.start && pos <= reg.end);
+      const isFirst = idx === 0;
+      const isLast = idx === this.GENOME_REGIONS.length - 1;
+      const cornerClass = isFirst ? 'rounded-l-xl' : (isLast ? 'rounded-r-xl' : '');
 
-    mutations.forEach(pos => {
-      const info = meanings[pos] || {};
-      const locus = (info.locus || '');
-      if (locus.includes('ND')) complexGroups[0].markers.push({ pos, change: info.change, locus });
-      else if (locus.includes('CYB')) complexGroups[1].markers.push({ pos, change: info.change, locus });
-      else if (locus.includes('CO1') || locus.includes('CO2') || locus.includes('CO3')) complexGroups[2].markers.push({ pos, change: info.change, locus });
-      else if (locus.includes('ATP')) complexGroups[3].markers.push({ pos, change: info.change, locus });
-      else complexGroups[4].markers.push({ pos, change: info.change, locus });
-    });
-
-    const complexCardsHtml = complexGroups.map(grp => `
-      <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/80 border ${grp.markers.length > 0 ? 'border-amber-500/40 shadow-[0_0_15px_rgba(245,158,11,0.08)]' : 'border-zinc-800'} space-y-2 font-mono text-xs">
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <div class="font-bold ${grp.markers.length > 0 ? 'text-amber-300' : 'text-zinc-200'} text-xs sm:text-sm">${grp.name}</div>
-            <div class="text-[10px] text-zinc-400 font-sans mt-0.5">${grp.genes}</div>
+      return `
+        <div class="genome-track-segment relative h-full flex flex-col items-center justify-center p-1 cursor-pointer select-none transition-all duration-200 border-r border-zinc-900 ${cornerClass} ${reg.bgClass} hover:z-20"
+             style="width: ${widthPct}%;"
+             data-region-id="${reg.id}"
+             data-region-name="${reg.name}"
+             data-compartment="${reg.compartmentId}">
+          <span class="text-[10px] sm:text-xs font-mono font-bold truncate drop-shadow" style="color: ${reg.color};">
+            ${reg.name}
+          </span>
+          <div class="flex items-center gap-1 mt-0.5">
+            ${regMutations.length > 0 ? `
+              <span class="px-1.5 py-0.2 rounded-full bg-amber-400 text-zinc-950 font-black text-[9px] font-mono shadow-[0_0_6px_rgba(251,191,36,0.6)]">
+                ${regMutations.length}
+              </span>
+            ` : `
+              <span class="text-[9px] text-zinc-500 font-mono hidden sm:inline">•</span>
+            `}
           </div>
-          <span class="px-2 py-0.5 rounded text-[10px] shrink-0 font-mono ${grp.markers.length > 0 ? 'bg-amber-950/70 border border-amber-800 text-amber-300 font-bold' : 'bg-zinc-900 border border-zinc-800 text-zinc-400'}">
-            ${grp.badge}
-          </span>
         </div>
-        <p class="text-zinc-300 font-sans text-xs leading-relaxed">${grp.desc}</p>
-        <div class="pt-2 border-t border-white/5 flex flex-wrap items-center gap-1.5">
-          <span class="text-[11px] font-mono ${grp.markers.length > 0 ? 'text-amber-400 font-bold' : 'text-zinc-500'}">
-            ${grp.markers.length > 0 ? `Checkpoint Markers (${grp.markers.length}):` : 'No mutations in this step'}
-          </span>
-          ${grp.markers.map(m => `
-            <span class="px-2 py-0.5 rounded bg-zinc-900 border border-amber-500/30 text-amber-300 font-bold text-[11px]">${m.pos} ${m.change || ''} (${m.locus})</span>
-          `).join('')}
+      `;
+    }).join('');
+
+    // Mutation Needle Pins plotted spatially across the entire genome
+    const mutationPinsHtml = mutations.map(pos => {
+      const pct = ((pos / 16569) * 100).toFixed(2);
+      const info = meanings[pos] || {};
+      const reg = this.GENOME_REGIONS.find(r => pos >= r.start && pos <= r.end) || {};
+
+      return `
+        <div class="genome-mutation-pin absolute top-0 bottom-0 z-30 flex flex-col items-center justify-between pointer-events-auto cursor-pointer group"
+             style="left: ${pct}%; transform: translateX(-50%); width: 14px;"
+             data-pos="${pos}"
+             data-region-id="${reg.id || ''}"
+             data-change="${info.change || ''}"
+             data-locus="${info.locus || ''}">
+          <!-- Top Pin Indicator -->
+          <div class="w-3 h-3 rounded-full bg-amber-300 border-2 border-zinc-950 shadow-[0_0_10px_rgba(251,191,36,0.9)] -mt-1 group-hover:scale-150 transition-transform"></div>
+          <!-- Needle Spine Line -->
+          <div class="w-0.5 h-full bg-amber-400/90 shadow-[0_0_8px_rgba(251,191,36,0.8)] group-hover:bg-amber-200 group-hover:w-1 transition-all"></div>
+          <!-- Bottom Foot Dot -->
+          <div class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-zinc-900 -mb-0.5 group-hover:scale-125 transition-transform"></div>
+
+          <!-- Hover Tooltip -->
+          <div class="absolute -top-11 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-zinc-900/95 backdrop-blur-md border border-amber-400/70 text-white text-[11px] font-mono px-2.5 py-1 rounded-xl shadow-2xl whitespace-nowrap z-50">
+            <strong class="text-amber-300 font-extrabold">${pos} bp</strong> &bull; <span class="text-amber-200">${info.change || 'VAR'}</span> &bull; <span class="text-zinc-300">${info.locus || 'mtDNA'}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Default Pod View before Hovering
+    const defaultReportPodHtml = `
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2 text-zinc-400 text-xs font-mono">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <span class="font-bold uppercase tracking-wider text-zinc-200">Interactive Genomic &amp; Organellar Explorer</span>
+        </div>
+        <span class="text-xs font-mono font-bold text-amber-300">${mutations.length} Checkpoint Mutations Mapped Across 16,569 bp</span>
+      </div>
+      <div class="space-y-3">
+        <p class="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
+          Hover over any section of the genome above (<strong class="text-rose-400">HV2</strong>, <strong class="text-indigo-400">12S/16S rRNA</strong>, <strong class="text-amber-400">ND1/2</strong>, <strong class="text-emerald-400">COX / ATP</strong>, <strong class="text-cyan-400">ND4/5/6</strong>, <strong class="text-fuchsia-400">CYTB</strong>, or <strong class="text-rose-400">HV1</strong>) or any vertical mutation needle pin to reveal the number of checkpoint mutations in that part of the genome, its sub-cellular organellar localization, and what it does biologically.
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 pt-1 font-mono text-[11px]">
+          ${this.GENOME_REGIONS.map(reg => {
+            const regMuts = mutations.filter(pos => pos >= reg.start && pos <= reg.end);
+            return `
+              <div class="p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-800 text-center space-y-0.5">
+                <div class="font-bold truncate" style="color: ${reg.color}">${reg.name}</div>
+                <div class="text-[10px] text-zinc-400">${regMuts.length} mutation${regMuts.length === 1 ? '' : 's'}</div>
+              </div>
+            `;
+          }).join('')}
         </div>
       </div>
-    `).join('');
-
-    // 5. Geospatial Continental Coordinates & Distance
-    const [lat, lng] = currentStop.latlng || [8.9806, 38.7578];
-    const distKm = this.getDistanceFromAfrica(lat, lng);
-    const parsedYbp = parseInt(currentStop.ybp) || 50000;
-    const estGen = Math.round(parsedYbp / 25);
+    `;
 
     return `
-      <!-- Spatial Section 1: Organellar Sub-Compartment Spatial Distribution -->
-      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
+      <style>
+        .genome-track-wrapper {
+          overflow: visible;
+        }
+        .genome-track-segment {
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .genome-track-wrapper:hover .genome-track-segment {
+          opacity: 0.38;
+          filter: saturate(0.6) brightness(0.85);
+        }
+        .genome-track-wrapper .genome-track-segment:hover {
+          opacity: 1 !important;
+          filter: brightness(1.2) !important;
+          transform: scaleY(1.08);
+          z-index: 15;
+          box-shadow: 0 0 20px rgba(251, 191, 36, 0.25);
+        }
+        .genome-mutation-pin {
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .genome-mutation-pin:hover {
+          transform: translateX(-50%) scale(1.3);
+          z-index: 40;
+        }
+      </style>
+
+      <!-- Integrated 16,569 bp Genome Coordinate Architecture & Organellar Localization -->
+      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-5 w-full">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
           <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span class="text-sm font-extrabold text-white">Spatial Section 1: Organellar Sub-Compartment Localization</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)] shrink-0"></span>
+            <span class="text-sm font-extrabold text-white">16,569 bp Genome Coordinate Architecture &amp; Organellar Localization</span>
           </div>
-          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Sub-cellular Z-Axis Depth</span>
-        </div>
-        
-        <p class="text-xs text-zinc-300 leading-relaxed font-sans">
-          Human mitochondria are partitioned into four distinct concentric spatial compartments. The 13 protein-coding genes of mtDNA produce components exclusively within the <strong>Inner Cristae Membrane</strong> and <strong>Mitochondrial Matrix</strong>, while outer compartments are assembled from nuclear-encoded proteins imported via translocases.
-        </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5 font-mono text-xs">
-          <!-- Layer 1: OMM -->
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-amber-400 font-bold">1. Outer Membrane (OMM)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400">0 nm Surface</span>
-            </div>
-            <p class="text-zinc-300 font-sans text-xs leading-relaxed">Permeable lipid envelope containing VDAC porin channels and fission/fusion receptors. <strong>0 mtDNA mutations</strong> (100% nuclear encoded).</p>
-            <div class="text-[11px] text-zinc-400 border-t border-white/5 pt-1.5 font-mono">Variants in OMM: <span class="text-zinc-500 font-bold">0 markers</span></div>
-          </div>
-          <!-- Layer 2: IMS -->
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-amber-400 font-bold">2. Intermembrane Space (IMS)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400">~7 nm Lumen</span>
-            </div>
-            <p class="text-zinc-300 font-sans text-xs leading-relaxed">Proton ($H⁺$) electrochemical reservoir ($\Delta\Psi_m \approx -180$ mV). Cytochrome c electron shuttles traverse this aqueous phase between Complex III and IV.</p>
-            <div class="text-[11px] text-zinc-400 border-t border-white/5 pt-1.5 font-mono">Proton gradient: <span class="text-amber-300 font-bold">High Potential Δp</span></div>
-          </div>
-          <!-- Layer 3: IMM Cristae -->
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-amber-500/40 space-y-2 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
-            <div class="flex items-center justify-between">
-              <span class="text-amber-300 font-bold">3. Inner Cristae Membrane (IMM)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950/80 border border-amber-700 text-amber-300 font-bold">15–30 nm Depth</span>
-            </div>
-            <p class="text-zinc-300 font-sans text-xs leading-relaxed">Site of oxidative phosphorylation (OXPHOS)! Houses Complex I, III, IV, and V. Densely folded into invaginated cristae sheets to maximize ATP production surface area.</p>
-            <div class="text-[11px] text-amber-400 border-t border-white/5 pt-1.5 font-mono">Variants in IMM Cristae: <span class="text-white font-bold">${immCount} markers</span></div>
-          </div>
-          <!-- Layer 4: Matrix Core -->
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-amber-400 font-bold">4. Mitochondrial Matrix</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400">Interior Core</span>
-            </div>
-            <p class="text-zinc-300 font-sans text-xs leading-relaxed">Dense catalytic core housing 16,569 bp circular mtDNA nucleoids, 22 tRNAs, 12S/16S mitoribosomes, and Krebs cycle metabolic enzymes.</p>
-            <div class="text-[11px] text-amber-400 border-t border-white/5 pt-1.5 font-mono">Variants in Matrix: <span class="text-white font-bold">${matrixCount} markers</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spatial Section 2: 16,569 bp Genome Coordinate Architecture & Spatial Locus Map -->
-      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-          <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span class="text-sm font-extrabold text-white">Spatial Section 2: 16,569 bp Genome Coordinate Architecture</span>
-          </div>
-          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Linear & Radial Base-Pair Spans</span>
+          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Interactive Basepair &amp; Sub-Compartment Explorer</span>
         </div>
 
         <p class="text-xs text-zinc-300 leading-relaxed font-sans">
-          The human mitochondrial genome is an ultra-compact circular DNA loop of 16,569 base pairs with zero introns and overlapping coding sequences. The coordinate position of a mutation dictates whether it falls in non-coding regulatory promoters (D-loop) or structural protein genes.
+          The human mitochondrial genome is an ultra-compact circular DNA loop of 16,569 base pairs with zero introns and maternal inheritance. Explore the functional segments below to discover the exact coordinate positions of checkpoint mutations and their physical sub-cellular localization within the mitochondrion.
         </p>
 
-        <!-- Visual Coordinate Map Bar -->
-        <div class="space-y-2">
-          <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400">
-            <span>1 bp (D-Loop Origin)</span>
-            <span class="text-amber-400 font-bold">16,569 bp Circular mtDNA Coordinate Track</span>
-            <span>16,569 bp (D-Loop End)</span>
+        <!-- Interactive 16,569 bp Linear Track Bar with Mapped Mutations -->
+        <div class="space-y-2 font-mono">
+          <div class="flex items-center justify-between text-[11px] text-zinc-400">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-400"></span> 1 bp (D-Loop Origin)</span>
+            <span class="text-amber-400 font-bold uppercase tracking-wider text-xs hidden sm:inline">Hover any region to inspect respiratory role &amp; sub-cellular depth</span>
+            <span class="flex items-center gap-1.5">16,569 bp (D-Loop End) <span class="w-2 h-2 rounded-full bg-rose-400"></span></span>
           </div>
-          <div class="relative w-full h-8 rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden flex shadow-inner">
-            <div class="h-full bg-rose-900/60 border-r border-rose-500/40 flex items-center justify-center text-[9px] font-mono font-bold text-rose-300" style="width: 3.5%;" title="D-Loop HV2 (1–576 bp)">HV2</div>
-            <div class="h-full bg-indigo-900/60 border-r border-indigo-500/40 flex items-center justify-center text-[9px] font-mono font-bold text-indigo-300" style="width: 16.5%;" title="12S & 16S rRNA (648–3229 bp)">12S/16S rRNA</div>
-            <div class="h-full bg-amber-900/60 border-r border-amber-500/40 flex items-center justify-center text-[9px] font-mono font-bold text-amber-300" style="width: 25.5%;" title="Complex I ND1 & ND2 (3307–5500 bp)">ND1/2</div>
-            <div class="h-full bg-emerald-900/60 border-r border-emerald-500/40 flex items-center justify-center text-[9px] font-mono font-bold text-emerald-300" style="width: 24.5%;" title="Complex IV & V: COX1-3, ATP6/8 (5904–9990 bp)">COX / ATP</div>
-            <div class="h-full bg-cyan-900/60 border-r border-cyan-500/40 flex items-center justify-center text-[9px] font-mono font-bold text-cyan-300" style="width: 22.5%;" title="Complex I ND4/5/6 (10000–14673 bp)">ND4/5/6</div>
-            <div class="h-full bg-fuchsia-900/60 border-r border-fuchsia-500/40 flex items-center justify-center text-[9px] font-mono font-bold text-fuchsia-300" style="width: 4.5%;" title="Complex III CYTB (14747–15887 bp)">CYTB</div>
-            <div class="h-full bg-rose-900/60 flex items-center justify-center text-[9px] font-mono font-bold text-rose-300" style="width: 3.0%;" title="D-Loop HV1 (16024–16569 bp)">HV1</div>
+
+          <!-- Relative container for track + mutation needle pins -->
+          <div id="genomeTrackContainer" class="relative w-full h-16 sm:h-20 rounded-2xl bg-zinc-950 border border-zinc-800 p-1 flex shadow-2xl overflow-visible select-none genome-track-wrapper">
+            ${trackSegmentsHtml}
+            ${mutationPinsHtml}
+          </div>
+        </div>
+
+        <!-- Dynamic Interactive Hover Report Pod -->
+        <div id="genomeRegionReportPod" class="p-4 sm:p-6 rounded-2xl bg-zinc-900/90 border border-white/10 shadow-2xl space-y-4 font-sans transition-all duration-300">
+          ${defaultReportPodHtml}
+        </div>
+
+        <!-- Integrated 4 Concentric Organellar Sub-Compartment Cards -->
+        <div class="space-y-2 pt-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-2">
+            <span class="text-xs font-mono font-bold text-zinc-400 uppercase tracking-wider">Concentric Organellar Sub-Compartment Breakdown:</span>
+            <span class="text-[11px] font-sans text-zinc-400">Physical sub-cellular destination of mtDNA products</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 font-mono text-xs">
+            <!-- 1. OMM -->
+            <div class="compartment-card p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2 transition-all hover:border-zinc-700" data-compartment="omm">
+              <div class="flex items-center justify-between">
+                <span class="text-zinc-300 font-bold">1. Outer Membrane (OMM)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400">0 nm Surface</span>
+              </div>
+              <p class="text-zinc-300 font-sans text-xs leading-relaxed">Permeable lipid envelope containing VDAC porin channels. <strong>0 mtDNA mutations</strong> (100% nuclear encoded).</p>
+              <div class="text-[11px] text-zinc-400 border-t border-white/5 pt-1.5 font-mono flex items-center justify-between">
+                <span>Variants:</span> <span class="text-zinc-500 font-bold">0 markers</span>
+              </div>
+            </div>
+
+            <!-- 2. IMS -->
+            <div class="compartment-card p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2 transition-all hover:border-zinc-700" data-compartment="ims">
+              <div class="flex items-center justify-between">
+                <span class="text-zinc-300 font-bold">2. Intermembrane Space</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400">~7 nm Lumen</span>
+              </div>
+              <p class="text-zinc-300 font-sans text-xs leading-relaxed">Proton (H⁺) electrochemical reservoir (Δp ≈ -180 mV). Cytochrome c electron shuttles traverse this aqueous phase.</p>
+              <div class="text-[11px] text-zinc-400 border-t border-white/5 pt-1.5 font-mono flex items-center justify-between">
+                <span>Proton gradient:</span> <span class="text-amber-300 font-bold">High Potential Δp</span>
+              </div>
+            </div>
+
+            <!-- 3. IMM -->
+            <div class="compartment-card p-3.5 rounded-xl bg-zinc-950/80 border border-amber-500/40 space-y-2 shadow-[0_0_15px_rgba(245,158,11,0.08)] transition-all hover:border-amber-400" data-compartment="imm">
+              <div class="flex items-center justify-between">
+                <span class="text-amber-300 font-bold">3. Inner Cristae Membrane</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950/80 border border-amber-700 text-amber-300 font-bold">15–30 nm Depth</span>
+              </div>
+              <p class="text-zinc-300 font-sans text-xs leading-relaxed">Site of oxidative phosphorylation (OXPHOS)! Houses Complex I, III, IV, and V densely folded into cristae sheets.</p>
+              <div class="text-[11px] text-amber-400 border-t border-white/5 pt-1.5 font-mono flex items-center justify-between">
+                <span>IMM Cristae Variants:</span> <span class="text-white font-bold">${immCount} markers</span>
+              </div>
+            </div>
+
+            <!-- 4. Matrix -->
+            <div class="compartment-card p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2 transition-all hover:border-zinc-700" data-compartment="matrix">
+              <div class="flex items-center justify-between">
+                <span class="text-zinc-300 font-bold">4. Mitochondrial Matrix</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400">Interior Core</span>
+              </div>
+              <p class="text-zinc-300 font-sans text-xs leading-relaxed">Catalytic core housing 16,569 bp circular mtDNA nucleoids, 12S/16S mitoribosomes, and 22 tRNAs.</p>
+              <div class="text-[11px] text-amber-400 border-t border-white/5 pt-1.5 font-mono flex items-center justify-between">
+                <span>Matrix Core Variants:</span> <span class="text-white font-bold">${matrixCount} markers</span>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Checkpoint Mutation Loci Badges -->
-        <div class="space-y-2 pt-1">
-          <div class="text-xs font-mono text-zinc-400 font-semibold">Checkpoint Mutation Loci Positions along the 16,569 bp Circle:</div>
+        <div class="space-y-2 pt-1 font-mono">
+          <div class="text-xs text-zinc-400 font-semibold">Checkpoint Mutation Loci Positions along the 16,569 bp Circle:</div>
           <div class="flex flex-wrap gap-2">
             ${coordinateMarkersHtml || '<span class="text-zinc-500 font-mono text-xs">No mutations at this checkpoint</span>'}
           </div>
         </div>
       </div>
-
-      <!-- Spatial Section 3: Respiratory Chain 3D Complex Spatial Topology -->
-      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-          <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span class="text-sm font-extrabold text-white">Spatial Section 3: Respiratory Chain 3D Complex Spatial Topology</span>
-          </div>
-          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Transmembrane Bilayer Architecture</span>
-        </div>
-
-        <p class="text-xs text-zinc-300 leading-relaxed font-sans">
-          The oxidative phosphorylation (OXPHOS) complexes embed into the cristae lipid bilayer with distinct transmembrane $\alpha$-helices, catalytic pockets, and hydrophilic arms facing either the matrix or the intermembrane space.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-          ${complexCardsHtml}
-        </div>
-      </div>
-
-      <!-- Spatial Section 4: Intracellular Reticular Network & Tissue-Specific Heteroplasmy Gradients -->
-      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-          <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span class="text-sm font-extrabold text-white">Spatial Section 4: Intracellular Reticular Network & Heteroplasmy Gradients</span>
-          </div>
-          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Cellular Reticulum Dynamics & Organ Loads</span>
-        </div>
-
-        <p class="text-xs text-zinc-300 leading-relaxed font-sans">
-          Inside living human cells, mitochondria form a dynamic, tubulated syncytial network continually remodeled by mitofusin-mediated fusion and Drp1-directed fission. Cellular spatial distribution varies dramatically depending on the metabolic demands of each organ system.
-        </p>
-
-        <!-- Tissue Load Breakdown -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1.5 font-sans">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-amber-400 font-bold">Cardiomyocytes</span>
-              <span class="text-zinc-400 text-[10px]">~40% Cell Volume</span>
-            </div>
-            <p class="text-zinc-300 text-xs leading-relaxed">Arranged in rigid intermyofibrillar lattice arrays flanking actin/myosin filaments for instantaneous phosphocreatine shuttling.</p>
-          </div>
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1.5 font-sans">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-amber-400 font-bold">Cortical Neurons</span>
-              <span class="text-zinc-400 text-[10px]">20% Basal Body Energy</span>
-            </div>
-            <p class="text-zinc-300 text-xs leading-relaxed">Mitochondria traffic along axonal microtubules via kinesin motors over distances up to 1 meter to presynaptic neurotransmitter release sites.</p>
-          </div>
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1.5 font-sans">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-amber-400 font-bold">Skeletal Muscle</span>
-              <span class="text-zinc-400 text-[10px]">Dual Spatial Subpools</span>
-            </div>
-            <p class="text-zinc-300 text-xs leading-relaxed">Separated into subsarcolemmal pools for membrane solute transport and intermyofibrillar networks powering high-intensity muscle contraction.</p>
-          </div>
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1.5 font-sans">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-amber-400 font-bold">Hepatocytes (Liver)</span>
-              <span class="text-zinc-400 text-[10px]">~2,000 Mito/Cell</span>
-            </div>
-            <p class="text-zinc-300 text-xs leading-relaxed">Evenly dispersed through hepatocyte cytoplasm to sustain continuous urea synthesis, gluconeogenesis, and fatty acid β-oxidation.</p>
-          </div>
-        </div>
-
-        <!-- Heteroplasmy Scale Meter -->
-        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-2 font-mono text-xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <span class="text-zinc-300 font-bold">Intracellular Heteroplasmy Scale vs Lineage Penetrance:</span>
-            <span class="text-amber-300 font-bold">Cohort Markers: 100% Homoplasmic Fixed Lineage</span>
-          </div>
-          <div class="w-full h-3 rounded-full bg-zinc-900 overflow-hidden flex border border-zinc-800">
-            <div class="h-full bg-emerald-500/80" style="width: 25%;" title="0–25%: Sub-phenotypic"></div>
-            <div class="h-full bg-amber-500/80" style="width: 45%;" title="25–70%: Intermediate"></div>
-            <div class="h-full bg-rose-500/80" style="width: 30%;" title="70–100%: Homoplasmic Fixed"></div>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-zinc-400">
-            <span>0% (Wild-Type)</span>
-            <span>25% (Sub-phenotypic)</span>
-            <span>60–70% (Biochemical Threshold)</span>
-            <span class="text-amber-400 font-bold">100% (Strict Maternal Ancestral Lineage)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spatial Section 5: Geospatial Migration Trajectory & Continental Locus Coordinates -->
-      <div class="earth-panel p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#121216]/90 border border-white/10 shadow-2xl space-y-4 w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-          <div class="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <span class="text-sm font-extrabold text-white">Spatial Section 5: Geospatial Migration Trajectory & Continental Coordinates</span>
-          </div>
-          <span class="text-[10px] font-mono text-amber-400 px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-800/60 font-semibold">Planetary Coordinates & Great-Circle Vector</span>
-        </div>
-
-        <p class="text-xs text-zinc-300 leading-relaxed font-sans">
-          Every human mitochondrial mutation emerged at a precise geospatial coordinate on Earth. As small founder populations dispersed across continents along the Out-of-Africa trail, genetic drift and geographic barriers fixed unique regional haplogroup variants.
-        </p>
-
-        <!-- Geospatial Dashboard Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 font-mono text-xs">
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1">
-            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Geographic Checkpoint:</div>
-            <div class="text-amber-300 font-bold text-sm truncate">${currentStop.name}</div>
-            <div class="text-zinc-400 text-[11px]">${currentStop.region}</div>
-          </div>
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1">
-            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Locus Coordinates:</div>
-            <div class="text-white font-bold text-sm">${lat >= 0 ? lat.toFixed(4) + '° N' : Math.abs(lat).toFixed(4) + '° S'}, ${lng >= 0 ? lng.toFixed(4) + '° E' : Math.abs(lng).toFixed(4) + '° W'}</div>
-            <div class="text-zinc-400 text-[11px]">Precision WGS84 Geodetic Datum</div>
-          </div>
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1">
-            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Distance From East Africa:</div>
-            <div class="text-amber-400 font-bold text-sm">${distKm.toLocaleString()} Kilometers</div>
-            <div class="text-zinc-400 text-[11px]">Direct Great-Circle Trajectory</div>
-          </div>
-          <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1">
-            <div class="text-[10px] text-zinc-400 uppercase font-semibold">Prehistoric Generations:</div>
-            <div class="text-white font-bold text-sm">~${estGen.toLocaleString()} Maternal Generations</div>
-            <div class="text-zinc-400 text-[11px]">Calculated at 25 yrs/generation</div>
-          </div>
-        </div>
-
-        <!-- Climatic & Thermal Environmental Adaptation -->
-        <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-800 space-y-1.5 font-sans text-xs">
-          <div class="text-amber-400 font-mono font-bold text-xs uppercase tracking-wider">Geographic Climatic & Thermal Selective Pressures:</div>
-          <p class="text-zinc-300 leading-relaxed">
-            Populations colonizing high-latitude or high-altitude ecosystems experienced strong selective pressures on mitochondrial bioenergetics. For example, mutations in ATP6 and ND genes uncoupled oxidative phosphorylation to generate endogenous heat (thermogenesis) in glacial Eurasian climates, while high-plateau populations (e.g. Tibetans) acquired variants in ND1 and ND6 optimizing oxygen affinity in hypobaric hypoxia.
-          </p>
-        </div>
-      </div>
     `;
+  },
+
+  // Dynamic interactive exploration of genome track segments and mutation needles
+  attachGenomeTrackInteractions(currentStop) {
+    const mutations = currentStop.mutations || [];
+    const meanings = this.MUTATION_MEANINGS || {};
+    const pod = document.getElementById('genomeRegionReportPod');
+    const track = document.getElementById('genomeTrackContainer');
+    if (!pod || !track) return;
+
+    const segments = track.querySelectorAll('.genome-track-segment');
+    const pins = track.querySelectorAll('.genome-mutation-pin');
+    const compCards = document.querySelectorAll('.compartment-card');
+
+    const renderRegionReport = (regionId) => {
+      const reg = this.GENOME_REGIONS.find(r => r.id === regionId);
+      if (!reg) return;
+
+      const regMutations = mutations.filter(pos => pos >= reg.start && pos <= reg.end);
+      const spanBp = reg.end - reg.start + 1;
+      const spanPct = ((spanBp / 16569) * 100).toFixed(1);
+
+      pod.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3.5 h-3.5 rounded-full shadow-md shrink-0 ring-2 ring-white/20" style="background-color: ${reg.color}"></span>
+            <div>
+              <h4 class="text-base sm:text-lg font-extrabold text-white font-mono tracking-tight">${reg.fullName}</h4>
+              <div class="text-xs text-zinc-400 font-mono">${reg.start.toLocaleString()} &ndash; ${reg.end.toLocaleString()} bp &bull; ${spanBp.toLocaleString()} bp (${spanPct}% of mtDNA)</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="px-3 py-1 rounded-xl text-xs font-mono font-bold ${regMutations.length > 0 ? 'bg-amber-400 text-zinc-950 shadow-md shadow-amber-400/20' : 'bg-zinc-800 text-zinc-400'}">
+              ${regMutations.length} Checkpoint Mutation${regMutations.length === 1 ? '' : 's'}
+            </span>
+          </div>
+        </div>
+
+        <!-- Organellar Sub-Compartment Localization -->
+        <div class="p-3.5 sm:p-4 rounded-xl bg-zinc-950/90 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div class="space-y-0.5">
+            <div class="text-[10px] uppercase font-mono font-bold tracking-wider text-amber-400">Organellar Sub-Compartment Localization:</div>
+            <div class="text-white font-extrabold font-mono text-sm">${reg.compartment}</div>
+            <div class="text-zinc-400 text-xs">${reg.compartmentDepth}</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 text-[10px] font-mono shrink-0">
+            <span class="px-2 py-0.5 rounded-md ${reg.compartmentId === 'omm' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 font-bold' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}">1. OMM (0 nm)</span>
+            <span class="text-zinc-600">&rarr;</span>
+            <span class="px-2 py-0.5 rounded-md ${reg.compartmentId === 'ims' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 font-bold' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}">2. IMS (~7 nm)</span>
+            <span class="text-zinc-600">&rarr;</span>
+            <span class="px-2 py-0.5 rounded-md ${reg.compartmentId === 'imm' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 font-bold' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}">3. IMM Cristae (15–30 nm)</span>
+            <span class="text-zinc-600">&rarr;</span>
+            <span class="px-2 py-0.5 rounded-md ${reg.compartmentId === 'matrix' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 font-bold' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'}">4. Matrix Core</span>
+          </div>
+        </div>
+
+        <!-- Biological Function & Role -->
+        <div class="space-y-1.5 font-sans">
+          <div class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Biological Function &amp; Respiratory Role:</div>
+          <p class="text-xs sm:text-sm text-zinc-200 leading-relaxed">${reg.role}</p>
+          <p class="text-xs text-zinc-400 leading-relaxed pt-1.5 border-t border-white/5">${reg.educationalSummary}</p>
+        </div>
+
+        <!-- Mapped Mutations in this Region -->
+        <div class="space-y-2 pt-2 border-t border-white/10 font-mono">
+          <div class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center justify-between">
+            <span>Mapped Checkpoint Mutations in ${reg.name} (${regMutations.length}):</span>
+            <span class="text-[11px] font-normal text-zinc-400 font-sans">Current Out-of-Africa migration stage</span>
+          </div>
+          ${regMutations.length > 0 ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 font-mono text-xs">
+              ${regMutations.map(pos => {
+                const info = meanings[pos] || {};
+                return `
+                  <div class="p-3 rounded-xl bg-zinc-950 border border-amber-500/30 space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="text-amber-300 font-bold text-xs">${pos} ${info.change || ''}</span>
+                      <span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-300">${info.locus || 'mtDNA'}</span>
+                    </div>
+                    <p class="text-zinc-300 font-sans text-xs leading-tight">${info.meaning || 'Conserved checkpoint variant.'}</p>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : `
+            <div class="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800 text-xs text-zinc-400 font-sans flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-zinc-600 shrink-0"></span>
+              <span>No private checkpoint mutations in this section for this migration stop &mdash; conserved ancestral sequence maintained.</span>
+            </div>
+          `}
+        </div>
+      `;
+
+      pod.style.borderColor = `${reg.color}88`;
+      pod.style.boxShadow = `0 0 35px ${reg.color}22`;
+
+      // Highlight corresponding compartment card
+      compCards.forEach(c => {
+        if (c.getAttribute('data-compartment') === reg.compartmentId) {
+          c.classList.add('ring-2', 'ring-amber-400/70', 'bg-zinc-900');
+        } else {
+          c.classList.remove('ring-2', 'ring-amber-400/70', 'bg-zinc-900');
+        }
+      });
+    };
+
+    const resetPod = () => {
+      pod.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2 text-zinc-400 text-xs font-mono">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <span class="font-bold uppercase tracking-wider text-zinc-200">Interactive Genomic &amp; Organellar Explorer</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-amber-300">${mutations.length} Checkpoint Mutations Mapped Across 16,569 bp</span>
+        </div>
+        <div class="space-y-3">
+          <p class="text-xs sm:text-sm text-zinc-200 leading-relaxed font-sans">
+            Hover over any section of the genome above (<strong class="text-rose-400">HV2</strong>, <strong class="text-indigo-400">12S/16S rRNA</strong>, <strong class="text-amber-400">ND1/2</strong>, <strong class="text-emerald-400">COX / ATP</strong>, <strong class="text-cyan-400">ND4/5/6</strong>, <strong class="text-fuchsia-400">CYTB</strong>, or <strong class="text-rose-400">HV1</strong>) or any vertical mutation needle pin to reveal the number of checkpoint mutations in that part of the genome, its sub-cellular organellar localization, and what it does biologically.
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 pt-1 font-mono text-[11px]">
+            ${this.GENOME_REGIONS.map(reg => {
+              const regMuts = mutations.filter(pos => pos >= reg.start && pos <= reg.end);
+              return `
+                <div class="p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-800 text-center space-y-0.5">
+                  <div class="font-bold truncate" style="color: ${reg.color}">${reg.name}</div>
+                  <div class="text-[10px] text-zinc-400">${regMuts.length} mutation${regMuts.length === 1 ? '' : 's'}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+      pod.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+      pod.style.boxShadow = '';
+
+      compCards.forEach(c => {
+        c.classList.remove('ring-2', 'ring-amber-400/70', 'bg-zinc-900');
+      });
+    };
+
+    segments.forEach(seg => {
+      const regId = seg.getAttribute('data-region-id');
+      const handleEnter = () => renderRegionReport(regId);
+      seg.addEventListener('mouseenter', handleEnter);
+      seg.addEventListener('pointerenter', handleEnter);
+    });
+
+    pins.forEach(pin => {
+      const regId = pin.getAttribute('data-region-id');
+      const handleEnter = () => renderRegionReport(regId);
+      pin.addEventListener('mouseenter', handleEnter);
+      pin.addEventListener('pointerenter', handleEnter);
+    });
+
+    track.addEventListener('mouseleave', resetPod);
+
+    // Compartment card hover to highlight matching segments
+    compCards.forEach(card => {
+      const compId = card.getAttribute('data-compartment');
+      card.addEventListener('mouseenter', () => {
+        segments.forEach(seg => {
+          if (seg.getAttribute('data-compartment') === compId) {
+            seg.style.opacity = '1';
+            seg.style.filter = 'brightness(1.25)';
+            seg.style.transform = 'scaleY(1.08)';
+          } else {
+            seg.style.opacity = '0.25';
+            seg.style.filter = 'saturate(0.4)';
+          }
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        segments.forEach(seg => {
+          seg.style.opacity = '';
+          seg.style.filter = '';
+          seg.style.transform = '';
+        });
+      });
+    });
   }
 };
