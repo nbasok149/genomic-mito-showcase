@@ -625,7 +625,7 @@ window.TreeViewer = {
     }
 
     if (titleEl) {
-      titleEl.innerHTML = `Conserved mutation cladogram: <span class="text-emerald-400 font-mono">${pos} ${ref}&gt;${alt}</span> (${gene || 'Mitochondrial locus'})`;
+      titleEl.innerHTML = `<span class="text-white font-mono">${pos} ${ref}&gt;${alt}</span> <span class="text-zinc-400 text-sm font-sans font-normal">(${gene || 'Mitochondrial locus'})</span>`;
     }
 
     const carrierCohorts = Array.from(new Set(carrierSamples.map(s => s.split('_')[0])));
@@ -654,28 +654,47 @@ window.TreeViewer = {
     if (cohortList.length === 1) {
       const c = cohortList[0];
       pieSvg = `
-        <svg width="180" height="180" viewBox="0 0 180 180" class="shrink-0 select-none filter drop-shadow-md">
-          <circle cx="90" cy="90" r="75" fill="${c.color}" stroke="#09090b" stroke-width="2"/>
-          <text x="90" y="95" text-anchor="middle" fill="#ffffff" font-weight="800" font-family="monospace" font-size="13">100%</text>
+        <svg width="320" height="320" viewBox="0 0 320 320" class="cladogram-pie-svg shrink-0 mx-auto select-none filter drop-shadow-2xl">
+          <circle cx="160" cy="160" r="130" fill="${c.color}" stroke="#09090b" stroke-width="2.5" class="cladogram-slice"
+            data-name="${c.name}" data-code="${c.code}" data-count="${c.count}" data-pct="100.0" data-color="${c.color}">
+            <title>${c.name} (${c.code}): ${c.count} / ${totalCarriers} (100.0%)</title>
+          </circle>
+          <text x="160" y="166" text-anchor="middle" fill="#ffffff" font-weight="900" font-family="monospace" font-size="16" pointer-events="none" class="select-none drop-shadow-md">
+            ${c.code} &bull; 100%
+          </text>
         </svg>
       `;
     } else if (cohortList.length > 1) {
       let currentAngle = -Math.PI / 2;
       let slicesSvg = '';
+      let labelsSvg = '';
+
       cohortList.forEach(item => {
         const sliceAngle = (item.count / totalCarriers) * 2 * Math.PI;
         const endAngle = currentAngle + sliceAngle;
 
-        const x1 = 90 + 75 * Math.cos(currentAngle);
-        const y1 = 90 + 75 * Math.sin(currentAngle);
-        const x2 = 90 + 75 * Math.cos(endAngle);
-        const y2 = 90 + 75 * Math.sin(endAngle);
+        const x1 = 160 + 130 * Math.cos(currentAngle);
+        const y1 = 160 + 130 * Math.sin(currentAngle);
+        const x2 = 160 + 130 * Math.cos(endAngle);
+        const y2 = 160 + 130 * Math.sin(endAngle);
 
         const largeArc = sliceAngle > Math.PI ? 1 : 0;
-        const pathData = `M 90 90 L ${x1.toFixed(2)} ${y1.toFixed(2)} A 75 75 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+        const pathData = `M 160 160 L ${x1.toFixed(2)} ${y1.toFixed(2)} A 130 130 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+
+        if (sliceAngle > 0.32) {
+          const midAngle = currentAngle + sliceAngle / 2;
+          const lx = 160 + 82 * Math.cos(midAngle);
+          const ly = 160 + 82 * Math.sin(midAngle) + 4;
+          labelsSvg += `
+            <text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" fill="#ffffff" font-weight="800" font-family="monospace" font-size="13" pointer-events="none" class="select-none drop-shadow-md">
+              ${item.code}
+            </text>
+          `;
+        }
 
         slicesSvg += `
-          <path d="${pathData}" fill="${item.color}" stroke="#09090b" stroke-width="1.5" class="transition-all hover:opacity-85">
+          <path d="${pathData}" fill="${item.color}" stroke="#09090b" stroke-width="2.5" class="cladogram-slice"
+            data-name="${item.name}" data-code="${item.code}" data-count="${item.count}" data-pct="${item.pct.toFixed(1)}" data-color="${item.color}">
             <title>${item.name} (${item.code}): ${item.count} / ${totalCarriers} (${item.pct.toFixed(1)}%)</title>
           </path>
         `;
@@ -683,20 +702,42 @@ window.TreeViewer = {
       });
 
       pieSvg = `
-        <svg width="180" height="180" viewBox="0 0 180 180" class="shrink-0 select-none filter drop-shadow-md">
-          ${slicesSvg}
+        <svg width="320" height="320" viewBox="0 0 320 320" class="cladogram-pie-svg shrink-0 mx-auto select-none filter drop-shadow-2xl">
+          <g id="cladogramSlicesGroup">${slicesSvg}</g>
+          <g id="cladogramLabelsGroup">${labelsSvg}</g>
         </svg>
       `;
     }
 
     bodyEl.innerHTML = `
+      <style>
+        .cladogram-pie-svg {
+          overflow: visible;
+        }
+        .cladogram-slice {
+          transform-origin: 160px 160px;
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                      opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                      filter 0.22s ease;
+          cursor: pointer;
+        }
+        .cladogram-pie-svg:hover .cladogram-slice {
+          opacity: 0.32;
+          filter: saturate(0.5) brightness(0.75);
+        }
+        .cladogram-pie-svg .cladogram-slice:hover {
+          opacity: 1 !important;
+          transform: scale(1.045);
+          filter: brightness(1.2) drop-shadow(0 8px 24px rgba(0, 0, 0, 0.7)) !important;
+        }
+      </style>
+
       <div class="space-y-4 font-sans text-xs">
         
-        <!-- Basepair Substitution Explanation -->
-        <div class="p-3.5 rounded-2xl bg-zinc-950/80 border border-zinc-800 text-xs text-zinc-200 leading-relaxed font-sans space-y-1">
-          <div class="font-bold text-amber-400 font-mono text-[10.5px] uppercase tracking-wider">Basepair transition:</div>
-          <p class="text-zinc-300 text-xs leading-relaxed">
-            <strong>${ref}&gt;${alt}</strong> indicates that an ancestral <strong>${refBase}</strong> basepair became a <strong>${altBase}</strong> basepair at position <strong>${pos}</strong>.
+        <!-- Basepair Substitution Explanation (Amber text, bigger font, no header) -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-zinc-950/80 border border-amber-500/30 shadow-inner">
+          <p class="text-sm sm:text-base text-amber-300 font-medium leading-relaxed font-sans">
+            <strong class="font-mono text-amber-200 font-bold text-base sm:text-lg">${ref}&gt;${alt}</strong> indicates that an ancestral <strong class="text-amber-200">${refBase}</strong> basepair became a <strong class="text-amber-200">${altBase}</strong> basepair at position <strong class="font-mono text-amber-200">${pos}</strong>.
           </p>
         </div>
 
@@ -712,54 +753,33 @@ window.TreeViewer = {
           </div>
         </div>
 
-        <div class="p-3.5 sm:p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-2 font-mono">
-          <div class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider">Carrying population cohorts:</div>
-          <div class="flex flex-wrap gap-2">
-            ${carrierCohorts.map(c => `
-              <span class="px-2.5 py-1 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-200 font-bold text-xs">
-                ${this.getFamilyName(c)} (${c})
-              </span>
-            `).join('')}
-          </div>
-        </div>
-
-        <!-- Cohort Cladogram Visualization: Focus on Cohorts with Pie Chart -->
-        <div class="p-3.5 sm:p-5 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-3 font-mono">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-2">
+        <!-- Centralized Interactive Cladogram Pie Chart Section -->
+        <div class="p-5 sm:p-7 rounded-2xl bg-zinc-950/90 border border-zinc-800 space-y-4 font-mono">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-white/10 pb-3 text-center sm:text-left">
             <div>
-              <div class="text-[11px] text-zinc-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution:</div>
-              <div class="text-[11px] text-zinc-400 font-sans mt-0.5">Cohort distribution of individuals carrying this mutation</div>
+              <div class="text-xs text-zinc-400 font-mono font-bold uppercase tracking-wider">Lineage branch distribution</div>
+              <div class="text-[11px] text-zinc-400 font-sans mt-0.5">Interactive cohort carrier exploration</div>
             </div>
-            <span class="text-xs font-bold text-emerald-400">${totalCarriers} total individuals</span>
+            <span class="text-xs font-bold text-emerald-400">${totalCarriers} total carriers</span>
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-6 py-2">
-            <div class="shrink-0 flex flex-col items-center">
+          <div class="flex flex-col items-center justify-center py-3 w-full">
+            <!-- Centralized Large Pie Chart -->
+            <div class="relative flex items-center justify-center p-2">
               ${pieSvg}
-              <span class="text-[10px] text-zinc-400 mt-1.5 font-sans">Cohort proportion</span>
             </div>
 
-            <div class="flex-grow w-full max-w-md space-y-2">
-              <div class="text-[11px] text-zinc-300 font-sans mb-1">
-                Out of people with this mutation:
+            <!-- Dynamic Interactive Hover Inspection Pod -->
+            <div id="pieSliceDetailPod" class="mt-4 p-4 sm:p-5 rounded-2xl bg-zinc-900/90 border border-white/10 shadow-2xl max-w-md w-full min-h-[105px] flex flex-col items-center justify-center text-center transition-all duration-200">
+              <div class="flex items-center gap-2 text-zinc-400 text-xs font-mono">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                <span class="font-bold uppercase tracking-wider text-zinc-300">Explore cohort distribution</span>
               </div>
-              <div class="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto pr-1">
-                ${cohortList.map(item => `
-                  <div class="p-2.5 rounded-xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between gap-2">
-                    <div class="flex items-center space-x-2.5 min-w-0">
-                      <span class="w-3.5 h-3.5 rounded-full shrink-0 shadow-sm" style="background-color: ${item.color}"></span>
-                      <span class="font-bold text-zinc-200 truncate text-xs">${item.name} <span class="text-zinc-400 font-normal">(${item.code})</span></span>
-                    </div>
-                    <div class="flex items-center space-x-2 shrink-0">
-                      <span class="px-2.5 py-0.5 rounded-lg bg-zinc-950 border border-zinc-700 text-amber-300 font-bold text-xs">
-                        ${item.count} / ${totalCarriers}
-                      </span>
-                      <span class="text-zinc-400 text-[11px] w-12 text-right font-sans">
-                        ${item.pct.toFixed(1)}%
-                      </span>
-                    </div>
-                  </div>
-                `).join('')}
+              <p class="text-xs text-zinc-400 font-sans mt-1">
+                Hover over any pie slice to reveal cohort fraction &amp; carrier percentage.
+              </p>
+              <div class="text-[11px] text-zinc-500 font-mono mt-1">
+                ${totalCarriers} total individuals across ${cohortList.length} global cohorts
               </div>
             </div>
           </div>
@@ -767,6 +787,63 @@ window.TreeViewer = {
 
       </div>
     `;
+
+    // Wire up interactive slice exploration on hover
+    const svgEl = bodyEl.querySelector('.cladogram-pie-svg');
+    const slices = bodyEl.querySelectorAll('.cladogram-slice');
+    const detailPod = document.getElementById('pieSliceDetailPod');
+
+    slices.forEach(slice => {
+      const data = {
+        name: slice.getAttribute('data-name'),
+        code: slice.getAttribute('data-code'),
+        count: slice.getAttribute('data-count'),
+        pct: slice.getAttribute('data-pct'),
+        color: slice.getAttribute('data-color')
+      };
+
+      const handleHover = () => {
+        if (!detailPod) return;
+        detailPod.innerHTML = `
+          <div class="flex items-center justify-center gap-2.5">
+            <span class="w-3.5 h-3.5 rounded-full shrink-0 shadow-md ring-2 ring-white/20" style="background-color: ${data.color}"></span>
+            <span class="text-sm sm:text-base font-extrabold text-white font-mono tracking-tight">${data.name} <span class="text-zinc-400 text-xs font-normal">(${data.code})</span></span>
+          </div>
+          <div class="flex items-baseline justify-center gap-2 mt-1.5 font-mono">
+            <span class="text-xl sm:text-2xl font-black text-amber-300 tracking-tight">${data.count} / ${totalCarriers}</span>
+            <span class="text-sm sm:text-base font-bold text-emerald-400">(${data.pct}%)</span>
+          </div>
+          <div class="text-xs text-zinc-300 font-sans mt-0.5">
+            ${data.count} out of ${totalCarriers} individuals with this mutation belong to ${data.name}
+          </div>
+        `;
+        detailPod.style.borderColor = `${data.color}99`;
+        detailPod.style.boxShadow = `0 0 30px ${data.color}33`;
+      };
+
+      slice.addEventListener('mouseenter', handleHover);
+      slice.addEventListener('pointerenter', handleHover);
+    });
+
+    if (svgEl) {
+      svgEl.addEventListener('mouseleave', () => {
+        if (!detailPod) return;
+        detailPod.innerHTML = `
+          <div class="flex items-center gap-2 text-zinc-400 text-xs font-mono">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <span class="font-bold uppercase tracking-wider text-zinc-300">Explore cohort distribution</span>
+          </div>
+          <p class="text-xs text-zinc-400 font-sans mt-1">
+            Hover over any pie slice to reveal cohort fraction &amp; carrier percentage.
+          </p>
+          <div class="text-[11px] text-zinc-500 font-mono mt-1">
+            ${totalCarriers} total individuals across ${cohortList.length} global cohorts
+          </div>
+        `;
+        detailPod.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        detailPod.style.boxShadow = '';
+      });
+    }
 
     modal.classList.remove('hidden');
     modal.classList.add('flex');
