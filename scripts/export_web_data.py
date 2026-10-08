@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Data Pre-processing ETL Script for Vercel Web Showcase (https://mtdna-visualizer.vercel.app/)
+Data Pre-processing ETL Script for Vercel Web Showcase (https://variant-viz.vercel.app/)
 =============================================================================================
 Transforms raw sequencing alignments, CSV summaries, reference sequences, and 
 the ancestry-aware weighted distance metric into web-optimized JSON modules in docs/data/.

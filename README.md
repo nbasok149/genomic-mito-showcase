@@ -8,7 +8,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Vercel%20Edge%20Network-black?logo=vercel)](https://variant-viz.vercel.app/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**Production Application**: [https://variant-viz.vercel.app/](https://variant-viz.vercel.app/) | [https://variantvisualizer.vercel.app/](https://variantvisualizer.vercel.app/)
+**Production Application**: [https://variant-viz.vercel.app/](https://variant-viz.vercel.app/)
 
 ---
 
